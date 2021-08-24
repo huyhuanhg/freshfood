@@ -1,4 +1,4 @@
-import {REQUEST, SUCCESS, FAILURE, USER_ACTION, PRODUCT_ACTION} from '../constants';
+import {REQUEST, SUCCESS, FAILURE, USER_ACTION} from '../constants';
 import {createReducer} from '@reduxjs/toolkit';
 
 const initialState = {
@@ -16,6 +16,11 @@ const initialState = {
         register: {
             load: false,
             error: null,
+            email: {
+                success: false,
+                load: false,
+                error: null,
+            }
         }
     }
 }
@@ -47,10 +52,7 @@ const userReducer = createReducer(initialState, {
             },
             userInfo: {
                 ...state.userInfo,
-                data: {
-                    ...state.userInfo.data,
-                    data,
-                }
+                data,
             },
         };
     },
@@ -66,6 +68,71 @@ const userReducer = createReducer(initialState, {
                     error,
                 }
             },
+        };
+    },
+    [REQUEST(USER_ACTION.CHECK_EMAIL_EXISTS)]: (state, action) => {
+        return {
+            ...state,
+            responseAction: {
+                ...state.responseAction,
+                register: {
+                    ...state.responseAction.register,
+                    email: {
+                        load: true,
+                        success: false,
+                        error: null,
+                    }
+                },
+            }
+        };
+    },
+    [SUCCESS(USER_ACTION.CHECK_EMAIL_EXISTS)]: (state, action) => {
+        return {
+            ...state,
+            responseAction: {
+                ...state.responseAction,
+                register: {
+                    ...state.responseAction.register,
+                    email: {
+                        load: false,
+                        error: null,
+                        success: true,
+                    }
+                },
+            }
+        };
+    },
+    [FAILURE(USER_ACTION.CHECK_EMAIL_EXISTS)]: (state, action) => {
+        const {error, status} = action.payload;
+        if (status === 403) {
+            return {
+                ...state,
+                responseAction: {
+                    ...state.responseAction,
+                    register: {
+                        ...state.responseAction.register,
+                        email: {
+                            load: false,
+                            success: false,
+                            error,
+                        }
+                    },
+                }
+            };
+        }
+        return {
+            ...state,
+            responseAction: {
+                ...state.responseAction,
+                register: {
+                    ...state.responseAction.register,
+                    email: {
+                        load: false,
+                        success: false,
+                        error: null,
+                    }
+                },
+            }
         };
     },
 

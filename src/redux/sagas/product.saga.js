@@ -1,7 +1,7 @@
 import { put, takeEvery } from "redux-saga/effects";
 import axios from 'axios';
 import { REQUEST, SUCCESS, FAILURE, PRODUCT_ACTION } from '../constants';
-import { SERVER_API_URL } from './contants/apiUrl';
+import { SERVER_CLIENT_API_URL } from './contants/apiUrl';
 
 function* getProductListSaga(action) {
   try {
@@ -9,7 +9,7 @@ function* getProductListSaga(action) {
     const searchKey = action.payload?.searchKey;
     const result = yield axios({
       method: 'GET',
-      url: `${SERVER_API_URL}/products`,
+      url: `${SERVER_CLIENT_API_URL}/products`,
       params: {
         _sort: 'id',
         _order: 'desc',
@@ -31,7 +31,7 @@ function* getProductListSaga(action) {
 function* getProductDetailSaga(action) {
   try {
     const { id } = action.payload;
-    const result = yield axios.get(`${SERVER_API_URL}/products/${id}?_expand=category`);
+    const result = yield axios.get(`${SERVER_CLIENT_API_URL}/products/${id}?_expand=category`);
     yield put({
       type: SUCCESS(PRODUCT_ACTION.GET_PRODUCT_DETAIL),
       payload: {
@@ -46,7 +46,7 @@ function* getProductDetailSaga(action) {
 function* createProductSaga(action) {
   try {
     const { data } = action.payload;
-    const result = yield axios.post(`${SERVER_API_URL}/products`, data);
+    const result = yield axios.post(`${SERVER_CLIENT_API_URL}/products`, data);
     yield put({
       type: SUCCESS(PRODUCT_ACTION.CREATE_PRODUCT),
       payload: {
@@ -61,7 +61,7 @@ function* createProductSaga(action) {
 function* editProductSaga(action) {
   try {
     const { id, data } = action.payload;
-    const result = yield axios.patch(`${SERVER_API_URL}/products/${id}`, data);
+    const result = yield axios.patch(`${SERVER_CLIENT_API_URL}/products/${id}`, data);
     yield put({
       type: SUCCESS(PRODUCT_ACTION.EDIT_PRODUCT),
       payload: {
@@ -76,7 +76,7 @@ function* editProductSaga(action) {
 function* deleteProductSaga(action) {
   try {
     const { id } = action.payload;
-    yield axios.delete(`${SERVER_API_URL}/products/${id}`);
+    yield axios.delete(`${SERVER_CLIENT_API_URL}/products/${id}`);
     yield put({
       type: SUCCESS(PRODUCT_ACTION.DELETE_PRODUCT),
       payload: { id }

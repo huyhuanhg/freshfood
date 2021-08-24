@@ -1,6 +1,6 @@
 import {Form, Input} from "antd";
 import * as AppStyle from "../../styles";
-import * as Style from "./style";
+import * as Style from "./styles";
 
 import {UserOutlined, LockOutlined} from '@ant-design/icons';
 import {Link} from "react-router-dom";

@@ -1,4 +1,3 @@
-import './App.css';
 import {Router, Switch} from "react-router-dom";
 
 import history from './utils/history';
@@ -7,15 +6,17 @@ import FullLayout from "./layouts/FullLayout";
 import NotFoundPage from "./pages/NotFound";
 import ClientLayout from "./layouts/ClientLayout";
 
-import LoginPage from "./pages/Login";
+import LoginPage from "./pages/authClient/Login";
 import AdminLoginPage from "./pages/AdminLogin";
 
 import AdminLayout from "./layouts/AdminLayout";
 import DashboardPage from "./pages/admins/Dashboard";
 import LangdingPage from "./pages/clients/LangdingPage";
 import CategoryPage from "./pages/admins/Category";
+import RegisterPage from "./pages/authClient/Register";
 
 import 'antd/dist/antd.css';
+import './App.css';
 
 function App() {
     //gọi userInfo và adminInfo tại đây
@@ -28,6 +29,7 @@ function App() {
                 <AdminLayout exact path="/manager/categories" component={CategoryPage} />
 
                 <FullLayout exact path="/login" component={LoginPage}/>
+                <FullLayout exact path="/register" component={RegisterPage}/>
                 <FullLayout exact path="/manager/login" component={AdminLoginPage}/>
 
                 <FullLayout component={NotFoundPage}/>

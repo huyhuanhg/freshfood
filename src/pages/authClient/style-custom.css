@@ -7,6 +7,10 @@
     color: #38d39f;
 }
 
+.i.error {
+    color: #ff7878 !important;
+}
+
 .form-group:before {
     right: 50%;
 }
@@ -27,4 +31,12 @@
 
 .form-group.focus:before, .form-group.focus:after {
     width: 50%;
+}
+
+.form-group.error:before, .form-group.error:after {
+    width: 50%;
+    background-color: #ff7878;
+}
+.check-error span{
+    color: red !important;
 }

@@ -2,14 +2,14 @@ import {notification} from "antd";
 import {put, takeEvery} from "redux-saga/effects";
 import axios from 'axios';
 import {REQUEST, SUCCESS, FAILURE, ADMIN_ACTION} from '../constants';
-import {SERVER_API_URL} from './contants/apiUrl';
+import {SERVER_ADMIN_API_URL} from './contants/apiUrl';
 
 import history from '../../utils/history';
 
 function* loginAdminSaga(action) {
     try {
         const {data} = action.payload;
-        const result = yield axios.post(`${SERVER_API_URL}/login`, data);
+        const result = yield axios.post(`${SERVER_ADMIN_API_URL}/login`, data);
 
         yield localStorage.userInfo = JSON.stringify({
             access_token: result.data.access_token
@@ -70,7 +70,7 @@ function* getAdminInfoSaga(action) {
     try {
         const {data} = action.payload;
 
-        const result = yield axios.get(`${SERVER_API_URL}/user-profile`,
+        const result = yield axios.get(`${SERVER_ADMIN_API_URL}/user-profile`,
             { headers: {"Authorization" : `Bearer ${data}`} })
         yield put({
             type: SUCCESS(ADMIN_ACTION.GET_ADMIN_INFO),
