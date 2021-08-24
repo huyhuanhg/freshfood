@@ -1,0 +1,30 @@
+.form-group.focus label {
+    top: -5px;
+    font-size: 17px;
+}
+
+.form-group.focus .i {
+    color: #38d39f;
+}
+
+.form-group:before {
+    right: 50%;
+}
+
+.form-group:after {
+    left: 50%;
+}
+
+.form-group:before, .form-group:after {
+    content: "";
+    position: absolute;
+    bottom: -2px;
+    width: 0%;
+    height: 2px;
+    background-color: #38d39f;
+    transition: 0.4s;
+}
+
+.form-group.focus:before, .form-group.focus:after {
+    width: 50%;
+}
