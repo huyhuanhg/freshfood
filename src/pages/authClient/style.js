@@ -1,4 +1,5 @@
 import styled, {css} from 'styled-components';
+import {Spin} from "antd";
 
 export const FormTitle = styled.h2`
     margin: 15px 0;
@@ -6,25 +7,6 @@ export const FormTitle = styled.h2`
     text-transform: uppercase;
     font-size: 2.9rem;
     font-weight: bold;
-`
-export const FormGroup = styled.div`
-    position: relative;
-    margin: 12px 0 24px;
-    padding: 5px 0;
-    border-bottom: 2px solid #d9d9d9;
-    display: grid;
-    grid-template-columns: 7% 93%;
-`
-export const TitleFormControl = styled.label`
-    position: absolute;
-    left: 10px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: #999;
-    font-size: 20px;
-    font-weight: bold;
-    transition: 0.3s;
-    z-index: 99;
 `
 export const FormControl = styled.input`
     position: absolute;
@@ -63,22 +45,82 @@ export const BtnSubmit = styled.button`
         background-position: right!important;
     }
 `
-export const IconWrap = styled.div`    
-    color: #d9d9d9;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-    height: 45px;
-`
 export const InvalidMsg = styled.h6`
     position: absolute;
     width: 100%;
     left: 50%;
-    bottom: -25px;
+    bottom: ${({centerGrid, leftGrid}) => centerGrid || leftGrid ? '0' : '-25px'};
     transform: translateX(-50%);
     margin: 0px;
     font-size: 14px;
     color: #ff3e3e;
     font-weight: bold;
+    ${({leftGrid}) => leftGrid && css`
+    text-align: left;
+    `}
+`
+export const FormGroup = styled.div`
+    position: relative;
+    margin: 12px 0 24px;
+    padding: 5px 0;
+    ${({grid}) => grid && css`
+    padding-left: 5px;
+    `}
+    border-bottom: 2px solid #d9d9d9;
+    display: grid;
+    grid-template-columns: 7% 93%;
+    &:before{
+        right: 50%;
+        width: ${({focus, error}) => focus || error ? '50%' : '0'};
+        background-color: ${({error}) => error ? '#ff7878' : '#38d39f'};
+    }
+    &:after{
+        left: 50%;
+        width: ${({focus, error}) => focus || error ? '50%' : '0'};
+        background-color: ${({error}) => error ? '#ff7878' : '#38d39f'};
+    }
+    &:before, &:after{
+        content: "";
+        position: absolute;
+        bottom: -2px;
+        height: 2px;
+        transition: 0.4s;
+    }
+`
+export const IconWrap = styled.div`
+    color: ${({focus, error}) => error ? '#ff7878' : (focus ? '#38d39f' : '#d9d9d9')};
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    height: 45px;
+    transition: 0.3s;
+    font-size: 20px;
+`
+export const TitleFormControl = styled.label`
+    position: absolute;
+    left: 10px;
+    ${({focus}) => focus ? css`
+    top: -5px;
+    font-size: 17px;
+    ` : css`
+    top: 50%;
+    font-size: 20px;
+    `}
+    transform: translateY(-50%);
+    color: #999;
+    font-weight: bold;
+    transition: 0.3s;
+    z-index: 99;
+`
+export const FormControlWrap = styled.div`
+    height: 45px; 
+    position: relative;
+`
+export const SubmitLoading = styled(Spin)`
+    display: ${({show}) => show ? 'block' : 'none'};
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 `

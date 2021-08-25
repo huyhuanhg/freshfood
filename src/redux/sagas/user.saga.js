@@ -38,6 +38,37 @@ function* loginSaga(action) {
     }
 }
 
+function* refreshSaga(action) {
+    try {
+        const {data} = action.payload;
+        const result = yield axios({
+            method: 'post',
+            url: `${SERVER_CLIENT_API_URL}/refresh`,
+            headers: {
+                Authorization: `Bearer ${data}`
+            }
+        });
+        yield localStorage.userInfo = JSON.stringify({
+            access_token: result.data.access_token,
+            expires: result.data.expires_in
+        });
+
+        yield put({
+            type: SUCCESS(USER_ACTION.REFRESH_TOKEN),
+            payload: {
+                data: result.data.user,
+            },
+        });
+    } catch (e) {
+        yield put({
+            type: FAILURE(USER_ACTION.REFRESH_TOKEN),
+            payload: {
+                error : e.message
+            }
+        });
+    }
+}
+
 function* checkEmailExistsSaga(action) {
     try {
         const {data} = action.payload;
@@ -50,46 +81,41 @@ function* checkEmailExistsSaga(action) {
             type: FAILURE(USER_ACTION.CHECK_EMAIL_EXISTS),
             payload: {
                 status: error.response.status,
-                error: error.response.status === 403 && 'Email đã tồn tại!'
+                ...error.response.status === 403 && {error: 'Email đã tồn tại!'}
             }
         });
     }
 }
 
-// function* registerSaga(action) {
-//     try {
-//         const {data} = action.payload;
-//         yield axios.post(`${SERVER_API_URL}/register`, data);
-//         yield put({type: SUCCESS(USER_ACTION.REGISTER)});
-//         yield notification.success({
-//             message: 'Đăng ký thành công!',
-//         });
-//         yield history.push('/login');
-//     } catch (e) {
-//         if (e.response.data === 'Email already exists') {
-//             yield put({
-//                 type: FAILURE(USER_ACTION.REGISTER),
-//                 payload: {
-//                     error: 'Email đã tồn tại!'
-//                 }
-//             });
-//         } else {
-//             yield put({
-//                 type: FAILURE(USER_ACTION.REGISTER),
-//                 payload: {
-//                     error: null
-//                 },
-//             });
-//         }
-//     }
-// }
-//
+function* registerSaga(action) {
+    try {
+        const {data} = action.payload;
+        const result = yield axios.post(`${SERVER_CLIENT_API_URL}/register`, data);
+        yield put({type: SUCCESS(USER_ACTION.REGISTER)});
+        yield notification.success({
+            message: 'Đăng ký thành công!',
+        });
+        yield history.push('/login');
+    } catch (e) {
+        yield notification.error({
+            message: 'Đăng ký thất bại!',
+        });
+        yield put({
+            type: FAILURE(USER_ACTION.REGISTER),
+        });
+    }
+}
+
 function* getInfoSaga(action) {
     try {
         const {data} = action.payload;
-
-        const result = yield axios.get(`${SERVER_CLIENT_API_URL}/user-profile`,
-            {headers: {"Authorization": `Bearer ${data}`}})
+        const result = yield axios({
+            method: 'get',
+            url: `${SERVER_CLIENT_API_URL}/user-profile`,
+            headers: {
+                Authorization: `Bearer ${data}`
+            }
+        })
         yield put({
             type: SUCCESS(USER_ACTION.GET_USER_INFO),
             payload: {
@@ -97,13 +123,19 @@ function* getInfoSaga(action) {
             },
         });
     } catch (e) {
-        yield put({type: FAILURE(USER_ACTION.GET_USER_INFO), payload: e.message});
+        yield put({
+            type: FAILURE(USER_ACTION.GET_USER_INFO),
+            payload: {
+                error : e.message
+            }
+        });
     }
 }
 
 export default function* adminSaga() {
     yield takeEvery(REQUEST(USER_ACTION.LOGIN), loginSaga);
+    yield takeEvery(REQUEST(USER_ACTION.REFRESH_TOKEN), refreshSaga);
     yield takeEvery(REQUEST(USER_ACTION.CHECK_EMAIL_EXISTS), checkEmailExistsSaga);
-    // yield takeEvery(REQUEST(USER_ACTION.REGISTER), registerSaga);
+    yield takeEvery(REQUEST(USER_ACTION.REGISTER), registerSaga);
     yield takeEvery(REQUEST(USER_ACTION.GET_USER_INFO), getInfoSaga);
 }

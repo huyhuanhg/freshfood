@@ -1,5 +1,5 @@
-import {REQUEST, SUCCESS, FAILURE, USER_ACTION} from '../constants';
 import {createReducer} from '@reduxjs/toolkit';
+import {REQUEST, SUCCESS, FAILURE, USER_ACTION} from '../constants';
 
 const initialState = {
     userList: [],
@@ -156,8 +156,7 @@ const userReducer = createReducer(initialState, {
             }
         };
     },
-    [FAILURE(USER_ACTION.REGISTER)]: (state, action) => {
-        const {error} = action.payload;
+    [SUCCESS(USER_ACTION.REGISTER)]: (state, action) => {
         return {
             ...state,
             responseAction: {
@@ -165,11 +164,24 @@ const userReducer = createReducer(initialState, {
                 register: {
                     ...state.responseAction.register,
                     load: false,
-                    error,
                 }
             }
         };
     },
+
+    [FAILURE(USER_ACTION.REGISTER)]: (state, action) => {
+        return {
+            ...state,
+            responseAction: {
+                ...state.responseAction,
+                register: {
+                    ...state.responseAction.register,
+                    load: false,
+                }
+            }
+        };
+    },
+
     [REQUEST(USER_ACTION.GET_USER_INFO)]: (state, action) => {
         return {
             ...state,
@@ -185,7 +197,6 @@ const userReducer = createReducer(initialState, {
         return {
             ...state,
             userInfo: {
-                ...state.userInfo,
                 data,
                 load: false,
                 error: null,
@@ -193,6 +204,38 @@ const userReducer = createReducer(initialState, {
         };
     },
     [FAILURE(USER_ACTION.GET_USER_INFO)]: (state, action) => {
+        const {error} = action.payload;
+        return {
+            ...state,
+            userInfo: {
+                ...state.userInfo,
+                load: false,
+                error,
+            },
+        };
+    },
+    [REQUEST(USER_ACTION.REFRESH_TOKEN)]: (state, action) => {
+        return {
+            ...state,
+            userInfo: {
+                ...state.userInfo,
+                load: true,
+                error: null,
+            },
+        };
+    },
+    [SUCCESS(USER_ACTION.REFRESH_TOKEN)]: (state, action) => {
+        const {data} = action.payload;
+        return {
+            ...state,
+            userInfo: {
+                data,
+                load: false,
+                error: null,
+            },
+        };
+    },
+    [FAILURE(USER_ACTION.REFRESH_TOKEN)]: (state, action) => {
         const {error} = action.payload;
         return {
             ...state,
