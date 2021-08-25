@@ -2,7 +2,7 @@ import {notification} from "antd";
 import {put, takeEvery} from "redux-saga/effects";
 import axios from 'axios';
 import {REQUEST, SUCCESS, FAILURE, ADMIN_ACTION} from '../constants';
-import {SERVER_ADMIN_API_URL} from './contants/apiUrl';
+import {SERVER_ADMIN_API_URL, SERVER_CLIENT_API_URL} from './contants/apiUrl';
 
 import history from '../../utils/history';
 
@@ -11,8 +11,9 @@ function* loginAdminSaga(action) {
         const {data} = action.payload;
         const result = yield axios.post(`${SERVER_ADMIN_API_URL}/login`, data);
 
-        yield localStorage.userInfo = JSON.stringify({
-            access_token: result.data.access_token
+        yield localStorage.adminInfo = JSON.stringify({
+            access_token: result.data.access_token,
+            expires: result.data.expires_in
         });
 
         yield put({
@@ -33,6 +34,37 @@ function* loginAdminSaga(action) {
             type: FAILURE(ADMIN_ACTION.ADMIN_LOGIN),
             payload: {
                 error: 'Email hoặc mật khẩu không đúng!'
+            }
+        });
+    }
+}
+
+function* refreshAdminSaga(action) {
+    try {
+        const {data} = action.payload;
+        const result = yield axios({
+            method: 'post',
+            url: `${SERVER_ADMIN_API_URL}/refresh`,
+            headers: {
+                Authorization: `Bearer ${data}`
+            }
+        });
+        yield localStorage.adminInfo = JSON.stringify({
+            access_token: result.data.access_token,
+            expires: result.data.expires_in
+        });
+
+        yield put({
+            type: SUCCESS(ADMIN_ACTION.REFRESH_ADMIN_TOKEN),
+            payload: {
+                data: result.data.user,
+            },
+        });
+    } catch (e) {
+        yield put({
+            type: FAILURE(ADMIN_ACTION.REFRESH_ADMIN_TOKEN),
+            payload: {
+                error : e.message
             }
         });
     }
@@ -69,7 +101,6 @@ function* loginAdminSaga(action) {
 function* getAdminInfoSaga(action) {
     try {
         const {data} = action.payload;
-
         const result = yield axios.get(`${SERVER_ADMIN_API_URL}/user-profile`,
             { headers: {"Authorization" : `Bearer ${data}`} })
         yield put({
@@ -85,6 +116,7 @@ function* getAdminInfoSaga(action) {
 
 export default function* adminSaga() {
     yield takeEvery(REQUEST(ADMIN_ACTION.ADMIN_LOGIN), loginAdminSaga);
+    yield takeEvery(REQUEST(ADMIN_ACTION.REFRESH_ADMIN_TOKEN), refreshAdminSaga);
     // yield takeEvery(REQUEST(USER_ACTION.REGISTER), registerSaga);
     yield takeEvery(REQUEST(ADMIN_ACTION.GET_ADMIN_INFO), getAdminInfoSaga);
 }

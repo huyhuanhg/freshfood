@@ -1,15 +1,13 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {Link} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
-import {loginAction} from "../../../redux/actions";
 import {LockOutlined, MailOutlined} from "@ant-design/icons";
-import {Spin} from "antd";
 
-import * as LoginStyle from '../style';
+import * as AuthStyle from '../style';
 
 import {TITLE} from "../../../contants";
 
-import '../style-custom.css';
+import {loginAction} from "../../../redux/actions";
 
 function LoginPage() {
     document.title = TITLE.LOGIN;
@@ -37,6 +35,18 @@ function LoginPage() {
         email: false,
         password: false,
     });
+    useEffect(() => {
+        if (responseAction.login.error) {
+            setValid({
+                ...valid,
+                message: {
+                    ...valid.message,
+                    password: responseAction.login.error
+                }
+            });
+        }
+    }, [responseAction.login.error]);
+
     const validateRule = (name, value, erors) => {
         let msg = '';
         if (name === 'email') {
@@ -107,55 +117,54 @@ function LoginPage() {
             dispatch(loginAction({
                 data: field,
             }))
-        } else {
-            console.log(2)
         }
     }
     return (
         <form style={{width: 360}} onSubmit={handleSubmit}>
-            <LoginStyle.FormTitle>Đăng Nhập</LoginStyle.FormTitle>
-            <LoginStyle.FormGroup className={`form-group ${fieldFocus.email && 'focus'}`}>
-                <LoginStyle.IconWrap>
-                    <MailOutlined className="i" style={{transition: '0.3s', fontSize: 20}}/>
-                </LoginStyle.IconWrap>
-                <div style={{height: 45, position: "relative"}}>
-                    <LoginStyle.TitleFormControl htmlFor="email">Email</LoginStyle.TitleFormControl>
-                    <LoginStyle.FormControl id="email" type="text" name="email" value={field.email}
-                                            autoComplete="off"
-                                            onFocus={handleFocus}
-                                            onBlur={handleBlur}
-                                            onChange={handleChangeField}
+            <AuthStyle.FormTitle>Đăng Nhập</AuthStyle.FormTitle>
+            <AuthStyle.FormGroup focus={fieldFocus.email} error={!!valid.message.email}>
+                <AuthStyle.IconWrap focus={fieldFocus.email} error={!!valid.message.email}>
+                    <MailOutlined/>
+                </AuthStyle.IconWrap>
+                <AuthStyle.FormControlWrap>
+                    <AuthStyle.TitleFormControl htmlFor="email" focus={fieldFocus.email}>
+                        Email
+                    </AuthStyle.TitleFormControl>
+                    <AuthStyle.FormControl id="email" type="text" name="email" value={field.email}
+                                           autoComplete="off"
+                                           onFocus={handleFocus}
+                                           onBlur={handleBlur}
+                                           onChange={handleChangeField}
                     />
-                </div>
-                <LoginStyle.InvalidMsg>{valid.message.email}</LoginStyle.InvalidMsg>
-            </LoginStyle.FormGroup>
-            <LoginStyle.FormGroup className={`form-group ${fieldFocus.password && 'focus'}`}>
-                <LoginStyle.IconWrap>
-                    <LockOutlined className="i" style={{transition: '0.3s', fontSize: 20}}/>
-                </LoginStyle.IconWrap>
-                <div style={{height: 45, position: "relative"}}>
-                    <LoginStyle.TitleFormControl htmlFor="password">Mật khẩu</LoginStyle.TitleFormControl>
-                    <LoginStyle.FormControl id="password" type="password" name="password"
-                                            value={field.password}
-                                            onFocus={handleFocus}
-                                            onBlur={handleBlur}
-                                            onChange={handleChangeField}
+                </AuthStyle.FormControlWrap>
+                <AuthStyle.InvalidMsg children={valid.message.email}/>
+            </AuthStyle.FormGroup>
+            <AuthStyle.FormGroup focus={fieldFocus.password} error={!!valid.message.password}>
+                <AuthStyle.IconWrap focus={fieldFocus.password} error={!!valid.message.password}>
+                    <LockOutlined/>
+                </AuthStyle.IconWrap>
+                <AuthStyle.FormControlWrap>
+                    <AuthStyle.TitleFormControl htmlFor="password"
+                                                focus={fieldFocus.password}
+                    >
+                        Mật khẩu
+                    </AuthStyle.TitleFormControl>
+                    <AuthStyle.FormControl id="password" type="password" name="password"
+                                           value={field.password}
+                                           onFocus={handleFocus}
+                                           onBlur={handleBlur}
+                                           onChange={handleChangeField}
                     />
-                </div>
-                <LoginStyle.InvalidMsg>{responseAction.login.error || valid.message.password}</LoginStyle.InvalidMsg>
-            </LoginStyle.FormGroup>
-            <LoginStyle.BtnSubmit htmlType="submit" disabled={responseAction.login.load}>
-                Đăng nhập {responseAction.login.load && <Spin size="middle" style={{
-                position: "absolute",
-                top: '50%',
-                left: '50%',
-                transform: 'translate(-50%, -50%)'
-            }}/>}
-            </LoginStyle.BtnSubmit>
+                </AuthStyle.FormControlWrap>
+                <AuthStyle.InvalidMsg children={valid.message.password}/>
+            </AuthStyle.FormGroup>
+            <AuthStyle.BtnSubmit htmlType="submit" disabled={responseAction.login.load}>
+                Đăng nhập
+                <AuthStyle.SubmitLoading size="middle" show={responseAction.login.load}/>
+            </AuthStyle.BtnSubmit>
             <div>
                 <p>
                     Chưa có tài khoản?
-
                     <Link to={'/register'}> Đăng ký</Link>
                 </p>
                 <Link to={'/forgot'}>Quên mật khẩu</Link>

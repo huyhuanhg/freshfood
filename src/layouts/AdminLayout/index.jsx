@@ -4,59 +4,63 @@ import Header from "../../components/admins/Header";
 import Sidebar from "../../components/admins/Sidebar";
 import Footer from "../../components/admins/Footer";
 
-import {useEffect, useState} from "react";
+import {useState} from "react";
 
-import {useDispatch} from "react-redux";
-
-import {getAdminInfoAction} from "../../redux/actions";
+import {useSelector} from "react-redux";
 
 import * as StyleLayout from './style';
+import {Spin} from "antd";
 
 function AdminLayout({exact, path, component: Component}) {
     const [collapsed, setCollapsed] = useState(true);
 
-    const dispatch = useDispatch()
+    const {adminInfo} = useSelector(state => state.adminReducer);
+    if (adminInfo.data.id) {
+        return <Redirect to='/'/>
+    } else {
+        if (adminInfo.load) {
+            return <Spin size={"large"} style={{
+                position: "fixed",
+                top: '50%',
+                left: '50%',
+                transform: 'translate(-50%, -50%)',
+            }}/>
+        } else {
+            return (
+                <Route
+                    exact={exact}
+                    path={path}
+                    render={(routeProps) => {
+                        return (
+                            <StyleLayout.Container>
 
-    useEffect(() => {
-        const userInfo = JSON.parse(localStorage.getItem('userInfo'));
-        if (userInfo) {
-            dispatch(getAdminInfoAction({data: userInfo.access_token}));
-        }
-    }, []);
+                                <StyleLayout.Sidebar isShow={collapsed}>
+                                    <Sidebar/>
+                                </StyleLayout.Sidebar>
 
-    return (
-        <Route
-            exact={exact}
-            path={path}
-            render={(routeProps) => {
-                return (
-                    <StyleLayout.Container>
+                                <StyleLayout.SiteLayout isFull={!collapsed}>
 
-                        <StyleLayout.Sidebar isShow={collapsed}>
-                            <Sidebar/>
-                        </StyleLayout.Sidebar>
+                                    <StyleLayout.Header isFull={!collapsed}>
+                                        <Header collapsed={collapsed} toggle={setCollapsed}/>
+                                    </StyleLayout.Header>
 
-                        <StyleLayout.SiteLayout isFull={!collapsed}>
+                                    <StyleLayout.Content>
+                                        <Component {...routeProps}/>
+                                    </StyleLayout.Content>
 
-                            <StyleLayout.Header isFull={!collapsed}>
-                                <Header collapsed={collapsed} toggle={setCollapsed}/>
-                            </StyleLayout.Header>
+                                    <StyleLayout.Footer>
+                                        <Footer/>
+                                    </StyleLayout.Footer>
 
-                            <StyleLayout.Content>
-                                <Component {...routeProps}/>
-                            </StyleLayout.Content>
+                                </StyleLayout.SiteLayout>
 
-                            <StyleLayout.Footer>
-                                <Footer/>
-                            </StyleLayout.Footer>
-
-                        </StyleLayout.SiteLayout>
-
-                    </StyleLayout.Container>
-                );
-            }}
+                            </StyleLayout.Container>
+                        );
+                    }}
                 />
-                );
-            }
+            );
+        }
+    }
+}
 
 export default AdminLayout;

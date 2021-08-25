@@ -1,14 +1,14 @@
 import {useEffect, useState} from "react";
 import {Link} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
+import {Col, Row} from "antd";
 import {CheckOutlined, LockOutlined, MailOutlined, ManOutlined, PhoneOutlined, UserOutlined} from "@ant-design/icons";
-import {Checkbox, Col, Row, Select, Spin} from "antd";
 
-import * as LoginStyle from '../style';
+import * as AuthStyle from '../style';
+import * as RegisterStyle from './style';
 
 import {TITLE} from "../../../contants";
 
-import '../style-custom.css';
 import {checkEmailExistsAction, registerAction} from "../../../redux/actions";
 
 function RegisterPage() {
@@ -17,8 +17,6 @@ function RegisterPage() {
     const dispatch = useDispatch();
 
     const {register} = useSelector(state => state.userReducer.responseAction);
-
-    const {responseAction} = useSelector(state => state.userReducer);
 
     const [readySubmit, setReadySubmit] = useState(false);
 
@@ -65,19 +63,22 @@ function RegisterPage() {
         confirm_password: false,
     });
 
-    useEffect(()=>{
-        if (register.email.error){
+    useEffect(() => {
+        if (register.email.error) {
             setValid({
-                ...valid,
+                valid: {
+                    ...valid.valid,
+                    email: false,
+                },
                 message: {
                     ...valid.message,
                     email: register.email.error
                 }
             });
         }
-    },[register.email.error]);
+    }, [register.email.error]);
 
-    const handleBeforeSubmit = () => {
+    useEffect(() => {
         let fields = valid.valid;
         let ready = true;
         for (let field in fields) {
@@ -87,7 +88,8 @@ function RegisterPage() {
             }
         }
         setReadySubmit(ready);
-    }
+    }, [valid.valid]);
+
     const validateRule = (name, value, errors) => {
         let msg = '';
         if (name === 'email') {
@@ -198,7 +200,6 @@ function RegisterPage() {
     const handleSubmit = (e) => {
         e.preventDefault();
         handleValid();
-        handleBeforeSubmit();
         if (readySubmit) {
             dispatch(registerAction({
                 data: field
@@ -207,243 +208,175 @@ function RegisterPage() {
     }
     return (
         <form style={{width: 450}} onSubmit={handleSubmit}>
-            <LoginStyle.FormTitle>Đăng Ký</LoginStyle.FormTitle>
-            <Row gutter={10} style={{
-                position: "relative"
-            }}>
+            <AuthStyle.FormTitle>Đăng Ký</AuthStyle.FormTitle>
+            <Row gutter={10} style={{position: "relative"}}>
                 <Col span={12}>
-                    <LoginStyle.FormGroup
-                        className={`form-group ${fieldFocus.first_name && 'focus'} ${(valid.message.first_name || valid.message.last_name) && 'error'}`}
-                        style={{paddingLeft: 5}}
+                    <AuthStyle.FormGroup grid focus={fieldFocus.first_name}
+                                         error={!!valid.message.first_name || !!valid.message.last_name}
                     >
-                        <LoginStyle.IconWrap>
-                            <UserOutlined
-                                className={`i ${(valid.message.first_name || valid.message.last_name) && 'error'}`}
-                                style={{transition: '0.3s', fontSize: 20}}
+                        <AuthStyle.IconWrap focus={fieldFocus.first_name}
+                                            error={!!valid.message.first_name || !!valid.message.last_name}>
+                            <RegisterStyle.IconCustom icon={UserOutlined}/>
+                        </AuthStyle.IconWrap>
+                        <AuthStyle.FormControlWrap>
+                            <AuthStyle.TitleFormControl htmlFor="first_name"
+                                                        focus={fieldFocus.first_name}>
+                                Họ
+                            </AuthStyle.TitleFormControl>
+                            <AuthStyle.FormControl id="first_name" type="text" name="first_name"
+                                                   value={field.first_name}
+                                                   autoComplete="off"
+                                                   onFocus={handleFocus}
+                                                   onBlur={handleBlur}
+                                                   onChange={handleChangeField}
                             />
-                        </LoginStyle.IconWrap>
-                        <div style={{height: 45, position: "relative"}}>
-                            <LoginStyle.TitleFormControl htmlFor="first_name">Họ</LoginStyle.TitleFormControl>
-                            <LoginStyle.FormControl id="first_name" type="text" name="first_name"
-                                                    value={field.first_name}
-                                                    autoComplete="off"
-                                                    onFocus={handleFocus}
-                                                    onBlur={handleBlur}
-                                                    onChange={handleChangeField}
-                            />
-                        </div>
-                    </LoginStyle.FormGroup>
+                        </AuthStyle.FormControlWrap>
+                    </AuthStyle.FormGroup>
                 </Col>
                 <Col span={12}>
-                    <LoginStyle.FormGroup
-                        className={`form-group ${fieldFocus.last_name && 'focus'} ${(valid.message.first_name || valid.message.last_name) && 'error'}`}
-                    >
+                    <AuthStyle.FormGroup focus={fieldFocus.last_name}
+                                         error={!!valid.message.first_name || !!valid.message.last_name}>
                         <div></div>
-                        <div style={{height: 45, position: "relative"}}>
-                            <LoginStyle.TitleFormControl htmlFor="last_name">Tên</LoginStyle.TitleFormControl>
-                            <LoginStyle.FormControl id="last_name" type="text" name="last_name" value={field.last_name}
-                                                    autoComplete="off"
-                                                    onFocus={handleFocus}
-                                                    onBlur={handleBlur}
-                                                    onChange={handleChangeField}
-                                                    style={{
-                                                        width: '100%'
-                                                    }}
+                        <AuthStyle.FormControlWrap>
+                            <AuthStyle.TitleFormControl htmlFor="last_name"
+                                                        focus={fieldFocus.last_name}>
+                                Tên
+                            </AuthStyle.TitleFormControl>
+                            <AuthStyle.FormControl id="last_name" type="text" name="last_name" value={field.last_name}
+                                                   autoComplete="off"
+                                                   onFocus={handleFocus}
+                                                   onBlur={handleBlur}
+                                                   onChange={handleChangeField}
+                                                   style={{width: '100%'}}
                             />
-                        </div>
-                    </LoginStyle.FormGroup>
+                        </AuthStyle.FormControlWrap>
+                    </AuthStyle.FormGroup>
                 </Col>
-                <LoginStyle.InvalidMsg
-                    style={{
-                        bottom: '0'
-                    }}
-                >
-                    {(valid.message.first_name || valid.message.last_name)}
-                </LoginStyle.InvalidMsg>
+                <AuthStyle.InvalidMsg children={valid.message.first_name || valid.message.last_name} centerGrid/>
             </Row>
 
-            <Row gutter={10} style={{
-                position: "relative"
-            }}>
+            <Row gutter={10} style={{position: "relative"}}>
                 <Col span={15}>
-                    <LoginStyle.FormGroup
-                        className={`form-group ${fieldFocus.phone && 'focus'} ${valid.message.phone && 'error'}`}
-                        style={{paddingLeft: 5}}>
-                        <LoginStyle.IconWrap>
-                            <PhoneOutlined className={`i ${valid.message.phone && 'error'}`}
-                                           style={{transition: '0.3s', fontSize: 20}}/>
-                        </LoginStyle.IconWrap>
-                        <div style={{height: 45, position: "relative"}}>
-                            <LoginStyle.TitleFormControl htmlFor="phone">
+                    <AuthStyle.FormGroup focus={fieldFocus.phone} error={!!valid.message.phone} grid>
+                        <AuthStyle.IconWrap focus={fieldFocus.phone} error={!!valid.message.phone}>
+                            <RegisterStyle.IconCustom icon={PhoneOutlined}/>
+                        </AuthStyle.IconWrap>
+                        <AuthStyle.FormControlWrap>
+                            <AuthStyle.TitleFormControl htmlFor="phone" focus={fieldFocus.phone}>
                                 Số điện thoại
-                            </LoginStyle.TitleFormControl>
-                            <LoginStyle.FormControl id="phone" type="text" name="phone" value={field.phone}
-                                                    autoComplete="off"
-                                                    onFocus={handleFocus}
-                                                    onBlur={handleBlur}
-                                                    onChange={handleChangeField}
+                            </AuthStyle.TitleFormControl>
+                            <AuthStyle.FormControl id="phone" type="text" name="phone" value={field.phone}
+                                                   autoComplete="off"
+                                                   onFocus={handleFocus}
+                                                   onBlur={handleBlur}
+                                                   onChange={handleChangeField}
                             />
-                        </div>
-                    </LoginStyle.FormGroup>
+                        </AuthStyle.FormControlWrap>
+                    </AuthStyle.FormGroup>
                 </Col>
                 <Col span={9}>
-                    <LoginStyle.FormGroup
-                        className={`form-group ${valid.message.gender && 'error'}`}
-                    >
-                        <LoginStyle.IconWrap>
-                            <ManOutlined className={`i ${valid.message.gender && 'error'}`}
-                                         style={{transition: '0.3s', fontSize: 20}}/>
-                        </LoginStyle.IconWrap>
-                        <div style={{height: 45, position: "relative"}}>
-                            <select id="gender" name="gender" defaultValue={field.gender}
-                                    onChange={(e) => {
-                                        setField({
-                                            ...field,
-                                            gender: e.target.value,
-                                        })
-                                        let invalid = validateRule('gender', e.target.value, {...valid});
-                                        setValid(invalid);
-                                    }}
-                                    style={{
-                                        paddingLeft: '5px',
-                                        width: '100%',
-                                        border: "none",
-                                        outline: "none",
-                                        background: "unset",
-                                        cursor: "pointer",
-                                        transform: 'translateY(40%)',
-                                        color: '#999',
-                                        fontSize: '20px',
-                                        fontWeight: 'bold',
-                                    }}
+                    <AuthStyle.FormGroup error={!!valid.message.gender}>
+                        <AuthStyle.IconWrap error={!!valid.message.gender}>
+                            <RegisterStyle.IconCustom icon={ManOutlined}/>
+                        </AuthStyle.IconWrap>
+                        <AuthStyle.FormControlWrap>
+                            <RegisterStyle.SelectCustom id="gender" name="gender" defaultValue={field.gender}
+                                                        onChange={(e) => {
+                                                            setField({
+                                                                ...field,
+                                                                gender: e.target.value,
+                                                            })
+                                                            let invalid = validateRule('gender', e.target.value, {...valid});
+                                                            setValid(invalid);
+                                                        }}
                             >
                                 <option value='false' disabled hidden>Giới tính</option>
                                 <option value={1}>Nam</option>
                                 <option value={0}>Nữ</option>
-                            </select>
-                        </div>
-                    </LoginStyle.FormGroup>
+                            </RegisterStyle.SelectCustom>
+                        </AuthStyle.FormControlWrap>
+                    </AuthStyle.FormGroup>
                 </Col>
-                <LoginStyle.InvalidMsg
-                    style={{
-                        bottom: 0,
-                        left: 0,
-                        transform: 'translateX(-20%)'
-                    }}
-                >
-                    {valid.message.phone}
-                </LoginStyle.InvalidMsg>
+                <AuthStyle.InvalidMsg children={valid.message.phone} leftGrid/>
             </Row>
 
-            <LoginStyle.FormGroup
-                className={`form-group ${fieldFocus.email && 'focus'} ${valid.message.email && 'error'}`}>
-                <LoginStyle.IconWrap>
-                    <MailOutlined className={`i ${valid.message.email && 'error'}`}
-                                  style={{transition: '0.3s', fontSize: 20}}/>
-                </LoginStyle.IconWrap>
-                <div style={{height: 45, position: "relative"}}>
-                    <LoginStyle.TitleFormControl htmlFor="email">Email</LoginStyle.TitleFormControl>
-                    <LoginStyle.FormControl id="email" type="text" name="email" value={field.email}
-                                            autoComplete="off"
-                                            onFocus={handleFocus}
-                                            onBlur={handleBlur}
-                                            onChange={handleChangeField}
+            <AuthStyle.FormGroup focus={fieldFocus.email} error={!!valid.message.email}>
+                <AuthStyle.IconWrap focus={fieldFocus.email} error={!!valid.message.email}>
+                    <RegisterStyle.IconCustom icon={MailOutlined}/>
+                </AuthStyle.IconWrap>
+                <AuthStyle.FormControlWrap>
+                    <AuthStyle.TitleFormControl htmlFor="email" focus={fieldFocus.email}>
+                        Email
+                    </AuthStyle.TitleFormControl>
+                    <AuthStyle.FormControl id="email" type="text" name="email" value={field.email}
+                                           autoComplete="off"
+                                           onFocus={handleFocus}
+                                           onBlur={handleBlur}
+                                           onChange={handleChangeField}
                     />
-                    {(register.email.load && <Spin size="middle" style={{
-                        position: "absolute",
-                        top: '50%',
-                        right: 10,
-                        transform: 'translateY(-50%)'
-                    }}/>) || (register.email.success && (<div style={{
-                        position: "absolute",
-                        top: '50%',
-                        background: "#38d39f",
-                        right: 10,
-                        width: 25,
-                        height: 25,
-                        borderRadius: '50%',
-                        transform: 'translateY(-50%)',
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center"
-                    }}>
-                        <CheckOutlined style={{
-                            color: "white",
-                        }}/>
-                    </div>))}
-                </div>
-                <LoginStyle.InvalidMsg>{valid.message.email}</LoginStyle.InvalidMsg>
-            </LoginStyle.FormGroup>
+                    {
+                        register.email.load && <RegisterStyle.ControlLoading size="middle"/> ||
+                        register.email.success && <RegisterStyle.IconCheck icon={CheckOutlined}/>
+                    }
+                </AuthStyle.FormControlWrap>
+                <AuthStyle.InvalidMsg children={valid.message.email}/>
+            </AuthStyle.FormGroup>
 
-            <LoginStyle.FormGroup
-                className={`form-group ${fieldFocus.password && 'focus'} ${valid.message.password && 'error'}`}>
-                <LoginStyle.IconWrap>
-                    <LockOutlined className={`i ${valid.message.password && 'error'}`}
-                                  style={{transition: '0.3s', fontSize: 20}}/>
-                </LoginStyle.IconWrap>
-                <div style={{height: 45, position: "relative"}}>
-                    <LoginStyle.TitleFormControl htmlFor="password">Mật khẩu</LoginStyle.TitleFormControl>
-                    <LoginStyle.FormControl id="password" type="password" name="password"
-                                            value={field.password}
-                                            onFocus={handleFocus}
-                                            onBlur={handleBlur}
-                                            onChange={handleChangeField}
+            <AuthStyle.FormGroup focus={fieldFocus.password} error={!!valid.message.password}>
+                <AuthStyle.IconWrap focus={fieldFocus.password} error={!!valid.message.password}>
+                    <RegisterStyle.IconCustom icon={LockOutlined}/>
+                </AuthStyle.IconWrap>
+                <AuthStyle.FormControlWrap>
+                    <AuthStyle.TitleFormControl htmlFor="password" focus={fieldFocus.password}>
+                        Mật khẩu
+                    </AuthStyle.TitleFormControl>
+                    <AuthStyle.FormControl id="password" type="password" name="password"
+                                           value={field.password}
+                                           onFocus={handleFocus}
+                                           onBlur={handleBlur}
+                                           onChange={handleChangeField}
                     />
-                </div>
-                <LoginStyle.InvalidMsg>{valid.message.password}</LoginStyle.InvalidMsg>
-            </LoginStyle.FormGroup>
+                </AuthStyle.FormControlWrap>
+                <AuthStyle.InvalidMsg children={valid.message.password}/>
+            </AuthStyle.FormGroup>
 
-            <LoginStyle.FormGroup
-                className={`form-group ${fieldFocus.confirm_password && 'focus'} ${valid.message.confirm_password && 'error'}`}>
-                <LoginStyle.IconWrap>
-                    <LockOutlined className={`i ${valid.message.confirm_password && 'error'}`}
-                                  style={{transition: '0.3s', fontSize: 20}}/>
-                </LoginStyle.IconWrap>
-                <div style={{height: 45, position: "relative"}}>
-                    <LoginStyle.TitleFormControl htmlFor="confirm_password">
+            <AuthStyle.FormGroup focus={fieldFocus.confirm_password} error={!!valid.message.confirm_password}>
+                <AuthStyle.IconWrap focus={fieldFocus.confirm_password} error={!!valid.message.confirm_password}>
+                    <RegisterStyle.IconCustom icon={LockOutlined}/>
+                </AuthStyle.IconWrap>
+                <AuthStyle.FormControlWrap>
+                    <AuthStyle.TitleFormControl htmlFor="confirm_password" focus={fieldFocus.confirm_password}>
                         Nhập lại mật khẩu
-                    </LoginStyle.TitleFormControl>
-                    <LoginStyle.FormControl id="confirm_password" type="password" name="confirm_password"
-                                            value={field.confirm_password}
-                                            onFocus={handleFocus}
-                                            onBlur={handleBlur}
-                                            onChange={handleChangeField}
+                    </AuthStyle.TitleFormControl>
+                    <AuthStyle.FormControl id="confirm_password" type="password" name="confirm_password"
+                                           value={field.confirm_password}
+                                           onFocus={handleFocus}
+                                           onBlur={handleBlur}
+                                           onChange={handleChangeField}
                     />
-                </div>
-                <LoginStyle.InvalidMsg>{valid.message.confirm_password}</LoginStyle.InvalidMsg>
-            </LoginStyle.FormGroup>
-            <div className={valid.message.agree && 'check-error'}
-                 style={{
-                     width: '100%',
-                     textAlign: "left",
-                 }}>
-                <Checkbox name='agree' value={field.agree}
-                          style={{
-                              color: "#1890ff"
-                          }}
-                          onClick={(e) => {
-                              setField({
-                                  ...field,
-                                  agree: e.target.checked,
-                              })
-                              let invalid = validateRule('agree', e.target.checked, {...valid});
-                              setValid(invalid);
-                          }}>
+                </AuthStyle.FormControlWrap>
+                <AuthStyle.InvalidMsg children={valid.message.confirm_password}/>
+            </AuthStyle.FormGroup>
+            <RegisterStyle.CheckboxWrap>
+                <RegisterStyle.CheckboxCustom name='agree' value={field.agree} error={!!valid.message.agree}
+                                              onClick={(e) => {
+                                                  setField({
+                                                      ...field,
+                                                      agree: e.target.checked,
+                                                  })
+                                                  let invalid = validateRule('agree', e.target.checked, {...valid});
+                                                  setValid(invalid);
+                                              }}>
                     Đồng ý với điều khoản của chúng tôi?
-                </Checkbox>
-            </div>
-            <LoginStyle.BtnSubmit htmlType="submit" disabled={responseAction.login.load}>
-                Đăng ký {responseAction.login.load && <Spin size="middle" style={{
-                position: "absolute",
-                top: '50%',
-                left: '50%',
-                transform: 'translate(-50%, -50%)'
-            }}/>}
-            </LoginStyle.BtnSubmit>
+                </RegisterStyle.CheckboxCustom>
+            </RegisterStyle.CheckboxWrap>
+            <AuthStyle.BtnSubmit htmlType="submit" disabled={register.load}>
+                Đăng ký
+                <AuthStyle.SubmitLoading size="middle" show={register.load}/>
+            </AuthStyle.BtnSubmit>
             <div>
                 <p>
                     Đã có tài khoản
-
                     <Link to={'/login'}> Đăng nhập</Link>
                 </p>
             </div>
