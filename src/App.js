@@ -1,4 +1,7 @@
 import {Router, Switch} from "react-router-dom";
+import {useDispatch} from "react-redux";
+import {useEffect} from "react";
+import moment from "moment";
 
 import history from './utils/history';
 
@@ -17,15 +20,12 @@ import RegisterPage from "./pages/authClient/Register";
 
 import 'antd/dist/antd.css';
 import './App.css';
-import {useDispatch} from "react-redux";
-import {useEffect} from "react";
 import {
     getAdminInfoAction,
     getUserInfoAction,
     refreshAdminTokenUserAction,
     refreshTokenUserAction
 } from "./redux/actions";
-import moment from "moment";
 
 function App() {
     //gọi userInfo và adminInfo tại đây

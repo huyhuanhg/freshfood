@@ -131,6 +131,18 @@ function* getInfoSaga(action) {
         });
     }
 }
+function* logoutSaga(action) {
+    const {data} = action.payload;
+    yield axios({
+        method: 'post',
+        url: `${SERVER_CLIENT_API_URL}/logout`,
+        headers: {
+            Authorization: `Bearer ${data}`
+        }
+    });
+    yield localStorage.removeItem('userInfo');
+    yield history.push('/login');
+}
 
 export default function* adminSaga() {
     yield takeEvery(REQUEST(USER_ACTION.LOGIN), loginSaga);
@@ -138,4 +150,5 @@ export default function* adminSaga() {
     yield takeEvery(REQUEST(USER_ACTION.CHECK_EMAIL_EXISTS), checkEmailExistsSaga);
     yield takeEvery(REQUEST(USER_ACTION.REGISTER), registerSaga);
     yield takeEvery(REQUEST(USER_ACTION.GET_USER_INFO), getInfoSaga);
+    yield takeEvery(REQUEST(USER_ACTION.LOGOUT), logoutSaga);
 }

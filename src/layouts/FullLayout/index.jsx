@@ -1,7 +1,7 @@
 import {Redirect, Route} from "react-router-dom";
 import {useSelector} from "react-redux";
 
-import * as LayoutStyle from "./styles";
+import * as LayoutStyle from "./style";
 
 import bgLogin from "../../assets/images/bg-login.png";
 import foodLogo from "../../assets/images/food_logo.png";
