@@ -136,10 +136,13 @@ const userReducer = createReducer(initialState, {
         };
     },
 
-    [REQUEST(USER_ACTION.LOGOUT)]: (state, action) => {
+    [REQUEST(USER_ACTION.LOGOUT)]: (state) => {
         return {
             ...state,
-            userInfo: {},
+            userInfo: {
+                ...state.userInfo,
+                data: {}
+            },
         };
     },
 
