@@ -86,3 +86,6 @@
 .ant-card-meta-avatar {
     padding-right: 6px!important;
 }
+.ant-anchor-ink{
+    display: none!important;
+}

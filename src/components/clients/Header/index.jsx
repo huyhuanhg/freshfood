@@ -1,13 +1,11 @@
 import {
-    FacebookOutlined,
-    GooglePlusOutlined,
-    LogoutOutlined, MailOutlined, PhoneOutlined,
-    SettingOutlined,
+    LogoutOutlined,
+    MailOutlined,
+    PhoneOutlined,
     ShoppingCartOutlined,
-    SkypeOutlined,
     UserOutlined
 } from "@ant-design/icons";
-import {Affix, Avatar, Badge, Button, Dropdown, Menu, Space} from "antd";
+import {Affix, Badge, Dropdown, Menu, Space} from "antd";
 import {useDispatch, useSelector} from "react-redux";
 import {Link} from "react-router-dom";
 
@@ -27,11 +25,11 @@ function Header() {
         }))
     }
     const userMenu = (
-        <Menu style={{marginTop: '2.4rem', width: '250px'}}>
+        <Menu style={{top: '27px', width: '250px'}}>
             {
                 userInfo.data.id ? (
                     <>
-                        <Menu.Item key="1" style={{padding: "1rem 2rem 1rem 2rem"}}>
+                        <Menu.Item key="1" style={{padding: "1rem 2rem"}}>
                             <Space>
                                 <HeaderStyle.UserAvatar
                                     size="large"
@@ -48,16 +46,16 @@ function Header() {
                             </Space>
                         </Menu.Item>
                         <Menu.Divider/>
-                        <Menu.Item key="2" style={{padding: "1rem 2rem 1rem 2rem"}}>
+                        <Menu.Item key="2" style={{padding: "1rem 2rem"}}>
                             <Space onClick={handleLogout} style={{width: '100%'}}><LogoutOutlined/>Đăng xuất</Space>
                         </Menu.Item>
                     </>
                 ) : (
                     <>
-                        <Menu.Item key="0" style={{padding: "1rem 2rem 1rem 2rem"}}>
+                        <Menu.Item key="0" style={{padding: "1rem 2rem"}}>
                             <Link to='/login'>Đăng nhập</Link>
                         </Menu.Item>
-                        <Menu.Item key="1" style={{padding: "1rem 2rem 1rem 2rem"}}>
+                        <Menu.Item key="1" style={{padding: "1rem 2rem"}}>
                             <Link to='/register'>Đăng ký</Link>
                         </Menu.Item>
                     </>
