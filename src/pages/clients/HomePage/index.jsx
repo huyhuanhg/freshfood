@@ -1,5 +1,25 @@
-import * as LandingStyle from './styles';
+import * as HomeS from './styles';
 import {TITLE} from "../../../contants";
+import {Link} from "react-router-dom";
+import {
+    Affix,
+    Anchor,
+    Button,
+    Col,
+    Menu,
+    Row,
+    Select
+} from "antd";
+import {
+    BiStore,
+    FiPercent,
+    GiCheckMark,
+    GiSpellBook,
+    IoFastFoodOutline,
+    MdNavigateNext
+} from "react-icons/all";
+
+import history from "../../../utils/history";
 
 import bg1 from "../../../assets/images/bg1.jpg";
 import bg2 from "../../../assets/images/bg2.jpg";
@@ -9,14 +29,13 @@ import food2 from '../../../assets/images/food2.jpg';
 import food3 from '../../../assets/images/food3.jpg';
 import food4 from '../../../assets/images/food4.jpg';
 import store1 from '../../../assets/images/store1.jpeg';
-import {Affix, Anchor, Button, Col, Menu, Row, Select, Space} from "antd";
-import {IntroduceAnchor, IntroduceFigure, IntroduceLink, Item, StoreItem} from "./styles";
-import './styles/style.css';
-import {BiStore, FiPercent, GiCheckMark, GiSpellBook, IoFastFoodOutline, MdNavigateNext} from "react-icons/all";
-import {Link} from "react-router-dom";
-import {AppstoreOutlined, MailOutlined, PieChartOutlined, SettingOutlined} from "@ant-design/icons";
 
-function LangdingPage(props) {
+import './styles/style.css';
+
+import FoodItem from "../../../components/clients/FoodItem";
+import StoreItem from "../../../components/clients/StoreItem";
+
+function HomePage(props) {
     document.title = TITLE.HOME;
     const {Link: AnchorLink} = Anchor;
     const {Option} = Select;
@@ -307,7 +326,7 @@ function LangdingPage(props) {
                 {list.map((card) => {
                     return (
                         <Col span={span} key={card.id}>
-                            <Item {...card}  />
+                            <FoodItem {...card}  />
                         </Col>
                     );
                 })}
@@ -316,39 +335,39 @@ function LangdingPage(props) {
     }
     return (
         <>
-            <LandingStyle.Heading>
-                <LandingStyle.HeadingCarousel autoplay dots={false} effect="fade">
-                    <LandingStyle.CarouselItem src={bg1}/>
-                    <LandingStyle.CarouselItem src={bg2}/>
-                    <LandingStyle.CarouselItem src={bg3}/>
-                </LandingStyle.HeadingCarousel>
-                <LandingStyle.Slogan>
-                    <LandingStyle.SloganTitle>FoodBooking</LandingStyle.SloganTitle>
-                    <LandingStyle.SloganDescription>
+            <HomeS.Heading>
+                <HomeS.HeadingCarousel autoplay dots={false} effect="fade">
+                    <HomeS.CarouselItem src={bg1}/>
+                    <HomeS.CarouselItem src={bg2}/>
+                    <HomeS.CarouselItem src={bg3}/>
+                </HomeS.HeadingCarousel>
+                <HomeS.Slogan>
+                    <HomeS.SloganTitle>FoodBooking</HomeS.SloganTitle>
+                    <HomeS.SloganDescription>
                         Cửa hàng thực phẩm online,<br/>
                         Không ngại SARS-CoV-2
-                    </LandingStyle.SloganDescription>
-                    <LandingStyle.SloganBtn>Mua sắm ngay</LandingStyle.SloganBtn>
-                </LandingStyle.Slogan>
-            </LandingStyle.Heading>
+                    </HomeS.SloganDescription>
+                    <HomeS.SloganBtn onClick={() => history.push('/stores')}>Mua sắm ngay</HomeS.SloganBtn>
+                </HomeS.Slogan>
+            </HomeS.Heading>
 
-            <LandingStyle.Section>
-                <LandingStyle.SectionTitle>Khuyến mãi</LandingStyle.SectionTitle>
-                <LandingStyle.SectionContainer>
+            <HomeS.Section>
+                <HomeS.SectionTitle>Khuyến mãi</HomeS.SectionTitle>
+                <HomeS.SectionContainer>
                     {renderCard(cardList)}
                     <div style={{
                         display: 'flex',
                         alignItem: 'center',
                         justifyContent: 'center',
-                        marginTop: '4rem'
+                        marginTop: '3rem'
                     }}>
                         <Anchor affix={false}>
                             <AnchorLink href='#test' title={(<Button>Xem tất cả</Button>)}/>
                         </Anchor>
                     </div>
-                </LandingStyle.SectionContainer>
-            </LandingStyle.Section>
-            <LandingStyle.Introduce>
+                </HomeS.SectionContainer>
+            </HomeS.Section>
+            <HomeS.Introduce>
                 <div>
                     <Row justify="space-around">
                         <Col span={10}>
@@ -371,7 +390,7 @@ function LangdingPage(props) {
                     <div className="list">
                         <Row justify="center">
                             <Col span={6}>
-                                <LandingStyle.IntroduceLink to={'/'} color={'#d44ca1'}>
+                                <HomeS.IntroduceLink to={'/'} color={'#d44ca1'}>
                                     <figure>
                                         <BiStore/>
                                         <figcaption>
@@ -380,10 +399,10 @@ function LangdingPage(props) {
                                         </figcaption>
                                     </figure>
                                     <span></span>
-                                </LandingStyle.IntroduceLink>
+                                </HomeS.IntroduceLink>
                             </Col>
                             <Col span={6}>
-                                <LandingStyle.IntroduceLink to={'/'} color={'#e4b42e'}>
+                                <HomeS.IntroduceLink to={'/'} color={'#e4b42e'}>
                                     <figure>
                                         <IoFastFoodOutline/>
                                         <figcaption>
@@ -392,10 +411,10 @@ function LangdingPage(props) {
                                         </figcaption>
                                     </figure>
                                     <span></span>
-                                </LandingStyle.IntroduceLink>
+                                </HomeS.IntroduceLink>
                             </Col>
                             <Col span={6}>
-                                <LandingStyle.IntroduceLink to={'/'} color={'#1a265c'}>
+                                <HomeS.IntroduceLink to={'/'} color={'#1a265c'}>
                                     <figure>
                                         <FiPercent/>
                                         <figcaption>
@@ -404,10 +423,10 @@ function LangdingPage(props) {
                                         </figcaption>
                                     </figure>
                                     <span></span>
-                                </LandingStyle.IntroduceLink>
+                                </HomeS.IntroduceLink>
                             </Col>
                             <Col span={6}>
-                                <LandingStyle.IntroduceLink to={'/'} color={'#08bcca'}>
+                                <HomeS.IntroduceLink to={'/'} color={'#08bcca'}>
                                     <figure>
                                         <GiSpellBook/>
                                         <figcaption>
@@ -416,21 +435,31 @@ function LangdingPage(props) {
                                         </figcaption>
                                     </figure>
                                     <span></span>
-                                </LandingStyle.IntroduceLink>
+                                </HomeS.IntroduceLink>
                             </Col>
                         </Row>
                     </div>
                 </div>
-            </LandingStyle.Introduce>
+            </HomeS.Introduce>
 
-            <LandingStyle.Section>
-                <LandingStyle.SectionTitle>Cửa hàng</LandingStyle.SectionTitle>
-                <LandingStyle.SectionContainer>
+            <HomeS.Section>
+                <HomeS.SectionTitle>Cửa hàng</HomeS.SectionTitle>
+                <HomeS.SectionContainer>
                     {renderStore(stores)}
-                </LandingStyle.SectionContainer>
-            </LandingStyle.Section>
+                    <div style={{
+                        display: 'flex',
+                        alignItem: 'center',
+                        justifyContent: 'center',
+                        marginTop: '3rem'
+                    }}>
+                        <Link to='/stores'>
+                            <Button>Xem tất cả</Button>
+                        </Link>
+                    </div>
+                </HomeS.SectionContainer>
+            </HomeS.Section>
 
-            <LandingStyle.Invite>
+            <HomeS.Invite>
                 <div>
                     <Row justify='center'>
                         <Col span={12}>
@@ -438,15 +467,15 @@ function LangdingPage(props) {
                             <p><b>Chỉ thị 16</b> kéo dài, cửa hàng <b>vắng khách</b>?</p>
                             <p className="invite">Đừng ngần ngại <b>FoodBooking</b> sẽ cùng bạn vượt qua khó khăn</p>
                             <Link to='/'>
-                                <LandingStyle.BtnInvite>Đăng ký bán hàng</LandingStyle.BtnInvite>
+                                <HomeS.BtnInvite>Đăng ký bán hàng</HomeS.BtnInvite>
                             </Link>
                         </Col>
                     </Row>
                 </div>
-            </LandingStyle.Invite>
+            </HomeS.Invite>
 
-            <LandingStyle.Section id='test' style={{backgroundColor: '#eee'}}>
-                <LandingStyle.SectionContainer style={{marginTop: 0}}>
+            <HomeS.Section id='test' style={{backgroundColor: '#eee'}}>
+                <HomeS.SectionContainer style={{marginTop: 0}}>
                     <Row gutter={20}>
                         <Col span={4}>
                             <Affix offsetTop={75}>
@@ -519,14 +548,22 @@ function LangdingPage(props) {
                             </Affix>
                             <div style={{paddingTop: 20}}>
                                 {renderCard(cardList, 6)}
+                                <div style={{
+                                    display: 'flex',
+                                    alignItem: 'center',
+                                    justifyContent: 'center',
+                                    marginTop: '3rem'
+                                }}>
+                                    <Button>Xem thêm</Button>
+                                </div>
                             </div>
 
                         </Col>
                     </Row>
-                </LandingStyle.SectionContainer>
-            </LandingStyle.Section>
+                </HomeS.SectionContainer>
+            </HomeS.Section>
         </>
     )
 }
 
-export default LangdingPage;
+export default HomePage;

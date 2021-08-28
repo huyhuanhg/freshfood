@@ -14,7 +14,7 @@ import AdminLoginPage from "./pages/AdminLogin";
 
 import AdminLayout from "./layouts/AdminLayout";
 import DashboardPage from "./pages/admins/Dashboard";
-import LangdingPage from "./pages/clients/LangdingPage";
+import HomePage from "./pages/clients/HomePage";
 import CategoryPage from "./pages/admins/Category";
 import RegisterPage from "./pages/authClient/Register";
 
@@ -26,6 +26,8 @@ import {
     refreshAdminTokenUserAction,
     refreshTokenUserAction
 } from "./redux/actions";
+import StoreList from "./pages/clients/StoreList";
+import StoreDetail from "./pages/clients/StoreDetail";
 
 function App() {
     //gọi userInfo và adminInfo tại đây
@@ -68,7 +70,9 @@ function App() {
     return (
         <Router history={history}>
             <Switch>
-                <ClientLayout exact path="/" component={LangdingPage}/>
+                <ClientLayout exact path="/" component={HomePage}/>
+                <ClientLayout exact path="/stores" component={StoreList}/>
+                <ClientLayout exact path="/stores/:slug" component={StoreDetail}/>
 
                 <AdminLayout exact path="/manager" component={DashboardPage}/>
                 <AdminLayout exact path="/manager/categories" component={CategoryPage}/>
