@@ -77,7 +77,7 @@ export const MenuWrap = styled.div`
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 1rem 0;
+    padding: .5rem 0;
 `
 export const Logo = styled(Link)`    
     text-transform: uppercase;

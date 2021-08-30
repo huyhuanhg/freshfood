@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import {Button, Card, Skeleton} from "antd";
+import {Link} from "react-router-dom";
 
 export const CardImage = styled.div`
     height: 230px;
@@ -29,6 +30,23 @@ export const AfterPrice = styled.span`
 `
 export const CardItem = styled(Card)`
     border-radius: 4px;
+    max-height: 347px;
+    overflow: hidden;
+`
+export const FoodTitle = styled.h3`
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    max-width: 80%;
+    overflow: hidden;
+    margin-bottom: 0;
+`
+export const FoodStoreWrap = styled(Link)`
+    display: block;
+    max-width: 80%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    color: #aaa;
 `
 export const Price = styled.span`
     color: #888;

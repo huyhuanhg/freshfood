@@ -5,7 +5,7 @@ import {
     ShoppingCartOutlined,
     UserOutlined
 } from "@ant-design/icons";
-import {Affix, Badge, Dropdown, Menu, Space} from "antd";
+import {Affix, Badge, Dropdown, Form, Input, Menu, Space} from "antd";
 import {useDispatch, useSelector} from "react-redux";
 import {Link} from "react-router-dom";
 
@@ -18,6 +18,7 @@ import {AiFillSkype, FaFacebookF, GrGooglePlus, RiMapPin2Fill} from "react-icons
 function Header() {
     const dispatch = useDispatch();
     const {userInfo} = useSelector(state => state.userReducer);
+    const {total} = useSelector(state => state.cartReducer);
     const handleLogout = () => {
         const userInfo = JSON.parse(localStorage.getItem('userInfo'));
         dispatch(logoutAction({
@@ -29,22 +30,24 @@ function Header() {
             {
                 userInfo.data.id ? (
                     <>
-                        <Menu.Item key="1" style={{padding: "1rem 2rem"}}>
-                            <Space>
-                                <HeaderStyle.UserAvatar
-                                    size="large"
-                                    src={userInfo.data.avatar && `"https://loaclhost:8000/${userInfo.data.avatar}"`}
-                                >
-                                    {!userInfo.data.avatar && (<span style={{fontSize: '2rem'}}>
+                        <Link to='/profile'>
+                            <Menu.Item key="1" style={{padding: "1rem 2rem"}}>
+                                <Space>
+                                    <HeaderStyle.UserAvatar
+                                        size="large"
+                                        src={userInfo.data.avatar && `"https://loaclhost:8000/${userInfo.data.avatar}"`}
+                                    >
+                                        {!userInfo.data.avatar && (<span style={{fontSize: '2rem'}}>
                                         {userInfo.data.last_name[0].toUpperCase()}
                                     </span>)}
-                                </HeaderStyle.UserAvatar>
-                                <div style={{marginLeft: '1rem'}}>
-                                    <div>{`${userInfo.data.first_name} ${userInfo.data.last_name}`}</div>
-                                    <small style={{color: "#ccc"}}>{userInfo.data.phone}</small>
-                                </div>
-                            </Space>
-                        </Menu.Item>
+                                    </HeaderStyle.UserAvatar>
+                                    <div style={{marginLeft: '1rem'}}>
+                                        <div>{`${userInfo.data.first_name} ${userInfo.data.last_name}`}</div>
+                                        <small style={{color: "#ccc"}}>{userInfo.data.phone}</small>
+                                    </div>
+                                </Space>
+                            </Menu.Item>
+                        </Link>
                         <Menu.Divider/>
                         <Menu.Item key="2" style={{padding: "1rem 2rem"}}>
                             <Space onClick={handleLogout} style={{width: '100%'}}><LogoutOutlined/>Đăng xuất</Space>
@@ -86,10 +89,15 @@ function Header() {
                     <HeaderStyle.MenuWrap>
                         <HeaderStyle.Logo to='/'>FoodBooking</HeaderStyle.Logo>
                         <HeaderStyle.SearchWrap>
-                            <HeaderStyle.Search/>
+                            {/*<HeaderStyle.Search/>*/}
+                            <Form>
+                                <Form.Item style={{marginBottom: 0}}>
+                                    <Input placeholder='Món ăn, cửa hàng' style={{background: "unset"}}/>
+                                </Form.Item>
+                            </Form>
                         </HeaderStyle.SearchWrap>
                         <Space>
-                            <Badge count={1} style={{right: '5px'}}>
+                            <Badge count={total} style={{right: '5px'}}>
                                 <HeaderStyle.Btn onClick={() => history.push('/cart')}
                                 >
                                     <ShoppingCartOutlined/>Giỏ hàng

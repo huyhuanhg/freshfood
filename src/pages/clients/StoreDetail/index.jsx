@@ -171,7 +171,7 @@ const StoreDetail = (props) => {
                 <StoreDetailStyle.MicroMainMenu>
                     <Row gutter={20}>
                         <Col span={4}>
-                            <Affix offsetTop={75}>
+                            <Affix offsetTop={52.7}>
                                 <Menu
                                     theme="light"
                                     style={{
@@ -200,7 +200,7 @@ const StoreDetail = (props) => {
                             </Affix>
                         </Col>
                         <Col span={20}>
-                            <Affix offsetTop={75}>
+                            <Affix offsetTop={52.7}>
                                 <StoreDetailStyle.StoreToolbar>
                                     <ul>
                                         <li>

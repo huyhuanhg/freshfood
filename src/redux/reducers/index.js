@@ -7,6 +7,7 @@ import commonReducer from './common.reducer';
 import adminReducer from "./admin.reducer";
 import foodReducer from "./food.reducer";
 import storeReducer from "./store.reducer";
+import cartReducer from "./cart.reducer";
 
 import rootSaga from '../sagas';
 
@@ -19,6 +20,7 @@ const store = configureStore({
     adminReducer,
     foodReducer,
     storeReducer,
+    cartReducer,
   },
   middleware: [...getDefaultMiddleware({ thunk: false }), sagaMiddleware],
 });

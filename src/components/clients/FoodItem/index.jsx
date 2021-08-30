@@ -1,2 +1,2 @@
-export * from './FoodItemCard';
+export * from './FoodItemHome';
 export * from './FoodItemInStore';

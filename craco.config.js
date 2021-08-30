@@ -9,7 +9,8 @@ module.exports = {
                     lessOptions: {
                         modifyVars: {
                             '@primary-color': '#1DA57A',
-                            '@btn-shadow': 0,
+                            '@btn-primary-shadow': 'unset',
+                            '@btn-shadow': 'unset',
                         },
                         javascriptEnabled: true,
                     },
