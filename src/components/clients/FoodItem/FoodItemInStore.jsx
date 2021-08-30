@@ -73,7 +73,7 @@ export const FoodStore = ({
                         <span className='price'>
                         <NumberFormat value={priceAfter} displayType={'text'} thousandSeparator suffix={'đ'}/>
                     </span>
-                        <span className="btn-adding" onClick={(e)=>{
+                        <span className="btn-adding" onClick={(e) => {
                             e.stopPropagation();
                         }}><HiShoppingCart/></span>
                     </S.FoodStorePrice>

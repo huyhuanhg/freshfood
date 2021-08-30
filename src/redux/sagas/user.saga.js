@@ -63,7 +63,7 @@ function* refreshSaga(action) {
         yield put({
             type: FAILURE(USER_ACTION.REFRESH_TOKEN),
             payload: {
-                error : e.message
+                error: e.message
             }
         });
     }
@@ -126,11 +126,12 @@ function* getInfoSaga(action) {
         yield put({
             type: FAILURE(USER_ACTION.GET_USER_INFO),
             payload: {
-                error : e.message
+                error: e.message
             }
         });
     }
 }
+
 function* logoutSaga(action) {
     const {data} = action.payload;
     yield axios({

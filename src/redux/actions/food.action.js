@@ -1,5 +1,5 @@
-import { createAction } from '@reduxjs/toolkit';
-import { REQUEST, FOOD_ACTION } from '../constants';
+import {createAction} from '@reduxjs/toolkit';
+import {REQUEST, FOOD_ACTION} from '../constants';
 
 export const getFoodListAction = createAction(REQUEST(FOOD_ACTION.GET_FOOD_LIST));
 export const getFoodDetailAction = createAction(FOOD_ACTION.GET_FOOD_DETAIL);

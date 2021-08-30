@@ -10,11 +10,11 @@ import {FoodStore} from "./style";
 import {useDispatch} from "react-redux";
 import {getFoodDetailAction} from "../../../redux/actions";
 
-const MetaTitle = ({name, store}) => {
+const MetaTitle = ({name, store, slug}) => {
     return (
         <>
             <S.FoodTitle>{name}</S.FoodTitle>
-            <S.FoodStoreWrap to='/store/1'>
+            <S.FoodStoreWrap to={`/stores/${slug}`}>
                 <S.StoreName>{store}</S.StoreName>
             </S.FoodStoreWrap>
         </>
@@ -39,7 +39,7 @@ const MetaDescription = ({price, priceAfter}) => {
         </Space>
     );
 }
-export const FoodItemHome = ({id, avatar, name, store, price, priceAfter, loading, setShowDetail}) => {
+export const FoodItemHome = ({id, avatar, name, store_id, store, store_not_mark, price, priceAfter, loading, setShowDetail}) => {
     const {Meta} = Card;
     const dispatch = useDispatch();
     return (
@@ -61,7 +61,7 @@ export const FoodItemHome = ({id, avatar, name, store, price, priceAfter, loadin
         >
             <Skeleton loading={loading} active>
                 <Meta
-                    title={<MetaTitle name={name} store={store}/>}
+                    title={<MetaTitle name={name} store={store} slug={`${store_not_mark}.${store_id}`}/>}
                     description={<MetaDescription price={price} priceAfter={priceAfter}/>}
                     avatar={
                         <S.AddCard>

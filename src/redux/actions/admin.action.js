@@ -1,4 +1,4 @@
-import { createAction } from '@reduxjs/toolkit';
+import {createAction} from '@reduxjs/toolkit';
 import {REQUEST, ADMIN_ACTION, FAILURE} from '../constants';
 
 export const adminLoginAction = createAction(REQUEST(ADMIN_ACTION.ADMIN_LOGIN));

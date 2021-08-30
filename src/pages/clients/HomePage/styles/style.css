@@ -4,16 +4,19 @@
     box-sizing: border-box;
 }
 
-.ant-menu-item, .ant-menu-submenu  {
+.ant-menu-item, .ant-menu-submenu {
     padding-left: 10px !important;
     margin: 0 !important;
 }
-.ant-menu-submenu-title{
-    padding: 0!important;
+
+.ant-menu-submenu-title {
+    padding: 0 !important;
 }
+
 .ant-menu-submenu .ant-menu-item {
-    padding-left: 20px!important;
+    padding-left: 20px !important;
 }
+
 .ant-menu-vertical .ant-menu-item::after,
 .ant-menu-vertical-left .ant-menu-item::after,
 .ant-menu-vertical-right .ant-menu-item::after,
@@ -79,18 +82,22 @@
 }
 
 .ant-select:not(.ant-select-customize-input) .ant-select-selector {
-    border-color: #ccc!important;
-    box-shadow: none!important;
+    border-color: #ccc !important;
+    box-shadow: none !important;
 }
-.ant-select-selection-item{
-    color: #666!important;
+
+.ant-select-selection-item {
+    color: #666 !important;
 }
-.ant-card-meta-title{
-    white-space: unset!important;
+
+.ant-card-meta-title {
+    white-space: unset !important;
 }
+
 .ant-card-meta-avatar {
-    padding-right: 6px!important;
+    padding-right: 6px !important;
 }
-.ant-anchor-ink{
-    display: none!important;
+
+.ant-anchor-ink {
+    display: none !important;
 }

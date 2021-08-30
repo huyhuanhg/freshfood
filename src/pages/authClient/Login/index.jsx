@@ -162,7 +162,9 @@ function LoginPage() {
                 Đăng nhập
                 <AuthStyle.SubmitLoading size="middle" show={responseAction.login.load}/>
             </AuthStyle.BtnSubmit>
-            <div>
+            <div style={{
+                fontSize: '15px',
+            }}>
                 <p>
                     Chưa có tài khoản?
                     <Link to={'/register'}> Đăng ký</Link>

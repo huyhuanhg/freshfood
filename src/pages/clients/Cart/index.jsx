@@ -3,19 +3,22 @@ import * as ClientStyle from '../styles/';
 import * as S from './style';
 import {useSelector} from "react-redux";
 import {FcPrevious, HiMinus, HiPlusSm, MdRemoveShoppingCart} from "react-icons/all";
-import {Affix, Button, Col, Form, Input, Row} from "antd";
+import {Affix, Col, Form, Input, Row} from "antd";
 import {Link} from "react-router-dom";
 import NumberFormat from "react-number-format";
-import {CartOrder} from "./style";
 import {useEffect} from "react";
 
 const CartPage = () => {
+
     document.title = TITLE.CART;
+
     const {cartList} = useSelector(state => state.cartReducer);
     const {total} = useSelector(state => state.cartReducer);
     const {totalPrice} = useSelector(state => state.cartReducer);
     const {userInfo} = useSelector(state => state.userReducer);
+
     const [form] = Form.useForm();
+
     useEffect(() => {
         if (userInfo.data.id) {
             form.setFieldsValue({
@@ -30,7 +33,7 @@ const CartPage = () => {
             return (
                 <li>
                     <div className='img'>
-                        <Link to={'/'}>
+                        <Link to={'/'} style={{}}>
                             <img src={cartItem.avatar}/>
                         </Link>
                         <button><span></span> Xóa</button>
@@ -49,16 +52,6 @@ const CartPage = () => {
                             </div>
                         </div>
                         <div className='price-info'>
-                                                        <span>
-                                                            <NumberFormat value={cartItem.price}
-                                                                          displayType={'text'}
-                                                                          thousandSeparator suffix={'đ'}/>
-                                                            <strike>
-                                                            <NumberFormat value={cartItem.discount}
-                                                                          displayType={'text'}
-                                                                          thousandSeparator suffix={'đ'}/>
-                                                            </strike>
-                                                        </span>
                             <div className="choose-quantity">
                                 <div className="minus"
                                      style={cartItem.quantity === 1 ? {pointerEvents: 'none'} : {}}>
@@ -70,6 +63,20 @@ const CartPage = () => {
                                 </div>
                                 <input type="hidden"/>
                             </div>
+                            <span>
+                                <strike>
+                                    <NumberFormat
+                                        value={cartItem.discount}
+                                        displayType={'text'}
+                                        thousandSeparator suffix={'đ'}
+                                    />
+                                </strike>
+                                <NumberFormat
+                                    value={cartItem.price}
+                                    displayType={'text'}
+                                    thousandSeparator suffix={'đ'}
+                                />
+                            </span>
                         </div>
                     </S.CartInfo>
                 </li>
@@ -112,9 +119,9 @@ const CartPage = () => {
                                                                           thousandSeparator suffix={'đ'}/>
                                             </span>
                                         </S.TotalProvisional>
-                                            <S.DeleteAllBtn>
-                                                Xóa tất cả
-                                            </S.DeleteAllBtn>
+                                        <S.DeleteAllBtn>
+                                            Xóa tất cả
+                                        </S.DeleteAllBtn>
                                     </S.CartContent>
                                 </Col>
                                 <Col span={9}>
