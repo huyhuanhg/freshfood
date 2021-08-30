@@ -1,6 +1,7 @@
 import * as HomeS from './styles';
 import {TITLE} from "../../../contants";
 import {Link} from "react-router-dom";
+import {useSelector} from "react-redux";
 import {
     Affix,
     Anchor,
@@ -24,293 +25,23 @@ import history from "../../../utils/history";
 import bg1 from "../../../assets/images/bg1.jpg";
 import bg2 from "../../../assets/images/bg2.jpg";
 import bg3 from "../../../assets/images/bg3.jpg";
-import food1 from '../../../assets/images/food1.jpg';
-import food2 from '../../../assets/images/food2.jpg';
-import food3 from '../../../assets/images/food3.jpg';
-import food4 from '../../../assets/images/food4.jpg';
-import store1 from '../../../assets/images/store1.jpeg';
 
 import './styles/style.css';
 
-import FoodItem from "../../../components/clients/FoodItem";
+import {FoodItemCard} from "../../../components/clients/FoodItem";
 import StoreItem from "../../../components/clients/StoreItem";
 
 function HomePage(props) {
     document.title = TITLE.HOME;
+    const {foodList} = useSelector(state => state.foodReducer);
+    const {storeList} = useSelector(state => state.storeReducer);
+
     const {Link: AnchorLink} = Anchor;
     const {Option} = Select;
-    const cardList = [
-        {
-            id: 1,
-            avatar: food1,
-            name: "Phở",
-            store: "Quán phở bình dân",
-            price: 30000,
-            priceAfter: 28000
-        },
-        {
-            id: 2,
-            avatar: food2,
-            name: "Đùi gà rán",
-            store: "Quán gà rán",
-            price: 30000,
-            priceAfter: 28000
-        },
-        {
-            id: 3,
-            avatar: food3,
-            name: "Bánh mì thịt",
-            store: "Lò mì Thủy Tiên",
-            price: 30000,
-            priceAfter: 28000
-        },
-        {
-            id: 4,
-            avatar: food4,
-            name: "Cua biển",
-            store: "Hải sản phố",
-            price: 30000,
-            priceAfter: 28000
-        },
-        {
-            id: 5,
-            avatar: food4,
-            name: "Cua biển",
-            store: "Hải sản phố",
-            price: 30000,
-            priceAfter: 28000
-        },
-        {
-            id: 6,
-            avatar: food4,
-            name: "Cua biển",
-            store: "Hải sản phố",
-            price: 30000,
-            priceAfter: 28000
-        },
-        {
-            id: 7,
-            avatar: food1,
-            name: "Phở",
-            store: "Quán phở bình dân",
-            price: 30000,
-            priceAfter: 28000
-        },
-        {
-            id: 8,
-            avatar: food2,
-            name: "Đùi gà rán",
-            store: "Quán gà rán",
-            price: 30000,
-            priceAfter: 28000
-        },
-        {
-            id: 9,
-            avatar: food3,
-            name: "Bánh mì thịt",
-            store: "Lò mì Thủy Tiên",
-            price: 30000,
-            priceAfter: 28000
-        },
-        {
-            id: 10,
-            avatar: food4,
-            name: "Cua biển",
-            store: "Hải sản phố",
-            price: 30000,
-            priceAfter: 28000
-        },
-        {
-            id: 11,
-            avatar: food4,
-            name: "Cua biển",
-            store: "Hải sản phố",
-            price: 30000,
-            priceAfter: 28000
-        },
-        {
-            id: 12,
-            avatar: food4,
-            name: "Cua biển",
-            store: "Hải sản phố",
-            price: 30000,
-            priceAfter: 28000
-        },
-    ];
-    const stores = [
-        {
-            id: 1,
-            avatar: store1,
-            store_name: 'Gà rán Bảo Trung',
-            store_address: "21/10 Nguyễn Huệ - Ba Đình - Hà Nội",
-            total_comment: 10,
-            total_food: 100,
-            rate: 4.5,
-            last_comment: {
-                user_name: "Huấn",
-                avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
-                comment: "Ăn ngon quá"
-            }
-        },
-        {
-            id: 6,
-            avatar: store1,
-            store_name: 'Gà rán Bảo Trung',
-            store_address: "21/10 Nguyễn Huệ - Ba Đình - Hà Nội",
-            total_comment: 10,
-            total_food: 100,
-            rate: 4.5,
-            last_comment: {
-                user_name: "Huấn",
-                avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
-                comment: "Ăn ngon quá"
-            }
-        },
-        {
-            id: 5,
-            avatar: store1,
-            store_name: 'Gà rán Bảo Trung',
-            store_address: "21/10 Nguyễn Huệ - Ba Đình - Hà Nội",
-            total_comment: 10,
-            total_food: 100,
-            rate: 4.5,
-            last_comment: {
-                user_name: "Huấn",
-                avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
-                comment: "Ăn ngon quá"
-            }
-        },
-        {
-            id: 4,
-            avatar: store1,
-            store_name: 'Gà rán Bảo Trung',
-            store_address: "21/10 Nguyễn Huệ - Ba Đình - Hà Nội",
-            total_comment: 10,
-            total_food: 100,
-            rate: 4.5,
-            last_comment: {
-                user_name: "Huấn",
-                avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
-                comment: "Ăn ngon quá"
-            }
-        },
-        {
-            id: 3,
-            avatar: store1,
-            store_name: 'Gà rán Bảo Trung',
-            store_address: "21/10 Nguyễn Huệ - Ba Đình - Hà Nội",
-            total_comment: 10,
-            total_food: 100,
-            rate: 4.5,
-            last_comment: {
-                user_name: "Huấn",
-                avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
-                comment: "Ăn ngon quá, sẽ tiếp tục ủng hộ lần sau! sẽ tiếp tục ủng hộ lần sau!"
-            }
-        },
-        {
-            id: 2,
-            avatar: store1,
-            store_name: 'Gà rán Bảo Trung',
-            store_address: "21/10 Nguyễn Huệ - Ba Đình - Hà Nội",
-            total_comment: 10,
-            total_food: 100,
-            rate: 4.5,
-            last_comment: {
-                user_name: "Huấn",
-                avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
-                comment: "Ăn ngon quá"
-            }
-        },
-        {
-            id: 12,
-            avatar: store1,
-            store_name: 'Tiệm bánh ngọt, bánh sinh nhật Bảo Trang',
-            store_address: "21/10 Nguyễn Huệ - Ba Đình - Hà Nội",
-            total_comment: 10,
-            total_food: 100,
-            rate: 4.5,
-            last_comment: {
-                user_name: "Huấn",
-                avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
-                comment: "Ăn ngon quá"
-            }
-        },
-        {
-            id: 11,
-            avatar: store1,
-            store_name: 'Gà rán Bảo Trung',
-            store_address: "21/10 Nguyễn Huệ - Ba Đình - Hà Nội",
-            total_comment: 10,
-            total_food: 100,
-            rate: 4.5,
-            last_comment: {
-                user_name: "Huấn",
-                avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
-                comment: "Ăn ngon quá"
-            }
-        },
-        {
-            id: 10,
-            avatar: store1,
-            store_name: 'Gà rán Bảo Trung',
-            store_address: "21/10 Nguyễn Huệ - Ba Đình - Hà Nội",
-            total_comment: 10,
-            total_food: 100,
-            rate: 4.5,
-            last_comment: {
-                user_name: "Huấn",
-                avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
-                comment: "Ăn ngon quá"
-            }
-        },
-        {
-            id: 9,
-            avatar: store1,
-            store_name: 'Gà rán Bảo Trung',
-            store_address: "21/10 Nguyễn Huệ - Ba Đình - Hà Nội",
-            total_comment: 10,
-            total_food: 100,
-            rate: 4.5,
-            last_comment: {
-                user_name: "Huấn",
-                avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
-                comment: "Ăn ngon quá Ăn ngon quá"
-            }
-        },
-        {
-            id: 8,
-            avatar: store1,
-            store_name: 'Gà rán Bảo Trung',
-            store_address: "21/10 Nguyễn Huệ - Ba Đình - Hà Nội",
-            total_comment: 10,
-            total_food: 100,
-            rate: 4.5,
-            last_comment: {
-                user_name: "Huấn",
-                avatar: 'https://images.foody.vn/usr/g867/8668321/avt/c100x100/0984557415-avatar-914-636495762013014344.jpg',
-                comment: "Ăn ngon quá, sẽ tiếp tục ủng hộ lần sau! sẽ tiếp tục ủng hộ lần sau!"
-            }
-        },
-        {
-            id: 7,
-            avatar: store1,
-            store_name: 'Gà rán Bảo Trung',
-            store_address: "21/10 Nguyễn Huệ - Ba Đình - Hà Nội",
-            total_comment: 10,
-            total_food: 100,
-            rate: 4.5,
-            last_comment: {
-                user_name: "Huấn",
-                avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
-                comment: "Ăn ngon quá"
-            }
-        },
-    ];
-    const renderStore = (storeList, span = 4) => {
+    const renderStore = (span = 4) => {
         return (
             <Row gutter={[16, 16]}>
-                {storeList.map((store) => {
+                {storeList.data.map((store) => {
                     return (
                         <Col span={span} key={store.id}>
                             <StoreItem {...store}  />
@@ -320,13 +51,13 @@ function HomePage(props) {
             </Row>
         );
     }
-    const renderCard = (list, span = 4) => {
+    const renderCard = (span = 4) => {
         return (
             <Row gutter={[16, 16]}>
-                {list.map((card) => {
+                {foodList.data.map((card) => {
                     return (
                         <Col span={span} key={card.id}>
-                            <FoodItem {...card}  />
+                            <FoodItemCard {...card}  />
                         </Col>
                     );
                 })}
@@ -354,7 +85,7 @@ function HomePage(props) {
             <HomeS.Section>
                 <HomeS.SectionTitle>Khuyến mãi</HomeS.SectionTitle>
                 <HomeS.SectionContainer>
-                    {renderCard(cardList)}
+                    {renderCard()}
                     <div style={{
                         display: 'flex',
                         alignItem: 'center',
@@ -445,7 +176,7 @@ function HomePage(props) {
             <HomeS.Section>
                 <HomeS.SectionTitle>Cửa hàng</HomeS.SectionTitle>
                 <HomeS.SectionContainer>
-                    {renderStore(stores)}
+                    {renderStore()}
                     <div style={{
                         display: 'flex',
                         alignItem: 'center',
@@ -547,7 +278,7 @@ function HomePage(props) {
                                 </div>
                             </Affix>
                             <div style={{paddingTop: 20}}>
-                                {renderCard(cardList, 6)}
+                                {renderCard( 6)}
                                 <div style={{
                                     display: 'flex',
                                     alignItem: 'center',
