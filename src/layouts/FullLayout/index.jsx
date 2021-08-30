@@ -1,4 +1,4 @@
-import {Redirect, Route} from "react-router-dom";
+import {Link, Redirect, Route} from "react-router-dom";
 import {useSelector} from "react-redux";
 
 import * as LayoutStyle from "./style";
@@ -30,7 +30,10 @@ function FullLayout({exact, path, component: Component}) {
                                 <LayoutStyle.BackGround src={bgLogin}/>
                                 <LayoutStyle.Container>
                                     <LayoutStyle.LogoWrap>
-                                        <LayoutStyle.LogoImg src={foodLogo}/>
+                                        <Link to='/'>
+                                            <LayoutStyle.LogoImg src={foodLogo}/>
+                                            <h1>FoodBooking</h1>
+                                        </Link>
                                     </LayoutStyle.LogoWrap>
                                     <LayoutStyle.FormWrap>
                                         <Component {...routeProps} />

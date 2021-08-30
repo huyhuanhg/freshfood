@@ -10,7 +10,7 @@ import {useEffect} from "react";
 
 function AdminLoginPage(props) {
     const dispatch = useDispatch();
-    const { responseAction } = useSelector(state => state.adminReducer);
+    const {responseAction} = useSelector(state => state.adminReducer);
     document.title = "Foodbooking | Đăng nhập";
 
     const onLogin = (value) => {

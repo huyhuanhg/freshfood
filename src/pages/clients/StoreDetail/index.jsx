@@ -29,10 +29,11 @@ const StoreDetail = (props) => {
 
     const [isOpen, setIsOpen] = useState(null);
     useEffect(() => {
+        console.log(storeDetail)
         let open = null;
-        if (storeDetail.open_time && storeDetail.close_time) {
-            let openTime = moment(storeDetail.open_time, 'H:m');
-            let closeTime = moment(storeDetail.close_time, 'H:m');
+        if (storeDetail.data.open_time && storeDetail.data.close_time) {
+            let openTime = moment(storeDetail.data.open_time, 'H:m');
+            let closeTime = moment(storeDetail.data.close_time, 'H:m');
             let now = moment(moment().format('H:m'), 'H:m');
             if (now > openTime && now < closeTime) {
                 open = true;
@@ -41,7 +42,7 @@ const StoreDetail = (props) => {
             }
             setIsOpen(open);
         }
-    }, []);
+    }, [storeDetail]);
 
     const [showFoodDetail, setShowFoodDetail] = useState(false);
     const renderFoodList = (foodList, span = 6) => {
@@ -288,7 +289,8 @@ const StoreDetail = (props) => {
                                         }
                                         visible={showFoodDetail}
                                         onCancel={() => setShowFoodDetail(false)}>
-                                        <FoodDetailCarousel foodList={foodList.data} index={foodIndex} setIndex={setFoodIndex}/>
+                                        <FoodDetailCarousel foodList={foodList.data} index={foodIndex}
+                                                            setIndex={setFoodIndex}/>
                                     </StoreDetailStyle.ModalCustom>
                                 </Row>
                                 <StoreDetailStyle.ViewOther>

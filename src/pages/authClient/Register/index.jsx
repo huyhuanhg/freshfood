@@ -370,11 +370,13 @@ function RegisterPage() {
                     Đồng ý với điều khoản của chúng tôi?
                 </RegisterStyle.CheckboxCustom>
             </RegisterStyle.CheckboxWrap>
-            <AuthStyle.BtnSubmit htmlType="submit" disabled={register.load}>
+            <AuthStyle.BtnSubmit htmlType="submit" disabled={register.load} style={{marginTop: '2rem'}}>
                 Đăng ký
                 <AuthStyle.SubmitLoading size="middle" show={register.load}/>
             </AuthStyle.BtnSubmit>
-            <div>
+            <div style={{
+                fontSize: '15px',
+            }}>
                 <p>
                     Đã có tài khoản
                     <Link to={'/login'}> Đăng nhập</Link>

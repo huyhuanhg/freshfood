@@ -10,16 +10,16 @@ function Header({collapsed, toggle}) {
                 <Space>
                     <AppStyle.Icon>
                         {collapsed ? <MenuUnfoldOutlined onClick={() => toggle(!collapsed)}/>
-                        : <MenuFoldOutlined onClick={() => toggle(!collapsed)}/>}
+                            : <MenuFoldOutlined onClick={() => toggle(!collapsed)}/>}
                     </AppStyle.Icon>
                     <Style.SearchForm placeholder="Search Keywords..."/>
                 </Space>
                 <Space>
                     <AppStyle.Icon>
-                        <SettingOutlined />
+                        <SettingOutlined/>
                     </AppStyle.Icon>
                     <AppStyle.Icon>
-                        <MessageOutlined />
+                        <MessageOutlined/>
                     </AppStyle.Icon>
                     <AppStyle.Icon>
                         H

@@ -65,7 +65,7 @@ function HomePage(props) {
                 {foodList.map((food) => {
                     return (
                         <Col span={span} key={food.id}>
-                            <FoodItemHome {...food}  setShowDetail={setShowFoodDetail} />
+                            <FoodItemHome {...food} setShowDetail={setShowFoodDetail}/>
                         </Col>
                     );
                 })}

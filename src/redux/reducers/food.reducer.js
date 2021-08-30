@@ -13,6 +13,8 @@ const initialState = {
                 avatar: food1,
                 name: "Phở",
                 store: "Quán gà rán",
+                store_id: 1,
+                store_not_mark: 'quan-ga-ran',
                 description: "Lõi nạc vai bò Mỹ loại choice 1kg tặng kèm hương thảo tây",
                 image: [
                     food1,
@@ -29,6 +31,8 @@ const initialState = {
                 id: 2,
                 avatar: food2,
                 store: "Quán gà rán",
+                store_id: 2,
+                store_not_mark: 'quan-ga-ran',
                 name: "Đùi gà rán",
                 description: "Lõi nạc vai bò Mỹ loại choice 1kg tặng kèm hương thảo tây",
                 image: [
@@ -46,6 +50,8 @@ const initialState = {
                 id: 3,
                 avatar: food3,
                 store: "Quán gà rán",
+                store_id: 3,
+                store_not_mark: 'quan-ga-ran',
                 name: "Bánh mì thịt",
                 description: "Lõi nạc vai bò Mỹ loại choice 1kg tặng kèm hương thảo tây",
                 price: 30000,
@@ -57,6 +63,8 @@ const initialState = {
                 id: 4,
                 avatar: food4,
                 name: "Cua biển",
+                store_id: 4,
+                store_not_mark: 'quan-ga-ran',
                 store: "Quán gà rán",
                 image: [
                     food1,
@@ -73,6 +81,8 @@ const initialState = {
                 id: 5,
                 avatar: food4,
                 store: "Quán gà rán",
+                store_id: 5,
+                store_not_mark: 'quan-ga-ran',
                 name: "Cua biển",
                 description: "Lõi nạc vai bò Mỹ loại choice 1kg tặng kèm hương thảo tây",
                 image: [
@@ -90,6 +100,8 @@ const initialState = {
                 id: 6,
                 avatar: food4,
                 store: "Quán gà rán",
+                store_id: 6,
+                store_not_mark: 'quan-ga-ran',
                 name: "Cua biển",
                 description: "Lõi nạc vai bò Mỹ loại choice 1kg tặng kèm hương thảo tây",
                 image: [
@@ -107,6 +119,8 @@ const initialState = {
                 id: 7,
                 avatar: food1,
                 store: "Quán gà rán",
+                store_id: 7,
+                store_not_mark: 'quan-ga-ran',
                 name: "Phở",
                 description: "Lõi nạc vai bò Mỹ loại choice 1kg tặng kèm hương thảo tây",
                 image: [
@@ -124,6 +138,8 @@ const initialState = {
                 id: 8,
                 avatar: food2,
                 store: "Quán gà rán",
+                store_id: 8,
+                store_not_mark: 'quan-ga-ran',
                 name: "Đùi gà rán",
                 description: "Lõi nạc vai bò Mỹ loại choice 1kg tặng kèm hương thảo tây",
                 image: [
@@ -141,6 +157,8 @@ const initialState = {
                 id: 9,
                 avatar: food3,
                 store: "Quán gà rán",
+                store_id: 9,
+                store_not_mark: 'quan-ga-ran',
                 name: "Bánh mì thịt",
                 description: "Lõi nạc vai bò Mỹ loại choice 1kg tặng kèm hương thảo tây",
                 image: [
@@ -158,6 +176,8 @@ const initialState = {
                 id: 10,
                 avatar: food4,
                 store: "Quán gà rán",
+                store_id: 10,
+                store_not_mark: 'quan-ga-ran',
                 name: "Lõi nạc vai bò Mỹ loại choice 1kg tặng kèm hương thảo tây",
                 description: "Lõi nạc vai bò Mỹ loại choice 1kg tặng kèm hương thảo tây",
                 image: [
@@ -176,6 +196,8 @@ const initialState = {
                 avatar: food4,
                 name: "Cua biển",
                 store: "Quán gà rán",
+                store_id: 11,
+                store_not_mark: 'quan-ga-ran',
                 description: "Lõi nạc vai bò Mỹ loại choice 1kg tặng kèm hương thảo tây",
                 image: [
                     food1,
@@ -191,6 +213,8 @@ const initialState = {
                 id: 12,
                 avatar: food4,
                 name: "Cua biển",
+                store_id: 12,
+                store_not_mark: 'quan-ga-ran',
                 store: "Quán gà rán",
                 description: "Lõi nạc vai bò Mỹ loại choice 1kg tặng kèm hương thảo tây",
                 image: [
@@ -215,6 +239,8 @@ const initialState = {
                 avatar: food1,
                 name: "Phở",
                 store: "Quán gà rán",
+                store_id: 1,
+                store_not_mark: 'quan-ga-ran',
                 description: "Lõi nạc vai bò Mỹ loại choice 1kg tặng kèm hương thảo tây",
                 image: [
                     food1,
@@ -232,6 +258,8 @@ const initialState = {
                 avatar: food3,
                 store: "Quán gà rán",
                 name: "Bánh mì thịt",
+                store_id: 12,
+                store_not_mark: 'quan-ga-ran',
                 description: "Lõi nạc vai bò Mỹ loại choice 1kg tặng kèm hương thảo tây",
                 price: 30000,
                 priceAfter: 28000,
@@ -242,6 +270,8 @@ const initialState = {
                 id: 4,
                 avatar: food4,
                 name: "Cua biển",
+                store_id: 11,
+                store_not_mark: 'quan-ga-ran',
                 store: "Quán gà rán",
                 image: [
                     food1,
@@ -258,6 +288,8 @@ const initialState = {
                 id: 5,
                 avatar: food4,
                 store: "Quán gà rán",
+                store_id: 10,
+                store_not_mark: 'quan-ga-ran',
                 name: "Cua biển",
                 description: "Lõi nạc vai bò Mỹ loại choice 1kg tặng kèm hương thảo tây",
                 image: [
@@ -275,6 +307,8 @@ const initialState = {
                 id: 6,
                 avatar: food4,
                 store: "Quán gà rán",
+                store_id: 9,
+                store_not_mark: 'quan-ga-ran',
                 name: "Cua biển",
                 description: "Lõi nạc vai bò Mỹ loại choice 1kg tặng kèm hương thảo tây",
                 image: [
@@ -292,6 +326,8 @@ const initialState = {
                 id: 2,
                 avatar: food2,
                 store: "Quán gà rán",
+                store_id: 8,
+                store_not_mark: 'quan-ga-ran',
                 name: "Đùi gà rán",
                 description: "Lõi nạc vai bò Mỹ loại choice 1kg tặng kèm hương thảo tây",
                 image: [
@@ -309,6 +345,8 @@ const initialState = {
                 id: 7,
                 avatar: food1,
                 store: "Quán gà rán",
+                store_id: 7,
+                store_not_mark: 'quan-ga-ran',
                 name: "Phở",
                 description: "Lõi nạc vai bò Mỹ loại choice 1kg tặng kèm hương thảo tây",
                 image: [
@@ -326,6 +364,8 @@ const initialState = {
                 id: 8,
                 avatar: food2,
                 store: "Quán gà rán",
+                store_id: 6,
+                store_not_mark: 'quan-ga-ran',
                 name: "Đùi gà rán",
                 description: "Lõi nạc vai bò Mỹ loại choice 1kg tặng kèm hương thảo tây",
                 image: [
@@ -343,6 +383,8 @@ const initialState = {
                 id: 9,
                 avatar: food3,
                 store: "Quán gà rán",
+                store_id: 5,
+                store_not_mark: 'quan-ga-ran',
                 name: "Bánh mì thịt",
                 description: "Lõi nạc vai bò Mỹ loại choice 1kg tặng kèm hương thảo tây",
                 image: [
@@ -359,6 +401,8 @@ const initialState = {
             {
                 id: 10,
                 avatar: food4,
+                store_id: 4,
+                store_not_mark: 'quan-ga-ran',
                 store: "Quán gà rán",
                 name: "Lõi nạc vai bò Mỹ loại choice 1kg tặng kèm hương thảo tây",
                 description: "Lõi nạc vai bò Mỹ loại choice 1kg tặng kèm hương thảo tây",
@@ -377,6 +421,8 @@ const initialState = {
                 id: 11,
                 avatar: food4,
                 name: "Cua biển",
+                store_id: 3,
+                store_not_mark: 'quan-ga-ran',
                 store: "Quán gà rán",
                 description: "Lõi nạc vai bò Mỹ loại choice 1kg tặng kèm hương thảo tây",
                 image: [
@@ -393,6 +439,8 @@ const initialState = {
                 id: 12,
                 avatar: food4,
                 name: "Cua biển",
+                store_id: 2,
+                store_not_mark: 'quan-ga-ran',
                 store: "Quán gà rán",
                 description: "Lõi nạc vai bò Mỹ loại choice 1kg tặng kèm hương thảo tây",
                 image: [

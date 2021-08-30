@@ -1,7 +1,7 @@
-import { put, takeEvery } from "redux-saga/effects";
+import {put, takeEvery} from "redux-saga/effects";
 import axios from 'axios';
-import { REQUEST, SUCCESS, FAILURE, FOOD_ACTION } from '../constants';
-import { SERVER_CLIENT_API_URL } from './contants/apiUrl';
+import {REQUEST, SUCCESS, FAILURE, FOOD_ACTION} from '../constants';
+import {SERVER_CLIENT_API_URL} from './contants/apiUrl';
 
 // function* getProductListSaga(action) {
 //   try {
@@ -87,9 +87,9 @@ import { SERVER_CLIENT_API_URL } from './contants/apiUrl';
 // }
 
 export default function* productSaga() {
-  // yield takeEvery(REQUEST(PRODUCT_ACTION.GET_PRODUCT_LIST), getProductListSaga);
-  // yield takeEvery(REQUEST(PRODUCT_ACTION.GET_PRODUCT_DETAIL), getProductDetailSaga);
-  // yield takeEvery(REQUEST(PRODUCT_ACTION.CREATE_PRODUCT), createProductSaga);
-  // yield takeEvery(REQUEST(PRODUCT_ACTION.EDIT_PRODUCT), editProductSaga);
-  // yield takeEvery(REQUEST(PRODUCT_ACTION.DELETE_PRODUCT), deleteProductSaga);
+    // yield takeEvery(REQUEST(PRODUCT_ACTION.GET_PRODUCT_LIST), getProductListSaga);
+    // yield takeEvery(REQUEST(PRODUCT_ACTION.GET_PRODUCT_DETAIL), getProductDetailSaga);
+    // yield takeEvery(REQUEST(PRODUCT_ACTION.CREATE_PRODUCT), createProductSaga);
+    // yield takeEvery(REQUEST(PRODUCT_ACTION.EDIT_PRODUCT), editProductSaga);
+    // yield takeEvery(REQUEST(PRODUCT_ACTION.DELETE_PRODUCT), deleteProductSaga);
 }

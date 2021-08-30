@@ -5,4 +5,4 @@ export * from './category.constant';
 export * from './common.constant';
 export * from './admin.contant';
 export * from './store.contant';
-export * from  './cart.constant';
+export * from './cart.constant';

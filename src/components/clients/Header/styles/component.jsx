@@ -1,4 +1,4 @@
-import { FormGroup, IconSearch, InputSearch} from "./style";
+import {FormGroup, IconSearch, InputSearch} from "./style";
 
 export const Search = () => {
     return (

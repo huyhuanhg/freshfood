@@ -64,7 +64,7 @@ function* refreshAdminSaga(action) {
         yield put({
             type: FAILURE(ADMIN_ACTION.REFRESH_ADMIN_TOKEN),
             payload: {
-                error : e.message
+                error: e.message
             }
         });
     }
@@ -102,7 +102,7 @@ function* getAdminInfoSaga(action) {
     try {
         const {data} = action.payload;
         const result = yield axios.get(`${SERVER_ADMIN_API_URL}/user-profile`,
-            { headers: {"Authorization" : `Bearer ${data}`} })
+            {headers: {"Authorization": `Bearer ${data}`}})
         yield put({
             type: SUCCESS(ADMIN_ACTION.GET_ADMIN_INFO),
             payload: {

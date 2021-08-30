@@ -1,5 +1,4 @@
-
-import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
+import {configureStore, getDefaultMiddleware} from '@reduxjs/toolkit';
 import createSagaMiddleware from "redux-saga";
 
 import userReducer from './user.reducer';
@@ -14,15 +13,15 @@ import rootSaga from '../sagas';
 let sagaMiddleware = createSagaMiddleware();
 
 const store = configureStore({
-  reducer: {
-    commonReducer,
-    userReducer,
-    adminReducer,
-    foodReducer,
-    storeReducer,
-    cartReducer,
-  },
-  middleware: [...getDefaultMiddleware({ thunk: false }), sagaMiddleware],
+    reducer: {
+        commonReducer,
+        userReducer,
+        adminReducer,
+        foodReducer,
+        storeReducer,
+        cartReducer,
+    },
+    middleware: [...getDefaultMiddleware({thunk: false}), sagaMiddleware],
 });
 
 sagaMiddleware.run(rootSaga);

@@ -1,4 +1,5 @@
 import * as StyleFooter from './style';
+
 function Footer() {
     return (
         <StyleFooter.Footer>
@@ -6,4 +7,5 @@ function Footer() {
         </StyleFooter.Footer>
     );
 }
+
 export default Footer;
