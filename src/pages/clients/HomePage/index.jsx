@@ -28,36 +28,44 @@ import bg3 from "../../../assets/images/bg3.jpg";
 
 import './styles/style.css';
 
-import {FoodItemCard} from "../../../components/clients/FoodItem";
+import {FoodItemHome} from "../../../components/clients/FoodItem";
 import StoreItem from "../../../components/clients/StoreItem";
+import {useState} from "react";
+import FoodDetailModal from "../../../components/clients/FoodDetailModal";
 
 function HomePage(props) {
     document.title = TITLE.HOME;
+
+    const {Option} = Select;
+
     const {foodList} = useSelector(state => state.foodReducer);
+    const {foodPromotions} = useSelector(state => state.foodReducer);
     const {storeList} = useSelector(state => state.storeReducer);
 
     const {Link: AnchorLink} = Anchor;
-    const {Option} = Select;
+
+    const [showFoodDetail, setShowFoodDetail] = useState(false);
+
     const renderStore = (span = 4) => {
         return (
             <Row gutter={[16, 16]}>
                 {storeList.data.map((store) => {
                     return (
                         <Col span={span} key={store.id}>
-                            <StoreItem {...store}  />
+                            <StoreItem {...store} />
                         </Col>
                     );
                 })}
             </Row>
         );
     }
-    const renderCard = (span = 4) => {
+    const renderFood = (foodList, span = 4) => {
         return (
             <Row gutter={[16, 16]}>
-                {foodList.data.map((card) => {
+                {foodList.map((food) => {
                     return (
-                        <Col span={span} key={card.id}>
-                            <FoodItemCard {...card}  />
+                        <Col span={span} key={food.id}>
+                            <FoodItemHome {...food}  setShowDetail={setShowFoodDetail} />
                         </Col>
                     );
                 })}
@@ -66,6 +74,7 @@ function HomePage(props) {
     }
     return (
         <>
+            <FoodDetailModal show={showFoodDetail} setShow={setShowFoodDetail}/>
             <HomeS.Heading>
                 <HomeS.HeadingCarousel autoplay dots={false} effect="fade">
                     <HomeS.CarouselItem src={bg1}/>
@@ -85,7 +94,7 @@ function HomePage(props) {
             <HomeS.Section>
                 <HomeS.SectionTitle>Khuyến mãi</HomeS.SectionTitle>
                 <HomeS.SectionContainer>
-                    {renderCard()}
+                    {renderFood(foodPromotions.data)}
                     <div style={{
                         display: 'flex',
                         alignItem: 'center',
@@ -209,7 +218,7 @@ function HomePage(props) {
                 <HomeS.SectionContainer style={{marginTop: 0}}>
                     <Row gutter={20}>
                         <Col span={4}>
-                            <Affix offsetTop={75}>
+                            <Affix offsetTop={52.7}>
                                 <Menu
                                     theme="light"
                                     style={{
@@ -219,26 +228,29 @@ function HomePage(props) {
                                     defaultSelectedKeys={['1']}
                                     mode="inline"
                                 >
-                                    <Menu.Item key="1" icon={<MdNavigateNext/>}>
+                                    <Menu.Item key="1" icon={<MdNavigateNext className='custom-icon-position'/>}>
+                                        Tất cả
+                                    </Menu.Item>
+                                    <Menu.Item key="2" icon={<MdNavigateNext className='custom-icon-position'/>}>
                                         Ăn vặt
                                     </Menu.Item>
-                                    <Menu.Item key="2" icon={<MdNavigateNext/>}>
+                                    <Menu.Item key="3" icon={<MdNavigateNext className='custom-icon-position'/>}>
                                         Thực phẩm
                                     </Menu.Item>
-                                    <Menu.Item key="3" icon={<MdNavigateNext/>}>
+                                    <Menu.Item key="4" icon={<MdNavigateNext className='custom-icon-position'/>}>
                                         Thức ăn nhanh
                                     </Menu.Item>
-                                    <Menu.Item key="4" icon={<MdNavigateNext/>}>
+                                    <Menu.Item key="5" icon={<MdNavigateNext className='custom-icon-position'/>}>
                                         Đồ uống
                                     </Menu.Item>
-                                    <Menu.Item key="5" icon={<MdNavigateNext/>}>
+                                    <Menu.Item key="6" icon={<MdNavigateNext className='custom-icon-position'/>}>
                                         Tươi sạch
                                     </Menu.Item>
                                 </Menu>
                             </Affix>
                         </Col>
                         <Col span={20}>
-                            <Affix offsetTop={75}>
+                            <Affix offsetTop={52.7}>
                                 <div style={{
                                     display: 'flex',
                                     justifyContent: 'space-between',
@@ -278,7 +290,7 @@ function HomePage(props) {
                                 </div>
                             </Affix>
                             <div style={{paddingTop: 20}}>
-                                {renderCard( 6)}
+                                {renderFood(foodList.data, 6)}
                                 <div style={{
                                     display: 'flex',
                                     alignItem: 'center',

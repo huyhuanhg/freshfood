@@ -208,6 +208,208 @@ const initialState = {
         load: false,
         error: null,
     },
+    foodPromotions: {
+        data: [
+            {
+                id: 1,
+                avatar: food1,
+                name: "Phở",
+                store: "Quán gà rán",
+                description: "Lõi nạc vai bò Mỹ loại choice 1kg tặng kèm hương thảo tây",
+                image: [
+                    food1,
+                    food2,
+                    food3,
+                    food4,
+                ],
+                price: 30000,
+                priceAfter: 28000,
+                rate: 4.5,
+                total_order: 101,
+            },
+            {
+                id: 3,
+                avatar: food3,
+                store: "Quán gà rán",
+                name: "Bánh mì thịt",
+                description: "Lõi nạc vai bò Mỹ loại choice 1kg tặng kèm hương thảo tây",
+                price: 30000,
+                priceAfter: 28000,
+                total_order: 101,
+                rate: 4.5,
+            },
+            {
+                id: 4,
+                avatar: food4,
+                name: "Cua biển",
+                store: "Quán gà rán",
+                image: [
+                    food1,
+                    food2,
+                    food3,
+                    food4,
+                ],
+                price: 30000,
+                priceAfter: 28000,
+                total_order: 101,
+                rate: 4.5,
+            },
+            {
+                id: 5,
+                avatar: food4,
+                store: "Quán gà rán",
+                name: "Cua biển",
+                description: "Lõi nạc vai bò Mỹ loại choice 1kg tặng kèm hương thảo tây",
+                image: [
+                    food1,
+                    food2,
+                    food3,
+                    food4,
+                ],
+                price: 30000,
+                priceAfter: 28000,
+                total_order: 101,
+                rate: 4.5,
+            },
+            {
+                id: 6,
+                avatar: food4,
+                store: "Quán gà rán",
+                name: "Cua biển",
+                description: "Lõi nạc vai bò Mỹ loại choice 1kg tặng kèm hương thảo tây",
+                image: [
+                    food1,
+                    food2,
+                    food3,
+                    food4,
+                ],
+                price: 30000,
+                priceAfter: 28000,
+                rate: 4.5,
+                total_order: 101,
+            },
+            {
+                id: 2,
+                avatar: food2,
+                store: "Quán gà rán",
+                name: "Đùi gà rán",
+                description: "Lõi nạc vai bò Mỹ loại choice 1kg tặng kèm hương thảo tây",
+                image: [
+                    food1,
+                    food2,
+                    food3,
+                    food4,
+                ],
+                price: 30000,
+                priceAfter: 28000,
+                total_order: 101,
+                rate: 4.5,
+            },
+            {
+                id: 7,
+                avatar: food1,
+                store: "Quán gà rán",
+                name: "Phở",
+                description: "Lõi nạc vai bò Mỹ loại choice 1kg tặng kèm hương thảo tây",
+                image: [
+                    food1,
+                    food2,
+                    food3,
+                    food4,
+                ],
+                price: 30000,
+                priceAfter: 28000,
+                rate: 4.5,
+                total_order: 101,
+            },
+            {
+                id: 8,
+                avatar: food2,
+                store: "Quán gà rán",
+                name: "Đùi gà rán",
+                description: "Lõi nạc vai bò Mỹ loại choice 1kg tặng kèm hương thảo tây",
+                image: [
+                    food1,
+                    food2,
+                    food3,
+                    food4,
+                ],
+                price: 30000,
+                priceAfter: 28000,
+                rate: 4.5,
+                total_order: 101,
+            },
+            {
+                id: 9,
+                avatar: food3,
+                store: "Quán gà rán",
+                name: "Bánh mì thịt",
+                description: "Lõi nạc vai bò Mỹ loại choice 1kg tặng kèm hương thảo tây",
+                image: [
+                    food1,
+                    food2,
+                    food3,
+                    food4,
+                ],
+                price: 30000,
+                priceAfter: 28000,
+                total_order: 101,
+                rate: 4.5,
+            },
+            {
+                id: 10,
+                avatar: food4,
+                store: "Quán gà rán",
+                name: "Lõi nạc vai bò Mỹ loại choice 1kg tặng kèm hương thảo tây",
+                description: "Lõi nạc vai bò Mỹ loại choice 1kg tặng kèm hương thảo tây",
+                image: [
+                    food1,
+                    food2,
+                    food3,
+                    food4,
+                ],
+                price: 70000,
+                priceAfter: 50000,
+                total_order: 101,
+                rate: 4.5,
+            },
+            {
+                id: 11,
+                avatar: food4,
+                name: "Cua biển",
+                store: "Quán gà rán",
+                description: "Lõi nạc vai bò Mỹ loại choice 1kg tặng kèm hương thảo tây",
+                image: [
+                    food1,
+                    food2,
+                    food3,
+                    food4,
+                ],
+                priceAfter: 28000,
+                rate: 4.5,
+                total_order: 101,
+            },
+            {
+                id: 12,
+                avatar: food4,
+                name: "Cua biển",
+                store: "Quán gà rán",
+                description: "Lõi nạc vai bò Mỹ loại choice 1kg tặng kèm hương thảo tây",
+                image: [
+                    food1,
+                    food2,
+                    food3,
+                    food4,
+                ],
+                price: 30000,
+                priceAfter: 28000,
+                rate: 4.5,
+                total_order: 101,
+            },
+        ],
+        load: false,
+        error: null,
+    },
     foodDetail: {
         data: {},
         load: false,
@@ -216,6 +418,22 @@ const initialState = {
 }
 
 const foodReducer = createReducer(initialState, {
+    [FOOD_ACTION.GET_FOOD_DETAIL]: (state, action) => {
+        let {id} = action.payload.data;
+        let foods = [
+            ...state.foodList.data,
+            ...state.foodPromotions.data
+        ]
+        let foodDetail = foods.find((foodItem) => foodItem.id === id);
+        return {
+            ...state,
+            foodDetail: {
+                data: {
+                    ...foodDetail
+                }
+            }
+        }
+    }
     // [REQUEST(food_ACTION.GET_food_LIST)]: (state, action) => {
     //   return {
     //     ...state,

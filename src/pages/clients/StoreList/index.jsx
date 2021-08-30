@@ -30,7 +30,7 @@ function StoreList(props) {
             <ClientStyle.Container>
                 <Row gutter={20}>
                     <Col span={4}>
-                        <Affix offsetTop={75}>
+                        <Affix offsetTop={52.7}>
                             <Menu
                                 theme="light"
                                 style={{
@@ -59,7 +59,7 @@ function StoreList(props) {
                         </Affix>
                     </Col>
                     <Col span={20}>
-                        <Affix offsetTop={75}>
+                        <Affix offsetTop={52.7}>
                             <div style={{
                                 display: 'flex',
                                 justifyContent: 'space-between',

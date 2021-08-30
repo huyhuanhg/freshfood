@@ -6,14 +6,17 @@ import NumberFormat from "react-number-format";
 import * as S from './style';
 
 import storeLoading from "../../../assets/images/loadStore.png";
+import {FoodStore} from "./style";
+import {useDispatch} from "react-redux";
+import {getFoodDetailAction} from "../../../redux/actions";
 
 const MetaTitle = ({name, store}) => {
     return (
         <>
-            <h3 style={{marginBottom: 0}}>{name}</h3>
-            <Link to='/store/1'>
+            <S.FoodTitle>{name}</S.FoodTitle>
+            <S.FoodStoreWrap to='/store/1'>
                 <S.StoreName>{store}</S.StoreName>
-            </Link>
+            </S.FoodStoreWrap>
         </>
     );
 }
@@ -36,17 +39,23 @@ const MetaDescription = ({price, priceAfter}) => {
         </Space>
     );
 }
-export const FoodItemCard = ({id, avatar, name, store, price, priceAfter, loading}) => {
+export const FoodItemHome = ({id, avatar, name, store, price, priceAfter, loading, setShowDetail}) => {
     const {Meta} = Card;
+    const dispatch = useDispatch();
     return (
         <S.CardItem
             hoverable
             cover={
                 <S.CardImage avatar={loading ? storeLoading : avatar}/>
             }
-            onClick={()=>{
-                if (!loading){
-                    // TODO
+            onClick={() => {
+                if (!loading) {
+                    dispatch(getFoodDetailAction({
+                        data: {
+                            id,
+                        }
+                    }))
+                    setShowDetail(true);
                 }
             }}
         >
