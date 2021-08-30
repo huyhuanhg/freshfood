@@ -18,7 +18,7 @@ import HomePage from "./pages/clients/HomePage";
 import CategoryPage from "./pages/admins/Category";
 import RegisterPage from "./pages/authClient/Register";
 
-import 'antd/dist/antd.css';
+import 'antd/dist/antd.less';
 import './App.css';
 import {
     getAdminInfoAction,
@@ -28,6 +28,8 @@ import {
 } from "./redux/actions";
 import StoreList from "./pages/clients/StoreList";
 import StoreDetail from "./pages/clients/StoreDetail";
+import CartPage from "./pages/clients/Cart";
+import UserProfile from "./pages/clients/UserProfile";
 
 function App() {
     //gọi userInfo và adminInfo tại đây
@@ -73,6 +75,8 @@ function App() {
                 <ClientLayout exact path="/" component={HomePage}/>
                 <ClientLayout exact path="/stores" component={StoreList}/>
                 <ClientLayout exact path="/stores/:slug" component={StoreDetail}/>
+                <ClientLayout exact path="/cart" component={CartPage}/>
+                <ClientLayout exact path="/profile" component={UserProfile}/>
 
                 <AdminLayout exact path="/manager" component={DashboardPage}/>
                 <AdminLayout exact path="/manager/categories" component={CategoryPage}/>
