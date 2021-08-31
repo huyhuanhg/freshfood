@@ -2,8 +2,9 @@ import {TITLE} from "../../../contants";
 
 import * as ClientStyle from '../styles';
 import * as StoreDetailStyle from './style';
-import {Affix, Button, Col, Menu, Modal, Rate, Row, Select, Skeleton, Spin} from "antd";
+import {Affix, Button, Col, Menu, Rate, Row, Skeleton} from "antd";
 import {
+    AiFillLike,
     AiFillStar,
     BiTime, BsFillBookmarkFill,
     FaCommentDots, FaPhoneAlt, FaShareAlt,
@@ -14,22 +15,36 @@ import {
 
 import loadAvatarStore from "../../../assets/images/loadStore.png";
 
-import {FoodStore} from "../../../components/clients/FoodItem";
-import {useEffect, useRef, useState} from "react";
-import FoodDetailCarousel from "../../../components/clients/FoodDeatilCarousle";
+import {useEffect, useState} from "react";
 import {useSelector} from "react-redux";
 import moment from "moment";
+import StoreDetailFood from "./StoreDetailFood";
+import {Redirect, Route, Switch} from "react-router-dom";
+import StoreDetailPromotion from "./StoreDetailPromotion";
+import history from "../../../utils/history";
+import StoreDetailComment from "./StoreDetailComment";
+import StoreDetailPicture from "./StoreDetailPicture";
 
-const StoreDetail = (props) => {
+const StoreDetail = ({setShowLogin}) => {
     document.title = TITLE.STORE_DETAIL;
-    const {foodList} = useSelector(state => state.foodReducer);
+
     const {storeDetail} = useSelector(state => state.storeReducer);
 
-    const [foodIndex, setFoodIndex] = useState(0);
+    const {userInfo} = useSelector(state => state.userReducer);
 
+    const [showFoodDetail, setShowFoodDetail] = useState(false);
     const [isOpen, setIsOpen] = useState(null);
+
+    const [defaultActiveMenu, setDefaultActiveMenu] = useState('food');
+
     useEffect(() => {
-        console.log(storeDetail)
+        let pathArr = history.location.pathname.replace('/stores/', '').split('/');
+        if (pathArr.length > 1 && pathArr[1] !== '') {
+            setDefaultActiveMenu(pathArr[1]);
+        }
+    }, []);
+
+    useEffect(() => {
         let open = null;
         if (storeDetail.data.open_time && storeDetail.data.close_time) {
             let openTime = moment(storeDetail.data.open_time, 'H:m');
@@ -44,17 +59,6 @@ const StoreDetail = (props) => {
         }
     }, [storeDetail]);
 
-    const [showFoodDetail, setShowFoodDetail] = useState(false);
-    const renderFoodList = (foodList, span = 6) => {
-
-        return foodList.map((food, index) => {
-            return (
-                <Col span={span} key={food.id}>
-                    <FoodStore {...food} handleClick={setShowFoodDetail} index={index} setIndex={setFoodIndex}/>
-                </Col>
-            );
-        })
-    }
 
     return (
         <ClientStyle.Section style={{backgroundColor: '#eee'}}>
@@ -179,24 +183,49 @@ const StoreDetail = (props) => {
                                         background: '#fff',
                                         height: 'auto'
                                     }}
-                                    defaultSelectedKeys={['1']}
+                                    selectedKeys={[defaultActiveMenu]}
                                     mode="inline"
                                 >
-                                    <Menu.Item key="1" icon={<MdNavigateNext/>}>
+                                    <Menu.Item
+                                        key="food"
+                                        icon={<MdNavigateNext/>}
+                                        onClick={() => {
+                                            setDefaultActiveMenu('food');
+                                            history.push(`/stores/${storeDetail.data.store_name}.${storeDetail.data.id}`)
+                                        }}
+                                    >
                                         Món ăn
                                     </Menu.Item>
-                                    <Menu.Item key="2" icon={<MdNavigateNext/>}>
+                                    <Menu.Item
+                                        key="comment"
+                                        icon={<MdNavigateNext/>}
+                                        onClick={() => {
+                                            setDefaultActiveMenu('comment');
+                                            history.push(`/stores/${storeDetail.data.store_name}.${storeDetail.data.id}/comment`)
+                                        }}
+                                    >
                                         Bình luận
                                     </Menu.Item>
-                                    <Menu.Item key="3" icon={<MdNavigateNext/>}>
+                                    <Menu.Item
+                                        key="promotion"
+                                        icon={<MdNavigateNext/>}
+                                        onClick={() => {
+                                            setDefaultActiveMenu('promotion');
+                                            history.push(`/stores/${storeDetail.data.store_name}.${storeDetail.data.id}/promotion`)
+                                        }}
+                                    >
                                         Khuyến mãi
                                     </Menu.Item>
-                                    <Menu.Item key="4" icon={<MdNavigateNext/>}>
+                                    <Menu.Item
+                                        key="picture"
+                                        icon={<MdNavigateNext/>}
+                                        onClick={() => {
+                                            setDefaultActiveMenu('picture');
+                                            history.push(`/stores/${storeDetail.data.store_name}.${storeDetail.data.id}/picture`)
+                                        }}
+                                    >
                                         Hình ảnh
                                     </Menu.Item>
-                                    {/*<Menu.Item key="5" icon={<MdNavigateNext/>}>*/}
-                                    {/*    Yêu thích*/}
-                                    {/*</Menu.Item>*/}
                                 </Menu>
                             </Affix>
                         </Col>
@@ -214,90 +243,41 @@ const StoreDetail = (props) => {
                                             <BsFillBookmarkFill/> Lưu bộ sưu tập
                                         </li>
                                         <li>
+                                            <AiFillLike/> Like
+                                        </li>
+                                        <li>
                                             <FaShareAlt/> Chia sẻ
                                         </li>
                                     </ul>
                                 </StoreDetailStyle.StoreToolbar>
                             </Affix>
-                            <Affix offsetTop={125} style={{display: "none"}}>
-
-                                <div style={{
-                                    display: 'flex',
-                                    justifyContent: 'space-between',
-                                    backgroundColor: '#ddd'
-                                }}>
-                                    <Menu mode="horizontal" defaultSelectedKeys={['mail']}
-                                          style={{
-                                              flexBasis: '50%'
-                                          }}
-                                    >
-                                        <Menu.Item key="mail">Mới nhất </Menu.Item>
-                                        <Menu.Item key="app">Đã lưu</Menu.Item>
-                                    </Menu>
-                                    <ul style={{
-                                        listStyle: 'none',
-                                        display: 'flex',
-                                        alignItems: 'center',
-                                        paddingRight: '20px',
-                                        margin: 0,
-                                    }}>
-                                        <li>
-                                            <Select defaultValue={''} style={{width: 160, margin: '0 5px'}}>
-                                                <Select.Option value="" selected hidden disabled>-Danh
-                                                    mục-</Select.Option>
-                                                <Select.Option value="0">Sang trọng</Select.Option>
-                                                <Select.Option value="1">Vỉa hè</Select.Option>
-                                                <Select.Option value="2">Buffet</Select.Option>
-                                                <Select.Option value="3">Nhà hàng</Select.Option>
-                                                <Select.Option value="4">Quán ăn</Select.Option>
-                                                <Select.Option value="5">Quán nhậu</Select.Option>
-                                            </Select>
-                                        </li>
-                                        <li>
-                                            <Select defaultValue="" style={{width: 160}}>
-                                                <Select.Option value="" selected hidden disabled>-Đánh
-                                                    giá-</Select.Option>
-                                                <Select.Option value="0">Đánh giá tăng dần</Select.Option>
-                                                <Select.Option value="1">Đánh giá giảm dần</Select.Option>
-                                            </Select>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </Affix>
-                            <StoreDetailStyle.StoreContent>
-                                <StoreDetailStyle.StoreContentTitle>
-                                    Đặt món
-                                </StoreDetailStyle.StoreContentTitle>
-                                <Row>
-                                    {renderFoodList(foodList.data, 12, foodList.load)}
-                                    {foodList.load && (
-                                        <div style={{
-                                            display: 'flex',
-                                            justifyContent: 'center',
-                                            alignItems: 'center',
-                                            width: '100%'
-                                        }}>
-                                            <Spin/>
-                                        </div>
-                                    )}
-                                    <StoreDetailStyle.ModalCustom
-                                        closable={false}
-                                        footer={
-                                            <button>
-                                                <span>+&nbsp;</span>Thêm vào giỏ
-                                            </button>
-                                        }
-                                        visible={showFoodDetail}
-                                        onCancel={() => setShowFoodDetail(false)}>
-                                        <FoodDetailCarousel foodList={foodList.data} index={foodIndex}
-                                                            setIndex={setFoodIndex}/>
-                                    </StoreDetailStyle.ModalCustom>
-                                </Row>
-                                <StoreDetailStyle.ViewOther>
-                                    Xem thêm
-                                </StoreDetailStyle.ViewOther>
-                            </StoreDetailStyle.StoreContent>
-
+                            <Switch>
+                                <Route exact path='/stores/:slug'>
+                                    <StoreDetailFood
+                                        showFoodDetail={showFoodDetail}
+                                        setShowLogin={setShowLogin}
+                                        setShowFoodDetail={setShowFoodDetail}
+                                    />
+                                </Route>
+                                <Route exact path='/stores/:slug/comment'>
+                                    <StoreDetailComment/>
+                                </Route>
+                                <Route exact path='/stores/:slug/promotion'>
+                                    <StoreDetailPromotion
+                                        showFoodDetail={showFoodDetail}
+                                        setShowLogin={setShowLogin}
+                                        setShowFoodDetail={setShowFoodDetail}
+                                    />
+                                </Route>
+                                <Route exact path='/stores/:slug/picture'>
+                                    <StoreDetailPicture/>
+                                </Route>
+                                <Route render={() => {
+                                    return (
+                                        <Redirect to='/stores'/>
+                                    )
+                                }}/>
+                            </Switch>
                         </Col>
                     </Row>
                 </StoreDetailStyle.MicroMainMenu>

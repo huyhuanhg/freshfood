@@ -8,6 +8,7 @@ import * as S from './style';
 import storeLoading from "../../../assets/images/loadStore.png";
 import {AiFillStar, AiOutlineStar, BsImage, HiShoppingCart} from "react-icons/all";
 import {SkeletonCustom} from "./style";
+import {useSelector} from "react-redux";
 
 const MetaTitle = ({name, store}) => {
     return (
@@ -48,8 +49,10 @@ export const FoodStore = ({
                               rate,
                               handleClick,
                               setIndex,
-                              index
+                              index,
+                              setShowLogin
                           }) => {
+    const {userInfo} = useSelector(state => state.userReducer);
     return (
         <S.FoodStore onClick={() => {
             handleClick(true);
@@ -75,6 +78,9 @@ export const FoodStore = ({
                     </span>
                         <span className="btn-adding" onClick={(e) => {
                             e.stopPropagation();
+                            if (!userInfo.data.id) {
+                                setShowLogin(true);
+                            }
                         }}><HiShoppingCart/></span>
                     </S.FoodStorePrice>
                 </S.SkeletonCustom>

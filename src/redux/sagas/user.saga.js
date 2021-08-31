@@ -26,8 +26,6 @@ function* loginSaga(action) {
             message: 'Đăng nhập thành công!',
         });
 
-        yield history.push('/');
-
     } catch (e) {
         yield put({
             type: FAILURE(USER_ACTION.LOGIN),

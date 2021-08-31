@@ -185,6 +185,7 @@ export const StoreToolbar = styled.div`
     align-items: center;
     background: #fff;
     border: 1px solid #ddd;
+    padding-left: 0;
 
     & > li {
       flex-basis: 25%;

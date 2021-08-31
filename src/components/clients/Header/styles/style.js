@@ -117,6 +117,11 @@ export const IconSearch = styled(SearchOutlined)`
   transform: translateY(-50%);
 `
 export const Btn = styled(Button)`
+  &[disabled]{
+    cursor: default!important;
+    color:#777;
+    background-color: #ddd;
+  }
   &:hover {
     border-color: #0f9d58;
     color: #0f9d58;
