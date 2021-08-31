@@ -6,15 +6,22 @@ import {useSelector} from "react-redux";
 import {ModalCustom} from "./style";
 
 
-const FoodDetailModal = function ({show, setShow}) {
+const FoodDetailModal = function ({show, setShow, setShowLogin}) {
 
     const {foodDetail} = useSelector(state => state.foodReducer);
+    const {userInfo} = useSelector(state => state.userReducer);
 
     return (
         <S.ModalCustom
             closable={false}
             footer={
-                <button>
+                <button onClick={() => {
+                    if (!userInfo.data.id) {
+                        setShow(false);
+                        setShowLogin(true);
+                    }
+                }
+                }>
                     <span>+&nbsp;</span>Thêm vào giỏ
                 </button>
             }

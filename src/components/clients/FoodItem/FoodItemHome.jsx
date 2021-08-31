@@ -7,14 +7,17 @@ import * as S from './style';
 
 import storeLoading from "../../../assets/images/loadStore.png";
 import {FoodStore} from "./style";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {getFoodDetailAction} from "../../../redux/actions";
 
 const MetaTitle = ({name, store, slug}) => {
     return (
         <>
             <S.FoodTitle>{name}</S.FoodTitle>
-            <S.FoodStoreWrap to={`/stores/${slug}`}>
+            <S.FoodStoreWrap
+                to={`/stores/${slug}`}
+                onClick={(e)=>e.stopPropagation()}
+            >
                 <S.StoreName>{store}</S.StoreName>
             </S.FoodStoreWrap>
         </>
@@ -39,9 +42,24 @@ const MetaDescription = ({price, priceAfter}) => {
         </Space>
     );
 }
-export const FoodItemHome = ({id, avatar, name, store_id, store, store_not_mark, price, priceAfter, loading, setShowDetail}) => {
+export const FoodItemHome = (
+    {
+        id,
+        avatar,
+        name,
+        store_id,
+        store,
+        store_not_mark,
+        price,
+        priceAfter,
+        loading,
+        setShowDetail,
+        setShowLogin
+    }
+) => {
     const {Meta} = Card;
     const dispatch = useDispatch();
+    const {userInfo} = useSelector(state => state.userReducer);
     return (
         <S.CardItem
             hoverable
@@ -64,7 +82,12 @@ export const FoodItemHome = ({id, avatar, name, store_id, store, store_not_mark,
                     title={<MetaTitle name={name} store={store} slug={`${store_not_mark}.${store_id}`}/>}
                     description={<MetaDescription price={price} priceAfter={priceAfter}/>}
                     avatar={
-                        <S.AddCard>
+                        <S.AddCard onClick={(e) => {
+                            e.stopPropagation();
+                            if (!userInfo.data.id) {
+                                setShowLogin(true);
+                            }
+                        }}>
                             <ShoppingCartOutlined/>
                         </S.AddCard>}
                 />

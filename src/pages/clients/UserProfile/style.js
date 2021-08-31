@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const ProfileWrap = styled.div`
-  min-height: calc(100vh - 490px);
+  min-height: calc(100vh - 475px);
 `
 export const ProfileSidebar = styled.div`
   background: rgb(255, 255, 255);

@@ -33,7 +33,7 @@ import StoreItem from "../../../components/clients/StoreItem";
 import {useState} from "react";
 import FoodDetailModal from "../../../components/clients/FoodDetailModal";
 
-function HomePage(props) {
+function HomePage({setShowLogin}) {
     document.title = TITLE.HOME;
 
     const {Option} = Select;
@@ -65,7 +65,11 @@ function HomePage(props) {
                 {foodList.map((food) => {
                     return (
                         <Col span={span} key={food.id}>
-                            <FoodItemHome {...food} setShowDetail={setShowFoodDetail}/>
+                            <FoodItemHome
+                                {...food}
+                                setShowDetail={setShowFoodDetail}
+                                setShowLogin={setShowLogin}
+                            />
                         </Col>
                     );
                 })}
@@ -74,7 +78,7 @@ function HomePage(props) {
     }
     return (
         <>
-            <FoodDetailModal show={showFoodDetail} setShow={setShowFoodDetail}/>
+            <FoodDetailModal show={showFoodDetail} setShow={setShowFoodDetail} setShowLogin={setShowLogin}/>
             <HomeS.Heading>
                 <HomeS.HeadingCarousel autoplay dots={false} effect="fade">
                     <HomeS.CarouselItem src={bg1}/>

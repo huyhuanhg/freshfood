@@ -41,6 +41,9 @@ export const BtnSubmit = styled.button`
   transition: 0.5s;
   font-weight: bold;
   position: relative;
+  &[disabled]{
+    cursor: wait;
+  }
 
   &:hover {
     background-position: right !important;

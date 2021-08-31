@@ -1,3 +1,5 @@
+import {AiFillSkype, FaFacebookF, FaHistory, FiActivity, GrGooglePlus, RiMapPin2Fill} from "react-icons/all";
+import {useState} from "react";
 import {
     LogoutOutlined,
     MailOutlined,
@@ -13,44 +15,92 @@ import * as HeaderStyle from './styles';
 
 import history from "../../../utils/history";
 import {logoutAction} from "../../../redux/actions";
-import {AiFillSkype, FaFacebookF, GrGooglePlus, RiMapPin2Fill} from "react-icons/all";
 
-function Header() {
+function Header({setShowModalLogin}) {
     const dispatch = useDispatch();
     const {userInfo} = useSelector(state => state.userReducer);
     const {total} = useSelector(state => state.cartReducer);
+
+    const [showProfileMenu, setShowProfileMenu] = useState(false);
+
+    window.addEventListener('scroll', () => {
+        if (showProfileMenu) {
+            setShowProfileMenu(false);
+        }
+    });
+    window.addEventListener('click', () => {
+        if (showProfileMenu) {
+            setShowProfileMenu(false);
+        }
+    });
     const handleLogout = () => {
         const userInfo = JSON.parse(localStorage.getItem('userInfo'));
         dispatch(logoutAction({
             data: userInfo.access_token
         }))
     }
+
+
     const userMenu = (
         <Menu style={{top: '18px', width: '250px'}}>
             {
                 userInfo.data.id ? (
                     <>
-                        <Link to='/profile'>
-                            <Menu.Item key="1" style={{padding: "1rem 2rem"}}>
-                                <Space>
-                                    <HeaderStyle.UserAvatar
-                                        size="large"
-                                        src={userInfo.data.avatar && `"https://loaclhost:8000/${userInfo.data.avatar}"`}
-                                    >
-                                        {!userInfo.data.avatar && (<span style={{fontSize: '2rem'}}>
+                        <Menu.Item
+                            key="1"
+                            style={{padding: "1rem 2rem"}}
+                            onClick={() => {
+                                history.push('/profile/user-info');
+                                setShowProfileMenu(false);
+                            }}
+                        >
+                            <Space>
+                                <HeaderStyle.UserAvatar
+                                    size="large"
+                                    src={userInfo.data.avatar && `"https://loaclhost:8000/${userInfo.data.avatar}"`}
+                                >
+                                    {!userInfo.data.avatar && (<span style={{fontSize: '2rem'}}>
                                         {userInfo.data.last_name[0].toUpperCase()}
                                     </span>)}
-                                    </HeaderStyle.UserAvatar>
-                                    <div style={{marginLeft: '1rem'}}>
-                                        <div>{`${userInfo.data.first_name} ${userInfo.data.last_name}`}</div>
-                                        <small style={{color: "#ccc"}}>{userInfo.data.phone}</small>
-                                    </div>
-                                </Space>
-                            </Menu.Item>
-                        </Link>
+                                </HeaderStyle.UserAvatar>
+                                <div style={{marginLeft: '1rem'}}>
+                                    <div>{`${userInfo.data.first_name} ${userInfo.data.last_name}`}</div>
+                                    <small style={{color: "#ccc"}}>{userInfo.data.phone}</small>
+                                </div>
+                            </Space>
+                        </Menu.Item>
                         <Menu.Divider/>
-                        <Menu.Item key="2" style={{padding: "1rem 2rem"}}>
-                            <Space onClick={handleLogout} style={{width: '100%'}}><LogoutOutlined/>Đăng xuất</Space>
+                        <Menu.Item
+                            key="2"
+                            style={{padding: "1rem 2rem"}}
+                            icon={<FaHistory/>}
+                            onClick={() => {
+                                history.push('/profile/order');
+                                setShowProfileMenu(false);
+                            }}
+                        >
+                            Lịch sử giao dịch
+                        </Menu.Item>
+                        <Menu.Divider/>
+                        <Menu.Item
+                            key="3"
+                            style={{padding: "1rem 2rem"}}
+                            icon={<FiActivity/>}
+                            onClick={() => {
+                                history.push('/profile/history-comment');
+                                setShowProfileMenu(false);
+                            }}
+                        >
+                            Hoạt động cá nhân
+                        </Menu.Item>
+                        <Menu.Divider/>
+                        <Menu.Item
+                            key="4"
+                            style={{padding: "1rem 2rem"}}
+                            icon={<LogoutOutlined/>}
+                            onClick={handleLogout}
+                        >
+                            Đăng xuất
                         </Menu.Item>
                     </>
                 ) : (
@@ -98,13 +148,33 @@ function Header() {
                         </HeaderStyle.SearchWrap>
                         <Space>
                             <Badge count={total} style={{right: '5px'}}>
-                                <HeaderStyle.Btn onClick={() => history.push('/cart')}
+                                <HeaderStyle.Btn
+                                    onClick={() => {
+                                        if (userInfo.data.id) {
+                                            history.push('/cart')
+                                        } else {
+                                            setShowModalLogin(true);
+                                        }
+                                    }}
+                                    disabled={history.location.pathname === '/cart'}
                                 >
                                     <ShoppingCartOutlined/>Giỏ hàng
                                 </HeaderStyle.Btn>
                             </Badge>
-                            <Dropdown overlay={userMenu} trigger={['click']} placement="bottomRight">
-                                <a className="ant-dropdown-link" onClick={e => e.preventDefault()}>
+                            <Dropdown
+                                overlay={userMenu}
+                                trigger={['click']}
+                                placement="bottomRight"
+                                visible={showProfileMenu}
+                                className={'test'}
+                            >
+                                <a
+                                    className="ant-dropdown-link"
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        setShowProfileMenu(!showProfileMenu);
+                                    }}
+                                >
                                     {userInfo.data.id ? (
                                             <HeaderStyle.UserAvatar
                                                 size="large"
