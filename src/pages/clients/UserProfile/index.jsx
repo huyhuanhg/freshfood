@@ -1,4 +1,4 @@
-import {Affix, Avatar, Col, Menu, Row} from "antd";
+import {Affix, Col, Menu, Row} from "antd";
 import * as ClientStyle from '../styles';
 import * as S from './style';
 import {
@@ -7,7 +7,7 @@ import {
     FaComment,
     FaHistory, FaUserAlt,
     FiActivity, FiSettings,
-    GiRank3, MdRemoveShoppingCart,
+    GiRank3,
 } from "react-icons/all";
 import {TITLE} from "../../../contants";
 import {useDispatch, useSelector} from "react-redux";
@@ -38,8 +38,22 @@ const UserProfile = ({match}) => {
                 menuItem: menuInfo
             });
         }
-
     }, []);
+    useEffect(() => {
+        let menuInfo = match.params.page;
+        let menuArr = menuInfo.split('-');
+        if (menuArr.length > 1) {
+            setActiveMenu({
+                subMenu: [menuArr[0]],
+                menuItem: menuInfo
+            });
+        } else {
+            setActiveMenu({
+                subMenu: [],
+                menuItem: 'order'
+            });
+        }
+    }, [match.params.page]);
 
     const handleSubMenuClick = ({key}) => {
         let currentSubMenu = [...activeMenu.subMenu];
