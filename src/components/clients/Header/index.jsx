@@ -1,5 +1,5 @@
 import {AiFillSkype, FaFacebookF, FaHistory, FiActivity, GrGooglePlus, RiMapPin2Fill} from "react-icons/all";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {
     LogoutOutlined,
     MailOutlined,
@@ -15,24 +15,31 @@ import * as HeaderStyle from './styles';
 
 import history from "../../../utils/history";
 import {logoutAction} from "../../../redux/actions";
+import {ROOT_PATH} from "../../../contants";
 
 function Header({setShowModalLogin}) {
     const dispatch = useDispatch();
     const {userInfo} = useSelector(state => state.userReducer);
     const {total} = useSelector(state => state.cartReducer);
 
-    const [showProfileMenu, setShowProfileMenu] = useState(false);
+    // useEffect(() => {
+    //     window.addEventListener('scroll', () => {
+    //         let dropdownBtnProfile = document.querySelector('.dropdown-user-profile');
+    //         let dropdownMenu = dropdownBtnProfile.parentElement.querySelectorAll('div')[1];
+    //         console.log(window.scrollY)
+    //         if (dropdownMenu) {
+    //             if (window.scrollY < 52.7) {
+    //                 dropdownMenu.style.top = '20px';
+    //             } else {
+    //                 dropdownMenu.style.top = '0';
+    //             }
+    //         }
+    //     })
+    //     return () => {
+    //         window.removeEventListener("scroll");
+    //     }
+    // }, []);
 
-    window.addEventListener('scroll', () => {
-        if (showProfileMenu) {
-            setShowProfileMenu(false);
-        }
-    });
-    window.addEventListener('click', () => {
-        if (showProfileMenu) {
-            setShowProfileMenu(false);
-        }
-    });
     const handleLogout = () => {
         const userInfo = JSON.parse(localStorage.getItem('userInfo'));
         dispatch(logoutAction({
@@ -42,7 +49,7 @@ function Header({setShowModalLogin}) {
 
 
     const userMenu = (
-        <Menu style={{top: '18px', width: '250px'}}>
+        <Menu style={{width: '250px', display: 'fixed'}}>
             {
                 userInfo.data.id ? (
                     <>
@@ -51,13 +58,12 @@ function Header({setShowModalLogin}) {
                             style={{padding: "1rem 2rem"}}
                             onClick={() => {
                                 history.push('/profile/user-info');
-                                setShowProfileMenu(false);
                             }}
                         >
                             <Space>
                                 <HeaderStyle.UserAvatar
                                     size="large"
-                                    src={userInfo.data.avatar && `"https://loaclhost:8000/${userInfo.data.avatar}"`}
+                                    src={userInfo.data.avatar && `${ROOT_PATH}${userInfo.data.avatar}`}
                                 >
                                     {!userInfo.data.avatar && (<span style={{fontSize: '2rem'}}>
                                         {userInfo.data.last_name[0].toUpperCase()}
@@ -76,7 +82,6 @@ function Header({setShowModalLogin}) {
                             icon={<FaHistory/>}
                             onClick={() => {
                                 history.push('/profile/order');
-                                setShowProfileMenu(false);
                             }}
                         >
                             Lịch sử giao dịch
@@ -88,7 +93,6 @@ function Header({setShowModalLogin}) {
                             icon={<FiActivity/>}
                             onClick={() => {
                                 history.push('/profile/history-comment');
-                                setShowProfileMenu(false);
                             }}
                         >
                             Hoạt động cá nhân
@@ -165,20 +169,19 @@ function Header({setShowModalLogin}) {
                                 overlay={userMenu}
                                 trigger={['click']}
                                 placement="bottomRight"
-                                visible={showProfileMenu}
-                                className={'test'}
+                                className='dropdown-user-profile'
+                                getPopupContainer={(trigger) => {return trigger.parentNode}}
                             >
                                 <a
                                     className="ant-dropdown-link"
                                     onClick={(e) => {
                                         e.stopPropagation();
-                                        setShowProfileMenu(!showProfileMenu);
                                     }}
                                 >
                                     {userInfo.data.id ? (
                                             <HeaderStyle.UserAvatar
                                                 size="large"
-                                                src={userInfo.data.avatar && `"https://loaclhost:8000/${userInfo.data.avatar}"`}
+                                                src={userInfo.data.avatar && `${ROOT_PATH}${userInfo.data.avatar}`}
                                             >
                                                 {
                                                     !userInfo.data.avatar &&

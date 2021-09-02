@@ -11,7 +11,7 @@ export const SectionTitle = ({children}) => {
     return (
         <TitleWrap>
             <Title>{children}</Title>
-            <TilteDiv><TitleFirstSpan></TitleFirstSpan><TitleLastSpan></TitleLastSpan></TilteDiv>
+            <TilteDiv><TitleFirstSpan/><TitleLastSpan/></TilteDiv>
         </TitleWrap>
     );
 }

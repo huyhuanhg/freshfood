@@ -1,1 +1,2 @@
-export * from './title.contants';
+export * from './title.contant';
+export * from './backend.contant';
