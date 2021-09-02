@@ -1,9 +1,9 @@
-import {Affix, Menu, Select} from "antd";
-
+import {Menu, Select} from "antd";
+import * as S from '../../style'
 const StoreFilter = (props) => {
     const {Option} = Select;
     return (
-        <Affix offsetTop={52.7}>
+        <S.AffixIndex offsetTop={52.7}>
             <div style={{
                 display: 'flex',
                 justifyContent: 'space-between',
@@ -25,7 +25,11 @@ const StoreFilter = (props) => {
                     margin: 0,
                 }}>
                     <li>
-                        <Select defaultValue={''} style={{width: 160, margin: '0 5px'}}>
+                        <Select
+                            defaultValue={''}
+                            style={{width: 160, margin: '0 5px'}}
+                            getPopupContainer={(trigger) => trigger.parentNode}
+                        >
                             <Option value="" selected hidden disabled>-Danh mục-</Option>
                             <Option value="0">Sang trọng</Option>
                             <Option value="1">Vỉa hè</Option>
@@ -36,7 +40,11 @@ const StoreFilter = (props) => {
                         </Select>
                     </li>
                     <li>
-                        <Select defaultValue="" style={{width: 160}}>
+                        <Select
+                            defaultValue=""
+                            style={{width: 160}}
+                            getPopupContainer={(trigger) => trigger.parentNode}
+                        >
                             <Option value="" selected hidden disabled>-Đánh giá-</Option>
                             <Option value="0">Đánh giá tăng dần</Option>
                             <Option value="1">Đánh giá giảm dần</Option>
@@ -44,7 +52,7 @@ const StoreFilter = (props) => {
                     </li>
                 </ul>
             </div>
-        </Affix>
+        </S.AffixIndex>
     );
 }
 export default StoreFilter;

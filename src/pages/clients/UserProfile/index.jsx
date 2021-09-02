@@ -9,7 +9,7 @@ import {
     FiActivity, FiSettings,
     GiRank3,
 } from "react-icons/all";
-import {TITLE} from "../../../contants";
+import {ROOT_PATH, TITLE} from "../../../contants";
 import {useDispatch, useSelector} from "react-redux";
 import {Redirect, Route, Switch} from "react-router-dom";
 
@@ -91,9 +91,7 @@ const UserProfile = ({match}) => {
                                 <S.ProfileSidebar>
                                     <S.ProfileAvatarWrap>
                                         <label htmlFor='avatar'>
-                                            <img id="imgLeftProfileMemberAvatar"
-                                                 src="https://media.foody.vn/usr/g2494/24932664/avt/c200x200/foody-avatar-8ff9c7d3-219e-4be9--fd8f09b8-210828114627.jpeg"
-                                                 className="img-responsive" alt=""/>
+                                            <img src={`${ROOT_PATH}${userInfo.data.avatar}`} alt=""/>
                                             <AiFillEdit/>
                                             <input type='file' id='avatar' hidden/>
                                         </label>
