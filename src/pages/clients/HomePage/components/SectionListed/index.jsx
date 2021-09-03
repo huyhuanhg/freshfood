@@ -14,7 +14,7 @@ const SectionListed = (props) => {
 
     const section = useRef(0);
     const getDataTotal = async () => {
-        await fetch(`${SERVER_CLIENT_API_URL}/get-data-section-listed`)
+        await fetch(`${SERVER_CLIENT_API_URL}/listed`)
             .then(response => response.text())
             .then(result => {
                 let totalData = JSON.parse(result);
@@ -33,46 +33,6 @@ const SectionListed = (props) => {
         getDataTotal();
     }, []);
 
-    // const [isPlay, setIsPlay] = useState({play: false, scroll: false});
-    // const [storeCount, setStoreCount] = useState(0);
-    // const [foodCount, setFoodCount] = useState(0);
-    // const [proCount, setProCount] = useState(0);
-    // const [userCount, setUserCount] = useState(0);
-    // const timer = () => {
-    //     if (isPlay.play) {
-    //         if (storeCount < totalList.totalStores) {
-    //             setStoreCount(storeCount + 1);
-    //         }
-    //         if (foodCount < totalList.totalFoods) {
-    //             setFoodCount(foodCount + 1);
-    //         }
-    //         if (proCount < totalList.totalPromotions) {
-    //             setProCount(proCount + 1);
-    //         }
-    //         if (userCount < totalList.totalUsers) {
-    //             setUserCount(userCount + 1);
-    //         }
-    //     }
-    // };
-    //
-    // useEffect(() => {
-    //     if (
-    //         storeCount >= totalList.totalStores && foodCount >= totalList.totalFoods &&
-    //         proCount >= totalList.totalPromotions && userCount >= totalList.totalUsers
-    //     ) {
-    //         setIsPlay({
-    //             ...isPlay,
-    //             play: false
-    //         });
-    //     }
-    //     const playTotal = setInterval(timer, 5);
-    //     if (!isPlay) {
-    //         clearInterval(playTotal)
-    //     }
-    //     return () => {
-    //         clearInterval(playTotal)
-    //     };
-    // }, [storeCount, foodCount, proCount, userCount, totalList, isPlay]);
     return (
         <S.Introduce ref={section}>
             <div>

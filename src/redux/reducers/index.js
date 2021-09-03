@@ -7,6 +7,9 @@ import adminReducer from "./admin.reducer";
 import foodReducer from "./food.reducer";
 import storeReducer from "./store.reducer";
 import cartReducer from "./cart.reducer";
+import tagReducer from "./tag.reducer";
+import promotionReducer from "./promotion.reducer";
+import categoryReducer from "./category.reducer";
 
 import rootSaga from '../sagas';
 
@@ -20,6 +23,9 @@ const store = configureStore({
         foodReducer,
         storeReducer,
         cartReducer,
+        tagReducer,
+        promotionReducer,
+        categoryReducer,
     },
     middleware: [...getDefaultMiddleware({thunk: false}), sagaMiddleware],
 });

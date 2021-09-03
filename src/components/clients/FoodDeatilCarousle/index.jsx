@@ -1,8 +1,9 @@
 import {Carousel, Col, Row} from "antd";
 import * as S from './style';
 import NumberFormat from "react-number-format";
-import {AiFillStar, FcNext, FcPrevious, GrNext, MdNavigateNext} from "react-icons/all";
-import {useEffect, useRef, useState} from "react";
+import {AiFillStar, FcNext, FcPrevious} from "react-icons/all";
+import {useEffect, useRef} from "react";
+import {ROOT_PATH} from "../../../contants";
 
 const NextArrow = ({onClick, index, lastIndex}) => {
     return (
@@ -38,12 +39,12 @@ const FoodDetailCarousel = function ({foodList, index, setIndex}) {
             return (
                 <S.CarouselItem>
                     <div>
-                        <img src={foodItem.avatar}/>
+                        <img src={`${ROOT_PATH}${foodItem.food_avatar}`}/>
                         <div className="info">
                             <Row>
                                 <Col span={20}>
-                                    <div className="imgbox-food-name">{foodItem.name}</div>
-                                    <div className="imgbox-desc">{foodItem.description}</div>
+                                    <div className="imgbox-food-name">{foodItem.food_name}</div>
+                                    <div className="imgbox-desc">{foodItem.food_description}</div>
                                     <div className="imgbox-total">
                                         Đã được đặt<span
                                         className="txt-bold">&nbsp;{foodItem.total_order}&nbsp;</span>lần
@@ -51,14 +52,13 @@ const FoodDetailCarousel = function ({foodList, index, setIndex}) {
                                 </Col>
                                 <Col span={4} style={{alignSelf: 'center',}}>
                                     <div className="imgbox-current-price">
-                                        <NumberFormat value={foodItem.priceAfter} displayType={'text'} thousandSeparator
+                                        <NumberFormat value={foodItem.discount?.value || foodItem.price} displayType={'text'} thousandSeparator
                                                       suffix={'đ'}/>
                                     </div>
                                 </Col>
                             </Row>
                         </div>
                     </div>
-                    <span className='rate'>{foodItem.rate}<AiFillStar/></span>
                 </S.CarouselItem>
             )
         });

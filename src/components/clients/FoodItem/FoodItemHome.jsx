@@ -1,4 +1,3 @@
-import {Link} from "react-router-dom";
 import {ShoppingCartOutlined} from "@ant-design/icons";
 import {Card, Skeleton, Space} from "antd";
 import NumberFormat from "react-number-format";
@@ -6,8 +5,8 @@ import NumberFormat from "react-number-format";
 import * as S from './style';
 
 import storeLoading from "../../../assets/images/loadStore.png";
-import {FoodStore} from "./style";
 import {useDispatch, useSelector} from "react-redux";
+import {ROOT_PATH} from '../../../contants'
 import {getFoodDetailAction} from "../../../redux/actions";
 
 const MetaTitle = ({name, store, slug}) => {
@@ -16,7 +15,7 @@ const MetaTitle = ({name, store, slug}) => {
             <S.FoodTitle>{name}</S.FoodTitle>
             <S.FoodStoreWrap
                 to={`/stores/${slug}`}
-                onClick={(e)=>e.stopPropagation()}
+                onClick={(e) => e.stopPropagation()}
             >
                 <S.StoreName>{store}</S.StoreName>
             </S.FoodStoreWrap>
@@ -31,7 +30,6 @@ const MetaDescription = ({price, priceAfter}) => {
                     <NumberFormat value={priceAfter} displayType={'text'}
                                   thousandSeparator suffix={'đ'}/>
                 </S.AfterPrice>
-                <sup>đ</sup>
             </p>
             <p style={{paddingLeft: 10}}>
                 <S.Price>
@@ -45,13 +43,13 @@ const MetaDescription = ({price, priceAfter}) => {
 export const FoodItemHome = (
     {
         id,
-        avatar,
-        name,
+        food_avatar,
+        food_name,
         store_id,
-        store,
+        store_name,
         store_not_mark,
         price,
-        priceAfter,
+        discount,
         loading,
         setShowDetail,
         setShowLogin
@@ -64,7 +62,7 @@ export const FoodItemHome = (
         <S.CardItem
             hoverable
             cover={
-                <S.CardImage avatar={loading ? storeLoading : avatar}/>
+                <S.CardImage avatar={loading ? storeLoading : `${ROOT_PATH}${food_avatar}`}/>
             }
             onClick={() => {
                 if (!loading) {
@@ -79,8 +77,19 @@ export const FoodItemHome = (
         >
             <Skeleton loading={loading} active>
                 <Meta
-                    title={<MetaTitle name={name} store={store} slug={`${store_not_mark}.${store_id}`}/>}
-                    description={<MetaDescription price={price} priceAfter={priceAfter}/>}
+                    title={
+                        <MetaTitle
+                            name={food_name} store={store_name}
+                            slug={`${store_not_mark}.${store_id}`}
+                        />
+                    }
+
+                    description={
+                        <MetaDescription
+                            price={discount?.value && price}
+                            priceAfter={discount?.value ? discount?.value : price}
+                        />
+                    }
                     avatar={
                         <S.AddCard onClick={(e) => {
                             e.stopPropagation();

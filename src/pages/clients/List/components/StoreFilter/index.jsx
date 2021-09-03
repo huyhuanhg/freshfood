@@ -1,7 +1,19 @@
 import {Menu, Select} from "antd";
 import * as S from '../../style'
+import {useSelector} from "react-redux";
 const StoreFilter = (props) => {
     const {Option} = Select;
+    const {categories} = useSelector(state => state.categoryReducer);
+
+    const renderCategories = () => {
+        return categories.data.map(cate => {
+            if (cate.category_active === 1) {
+                return (
+                    <Option value={cate.id}>{cate.store_cate_name}</Option>
+                );
+            }
+        });
+    }
     return (
         <S.AffixIndex offsetTop={52.7}>
             <div style={{
@@ -31,12 +43,7 @@ const StoreFilter = (props) => {
                             getPopupContainer={(trigger) => trigger.parentNode}
                         >
                             <Option value="" selected hidden disabled>-Danh mục-</Option>
-                            <Option value="0">Sang trọng</Option>
-                            <Option value="1">Vỉa hè</Option>
-                            <Option value="2">Buffet</Option>
-                            <Option value="3">Nhà hàng</Option>
-                            <Option value="4">Quán ăn</Option>
-                            <Option value="5">Quán nhậu</Option>
+                            {renderCategories()}
                         </Select>
                     </li>
                     <li>

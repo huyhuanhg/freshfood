@@ -1,8 +1,21 @@
 import {Menu, Select} from "antd";
 import * as S from "../../style";
+import {useSelector} from "react-redux";
 
-const FoodFilter = (props) => {
+const FoodFilter = () => {
     const {Option} = Select;
+
+    const {tagList} = useSelector(state => state.tagReducer);
+
+    const renderTagList = () => {
+        return tagList.data.map(tag => {
+            if (tag.tag_active === 1) {
+                return (
+                    <Option value={tag.id}>{tag.tag_name}</Option>
+                );
+            }
+        });
+    }
     return (
         <S.AffixIndex offsetTop={52.7}>
             <div style={{
@@ -34,12 +47,7 @@ const FoodFilter = (props) => {
                             getPopupContainer={(trigger) => trigger.parentNode}
                         >
                             <Option value="">-Danh mục-</Option>
-                            <Option value="0">Ăn vặt</Option>
-                            <Option value="1">Thực phẩm</Option>
-                            <Option value="2">Thức ăn nhanh</Option>
-                            <Option value="3">Đồ uống</Option>
-                            <Option value="4">Tươi sạch</Option>
-                            <Option value="5">Món nhậu</Option>
+                            {renderTagList()}
                         </Select>
                     </li>
                     <li>
@@ -51,17 +59,6 @@ const FoodFilter = (props) => {
                             <Option value="" selected hidden disabled>Giá</Option>
                             <Option value="0">Giá tăng dần</Option>
                             <Option value="1">Giá giảm dần</Option>
-                        </Select>
-                    </li>
-                    <li>
-                        <Select
-                            defaultValue=""
-                            style={{width: 160}}
-                            getPopupContainer={(trigger) => trigger.parentNode}
-                        >
-                            <Option value="" selected hidden disabled>-Đánh giá-</Option>
-                            <Option value="0">Đánh giá tăng dần</Option>
-                            <Option value="1">Đánh giá giảm dần</Option>
                         </Select>
                     </li>
                 </ul>

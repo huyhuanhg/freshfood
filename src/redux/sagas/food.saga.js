@@ -1,33 +1,42 @@
 import {put, takeEvery} from "redux-saga/effects";
 import axios from 'axios';
-import {REQUEST, SUCCESS, FAILURE, FOOD_ACTION} from '../constants';
-import {SERVER_CLIENT_API_URL} from './contants/apiUrl';
+import {REQUEST, SUCCESS, FAILURE, FOOD_ACTION, PROMOTION_ACTION} from '../constants';
+import {SERVER_CLIENT_API_URL} from '../../contants';
 
-// function* getProductListSaga(action) {
-//   try {
-//     const categoryId = action.payload?.categoryId;
-//     const searchKey = action.payload?.searchKey;
-//     const result = yield axios({
-//       method: 'GET',
-//       url: `${SERVER_CLIENT_API_URL}/products`,
-//       params: {
-//         _sort: 'id',
-//         _order: 'desc',
-//         ...categoryId && { categoryId },
-//         ...searchKey && { q: searchKey }
-//       }
-//     });
-//     yield put({
-//       type: SUCCESS(PRODUCT_ACTION.GET_PRODUCT_LIST),
-//       payload: {
-//         data: result.data
-//       },
-//     });
-//   } catch (e) {
-//     yield put({ type: FAILURE(PRODUCT_ACTION.GET_PRODUCT_LIST), payload: e.message });
-//   }
-// }
-//
+function* getFoodListSaga() {
+  try {
+    const result = yield axios({
+      method: 'GET',
+      url: `${SERVER_CLIENT_API_URL}/foods`
+    });
+    yield put({
+      type: SUCCESS(FOOD_ACTION.GET_FOOD_LIST),
+      payload: {
+        data: result.data
+      },
+    });
+  } catch (e) {
+    // yield put({ type: FAILURE(FOOD_ACTION.GET_FOOD_LIST_INITIAL), payload: e.message });
+  }
+}
+
+function* getFoodPromotionSaga() {
+  try {
+    const result = yield axios({
+      method: 'GET',
+      url: `${SERVER_CLIENT_API_URL}/food-promotions`
+    });
+    yield put({
+      type: SUCCESS(FOOD_ACTION.GET_FOOD_PROMOTIONS),
+      payload: {
+        data: result.data
+      },
+    });
+  } catch (e) {
+    // yield put({ type: FAILURE(FOOD_ACTION.GET_FOOD_LIST_INITIAL), payload: e.message });
+  }
+}
+
 // function* getProductDetailSaga(action) {
 //   try {
 //     const { id } = action.payload;
@@ -86,8 +95,9 @@ import {SERVER_CLIENT_API_URL} from './contants/apiUrl';
 //   }
 // }
 
-export default function* productSaga() {
-    // yield takeEvery(REQUEST(PRODUCT_ACTION.GET_PRODUCT_LIST), getProductListSaga);
+export default function* foodSaga() {
+  yield takeEvery(REQUEST(FOOD_ACTION.GET_FOOD_LIST), getFoodListSaga);
+  yield takeEvery(REQUEST(FOOD_ACTION.GET_FOOD_PROMOTIONS), getFoodPromotionSaga);
     // yield takeEvery(REQUEST(PRODUCT_ACTION.GET_PRODUCT_DETAIL), getProductDetailSaga);
     // yield takeEvery(REQUEST(PRODUCT_ACTION.CREATE_PRODUCT), createProductSaga);
     // yield takeEvery(REQUEST(PRODUCT_ACTION.EDIT_PRODUCT), editProductSaga);

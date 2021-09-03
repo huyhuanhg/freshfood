@@ -1,17 +1,12 @@
 import * as HomeS from './styles';
 import {TITLE} from "../../../contants";
 import {Link} from "react-router-dom";
-import {useSelector} from "react-redux";
+import {useDispatch} from "react-redux";
 import {
-    Affix,
     Anchor,
-    Button,
     Col,
-    Menu,
     Row,
-    Select
 } from "antd";
-import {MdNavigateNext} from "react-icons/all";
 
 import history from "../../../utils/history";
 
@@ -22,37 +17,35 @@ import bg3 from "../../../assets/images/bg3.jpg";
 import './styles/style.css';
 
 import {FoodItemHome} from "../../../components/clients/FoodItem";
-import StoreItem from "../../../components/clients/StoreItem";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import FoodDetailModal from "../../../components/clients/FoodDetailModal";
 import SectionListed from "./components/SectionListed";
+import SectionFoodList from "./components/SectionFoodList";
+
+import {
+    getFoodListAction,
+    getFoodPromotionAction,
+    getStoresAction
+} from "../../../redux/actions";
+import SectionPromotion from "./components/SectionPromotion";
+import SectionStore from "./components/SectionStore";
 
 function HomePage({setShowLogin}) {
     document.title = TITLE.HOME;
 
-    const {Option} = Select;
-
-    const {foodList} = useSelector(state => state.foodReducer);
-    const {foodPromotions} = useSelector(state => state.foodReducer);
-    const {storeList} = useSelector(state => state.storeReducer);
+    const dispatch = useDispatch();
 
     const {Link: AnchorLink} = Anchor;
 
     const [showFoodDetail, setShowFoodDetail] = useState(false);
 
-    const renderStore = (span = 4) => {
-        return (
-            <Row gutter={[16, 16]}>
-                {storeList.data.map((store) => {
-                    return (
-                        <Col span={span} key={store.id}>
-                            <StoreItem {...store} />
-                        </Col>
-                    );
-                })}
-            </Row>
-        );
-    }
+    useEffect(() => {
+        dispatch(getFoodListAction());
+        dispatch(getFoodPromotionAction());
+        dispatch(getStoresAction());
+    }, [])
+
+
     const renderFood = (foodList, span = 4) => {
         return (
             <Row gutter={[16, 16]}>
@@ -89,41 +82,11 @@ function HomePage({setShowLogin}) {
                 </HomeS.Slogan>
             </HomeS.Heading>
 
-            <HomeS.Section>
-                <HomeS.SectionTitle>Khuyến mãi</HomeS.SectionTitle>
-                <HomeS.SectionContainer>
-                    {renderFood(foodPromotions.data)}
-                    <div style={{
-                        display: 'flex',
-                        alignItem: 'center',
-                        justifyContent: 'center',
-                        marginTop: '3rem'
-                    }}>
-                        <Anchor affix={false}>
-                            <AnchorLink href='#test' title={(<Button>Xem tất cả</Button>)}/>
-                        </Anchor>
-                    </div>
-                </HomeS.SectionContainer>
-            </HomeS.Section>
+            <SectionPromotion render={renderFood} anchor={AnchorLink}/>
 
             <SectionListed/>
 
-            <HomeS.Section>
-                <HomeS.SectionTitle>Cửa hàng</HomeS.SectionTitle>
-                <HomeS.SectionContainer>
-                    {renderStore()}
-                    <div style={{
-                        display: 'flex',
-                        alignItem: 'center',
-                        justifyContent: 'center',
-                        marginTop: '3rem'
-                    }}>
-                        <Link to='/stores'>
-                            <Button>Xem tất cả</Button>
-                        </Link>
-                    </div>
-                </HomeS.SectionContainer>
-            </HomeS.Section>
+            <SectionStore/>
 
             <HomeS.Invite>
                 <div>
@@ -142,100 +105,7 @@ function HomePage({setShowLogin}) {
 
             <HomeS.Section id='test' style={{backgroundColor: '#eee'}}>
                 <HomeS.SectionContainer style={{marginTop: 0}}>
-                    <Row gutter={20}>
-                        <Col span={4}>
-                            <Affix offsetTop={52.7}>
-                                <Menu
-                                    theme="light"
-                                    style={{
-                                        background: '#fff',
-                                        height: 'auto'
-                                    }}
-                                    defaultSelectedKeys={['1']}
-                                    mode="inline"
-                                >
-                                    <Menu.Item key="1" icon={<MdNavigateNext className='custom-icon-position'/>}>
-                                        Tất cả
-                                    </Menu.Item>
-                                    <Menu.Item key="2" icon={<MdNavigateNext className='custom-icon-position'/>}>
-                                        Ăn vặt
-                                    </Menu.Item>
-                                    <Menu.Item key="3" icon={<MdNavigateNext className='custom-icon-position'/>}>
-                                        Thực phẩm
-                                    </Menu.Item>
-                                    <Menu.Item key="4" icon={<MdNavigateNext className='custom-icon-position'/>}>
-                                        Thức ăn nhanh
-                                    </Menu.Item>
-                                    <Menu.Item key="5" icon={<MdNavigateNext className='custom-icon-position'/>}>
-                                        Đồ uống
-                                    </Menu.Item>
-                                    <Menu.Item key="6" icon={<MdNavigateNext className='custom-icon-position'/>}>
-                                        Tươi sạch
-                                    </Menu.Item>
-                                </Menu>
-                            </Affix>
-                        </Col>
-                        <Col span={20}>
-                            <HomeS.AffixIndex offsetTop={52.7}>
-                                <div style={{
-                                    display: 'flex',
-                                    justifyContent: 'space-between',
-                                    backgroundColor: '#ddd'
-                                }}>
-                                    <Menu mode="horizontal" defaultSelectedKeys={['mail']}
-                                          style={{
-                                              flexBasis: '50%'
-                                          }}
-                                    >
-                                        <Menu.Item key="mail">Mới nhất </Menu.Item>
-                                        <Menu.Item key="app">Khuyến mãi</Menu.Item>
-                                        <Menu.Item key="abc">Bán chạy</Menu.Item>
-                                    </Menu>
-                                    <ul style={{
-                                        listStyle: 'none',
-                                        display: 'flex',
-                                        alignItems: 'center',
-                                        paddingRight: '20px',
-                                        margin: 0,
-                                    }}>
-                                        <li>
-                                            <Select defaultValue={''}
-                                                    style={{width: 120, margin: '0 5px'}}
-                                                    getPopupContainer={(trigger) => trigger.parentNode}
-                                            >
-                                                <Option value="" selected hidden disabled>Giá</Option>
-                                                <Option value="0">Giá tăng dần</Option>
-                                                <Option value="1">Giá giảm dần</Option>
-                                            </Select>
-                                        </li>
-                                        <li>
-                                            <Select
-                                                defaultValue=""
-                                                style={{width: 160}}
-                                                getPopupContainer={(trigger) => {return trigger.parentNode}}
-                                            >
-                                                <Option value="" selected hidden disabled>Đánh giá</Option>
-                                                <Option value="0">Đánh giá tăng dần</Option>
-                                                <Option value="1">Đánh giá giảm dần</Option>
-                                            </Select>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </HomeS.AffixIndex>
-                            <div style={{paddingTop: 20}}>
-                                {renderFood(foodList.data, 6)}
-                                <div style={{
-                                    display: 'flex',
-                                    alignItem: 'center',
-                                    justifyContent: 'center',
-                                    marginTop: '3rem'
-                                }}>
-                                    <Button>Xem thêm</Button>
-                                </div>
-                            </div>
-
-                        </Col>
-                    </Row>
+                    <SectionFoodList render={renderFood}/>
                 </HomeS.SectionContainer>
             </HomeS.Section>
         </>

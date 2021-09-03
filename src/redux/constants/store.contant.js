@@ -1,3 +1,3 @@
 export const STORE_ACTION = {
-    // TODO
+    GET_STORE_LIST: 'GET_STORE_LIST',
 }

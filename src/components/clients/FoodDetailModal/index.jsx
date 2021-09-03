@@ -3,7 +3,7 @@ import * as S from './style';
 import NumberFormat from "react-number-format";
 import {AiFillStar} from "react-icons/all";
 import {useSelector} from "react-redux";
-import {ModalCustom} from "./style";
+import {ROOT_PATH} from "../../../contants";
 
 
 const FoodDetailModal = function ({show, setShow, setShowLogin}) {
@@ -31,12 +31,12 @@ const FoodDetailModal = function ({show, setShow, setShowLogin}) {
             }}>
             <S.FoodItem>
                 <div>
-                    <img src={foodDetail.data.avatar}/>
+                    <img src={`${ROOT_PATH}${foodDetail.data.food_avatar}`}/>
                     <div className="info">
                         <Row>
                             <Col span={20}>
-                                <div className="imgbox-food-name">{foodDetail.data.name}</div>
-                                <div className="imgbox-desc">{foodDetail.data.description}</div>
+                                <div className="imgbox-food-name">{foodDetail.data.food_name}</div>
+                                <div className="imgbox-desc">{foodDetail.data.food_description}</div>
                                 <div className="imgbox-total">
                                     Đã được đặt<span
                                     className="txt-bold">&nbsp;{foodDetail.data.total_order}&nbsp;</span>lần
@@ -44,7 +44,8 @@ const FoodDetailModal = function ({show, setShow, setShowLogin}) {
                             </Col>
                             <Col span={4} style={{alignSelf: 'center',}}>
                                 <div className="imgbox-current-price">
-                                    <NumberFormat value={foodDetail.data.priceAfter} displayType={'text'}
+                                    <NumberFormat value={foodDetail.data.discount?.value || foodDetail.data.price}
+                                                  displayType={'text'}
                                                   thousandSeparator
                                                   suffix={'đ'}/>
                                 </div>
@@ -52,7 +53,6 @@ const FoodDetailModal = function ({show, setShow, setShowLogin}) {
                         </Row>
                     </div>
                 </div>
-                <span className='rate'>{foodDetail.data.rate}<AiFillStar/></span>
             </S.FoodItem>
         </S.ModalCustom>
     );
