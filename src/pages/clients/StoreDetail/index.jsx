@@ -1,8 +1,8 @@
-import {TITLE} from "../../../contants";
+import {ROOT_PATH, TITLE} from "../../../contants";
 
 import * as ClientStyle from '../styles';
 import * as StoreDetailStyle from './style';
-import {Affix, Button, Col, Menu, Rate, Row, Skeleton} from "antd";
+import {Affix, Col, Menu, Rate, Row, Skeleton} from "antd";
 import {
     AiFillLike,
     AiFillStar,
@@ -16,7 +16,7 @@ import {
 import loadAvatarStore from "../../../assets/images/loadStore.png";
 
 import {useEffect, useState} from "react";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import moment from "moment";
 import StoreDetailFood from "./StoreDetailFood";
 import {Redirect, Route, Switch} from "react-router-dom";
@@ -24,10 +24,11 @@ import StoreDetailPromotion from "./StoreDetailPromotion";
 import history from "../../../utils/history";
 import StoreDetailComment from "./StoreDetailComment";
 import StoreDetailPicture from "./StoreDetailPicture";
+import {getStoreDetailAction} from "../../../redux/actions";
 
-const StoreDetail = ({setShowLogin}) => {
-    document.title = TITLE.STORE_DETAIL;
+const StoreDetail = ({setShowLogin, match}) => {
 
+    const dispatch = useDispatch();
     const {storeDetail} = useSelector(state => state.storeReducer);
 
     const {userInfo} = useSelector(state => state.userReducer);
@@ -37,11 +38,18 @@ const StoreDetail = ({setShowLogin}) => {
 
     const [defaultActiveMenu, setDefaultActiveMenu] = useState('food');
 
+    document.title = storeDetail.data.store_name || TITLE.STORE_DETAIL;
+
     useEffect(() => {
         let pathArr = history.location.pathname.replace('/stores/', '').split('/');
-        if (pathArr.length > 1 && pathArr[1] !== '') {
-            setDefaultActiveMenu(pathArr[1]);
+        let content = pathArr[1];
+        if (pathArr.length > 1 && content !== '') {
+            setDefaultActiveMenu(content);
         }
+        dispatch(getStoreDetailAction({
+            slug: match.params.slug,
+            ...userInfo.data.id && {user: userInfo.data.id}
+        }))
     }, []);
 
     useEffect(() => {
@@ -59,7 +67,9 @@ const StoreDetail = ({setShowLogin}) => {
         }
     }, [storeDetail]);
 
-
+    if (!!storeDetail.error && !storeDetail.load) {
+        return <Redirect to='/stores'/>
+    }
     return (
         <ClientStyle.Section style={{backgroundColor: '#eee'}}>
             <ClientStyle.Container>
@@ -70,11 +80,10 @@ const StoreDetail = ({setShowLogin}) => {
                             <StoreDetailStyle.MainImg>
                                 <StoreDetailStyle.ImageWrap>
                                     <StoreDetailStyle.StoreImg
-                                        src={storeDetail.load ? loadAvatarStore : storeDetail.data.avatar}
+                                        src={storeDetail.load ? loadAvatarStore : `${ROOT_PATH}${storeDetail.data.store_avatar}`}
                                         alt=""
                                     />
                                 </StoreDetailStyle.ImageWrap>
-
 
                             </StoreDetailStyle.MainImg>
                         </Col>
@@ -90,14 +99,15 @@ const StoreDetail = ({setShowLogin}) => {
                                                 {storeDetail.data.store_name}
                                             </StoreDetailStyle.StoreName>
                                             <StoreDetailStyle.StoreCategory>
-                                                <small>{storeDetail.data.store_category}</small>
+                                                <small>{storeDetail.data.store_cate_name}</small>
                                             </StoreDetailStyle.StoreCategory>
                                         </StoreDetailStyle.MainInfoTitle>
 
                                         <StoreDetailStyle.ResSummaryPoint>
                                             <StoreDetailStyle.MicroPoints>
                                                 <StoreDetailStyle.MicroReviewCount>
-                                                    {storeDetail.data.rate} <AiFillStar/>
+                                                    {storeDetail.data.avg_rate == 0 ? '--' : storeDetail.data.avg_rate}
+                                                    {storeDetail.data.avg_rate != 0 && < AiFillStar/>}
                                                 </StoreDetailStyle.MicroReviewCount>
                                                 <StoreDetailStyle.MicroReviewText>
                                                     Trung bình
@@ -121,18 +131,21 @@ const StoreDetail = ({setShowLogin}) => {
                                             </StoreDetailStyle.MicroPoints>
                                             <StoreDetailStyle.MicroPoints>
                                                 <StoreDetailStyle.MicroReviewCount>
-                                                    {storeDetail.data.rate_count}
+                                                    {storeDetail.data.total_rating}
                                                 </StoreDetailStyle.MicroReviewCount>
                                                 <StoreDetailStyle.MicroReviewText>
                                                     Lượt đánh giá
                                                 </StoreDetailStyle.MicroReviewText>
                                             </StoreDetailStyle.MicroPoints>
                                             <StoreDetailStyle.YourRate>
+
                                                 <div>
-                                                    <Rate disabled defaultValue={storeDetail.data.your_rate}/>
+                                                    <Rate disabled={!!storeDetail.data.user_rate}
+                                                          defaultValue={storeDetail.data.user_rate}/>
                                                 </div>
                                                 <StoreDetailStyle.YourRateCount>
-                                                    {storeDetail.data.your_rate} <AiFillStar/>
+                                                    {!storeDetail.data.user_rate ? '--' : storeDetail.data.user_rate}
+                                                    {!!storeDetail.data.user_rate && < AiFillStar/>}
                                                 </StoreDetailStyle.YourRateCount>
                                                 <StoreDetailStyle.YourRateText>
                                                     Đánh giá của bạn
@@ -191,7 +204,7 @@ const StoreDetail = ({setShowLogin}) => {
                                         icon={<MdNavigateNext/>}
                                         onClick={() => {
                                             setDefaultActiveMenu('food');
-                                            history.push(`/stores/${storeDetail.data.store_name}.${storeDetail.data.id}`)
+                                            history.push(`/stores/${storeDetail.data.store_not_mark}.${storeDetail.data.id}`)
                                         }}
                                     >
                                         Món ăn
@@ -201,7 +214,7 @@ const StoreDetail = ({setShowLogin}) => {
                                         icon={<MdNavigateNext/>}
                                         onClick={() => {
                                             setDefaultActiveMenu('comment');
-                                            history.push(`/stores/${storeDetail.data.store_name}.${storeDetail.data.id}/comment`)
+                                            history.push(`/stores/${storeDetail.data.store_not_mark}.${storeDetail.data.id}/comment`)
                                         }}
                                     >
                                         Bình luận
@@ -211,7 +224,7 @@ const StoreDetail = ({setShowLogin}) => {
                                         icon={<MdNavigateNext/>}
                                         onClick={() => {
                                             setDefaultActiveMenu('promotion');
-                                            history.push(`/stores/${storeDetail.data.store_name}.${storeDetail.data.id}/promotion`)
+                                            history.push(`/stores/${storeDetail.data.store_not_mark}.${storeDetail.data.id}/promotion`)
                                         }}
                                     >
                                         Khuyến mãi
@@ -221,7 +234,7 @@ const StoreDetail = ({setShowLogin}) => {
                                         icon={<MdNavigateNext/>}
                                         onClick={() => {
                                             setDefaultActiveMenu('picture');
-                                            history.push(`/stores/${storeDetail.data.store_name}.${storeDetail.data.id}/picture`)
+                                            history.push(`/stores/${storeDetail.data.store_not_mark}.${storeDetail.data.id}/picture`)
                                         }}
                                     >
                                         Hình ảnh
