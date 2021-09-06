@@ -1,18 +1,19 @@
-import {put, takeEvery} from "redux-saga/effects";
+import { put, takeEvery } from 'redux-saga/effects';
 import axios from 'axios';
-import {REQUEST, SUCCESS, FAILURE, FOOD_ACTION, PROMOTION_ACTION} from '../constants';
-import {SERVER_CLIENT_API_URL} from '../../contants';
+import { REQUEST, SUCCESS, FOOD_ACTION } from '../constants';
+import { SERVER_CLIENT_API_URL } from '../../contants';
+import camelCaseKeys from 'camelcase-keys';
 
 function* getFoodListSaga() {
   try {
     const result = yield axios({
       method: 'GET',
-      url: `${SERVER_CLIENT_API_URL}/foods`
+      url: `${SERVER_CLIENT_API_URL}/foods`,
     });
     yield put({
       type: SUCCESS(FOOD_ACTION.GET_FOOD_LIST),
       payload: {
-        data: result.data
+        data: camelCaseKeys(result.data, { deep: true }),
       },
     });
   } catch (e) {
@@ -24,12 +25,12 @@ function* getFoodPromotionSaga() {
   try {
     const result = yield axios({
       method: 'GET',
-      url: `${SERVER_CLIENT_API_URL}/food-promotions`
+      url: `${SERVER_CLIENT_API_URL}/food-promotions`,
     });
     yield put({
       type: SUCCESS(FOOD_ACTION.GET_FOOD_PROMOTIONS),
       payload: {
-        data: result.data
+        data: camelCaseKeys(result.data, { deep: true }),
       },
     });
   } catch (e) {
@@ -98,8 +99,8 @@ function* getFoodPromotionSaga() {
 export default function* foodSaga() {
   yield takeEvery(REQUEST(FOOD_ACTION.GET_FOOD_LIST), getFoodListSaga);
   yield takeEvery(REQUEST(FOOD_ACTION.GET_FOOD_PROMOTIONS), getFoodPromotionSaga);
-    // yield takeEvery(REQUEST(PRODUCT_ACTION.GET_PRODUCT_DETAIL), getProductDetailSaga);
-    // yield takeEvery(REQUEST(PRODUCT_ACTION.CREATE_PRODUCT), createProductSaga);
-    // yield takeEvery(REQUEST(PRODUCT_ACTION.EDIT_PRODUCT), editProductSaga);
-    // yield takeEvery(REQUEST(PRODUCT_ACTION.DELETE_PRODUCT), deleteProductSaga);
+  // yield takeEvery(REQUEST(PRODUCT_ACTION.GET_PRODUCT_DETAIL), getProductDetailSaga);
+  // yield takeEvery(REQUEST(PRODUCT_ACTION.CREATE_PRODUCT), createProductSaga);
+  // yield takeEvery(REQUEST(PRODUCT_ACTION.EDIT_PRODUCT), editProductSaga);
+  // yield takeEvery(REQUEST(PRODUCT_ACTION.DELETE_PRODUCT), deleteProductSaga);
 }

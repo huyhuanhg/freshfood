@@ -1,30 +1,30 @@
-import styled, {css} from "styled-components";
-import {Modal} from "antd";
+import styled, { css } from 'styled-components';
+import { Modal } from 'antd';
 
 export const MicroHeader = styled.div`
   clear: both;
   overflow: hidden;
   position: relative;
   background: #fff;
-`
+`;
 export const MainImg = styled.div`
   float: left;
   position: relative;
-`
+`;
 export const ImageWrap = styled.div`
   height: 275px;
   overflow: hidden;
   position: relative;
-`
+`;
 export const StoreImg = styled.img`
   width: 488px;
   height: unset;
-`
+`;
 export const MainInformation = styled.div`
   width: 635px;
   float: left;
   margin-left: 25px;
-`
+`;
 export const ResCommon = styled.div`
   height: 275px;
   position: relative;
@@ -33,13 +33,13 @@ export const ResCommon = styled.div`
   width: 100%;
   float: left;
   margin-top: 0;
-`
+`;
 export const MainInfoTitle = styled.div`
   float: left;
   width: 100%;
   overflow: hidden;
   padding: 10px 0;
-`
+`;
 export const StoreName = styled.h1`
   width: 600px;
   font-weight: 700;
@@ -52,7 +52,7 @@ export const StoreName = styled.h1`
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
-`
+`;
 export const StoreCategory = styled.div`
   overflow: hidden;
   clear: both;
@@ -62,8 +62,9 @@ export const StoreCategory = styled.div`
     color: #888;
     font-size: 12px;
   }
-`
-const InfoRow = css`display: flex;
+`;
+const InfoRow = css`
+  display: flex;
   align-items: center;
   width: 100%;
   overflow: hidden;
@@ -84,7 +85,7 @@ const InfoRow = css`display: flex;
   }
 
   & > span.itsopen {
-    color: #05CD15;
+    color: #05cd15;
     font-weight: 700;
   }
 
@@ -92,18 +93,18 @@ const InfoRow = css`display: flex;
     color: #989898;
     font-weight: 700;
   }
-`
+`;
 export const StoreAddress = styled.div`
   ${InfoRow}
-`
+`;
 export const StoreTime = styled.div`
   ${InfoRow}
-`
+`;
 export const ResSummaryPoint = styled.div`
   overflow: hidden;
   margin-top: 5px;
   clear: both;
-`
+`;
 export const MicroPoints = styled.div`
   float: left;
   font-size: 20px;
@@ -114,7 +115,7 @@ export const MicroPoints = styled.div`
   text-shadow: 0 1px 1px #fff;
   width: 100px;
   margin-bottom: 10px;
-`
+`;
 export const MicroReviewCount = styled.div`
   display: flex;
   align-items: center;
@@ -128,7 +129,7 @@ export const MicroReviewCount = styled.div`
   & > svg {
     color: #fadb14;
   }
-`
+`;
 export const MicroReviewText = styled.div`
   font-size: 12px;
   color: #777;
@@ -136,7 +137,7 @@ export const MicroReviewText = styled.div`
   margin-top: 7px;
   width: 100%;
   text-align: center;
-`
+`;
 export const YourRate = styled.div`
   text-align: center;
   float: right;
@@ -146,8 +147,7 @@ export const YourRate = styled.div`
   padding: 10px 0 6px;
   text-shadow: 0 1px 1px #fff;
   width: 150px;
-
-`
+`;
 export const YourRateCount = styled.div`
   display: flex;
   align-items: center;
@@ -161,17 +161,17 @@ export const YourRateCount = styled.div`
   & > svg {
     color: #fadb14;
   }
-`
+`;
 export const YourRateText = styled.div`
   font-size: 12px;
   color: #777;
   float: left;
   width: 100%;
   text-align: center;
-`
+`;
 export const MicroMainMenu = styled.div`
   margin-top: 20px;
-`
+`;
 export const StoreToolbar = styled.div`
   margin-bottom: 15px;
   height: 48px;
@@ -193,7 +193,7 @@ export const StoreToolbar = styled.div`
       padding: 15px 0;
       font-size: 14px;
       color: #005d80;
-      border-right: #F0F0F0 1px solid;
+      border-right: #f0f0f0 1px solid;
       border-bottom: none;
       text-align: center;
       font-weight: 700;
@@ -210,14 +210,14 @@ export const StoreToolbar = styled.div`
       }
     }
   }
-`
+`;
 export const StoreContent = styled.div`
   background: #fff;
   overflow: hidden;
   border: 1px solid #eee;
   margin-bottom: 15px;
   border-radius: 2px;
-`
+`;
 export const StoreContentTitle = styled.div`
   font-size: 1.25rem;
   font-weight: 600;
@@ -229,12 +229,12 @@ export const StoreContentTitle = styled.div`
   color: #333;
   margin-left: 5px;
   margin-bottom: 5px;
-`
+`;
 export const ViewOther = styled.div`
   width: 100%;
   text-align: center;
   overflow: hidden;
-  background-color: #EE4D2D;
+  background-color: #ee4d2d;
   font-size: 14px;
   padding: 10px;
   overflow: hidden;
@@ -242,7 +242,7 @@ export const ViewOther = styled.div`
   color: #fff;
   display: block;
   cursor: pointer;
-`
+`;
 export const ModalCustom = styled(Modal)`
   & .ant-modal-body {
     padding: 0 !important;
@@ -276,9 +276,10 @@ export const ModalCustom = styled(Modal)`
       border: 1px solid #cf2127;
       line-height: 1.5;
       border-radius: 3px;
-      transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+      transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out,
+        box-shadow 0.15s ease-in-out;
       overflow: visible;
       text-transform: none;
     }
   }
-`
+`;

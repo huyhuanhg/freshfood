@@ -1,3 +1,3 @@
 export const CART_ACTION = {
-  //TODO
-}
+  GET_CART_LIST: 'GET_CART_LIST',
+};

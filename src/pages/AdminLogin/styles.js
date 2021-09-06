@@ -1,11 +1,11 @@
-import styled, {css} from 'styled-components';
-import {Button} from "antd";
+import styled from 'styled-components';
+import { Button } from 'antd';
 
 export const LoginWrap = styled.div`
   display: block;
   margin: auto;
   padding-top: 7%;
-  background: #E4E7EA !important;
+  background: #e4e7ea !important;
   min-height: 100vh;
 `;
 
@@ -21,7 +21,7 @@ export const H3 = styled.h3`
   font-size: 18px;
   line-height: 24px;
   margin: 0 0 15px;
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
   font-weight: 400;
   color: #444;
 `;
@@ -36,7 +36,7 @@ export const ButtonSubmit = styled(Button)`
   font-size: 1rem;
   padding: 0 12px;
   background: #f5f5f5;
-  border: 1px solid rgba(0, 0, 0, .06);
+  border: 1px solid rgba(0, 0, 0, 0.06);
   border-radius: 4px;
   text-shadow: 0 1px 0 #fff;
   width: 100%;
@@ -44,7 +44,7 @@ export const ButtonSubmit = styled(Button)`
   &:hover {
     outline: 0;
     text-decoration: none;
-    border-color: rgba(0, 0, 0, .16);
+    border-color: rgba(0, 0, 0, 0.16);
     color: #444;
   }
 `;

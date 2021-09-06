@@ -1,5 +1,5 @@
-import styled from "styled-components";
-import {Button} from "antd";
+import styled from 'styled-components';
+import { Button } from 'antd';
 
 export const CartTitle = styled.div`
   display: flex;
@@ -20,10 +20,10 @@ export const CartTitle = styled.div`
     font-weight: 600;
     color: #464646;
   }
-`
+`;
 export const CartWrap = styled.div`
   min-height: calc(100vh - 499.078px);
-`
+`;
 export const CartEmpty = styled.div`
   padding-top: 2rem;
   display: flex;
@@ -49,17 +49,17 @@ export const CartEmpty = styled.div`
     font-weight: 600;
     width: 60%;
     margin: 0 20%;
-    padding: .5rem;
+    padding: 0.5rem;
     font-size: 16px;
     border-radius: 4px;
     margin-top: 1.5rem;
   }
-`
+`;
 export const CartContent = styled.div`
   background: #fff;
   box-shadow: 0 0 18px rgb(0 0 0 / 12%);
   border-radius: 2px;
-`
+`;
 export const CartList = styled.ul`
   display: flex;
   flex-direction: column;
@@ -115,8 +115,9 @@ export const CartList = styled.ul`
           position: relative;
           margin: 2px 3px 0 0;
 
-          &:before, &:after {
-            content: "";
+          &:before,
+          &:after {
+            content: '';
             width: 2px;
             height: 8px;
             background: #fff;
@@ -133,7 +134,7 @@ export const CartList = styled.ul`
       }
     }
   }
-`
+`;
 export const CartInfo = styled.div`
   display: flex;
   width: 84%;
@@ -141,7 +142,7 @@ export const CartInfo = styled.div`
   & > div.food-info {
     flex-basis: 80%;
     overflow: hidden;
-    margin-top: .5rem;
+    margin-top: 0.5rem;
 
     & > div.food-name {
       width: 100%;
@@ -166,7 +167,7 @@ export const CartInfo = styled.div`
 
     & a {
       display: block;
-      padding: .25rem 0;
+      padding: 0.25rem 0;
       white-space: nowrap;
       text-overflow: ellipsis;
       overflow: hidden;
@@ -176,7 +177,7 @@ export const CartInfo = styled.div`
   & > div.price-info {
     flex-basis: 20%;
     text-align: right;
-    margin-top: .5rem;
+    margin-top: 0.5rem;
 
     & > div.choose-quantity {
       display: flex;
@@ -248,10 +249,8 @@ export const CartInfo = styled.div`
         color: #666;
       }
     }
-
-
   }
-`
+`;
 export const TotalProvisional = styled.div`
   display: block;
   overflow: hidden;
@@ -270,7 +269,7 @@ export const TotalProvisional = styled.div`
   & > span:last-child {
     float: right;
   }
-`
+`;
 export const CartOrder = styled.div`
   background: #fff;
   box-shadow: 0 0 18px rgb(0 0 0 / 12%);
@@ -283,7 +282,7 @@ export const CartOrder = styled.div`
     color: #333;
     margin-bottom: 1rem;
   }
-`
+`;
 export const OrderTotal = styled.div`
   overflow: hidden;
   background: #f6f6f6;
@@ -309,7 +308,7 @@ export const OrderTotal = styled.div`
     color: #f30c28;
     font-weight: bold;
   }
-`
+`;
 export const OrderButton = styled(Button)`
   width: 50%;
   background: #f30c28;
@@ -321,21 +320,21 @@ export const OrderButton = styled(Button)`
     color: #fff;
     border: 1px solid #d0051d;
   }
-`
+`;
 export const DeleteAllBtn = styled(Button)`
   width: 100%;
   border-left: 0;
   border-bottom: 0;
   border-right: 0;
-  border-color: rgba(143, 12, 40, .2);
+  border-color: rgba(143, 12, 40, 0.2);
   color: #f30c28;
   font-size: 14px;
   border-radius: 0;
-  background: rgba(143, 12, 40, .2);
+  background: rgba(143, 12, 40, 0.2);
 
   &:hover {
-    background: rgba(143, 12, 40, .1);
-    border-color: rgba(143, 12, 40, .1);
+    background: rgba(143, 12, 40, 0.1);
+    border-color: rgba(143, 12, 40, 0.1);
     color: #f30c28;
   }
-`
+`;

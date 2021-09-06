@@ -1,10 +1,9 @@
-import styled from "styled-components";
-import {Carousel} from "antd";
+import styled from 'styled-components';
 
 export const CarouselItem = styled.div`
   position: relative;
   min-height: 500px;
-  background: #D4D5DA !important;
+  background: #d4d5da !important;
 
   & > div {
     & > img {
@@ -27,7 +26,7 @@ export const CarouselItem = styled.div`
       left: 0;
       width: 100%;
       box-sizing: border-box;
-      background-color: rgba(0, 0, 0, .8);
+      background-color: rgba(0, 0, 0, 0.8);
       padding: 10px;
 
       & div.imgbox-food-name {
@@ -70,7 +69,7 @@ export const CarouselItem = styled.div`
       color: #f09724;
     }
   }
-`
+`;
 export const NextArrowButtonWrap = styled.div`
   position: absolute;
   right: 0;
@@ -82,11 +81,11 @@ export const NextArrowButtonWrap = styled.div`
   height: 60px;
 
   overflow: hidden;
-  display: ${({hide}) => hide ? 'none' : 'flex'};
+  display: ${({ hide }) => (hide ? 'none' : 'flex')};
   align-items: center;
 
   z-index: 100;
-`
+`;
 export const NextArrowButton = styled.button`
   position: relative;
   transform: translateX(50%);
@@ -98,7 +97,7 @@ export const NextArrowButton = styled.button`
   outline: none;
   border: 0;
   border-left: 1px solid #444;
-  background: rgba(204, 204, 204, .8);
+  background: rgba(204, 204, 204, 0.8);
   box-shadow: 0 0 10px 1px #898989;
   padding: 0;
 
@@ -108,7 +107,7 @@ export const NextArrowButton = styled.button`
     left: 25%;
     transform: translate(-40%, -50%);
   }
-`
+`;
 export const PrevArrowButtonWrap = styled.div`
   position: absolute;
   right: auto;
@@ -120,11 +119,11 @@ export const PrevArrowButtonWrap = styled.div`
   height: 60px;
 
   overflow: hidden;
-  display: ${({hide}) => hide ? 'none' : 'flex'};
+  display: ${({ hide }) => (hide ? 'none' : 'flex')};
   align-items: center;
 
   z-index: 100;
-`
+`;
 export const PrevArrowButton = styled.button`
   position: relative;
   cursor: pointer;
@@ -134,11 +133,10 @@ export const PrevArrowButton = styled.button`
 
   transform: translateX(-50%);
 
-
   outline: none;
   border: 0;
   border-right: 1px solid #444;
-  background: rgba(204, 204, 204, .8);
+  background: rgba(204, 204, 204, 0.8);
   box-shadow: 0 0 10px 1px #898989;
 
   & > svg {
@@ -147,4 +145,4 @@ export const PrevArrowButton = styled.button`
     right: 25%;
     transform: translate(40%, -50%);
   }
-`
+`;

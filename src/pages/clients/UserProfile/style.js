@@ -1,8 +1,8 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 export const ProfileWrap = styled.div`
   min-height: calc(100vh - 475px);
-`
+`;
 export const ProfileSidebar = styled.div`
   background: rgb(255, 255, 255);
   border: 1px solid #ddd;
@@ -12,7 +12,7 @@ export const ProfileSidebar = styled.div`
   & li {
     border-top: 1px solid #e7ecef;
   }
-`
+`;
 export const ProfileAvatarWrap = styled.div`
   position: relative;
 
@@ -35,12 +35,12 @@ export const ProfileAvatarWrap = styled.div`
     position: absolute;
     font-size: 250%;
     opacity: 0;
-    transition: .4s;
+    transition: 0.4s;
     bottom: 0;
     color: #888;
     right: calc(50% - 126px / 2);
   }
-`
+`;
 export const ProfileFullName = styled.div`
   text-align: center;
   margin-top: 10px;
@@ -51,12 +51,12 @@ export const ProfileFullName = styled.div`
     font-weight: 600;
     margin-bottom: 7px;
   }
-`
+`;
 export const ProfileContent = styled.div`
   background: rgb(255, 255, 255);
   margin-top: -20px;
   min-height: 378.031px;
-`
+`;
 export const ProfileEmpty = styled.div`
   padding-top: 5rem;
   display: flex;
@@ -72,4 +72,4 @@ export const ProfileEmpty = styled.div`
       font-size: 400%;
     }
   }
-`
+`;

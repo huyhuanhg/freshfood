@@ -1,5 +1,5 @@
-import {createAction} from '@reduxjs/toolkit';
-import {REQUEST, USER_ACTION} from '../constants';
+import { createAction } from '@reduxjs/toolkit';
+import { REQUEST, USER_ACTION } from '../constants';
 
 export const loginAction = createAction(REQUEST(USER_ACTION.LOGIN));
 export const logoutAction = createAction(REQUEST(USER_ACTION.LOGOUT));

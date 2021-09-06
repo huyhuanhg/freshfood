@@ -1,28 +1,29 @@
-import styled, {css} from 'styled-components';
-import {Button} from "antd";
+import styled, { css } from 'styled-components';
+import { Button } from 'antd';
 
 export const Logo = styled.div`
-          height: 80px;
-          width: 80px;
-          margin: auto;
-          background: url(https://forcky.com/assets/images/store-logo4.png) no-repeat;
-    `
-;
+  height: 80px;
+  width: 80px;
+  margin: auto;
+  background: url(https://forcky.com/assets/images/store-logo4.png) no-repeat;
+`;
 
 export const Icon = styled(Button)`
   height: 36px;
   width: 36px;
   line-height: 34px;
   padding: 0;
-  ${props => props.type && css`
-    margin: 2px;
-  `}
+  ${(props) =>
+    props.type &&
+    css`
+      margin: 2px;
+    `}
   border-radius: 30px;
   font-size: 15px;
   letter-spacing: 0.5px;
   transition: all 0.3s;
   outline: none;
-  ${props => {
+  ${(props) => {
     if (props.type === 'edit') {
       return css`
         background-color: rgba(83, 199, 151, 0.1) !important;
@@ -36,12 +37,11 @@ export const Icon = styled(Button)`
         }
       `;
     } else if (props.type === 'destroy') {
-
       return css`
         background-color: rgba(240, 115, 90, 0.1) !important;
         border: 1px solid rgba(240, 115, 90, 0.1) !important;
         color: #f0735a !important;
-        box-shadow: 0 3px 5px 0 rgb(240, 115,90 / 30%) !important;
+        box-shadow: 0 3px 5px 0 rgb(240, 115, 90 / 30%) !important;
 
         &:hover {
           color: #fff !important;

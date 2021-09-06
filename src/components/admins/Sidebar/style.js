@@ -1,9 +1,8 @@
-import styled, {css} from 'styled-components';
-import {Button, Layout, Menu as AtndMenu} from "antd";
+import styled from 'styled-components';
+import { Layout, Menu as AtndMenu } from 'antd';
 // import Sider from "antd/lib/layout/Sider";
-const {Sider} = Layout;
-export const Wrap = styled(Sider)`
-`;
+const { Sider } = Layout;
+export const Wrap = styled(Sider)``;
 
 export const Menu = styled(AtndMenu)`
   border-top: 1px solid #e9ecef;

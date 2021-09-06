@@ -1,13 +1,13 @@
-import styled from "styled-components";
-import bgIntroduce from "../../../../../assets/images/bg4.jpg";
-import {Link} from "react-router-dom";
+import styled from 'styled-components';
+import bgIntroduce from '../../../../../assets/images/bg4.jpg';
+import { Link } from 'react-router-dom';
 
 export const Introduce = styled.section`
   padding: 0;
   background-size: 1900px;
   background-position: center;
   background-repeat: no-repeat;
-  background-image: linear-gradient(rgba(26, 38, 92, .6), rgba(26, 38, 92, .6)), url(${bgIntroduce});
+  background-image: linear-gradient(rgba(26, 38, 92, 0.6), rgba(26, 38, 92, 0.6)), url(${bgIntroduce});
   margin-bottom: 80px;
 
   & > div {
@@ -31,7 +31,7 @@ export const Introduce = styled.section`
       list-style: none;
 
       & > li {
-        padding: .5rem 0;
+        padding: 0.5rem 0;
 
         & > svg {
           color: #29d197;
@@ -48,7 +48,7 @@ export const Introduce = styled.section`
       transform: translate(-50%, 50%);
     }
   }
-`
+`;
 
 export const IntroduceLink = styled(Link)`
   & > figure {
@@ -61,7 +61,7 @@ export const IntroduceLink = styled(Link)`
     background-color: #fcfcfc;
     border-right: 1px solid #f1f1f1;
     border-left: 1px solid #f1f1f1;
-    border-bottom: 5px solid ${({color}) => color};
+    border-bottom: 5px solid ${({ color }) => color};
     margin: 0;
     z-index: 4;
 
@@ -78,7 +78,7 @@ export const IntroduceLink = styled(Link)`
 
     & > svg {
       font-size: 250%;
-      color: ${({color}) => color};
+      color: ${({ color }) => color};
     }
 
     & + span {
@@ -87,7 +87,7 @@ export const IntroduceLink = styled(Link)`
       width: 30px;
       height: 30px;
       border-radius: 50%;
-      background-color: ${({color}) => color};
+      background-color: ${({ color }) => color};
       position: absolute;
       top: 90%;
       left: 43%;
@@ -97,11 +97,11 @@ export const IntroduceLink = styled(Link)`
 
   &:hover {
     & > figure {
-      transition: .4s;
-      background-color: ${({color}) => color};
+      transition: 0.4s;
+      background-color: ${({ color }) => color};
       transform: translateY(20px);
-      border-right: 1px solid ${({color}) => color};
-      border-left: 1px solid ${({color}) => color};
+      border-right: 1px solid ${({ color }) => color};
+      border-left: 1px solid ${({ color }) => color};
 
       & > svg {
         color: white;
@@ -112,10 +112,9 @@ export const IntroduceLink = styled(Link)`
       }
 
       & + span {
-        transition: .4s;
+        transition: 0.4s;
         top: calc(90% + 20px);
       }
     }
   }
-`
-
+`;

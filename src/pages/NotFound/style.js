@@ -1,4 +1,4 @@
-import styled, {css} from 'styled-components';
+import styled from 'styled-components';
 
 export const NotFoundWrap = styled.div`
   position: relative;
@@ -29,4 +29,4 @@ export const NotFoundWrap = styled.div`
       height: auto;
     }
   }
-`
+`;

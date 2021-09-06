@@ -1,10 +1,10 @@
-import styled from "styled-components";
-import {Modal} from "antd";
+import styled from 'styled-components';
+import { Modal } from 'antd';
 
 export const FoodItem = styled.div`
   position: relative;
   min-height: 500px;
-  background: #D4D5DA !important;
+  background: #d4d5da !important;
 
   & > div {
     & > img {
@@ -27,7 +27,7 @@ export const FoodItem = styled.div`
       left: 0;
       width: 100%;
       box-sizing: border-box;
-      background-color: rgba(0, 0, 0, .8);
+      background-color: rgba(0, 0, 0, 0.8);
       padding: 10px;
 
       & div.imgbox-food-name {
@@ -70,7 +70,7 @@ export const FoodItem = styled.div`
       color: #f09724;
     }
   }
-`
+`;
 export const ModalCustom = styled(Modal)`
   & .ant-modal-body {
     padding: 0 !important;
@@ -88,7 +88,6 @@ export const ModalCustom = styled(Modal)`
       cursor: pointer;
       background-color: #cf2127;
       color: #fff;
-      border-color: #cf2127;
       padding: 4px 10px;
       display: inline-block;
       text-align: center;
@@ -104,9 +103,10 @@ export const ModalCustom = styled(Modal)`
       border: 1px solid #cf2127;
       line-height: 1.5;
       border-radius: 3px;
-      transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+      transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out,
+        box-shadow 0.15s ease-in-out;
       overflow: visible;
       text-transform: none;
     }
   }
-`
+`;

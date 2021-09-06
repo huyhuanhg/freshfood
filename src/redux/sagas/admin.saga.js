@@ -1,73 +1,74 @@
-import {notification} from "antd";
-import {put, takeEvery} from "redux-saga/effects";
+import { notification } from 'antd';
+import { put, takeEvery } from 'redux-saga/effects';
 import axios from 'axios';
-import {REQUEST, SUCCESS, FAILURE, ADMIN_ACTION} from '../constants';
-import {SERVER_ADMIN_API_URL, SERVER_CLIENT_API_URL} from './contants/apiUrl';
+import camelCaseKeys from 'camelcase-keys';
+import { REQUEST, SUCCESS, FAILURE, ADMIN_ACTION } from '../constants';
+import { SERVER_ADMIN_API_URL } from '../../contants';
 
 import history from '../../utils/history';
 
 function* loginAdminSaga(action) {
-    try {
-        const {data} = action.payload;
-        const result = yield axios.post(`${SERVER_ADMIN_API_URL}/login`, data);
+  try {
+    const { data } = action.payload;
+    let result = yield axios.post(`${SERVER_ADMIN_API_URL}/login`, data);
+    yield (result = camelCaseKeys(result.data, { deep: true }));
+    yield (localStorage.adminInfo = JSON.stringify({
+      accessToken: result.accessToken,
+      expires: result.expire,
+    }));
 
-        yield localStorage.adminInfo = JSON.stringify({
-            access_token: result.data.access_token,
-            expires: result.data.expires_in
-        });
+    yield put({
+      type: SUCCESS(ADMIN_ACTION.ADMIN_LOGIN),
+      payload: {
+        data: result.user,
+      },
+    });
 
-        yield put({
-            type: SUCCESS(ADMIN_ACTION.ADMIN_LOGIN),
-            payload: {
-                data: result.data.user,
-            },
-        });
+    yield notification.success({
+      message: 'Đăng nhập thành công!',
+    });
 
-        yield notification.success({
-            message: 'Đăng nhập thành công!',
-        });
-
-        yield history.push('/manager');
-
-    } catch (e) {
-        yield put({
-            type: FAILURE(ADMIN_ACTION.ADMIN_LOGIN),
-            payload: {
-                error: 'Email hoặc mật khẩu không đúng!'
-            }
-        });
-    }
+    yield history.push('/manager');
+  } catch (e) {
+    yield put({
+      type: FAILURE(ADMIN_ACTION.ADMIN_LOGIN),
+      payload: {
+        error: 'Email hoặc mật khẩu không đúng!',
+      },
+    });
+  }
 }
 
 function* refreshAdminSaga(action) {
-    try {
-        const {data} = action.payload;
-        const result = yield axios({
-            method: 'post',
-            url: `${SERVER_ADMIN_API_URL}/refresh`,
-            headers: {
-                Authorization: `Bearer ${data}`
-            }
-        });
-        yield localStorage.adminInfo = JSON.stringify({
-            access_token: result.data.access_token,
-            expires: result.data.expires_in
-        });
+  try {
+    const { data } = action.payload;
+    let result = yield axios({
+      method: 'post',
+      url: `${SERVER_ADMIN_API_URL}/refresh`,
+      headers: {
+        Authorization: `Bearer ${data}`,
+      },
+    });
+    yield (result = camelCaseKeys(result.data, { deep: true }));
+    yield (localStorage.adminInfo = JSON.stringify({
+      accessToken: result.accessToken,
+      expires: result.expire,
+    }));
 
-        yield put({
-            type: SUCCESS(ADMIN_ACTION.REFRESH_ADMIN_TOKEN),
-            payload: {
-                data: result.data.user,
-            },
-        });
-    } catch (e) {
-        yield put({
-            type: FAILURE(ADMIN_ACTION.REFRESH_ADMIN_TOKEN),
-            payload: {
-                error: e.message
-            }
-        });
-    }
+    yield put({
+      type: SUCCESS(ADMIN_ACTION.REFRESH_ADMIN_TOKEN),
+      payload: {
+        data: result.user,
+      },
+    });
+  } catch (e) {
+    yield put({
+      type: FAILURE(ADMIN_ACTION.REFRESH_ADMIN_TOKEN),
+      payload: {
+        error: e.message,
+      },
+    });
+  }
 }
 
 // function* registerSaga(action) {
@@ -99,24 +100,25 @@ function* refreshAdminSaga(action) {
 // }
 //
 function* getAdminInfoSaga(action) {
-    try {
-        const {data} = action.payload;
-        const result = yield axios.get(`${SERVER_ADMIN_API_URL}/user-profile`,
-            {headers: {"Authorization": `Bearer ${data}`}})
-        yield put({
-            type: SUCCESS(ADMIN_ACTION.GET_ADMIN_INFO),
-            payload: {
-                data: result.data
-            },
-        });
-    } catch (e) {
-        yield put({type: FAILURE(ADMIN_ACTION.GET_ADMIN_INFO), payload: e.message});
-    }
+  try {
+    const { data } = action.payload;
+    const result = yield axios.get(`${SERVER_ADMIN_API_URL}/user-profile`, {
+      headers: { Authorization: `Bearer ${data}` },
+    });
+    yield put({
+      type: SUCCESS(ADMIN_ACTION.GET_ADMIN_INFO),
+      payload: {
+        data: camelCaseKeys(result.data, { deep: true }),
+      },
+    });
+  } catch (e) {
+    yield put({ type: FAILURE(ADMIN_ACTION.GET_ADMIN_INFO), payload: e.message });
+  }
 }
 
 export default function* adminSaga() {
-    yield takeEvery(REQUEST(ADMIN_ACTION.ADMIN_LOGIN), loginAdminSaga);
-    yield takeEvery(REQUEST(ADMIN_ACTION.REFRESH_ADMIN_TOKEN), refreshAdminSaga);
-    // yield takeEvery(REQUEST(USER_ACTION.REGISTER), registerSaga);
-    yield takeEvery(REQUEST(ADMIN_ACTION.GET_ADMIN_INFO), getAdminInfoSaga);
+  yield takeEvery(REQUEST(ADMIN_ACTION.ADMIN_LOGIN), loginAdminSaga);
+  yield takeEvery(REQUEST(ADMIN_ACTION.REFRESH_ADMIN_TOKEN), refreshAdminSaga);
+  // yield takeEvery(REQUEST(USER_ACTION.REGISTER), registerSaga);
+  yield takeEvery(REQUEST(ADMIN_ACTION.GET_ADMIN_INFO), getAdminInfoSaga);
 }

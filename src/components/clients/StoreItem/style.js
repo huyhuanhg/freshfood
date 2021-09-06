@@ -1,28 +1,28 @@
-import styled from "styled-components";
-import {Card} from "antd";
+import styled from 'styled-components';
+import { Card } from 'antd';
 
-const {Meta} = Card;
+const { Meta } = Card;
 
 export const CardItem = styled(Card)`
   border-radius: 4px;
-`
+`;
 export const StoreImage = styled.div`
   height: 141px;
   max-width: 226px;
-  background-image: url(${({avatar}) => avatar});
+  background-image: url(${({ avatar }) => avatar});
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
   border-radius: 4px 4px 0 0;
-  transition: .3s ease;
-`
+  transition: 0.3s ease;
+`;
 export const StoreInfo = styled.div`
   overflow: hidden;
   height: 55px;
   box-sizing: border-box;
   line-height: 1.4em;
   padding: 0 0 10px 0;
-`
+`;
 export const StoreNameInfo = styled.div`
   display: block;
   font-size: 14px;
@@ -35,7 +35,7 @@ export const StoreNameInfo = styled.div`
   &:hover {
     text-decoration: underline !important;
   }
-`
+`;
 export const StoreAddress = styled.div`
   font-size: 12px;
   color: #888;
@@ -43,13 +43,13 @@ export const StoreAddress = styled.div`
   overflow: hidden;
   text-overflow: ellipsis;
   display: block;
-`
+`;
 export const StoreCommentWrap = styled(Meta)`
   clear: both;
   border-top: #f6f6f6 1px solid;
   overflow: hidden;
   padding: 10px 0;
-`
+`;
 export const StoreComment = styled.div`
   color: #666;
   height: 32px;
@@ -70,7 +70,7 @@ export const StoreComment = styled.div`
     right: 0;
     width: 1em;
     height: 2.1em;
-    margin-top: .2em;
+    margin-top: 0.2em;
     background: #fff;
   }
 
@@ -80,16 +80,16 @@ export const StoreComment = styled.div`
     right: 2px;
     bottom: 0;
   }
-`
+`;
 export const StoreCommentName = styled.b`
   color: #222;
   text-align: left;
   display: inline-block;
-`
+`;
 export const StoreCommentDoc = styled.span`
   color: #333;
   outline: 0;
-`
+`;
 export const StoreStatistical = styled.div`
   padding-top: 10px;
   color: #888;
@@ -109,7 +109,7 @@ export const StoreStatistical = styled.div`
       align-items: center;
 
       & > svg {
-        margin-right: 3px
+        margin-right: 3px;
       }
 
       & > span {
@@ -142,4 +142,4 @@ export const StoreStatistical = styled.div`
       }
     }
   }
-`
+`;

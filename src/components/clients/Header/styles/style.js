@@ -1,7 +1,7 @@
-import styled, {css} from 'styled-components';
-import {Link} from "react-router-dom";
-import {SearchOutlined} from "@ant-design/icons";
-import {Avatar, Button} from "antd";
+import styled from 'styled-components';
+import { Link } from 'react-router-dom';
+import { SearchOutlined } from '@ant-design/icons';
+import { Avatar, Button } from 'antd';
 
 export const TopBar = styled.div`
   background-color: #1a265c;
@@ -24,12 +24,14 @@ export const TopBar = styled.div`
       & > li {
         margin-right: 30px;
 
-        &:hover > svg, &:hover > span {
-          transition: .4s;
+        &:hover > svg,
+        &:hover > span {
+          transition: 0.4s;
           transform: scale(1.2);
         }
 
-        & > svg, & > span {
+        & > svg,
+        & > span {
           color: #29d197;
           margin-right: 5px;
         }
@@ -59,28 +61,28 @@ export const TopBar = styled.div`
         cursor: pointer;
 
         &:hover > svg {
-          transition: .4s;
+          transition: 0.4s;
           color: #29d197;
           transform: scale(1.2);
         }
       }
     }
   }
-`
+`;
 export const Header = styled.header`
   width: 100%;
   z-index: 99;
   background-color: #f0f3f7;
   box-shadow: 0 2px 8px 0 rgb(99 99 99 / 20%);
-`
+`;
 export const MenuWrap = styled.div`
   max-width: 1140px;
   margin: auto;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: .5rem 0;
-`
+  padding: 0.5rem 0;
+`;
 export const Logo = styled(Link)`
   font-family: 'Poppins', sans-serif !important;
   text-transform: uppercase;
@@ -91,13 +93,13 @@ export const Logo = styled(Link)`
   &:hover {
     color: #0f9d58;
   }
-`
+`;
 export const SearchWrap = styled.div`
   flex-basis: 35%;
-`
+`;
 export const FormGroup = styled.div`
   position: relative;
-`
+`;
 export const InputSearch = styled.input`
   font-size: 150%;
   padding: 1rem;
@@ -107,29 +109,30 @@ export const InputSearch = styled.input`
   background: white;
   border-radius: 5px;
   box-shadow: 0 0 10px 1px rgb(0 0 0 / 10%);
-`
+`;
 export const IconSearch = styled(SearchOutlined)`
   position: absolute;
   font-size: 1.5rem;
   top: 50%;
-  right: .75rem;
+  right: 0.75rem;
   color: #ccc;
   transform: translateY(-50%);
-`
+`;
 export const Btn = styled(Button)`
-  &[disabled]{
-    cursor: default!important;
-    color:#777;
+  &[disabled] {
+    cursor: default !important;
+    color: #777;
     background-color: #ddd;
   }
+
   &:hover {
     border-color: #0f9d58;
     color: #0f9d58;
   }
-`
+`;
 export const UserAvatar = styled(Avatar)`
   background-color: rgba(15, 157, 88, 0.1);
   border-color: rgba(15, 157, 88, 0.1);
   box-shadow: 0 0 5px 0 rgb(15 157 88 / 30%);
   color: rgb(15, 157, 88);
-`
+`;

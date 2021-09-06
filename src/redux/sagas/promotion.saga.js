@@ -1,8 +1,3 @@
-import {put, takeEvery} from "redux-saga/effects";
-import axios from 'axios';
-import {REQUEST, SUCCESS, FAILURE, PROMOTION_ACTION} from '../constants';
-import {SERVER_CLIENT_API_URL} from '../../contants';
-//
 // function* getPromotionListInitialSaga() {
 //     try {
 //         const result = yield axios({
@@ -21,5 +16,5 @@ import {SERVER_CLIENT_API_URL} from '../../contants';
 // }
 
 export default function* promotionSaga() {
-    // yield takeEvery(REQUEST(PROMOTION_ACTION.GET_FOOD_PROMOTION_INITIAL), getPromotionListInitialSaga);
+  // yield takeEvery(REQUEST(PROMOTION_ACTION.GET_FOOD_PROMOTION_INITIAL), getPromotionListInitialSaga);
 }
