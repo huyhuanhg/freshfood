@@ -1,10 +1,10 @@
 import { Affix, Col, Menu, Row, Select, Spin } from 'antd';
-import * as StoreDetailStyle from '../style';
-import FoodDetailCarousel from '../../../../components/clients/FoodDeatilCarousle';
 import { useSelector } from 'react-redux';
 import { useState } from 'react';
-import { FoodStore } from '../../../../components/clients/FoodItem';
 import PropTypes from 'prop-types';
+import * as StoreDetailStyle from '../style';
+import FoodDetailCarousel from '../../../../components/clients/FoodDeatilCarousle';
+import { FoodStore } from '../../../../components/clients/FoodItem';
 
 const StoreDetailFood = ({ showFoodDetail, setShowLogin, setShowFoodDetail }) => {
   const { foodList } = useSelector((state) => state.foodReducer);
@@ -82,7 +82,9 @@ const StoreDetailFood = ({ showFoodDetail, setShowLogin, setShowFoodDetail }) =>
         </div>
       </Affix>
       <StoreDetailStyle.StoreContent>
-        <StoreDetailStyle.StoreContentTitle>Đặt món</StoreDetailStyle.StoreContentTitle>
+        <StoreDetailStyle.StoreContentTitle>
+          Đặt món
+        </StoreDetailStyle.StoreContentTitle>
         <Row>
           {renderFoodList(12, foodList.load)}
           {foodList.load && (

@@ -1,6 +1,4 @@
 import { Affix, Col, Menu, Row, Spin } from 'antd';
-import * as ClientStyle from '../styles';
-import * as S from './style';
 import {
   AiFillEdit,
   AiOutlinePoweroff,
@@ -12,9 +10,13 @@ import {
   FiSettings,
   GiRank3,
 } from 'react-icons/all';
-import { ROOT_PATH, TITLE } from '../../../contants';
 import { useDispatch, useSelector } from 'react-redux';
 import { Redirect, Route, Switch } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
+import * as ClientStyle from '../styles';
+import * as S from './style';
+import { ROOT_PATH, TITLE } from '../../../contants';
 
 import Profile from './Profile';
 import HistoryOrder from './HistoryOrder';
@@ -23,14 +25,16 @@ import ChangePassword from './ChangePassword';
 import HistoryComment from './HistoryComment';
 import history from '../../../utils/history';
 import { logoutAction } from '../../../redux/actions';
-import { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
+
 const UserProfile = ({ match }) => {
   document.title = TITLE.USER_PROFILE;
   const { SubMenu } = Menu;
   const { userInfo } = useSelector((state) => state.userReducer);
   const dispatch = useDispatch();
-  const [activeMenu, setActiveMenu] = useState({ subMenu: [], menuItem: 'order' });
+  const [activeMenu, setActiveMenu] = useState({
+    subMenu: [],
+    menuItem: 'order',
+  });
   const [redirect, setRedirect] = useState(false);
 
   useEffect(() => {
@@ -139,7 +143,11 @@ const UserProfile = ({ match }) => {
                         openKeys={activeMenu.subMenu}
                         mode="inline"
                       >
-                        <Menu.Item key="order" icon={<FaHistory />} onClick={handleMenuItemClick}>
+                        <Menu.Item
+                          key="order"
+                          icon={<FaHistory />}
+                          onClick={handleMenuItemClick}
+                        >
                           Lịch sử giao dịch
                         </Menu.Item>
                         <SubMenu
@@ -148,10 +156,18 @@ const UserProfile = ({ match }) => {
                           title="Hoạt động cá nhân"
                           onTitleClick={handleSubMenuClick}
                         >
-                          <Menu.Item key="history-comment" icon={<FaComment />} onClick={handleMenuItemClick}>
+                          <Menu.Item
+                            key="history-comment"
+                            icon={<FaComment />}
+                            onClick={handleMenuItemClick}
+                          >
                             Bình luận
                           </Menu.Item>
-                          <Menu.Item key="history-rating" icon={<GiRank3 />} onClick={handleMenuItemClick}>
+                          <Menu.Item
+                            key="history-rating"
+                            icon={<GiRank3 />}
+                            onClick={handleMenuItemClick}
+                          >
                             Đánh giá
                           </Menu.Item>
                         </SubMenu>
@@ -161,14 +177,26 @@ const UserProfile = ({ match }) => {
                           title="Cài đặt tài khoản"
                           onTitleClick={handleSubMenuClick}
                         >
-                          <Menu.Item key="user-info" icon={<BsPencilSquare />} onClick={handleMenuItemClick}>
+                          <Menu.Item
+                            key="user-info"
+                            icon={<BsPencilSquare />}
+                            onClick={handleMenuItemClick}
+                          >
                             Thông tin tài khoản
                           </Menu.Item>
-                          <Menu.Item key="user-password" icon={<FaUserAlt />} onClick={handleMenuItemClick}>
+                          <Menu.Item
+                            key="user-password"
+                            icon={<FaUserAlt />}
+                            onClick={handleMenuItemClick}
+                          >
                             Đổi mật khẩu
                           </Menu.Item>
                         </SubMenu>
-                        <Menu.Item key="1" icon={<AiOutlinePoweroff />} onClick={handleLogout}>
+                        <Menu.Item
+                          key="1"
+                          icon={<AiOutlinePoweroff />}
+                          onClick={handleLogout}
+                        >
                           Đăng xuất
                         </Menu.Item>
                       </Menu>

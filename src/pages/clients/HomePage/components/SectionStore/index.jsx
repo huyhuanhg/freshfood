@@ -1,8 +1,8 @@
-import * as HomeS from '../../styles';
 import { Link } from 'react-router-dom';
 import { Button, Col, Row } from 'antd';
-import StoreItem from '../../../../../components/clients/StoreItem';
 import { useSelector } from 'react-redux';
+import StoreItem from '../../../../../components/clients/StoreItem';
+import * as HomeS from '../../styles';
 
 const SectionStore = () => {
   const { storeList } = useSelector((state) => state.storeReducer);

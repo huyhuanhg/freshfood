@@ -1,8 +1,8 @@
 import { put, takeEvery } from 'redux-saga/effects';
 import axios from 'axios';
+import camelCaseKeys from 'camelcase-keys';
 import { REQUEST, SUCCESS, CART_ACTION, FAILURE } from '../constants';
 import { SERVER_CLIENT_API_URL } from '../../contants';
-import camelCaseKeys from 'camelcase-keys';
 
 function* getCartListSaga(action) {
   try {
@@ -23,7 +23,10 @@ function* getCartListSaga(action) {
     });
   } catch (e) {
     console.log(e);
-    yield put({ type: FAILURE(CART_ACTION.GET_CART_LIST), payload: { error: e.message } });
+    yield put({
+      type: FAILURE(CART_ACTION.GET_CART_LIST),
+      payload: { error: e.message },
+    });
   }
 }
 

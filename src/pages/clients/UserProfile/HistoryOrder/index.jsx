@@ -1,5 +1,5 @@
-import * as S from '../style';
 import { MdRemoveShoppingCart } from 'react-icons/all';
+import * as S from '../style';
 
 const HistoryOrder = () => {
   return (

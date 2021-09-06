@@ -1,7 +1,13 @@
-import * as FooterStyle from './style';
 import { Col, Row } from 'antd';
-import { AiFillSkype, FaFacebookF, GrGooglePlus, GrLinkNext, RiMapPin2Fill } from 'react-icons/all';
+import {
+  AiFillSkype,
+  FaFacebookF,
+  GrGooglePlus,
+  GrLinkNext,
+  RiMapPin2Fill,
+} from 'react-icons/all';
 import { MailOutlined, PhoneOutlined } from '@ant-design/icons';
+import * as FooterStyle from './style';
 
 function Footer() {
   return (
@@ -13,8 +19,8 @@ function Footer() {
               <FooterStyle.AboutFooter>
                 <h4>About Information</h4>
                 <p>
-                  Lorem ipsum dolor sit amet consetuer ilmi adipiscing elit diam, sed diam nonumy nibh euismod
-                  tincidunt.
+                  Lorem ipsum dolor sit amet consetuer ilmi adipiscing elit diam, sed
+                  diam nonumy nibh euismod tincidunt.
                 </p>
                 <div>
                   <div>

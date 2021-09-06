@@ -1,11 +1,10 @@
 import NumberFormat from 'react-number-format';
 
-import * as S from './style';
-
 import { BsImage, HiShoppingCart } from 'react-icons/all';
 import { useSelector } from 'react-redux';
-import { ROOT_PATH } from '../../../contants';
 import PropTypes from 'prop-types';
+import { ROOT_PATH } from '../../../contants';
+import * as S from './style';
 
 export const FoodStore = ({
   foodAvatar,
@@ -28,7 +27,9 @@ export const FoodStore = ({
         setIndex(index);
       }}
     >
-      <S.FoodStoreAvatar>{loading ? <BsImage /> : <img src={`${ROOT_PATH}${foodAvatar}`} />}</S.FoodStoreAvatar>
+      <S.FoodStoreAvatar>
+        {loading ? <BsImage /> : <img src={`${ROOT_PATH}${foodAvatar}`} />}
+      </S.FoodStoreAvatar>
       <S.FoodStoreItemRight>
         <S.SkeletonCustom loading={loading} active>
           <S.FoodStoreTitle>{foodName}</S.FoodStoreTitle>
@@ -38,7 +39,12 @@ export const FoodStore = ({
           </p>
           <S.FoodStorePrice>
             <div className="price-discount">
-              <NumberFormat value={discount?.value ?? price} displayType={'text'} thousandSeparator suffix={'đ'} />
+              <NumberFormat
+                value={discount?.value ?? price}
+                displayType={'text'}
+                thousandSeparator
+                suffix={'đ'}
+              />
             </div>
             <span className="price">
               <NumberFormat

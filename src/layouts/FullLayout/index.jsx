@@ -1,12 +1,12 @@
 import { Link, Redirect, Route } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
+import { Spin } from 'antd';
+import PropTypes from 'prop-types';
 import * as LayoutStyle from './style';
 
 import bgLogin from '../../assets/images/bg-login.png';
 import foodLogo from '../../assets/images/food_logo.png';
-import { Spin } from 'antd';
-import PropTypes from 'prop-types';
 
 function FullLayout({ exact, path, component: Component }) {
   const { userInfo } = useSelector((state) => state.userReducer);

@@ -14,7 +14,7 @@ export const Icon = styled(Button)`
   line-height: 34px;
   padding: 0;
   ${(props) =>
-    props.type &&
+  props.type &&
     css`
       margin: 2px;
     `}
@@ -24,8 +24,8 @@ export const Icon = styled(Button)`
   transition: all 0.3s;
   outline: none;
   ${(props) => {
-    if (props.type === 'edit') {
-      return css`
+      if (props.type === 'edit') {
+        return css`
         background-color: rgba(83, 199, 151, 0.1) !important;
         border: 1px solid rgba(83, 199, 151, 0.1) !important;
         color: #53c797 !important;
@@ -36,8 +36,8 @@ export const Icon = styled(Button)`
           background-color: #53c797 !important;
         }
       `;
-    } else if (props.type === 'destroy') {
-      return css`
+      } else if (props.type === 'destroy') {
+        return css`
         background-color: rgba(240, 115, 90, 0.1) !important;
         border: 1px solid rgba(240, 115, 90, 0.1) !important;
         color: #f0735a !important;
@@ -48,8 +48,8 @@ export const Icon = styled(Button)`
           background-color: #f0735a !important;
         }
       `;
-    } else {
-      return css`
+      } else {
+        return css`
         background-color: rgba(57, 108, 240, 0.1) !important;
         border: 1px solid rgba(57, 108, 240, 0.1) !important;
         color: #396cf0 !important;
@@ -60,8 +60,8 @@ export const Icon = styled(Button)`
           background-color: #396cf0 !important;
         }
       `;
-    }
-  }}
+      }
+    }}
   cursor: pointer;
   text-align: center;
   display: inline-block;

@@ -1,8 +1,10 @@
-import * as HomeS from './styles';
-import { TITLE } from '../../../contants';
 import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { Anchor, Col, Row } from 'antd';
+import { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
+import * as HomeS from './styles';
+import { TITLE } from '../../../contants';
 
 import history from '../../../utils/history';
 
@@ -13,15 +15,17 @@ import bg3 from '../../../assets/images/bg3.jpg';
 import './styles/style.css';
 
 import { FoodItemHome } from '../../../components/clients/FoodItem';
-import { useEffect, useState } from 'react';
 import FoodDetailModal from '../../../components/clients/FoodDetailModal';
 import SectionListed from './components/SectionListed';
 import SectionFoodList from './components/SectionFoodList';
 
-import { getFoodListAction, getFoodPromotionAction, getStoresAction } from '../../../redux/actions';
+import {
+  getFoodListAction,
+  getFoodPromotionAction,
+  getStoresAction,
+} from '../../../redux/actions';
 import SectionPromotion from './components/SectionPromotion';
 import SectionStore from './components/SectionStore';
-import PropTypes from 'prop-types';
 
 function HomePage({ setShowLogin }) {
   document.title = TITLE.HOME;
@@ -44,7 +48,11 @@ function HomePage({ setShowLogin }) {
         {foodList.map((food) => {
           return (
             <Col span={span} key={food.id}>
-              <FoodItemHome {...food} setShowDetail={setShowFoodDetail} setShowLogin={setShowLogin} />
+              <FoodItemHome
+                {...food}
+                setShowDetail={setShowFoodDetail}
+                setShowLogin={setShowLogin}
+              />
             </Col>
           );
         })}
@@ -53,7 +61,11 @@ function HomePage({ setShowLogin }) {
   };
   return (
     <>
-      <FoodDetailModal show={showFoodDetail} setShow={setShowFoodDetail} setShowLogin={setShowLogin} />
+      <FoodDetailModal
+        show={showFoodDetail}
+        setShow={setShowFoodDetail}
+        setShowLogin={setShowLogin}
+      />
       <HomeS.Heading>
         <HomeS.HeadingCarousel autoplay dots={false} effect="fade">
           <HomeS.CarouselItem src={bg1} />
@@ -67,7 +79,9 @@ function HomePage({ setShowLogin }) {
             <br />
             Không ngại SARS-CoV-2
           </HomeS.SloganDescription>
-          <HomeS.SloganBtn onClick={() => history.push('/stores')}>Mua sắm ngay</HomeS.SloganBtn>
+          <HomeS.SloganBtn onClick={() => history.push('/stores')}>
+            Mua sắm ngay
+          </HomeS.SloganBtn>
         </HomeS.Slogan>
       </HomeS.Heading>
 

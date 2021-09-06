@@ -1,8 +1,8 @@
-import * as ClientStyle from '../styles';
 import { Affix, Col, Menu, Row } from 'antd';
 import { MdNavigateNext } from 'react-icons/all';
-import history from '../../../utils/history';
 import { Route, Switch } from 'react-router-dom';
+import history from '../../../utils/history';
+import * as ClientStyle from '../styles';
 import StoreList from './StoreList';
 import FoodList from './FoodList';
 import Promotions from './Promotions';

@@ -1,16 +1,14 @@
 import { Route, Redirect } from 'react-router-dom';
 
+import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { Spin } from 'antd';
+import PropTypes from 'prop-types';
 import Header from '../../components/admins/Header';
 import Sidebar from '../../components/admins/Sidebar';
 import Footer from '../../components/admins/Footer';
 
-import { useEffect, useState } from 'react';
-
-import { useSelector } from 'react-redux';
-
 import * as StyleLayout from './style';
-import { Spin } from 'antd';
-import PropTypes from 'prop-types';
 
 const AdminLayout = ({ exact, path, component: Component }) => {
   const [collapsed, setCollapsed] = useState(true);

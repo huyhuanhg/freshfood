@@ -1,15 +1,28 @@
-import { AiFillSkype, FaFacebookF, FaHistory, FiActivity, GrGooglePlus, RiMapPin2Fill } from 'react-icons/all';
-import { LogoutOutlined, MailOutlined, PhoneOutlined, ShoppingCartOutlined, UserOutlined } from '@ant-design/icons';
+import {
+  AiFillSkype,
+  FaFacebookF,
+  FaHistory,
+  FiActivity,
+  GrGooglePlus,
+  RiMapPin2Fill,
+} from 'react-icons/all';
+import {
+  LogoutOutlined,
+  MailOutlined,
+  PhoneOutlined,
+  ShoppingCartOutlined,
+  UserOutlined,
+} from '@ant-design/icons';
 import { Affix, Badge, Dropdown, Form, Input, Menu, Space } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
+import PropTypes from 'prop-types';
 import * as HeaderStyle from './styles';
 
 import history from '../../../utils/history';
 import { logoutAction } from '../../../redux/actions';
 import { ROOT_PATH } from '../../../contants';
-import PropTypes from 'prop-types';
 
 function Header({ setShowModalLogin }) {
   const dispatch = useDispatch();
@@ -36,9 +49,14 @@ function Header({ setShowModalLogin }) {
             }}
           >
             <Space>
-              <HeaderStyle.UserAvatar size="large" src={userInfo.data.avatar && `${ROOT_PATH}${userInfo.data.avatar}`}>
+              <HeaderStyle.UserAvatar
+                size="large"
+                src={userInfo.data.avatar && `${ROOT_PATH}${userInfo.data.avatar}`}
+              >
                 {!userInfo.data.avatar && (
-                  <span style={{ fontSize: '2rem' }}>{userInfo.data.lastName[0].toUpperCase()}</span>
+                  <span style={{ fontSize: '2rem' }}>
+                    {userInfo.data.lastName[0].toUpperCase()}
+                  </span>
                 )}
               </HeaderStyle.UserAvatar>
               <div style={{ marginLeft: '1rem' }}>
@@ -70,7 +88,12 @@ function Header({ setShowModalLogin }) {
             Hoạt động cá nhân
           </Menu.Item>
           <Menu.Divider />
-          <Menu.Item key="4" style={{ padding: '1rem 2rem' }} icon={<LogoutOutlined />} onClick={handleLogout}>
+          <Menu.Item
+            key="4"
+            style={{ padding: '1rem 2rem' }}
+            icon={<LogoutOutlined />}
+            onClick={handleLogout}
+          >
             Đăng xuất
           </Menu.Item>
         </>
@@ -127,7 +150,10 @@ function Header({ setShowModalLogin }) {
               {/*<HeaderStyle.Search/>*/}
               <Form>
                 <Form.Item style={{ marginBottom: 0 }}>
-                  <Input placeholder="Món ăn, cửa hàng" style={{ background: 'unset' }} />
+                  <Input
+                    placeholder="Món ăn, cửa hàng"
+                    style={{ background: 'unset' }}
+                  />
                 </Form.Item>
               </Form>
             </HeaderStyle.SearchWrap>
@@ -165,10 +191,14 @@ function Header({ setShowModalLogin }) {
                   {userInfo.data.id ? (
                     <HeaderStyle.UserAvatar
                       size="large"
-                      src={userInfo.data.avatar && `${ROOT_PATH}${userInfo.data.avatar}`}
+                      src={
+                        userInfo.data.avatar && `${ROOT_PATH}${userInfo.data.avatar}`
+                      }
                     >
                       {!userInfo.data.avatar && (
-                        <span style={{ fontSize: '2rem' }}>{userInfo.data.lastName[0].toUpperCase()}</span>
+                        <span style={{ fontSize: '2rem' }}>
+                          {userInfo.data.lastName[0].toUpperCase()}
+                        </span>
                       )}
                     </HeaderStyle.UserAvatar>
                   ) : (

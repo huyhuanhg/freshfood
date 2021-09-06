@@ -1,15 +1,22 @@
 {
   "plugins": [
-    "react",
-    "prettier"
+    "react"
   ],
   "extends": [
     "eslint:recommended",
-    "plugin:react/recommended",
-    "plugin:prettier/recommended"
+    "plugin:react/recommended"
   ],
   "parser": "babel-eslint",
   "rules": {
+    "indent": [
+      2,
+      2,
+      {
+        "ignoredNodes": [
+          "TemplateLiteral"
+        ]
+      }
+    ],
     "linebreak-style": [
       2,
       "unix"
@@ -60,16 +67,16 @@
         ]
       }
     ],
-    "arrow-return-shorthand": [
-      0,
-      "multiline"
-    ],
     "react/react-in-jsx-scope": "off",
-    "import-spacing": "off",
     "object-curly-spacing": [
       2,
       "always"
     ],
+    "arrow-return-shorthand": [
+      0,
+      "multiline"
+    ],
+    "import-spacing": "off",
     "semicolon": [
       "off",
       "always"
@@ -285,15 +292,6 @@
     "id-length": "off",
     "id-match": "off",
     "implicit-arrow-linebreak": "off",
-    "indent": [
-      2,
-      2,
-      {
-        "ignoredNodes": [
-          "TemplateLiteral"
-        ]
-      }
-    ],
     "ter-indent": "off",
     "jsx-quotes": "off",
     "key-spacing": "off",
@@ -366,10 +364,9 @@
     "wrap-regex": "off"
     // Stylistic Issues -- end
 
-//    "react/react-in-jsx-scope": "off"
   },
   "parserOptions": {
-    "ecmaVersion": 6,
+    "ecmaVersion": 2021,
     "sourceType": "module",
     "ecmaFeatures": {
       "jsx": true
@@ -377,7 +374,9 @@
   },
   "env": {
     "browser": true,
-    "es6": true
+    "commonjs": true,
+    "es6": true,
+    "node": true
   },
   "globals": {
     "arguments": true

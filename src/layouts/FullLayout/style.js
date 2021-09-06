@@ -31,7 +31,7 @@ export const LogoImg = styled.img`
   height: 700px;
 
   & + h1 {
-    font-family: 'Poppins', sans-serif !important;
+    font-family: "Poppins", sans-serif !important;
     position: absolute;
     left: 50%;
     bottom: 20px;

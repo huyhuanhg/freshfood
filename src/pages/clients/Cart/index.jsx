@@ -1,12 +1,12 @@
-import { ROOT_PATH, TITLE } from '../../../contants';
-import * as ClientStyle from '../styles/';
-import * as S from './style';
 import { useDispatch, useSelector } from 'react-redux';
 import { FcPrevious, HiMinus, HiPlusSm, MdRemoveShoppingCart } from 'react-icons/all';
 import { Affix, Col, Form, Input, Row, Spin } from 'antd';
 import { Link, Redirect } from 'react-router-dom';
 import NumberFormat from 'react-number-format';
 import { useEffect, useState } from 'react';
+import * as S from './style';
+import * as ClientStyle from '../styles';
+import { ROOT_PATH, TITLE } from '../../../contants';
 import { getCartsAction } from '../../../redux/actions';
 
 const CartPage = () => {
@@ -56,12 +56,19 @@ const CartPage = () => {
                 <Link to={'/'}>{cartItem.foodName}</Link>
               </div>
               <div className="store-name">
-                <Link to={`/stores/${cartItem.storeNotMark}.${cartItem.storeId}`}>{cartItem.storeName}</Link>
+                <Link to={`/stores/${cartItem.storeNotMark}.${cartItem.storeId}`}>
+                  {cartItem.storeName}
+                </Link>
               </div>
             </div>
             <div className="price-info">
               <div className="choose-quantity">
-                <div className="minus" style={cartItem.pivot.quantity === 1 ? { pointerEvents: 'none' } : {}}>
+                <div
+                  className="minus"
+                  style={
+                    cartItem.pivot.quantity === 1 ? { pointerEvents: 'none' } : {}
+                  }
+                >
                   <HiMinus />
                 </div>
                 <div className="quantity">{cartItem.pivot.quantity}</div>
@@ -73,7 +80,10 @@ const CartPage = () => {
               <span>
                 <strike>
                   <NumberFormat
-                    value={cartItem.discount?.value && cartItem.price * cartItem.pivot.quantity}
+                    value={
+                      cartItem.discount?.value &&
+                      cartItem.price * cartItem.pivot.quantity
+                    }
                     displayType={'text'}
                     thousandSeparator
                     suffix={'đ'}
@@ -81,7 +91,9 @@ const CartPage = () => {
                 </strike>
                 <NumberFormat
                   value={
-                    (cartItem.discount?.value ? cartItem.discount?.value : cartItem.price) * cartItem.pivot.quantity
+                    (cartItem.discount?.value
+                      ? cartItem.discount?.value
+                      : cartItem.price) * cartItem.pivot.quantity
                   }
                   displayType={'text'}
                   thousandSeparator
@@ -142,7 +154,12 @@ const CartPage = () => {
                         <S.TotalProvisional>
                           <span>Tạm tính ({total} sản phẩm):</span>
                           <span>
-                            <NumberFormat value={totalMoney} displayType={'text'} thousandSeparator suffix={'đ'} />
+                            <NumberFormat
+                              value={totalMoney}
+                              displayType={'text'}
+                              thousandSeparator
+                              suffix={'đ'}
+                            />
                           </span>
                         </S.TotalProvisional>
                         <S.DeleteAllBtn>Xóa tất cả</S.DeleteAllBtn>
@@ -170,7 +187,12 @@ const CartPage = () => {
                                 Tổng <b>{total}</b> sản phẩm:
                               </span>
                               <span>
-                                <NumberFormat value={totalMoney} displayType={'text'} thousandSeparator suffix={'đ'} />
+                                <NumberFormat
+                                  value={totalMoney}
+                                  displayType={'text'}
+                                  thousandSeparator
+                                  suffix={'đ'}
+                                />
                               </span>
                             </S.OrderTotal>
                             <Form.Item
@@ -180,7 +202,9 @@ const CartPage = () => {
                                 marginBottom: 10,
                               }}
                             >
-                              <S.OrderButton htmlType="submit">Đặt hàng</S.OrderButton>
+                              <S.OrderButton htmlType="submit">
+                                Đặt hàng
+                              </S.OrderButton>
                             </Form.Item>
                           </Form>
                         </S.CartOrder>

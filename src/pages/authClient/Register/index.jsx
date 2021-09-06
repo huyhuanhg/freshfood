@@ -8,7 +8,7 @@ import {
   MailOutlined,
   ManOutlined,
   PhoneOutlined,
-  UserOutlined
+  UserOutlined,
 } from '@ant-design/icons';
 
 import * as AuthStyle from '../style';
@@ -200,7 +200,8 @@ function RegisterPage() {
   const handleChangeField = (e) => {
     setField({
       ...field,
-      [e.target.name]: e.target.type === 'checkbox' ? e.target.checked : e.target.value,
+      [e.target.name]:
+        e.target.type === 'checkbox' ? e.target.checked : e.target.value,
     });
   };
   const handleSubmit = (e) => {
@@ -231,7 +232,10 @@ function RegisterPage() {
               <RegisterStyle.IconCustom icon={UserOutlined} />
             </AuthStyle.IconWrap>
             <AuthStyle.FormControlWrap>
-              <AuthStyle.TitleFormControl htmlFor="firstName" focus={fieldFocus.firstName}>
+              <AuthStyle.TitleFormControl
+                htmlFor="firstName"
+                focus={fieldFocus.firstName}
+              >
                 Họ
               </AuthStyle.TitleFormControl>
               <AuthStyle.FormControl
@@ -254,7 +258,10 @@ function RegisterPage() {
           >
             <div />
             <AuthStyle.FormControlWrap>
-              <AuthStyle.TitleFormControl htmlFor="lastName" focus={fieldFocus.lastName}>
+              <AuthStyle.TitleFormControl
+                htmlFor="lastName"
+                focus={fieldFocus.lastName}
+              >
                 Tên
               </AuthStyle.TitleFormControl>
               <AuthStyle.FormControl
@@ -271,13 +278,22 @@ function RegisterPage() {
             </AuthStyle.FormControlWrap>
           </AuthStyle.FormGroup>
         </Col>
-        <AuthStyle.InvalidMsg centerGrid>{valid.message.firstName || valid.message.lastName}</AuthStyle.InvalidMsg>
+        <AuthStyle.InvalidMsg centerGrid>
+          {valid.message.firstName || valid.message.lastName}
+        </AuthStyle.InvalidMsg>
       </Row>
 
       <Row gutter={10} style={{ position: 'relative' }}>
         <Col span={15}>
-          <AuthStyle.FormGroup focus={fieldFocus.phone} error={!!valid.message.phone} grid>
-            <AuthStyle.IconWrap focus={fieldFocus.phone} error={!!valid.message.phone}>
+          <AuthStyle.FormGroup
+            focus={fieldFocus.phone}
+            error={!!valid.message.phone}
+            grid
+          >
+            <AuthStyle.IconWrap
+              focus={fieldFocus.phone}
+              error={!!valid.message.phone}
+            >
               <RegisterStyle.IconCustom icon={PhoneOutlined} />
             </AuthStyle.IconWrap>
             <AuthStyle.FormControlWrap>
@@ -312,7 +328,9 @@ function RegisterPage() {
                     ...field,
                     gender: e.target.value,
                   });
-                  const invalid = validateRule('gender', e.target.value, { ...valid });
+                  const invalid = validateRule('gender', e.target.value, {
+                    ...valid,
+                  });
                   setValid(invalid);
                 }}
               >
@@ -347,13 +365,21 @@ function RegisterPage() {
             onChange={handleChangeField}
           />
           {(register.email.load && <RegisterStyle.ControlLoading size="middle" />) ||
-            (register.email.success && <RegisterStyle.IconCheck icon={CheckOutlined} />)}
+            (register.email.success && (
+              <RegisterStyle.IconCheck icon={CheckOutlined} />
+            ))}
         </AuthStyle.FormControlWrap>
         <AuthStyle.InvalidMsg>{valid.message.email}</AuthStyle.InvalidMsg>
       </AuthStyle.FormGroup>
 
-      <AuthStyle.FormGroup focus={fieldFocus.password} error={!!valid.message.password}>
-        <AuthStyle.IconWrap focus={fieldFocus.password} error={!!valid.message.password}>
+      <AuthStyle.FormGroup
+        focus={fieldFocus.password}
+        error={!!valid.message.password}
+      >
+        <AuthStyle.IconWrap
+          focus={fieldFocus.password}
+          error={!!valid.message.password}
+        >
           <RegisterStyle.IconCustom icon={LockOutlined} />
         </AuthStyle.IconWrap>
         <AuthStyle.FormControlWrap>
@@ -373,12 +399,21 @@ function RegisterPage() {
         <AuthStyle.InvalidMsg>{valid.message.password}</AuthStyle.InvalidMsg>
       </AuthStyle.FormGroup>
 
-      <AuthStyle.FormGroup focus={fieldFocus.confirmPassword} error={!!valid.message.confirmPassword}>
-        <AuthStyle.IconWrap focus={fieldFocus.confirmPassword} error={!!valid.message.confirmPassword}>
+      <AuthStyle.FormGroup
+        focus={fieldFocus.confirmPassword}
+        error={!!valid.message.confirmPassword}
+      >
+        <AuthStyle.IconWrap
+          focus={fieldFocus.confirmPassword}
+          error={!!valid.message.confirmPassword}
+        >
           <RegisterStyle.IconCustom icon={LockOutlined} />
         </AuthStyle.IconWrap>
         <AuthStyle.FormControlWrap>
-          <AuthStyle.TitleFormControl htmlFor="confirmPassword" focus={fieldFocus.confirmPassword}>
+          <AuthStyle.TitleFormControl
+            htmlFor="confirmPassword"
+            focus={fieldFocus.confirmPassword}
+          >
             Nhập lại mật khẩu
           </AuthStyle.TitleFormControl>
           <AuthStyle.FormControl
@@ -403,14 +438,20 @@ function RegisterPage() {
               ...field,
               agree: e.target.checked,
             });
-            const invalid = validateRule('agree', e.target.checked, { ...valid });
+            const invalid = validateRule('agree', e.target.checked, {
+              ...valid,
+            });
             setValid(invalid);
           }}
         >
           Đồng ý với điều khoản của chúng tôi?
         </RegisterStyle.CheckboxCustom>
       </RegisterStyle.CheckboxWrap>
-      <AuthStyle.BtnSubmit htmlType="submit" disabled={register.load} style={{ marginTop: '2rem' }}>
+      <AuthStyle.BtnSubmit
+        htmlType="submit"
+        disabled={register.load}
+        style={{ marginTop: '2rem' }}
+      >
         Đăng ký
         <AuthStyle.SubmitLoading size="middle" show={register.load} />
       </AuthStyle.BtnSubmit>

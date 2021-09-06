@@ -1,11 +1,11 @@
 import { notification } from 'antd';
 import { put, takeEvery } from 'redux-saga/effects';
 import axios from 'axios';
+import camelCaseKeys from 'camelcase-keys';
 import { REQUEST, SUCCESS, FAILURE, USER_ACTION } from '../constants';
 import { SERVER_CLIENT_API_URL } from '../../contants';
 
 import history from '../../utils/history';
-import camelCaseKeys from 'camelcase-keys';
 import toSnakeCase from '../../utils/toSnakeCase';
 
 function* loginSaga(action) {

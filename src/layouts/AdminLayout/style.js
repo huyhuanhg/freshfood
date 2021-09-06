@@ -11,11 +11,11 @@ export const Sidebar = styled.div`
   position: fixed;
   top: 0;
   ${(props) =>
-    props.isShow
-      ? css`
+  props.isShow
+    ? css`
           left: 0;
         `
-      : css`
+    : css`
           left: -300px;
         `}
   z-index: 999;
@@ -24,11 +24,11 @@ export const Sidebar = styled.div`
 export const SiteLayout = styled.div`
   position: relative;
   ${(props) =>
-    props.isFull
-      ? css`
+  props.isFull
+    ? css`
           padding-left: 0;
         `
-      : css`
+    : css`
           padding-left: 300px;
         `}
   transition: all 0.3s ease;
@@ -39,11 +39,11 @@ export const Header = styled.div`
   right: 0;
   top: 0;
   ${(props) =>
-    props.isFull
-      ? css`
+  props.isFull
+    ? css`
           left: 0;
         `
-      : css`
+    : css`
           left: 301px;
         `}
   z-index: 999;

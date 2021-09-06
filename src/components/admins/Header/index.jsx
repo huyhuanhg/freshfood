@@ -1,8 +1,13 @@
-import { MenuFoldOutlined, MenuUnfoldOutlined, MessageOutlined, SettingOutlined } from '@ant-design/icons';
-import * as AppStyle from '../../../styles';
-import * as Style from './style';
+import {
+  MenuFoldOutlined,
+  MenuUnfoldOutlined,
+  MessageOutlined,
+  SettingOutlined,
+} from '@ant-design/icons';
 import { Space } from 'antd';
 import PropTypes from 'prop-types';
+import * as AppStyle from '../../../styles';
+import * as Style from './style';
 
 function Header({ collapsed, toggle }) {
   return (

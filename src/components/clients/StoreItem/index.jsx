@@ -1,13 +1,18 @@
 import { Avatar, Skeleton } from 'antd';
-import { AiTwotoneStar, FaComment, GrFormNextLink, IoIosPizza } from 'react-icons/all';
+import {
+  AiTwotoneStar,
+  FaComment,
+  GrFormNextLink,
+  IoIosPizza,
+} from 'react-icons/all';
 
+import PropTypes from 'prop-types';
 import history from '../../../utils/history';
 
 import * as S from './style';
 
 import storeLoading from '../../../assets/images/loadStore.png';
 import { ROOT_PATH } from '../../../contants';
-import PropTypes from 'prop-types';
 
 const StoreItem = ({
   id,
@@ -24,7 +29,11 @@ const StoreItem = ({
   return (
     <S.CardItem
       hoverable
-      cover={<S.StoreImage avatar={loading ? storeLoading : `${ROOT_PATH}${storeAvatar}`} />}
+      cover={
+        <S.StoreImage
+          avatar={loading ? storeLoading : `${ROOT_PATH}${storeAvatar}`}
+        />
+      }
       onClick={() => {
         if (!loading) {
           history.push(`/stores/${storeNotMark}.${id}`);
@@ -41,7 +50,9 @@ const StoreItem = ({
             avatar={<Avatar src={`${ROOT_PATH}${lastComment?.avatar}`} />}
             title={
               <S.StoreComment>
-                <S.StoreCommentName>{`${lastComment?.firstName} ${lastComment?.lastName}`} </S.StoreCommentName>
+                <S.StoreCommentName>
+                  {`${lastComment?.firstName} ${lastComment?.lastName}`}{' '}
+                </S.StoreCommentName>
                 <S.StoreCommentDoc> {lastComment?.content}</S.StoreCommentDoc>
               </S.StoreComment>
             }

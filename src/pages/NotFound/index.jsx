@@ -1,7 +1,7 @@
-import history from '../../utils/history';
-import * as S from './style';
 import { BiError } from 'react-icons/all';
 import { Button } from 'antd';
+import history from '../../utils/history';
+import * as S from './style';
 
 function NotFoundPage() {
   return (

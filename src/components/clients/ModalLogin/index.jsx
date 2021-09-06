@@ -1,10 +1,10 @@
 import { Button, Form, Input } from 'antd';
-import * as S from './style';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { loginAction } from '../../../redux/actions';
 import { useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { loginAction } from '../../../redux/actions';
+import * as S from './style';
 
 const ModalLogin = ({ visible, setVisible }) => {
   const [form] = Form.useForm();
@@ -36,7 +36,11 @@ const ModalLogin = ({ visible, setVisible }) => {
     );
   };
   return (
-    <S.ModalLoginCustom visible={visible} onCancel={() => setVisible(false)} footer={false}>
+    <S.ModalLoginCustom
+      visible={visible}
+      onCancel={() => setVisible(false)}
+      footer={false}
+    >
       <div>
         <h2>FoodBooking</h2>
         <h5>Đăng nhập để mua sắm</h5>
@@ -65,7 +69,11 @@ const ModalLogin = ({ visible, setVisible }) => {
             <Input.Password placeholder="Mật khẩu" />
           </Form.Item>
           <Form.Item>
-            <Button type="primary" htmlType="submit" disabled={responseAction.login.load}>
+            <Button
+              type="primary"
+              htmlType="submit"
+              disabled={responseAction.login.load}
+            >
               Đăng nhập
               <S.SubmitLoading size="middle" show={responseAction.login.load} />
             </Button>

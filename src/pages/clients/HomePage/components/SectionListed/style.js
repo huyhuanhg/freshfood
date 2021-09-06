@@ -1,13 +1,14 @@
 import styled from 'styled-components';
-import bgIntroduce from '../../../../../assets/images/bg4.jpg';
 import { Link } from 'react-router-dom';
+import bgIntroduce from '../../../../../assets/images/bg4.jpg';
 
 export const Introduce = styled.section`
   padding: 0;
   background-size: 1900px;
   background-position: center;
   background-repeat: no-repeat;
-  background-image: linear-gradient(rgba(26, 38, 92, 0.6), rgba(26, 38, 92, 0.6)), url(${bgIntroduce});
+  background-image: linear-gradient(rgba(26, 38, 92, 0.6), rgba(26, 38, 92, 0.6)),
+    url(${bgIntroduce});
   margin-bottom: 80px;
 
   & > div {
@@ -83,7 +84,7 @@ export const IntroduceLink = styled(Link)`
 
     & + span {
       display: block;
-      content: '';
+      content: "";
       width: 30px;
       height: 30px;
       border-radius: 50%;

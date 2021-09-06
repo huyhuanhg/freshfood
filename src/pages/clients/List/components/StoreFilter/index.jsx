@@ -1,6 +1,7 @@
 import { Menu, Select } from 'antd';
-import * as S from '../../style';
 import { useSelector } from 'react-redux';
+import * as S from '../../style';
+
 const StoreFilter = () => {
   const { Option } = Select;
   const { categories } = useSelector((state) => state.categoryReducer);
@@ -53,7 +54,11 @@ const StoreFilter = () => {
             </Select>
           </li>
           <li>
-            <Select defaultValue="" style={{ width: 160 }} getPopupContainer={(trigger) => trigger.parentNode}>
+            <Select
+              defaultValue=""
+              style={{ width: 160 }}
+              getPopupContainer={(trigger) => trigger.parentNode}
+            >
               <Option value="" selected hidden disabled>
                 -Đánh giá-
               </Option>

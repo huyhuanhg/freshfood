@@ -112,7 +112,10 @@ function* getAdminInfoSaga(action) {
       },
     });
   } catch (e) {
-    yield put({ type: FAILURE(ADMIN_ACTION.GET_ADMIN_INFO), payload: e.message });
+    yield put({
+      type: FAILURE(ADMIN_ACTION.GET_ADMIN_INFO),
+      payload: e.message,
+    });
   }
 }
 

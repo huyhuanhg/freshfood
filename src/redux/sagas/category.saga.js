@@ -1,9 +1,8 @@
 import { put, takeEvery } from 'redux-saga/effects';
 import axios from 'axios';
+import camelCaseKeys from 'camelcase-keys';
 import { REQUEST, SUCCESS, FAILURE, CATEGORY_ACTION } from '../constants';
 import { SERVER_CLIENT_API_URL } from '../../contants';
-
-import camelCaseKeys from 'camelcase-keys';
 
 function* getCategoryListSaga() {
   try {
@@ -15,7 +14,10 @@ function* getCategoryListSaga() {
       },
     });
   } catch (e) {
-    yield put({ type: FAILURE(CATEGORY_ACTION.GET_CATEGORY_LIST), payload: e.message });
+    yield put({
+      type: FAILURE(CATEGORY_ACTION.GET_CATEGORY_LIST),
+      payload: e.message,
+    });
   }
 }
 
@@ -30,14 +32,20 @@ function* createCategorySaga(action) {
       },
     });
   } catch (e) {
-    yield put({ type: FAILURE(CATEGORY_ACTION.CREATE_CATEGORY), payload: e.message });
+    yield put({
+      type: FAILURE(CATEGORY_ACTION.CREATE_CATEGORY),
+      payload: e.message,
+    });
   }
 }
 
 function* editCategorySaga(action) {
   try {
     const { id, data } = action.payload;
-    const result = yield axios.patch(`${SERVER_CLIENT_API_URL}/categories/${id}`, data);
+    const result = yield axios.patch(
+      `${SERVER_CLIENT_API_URL}/categories/${id}`,
+      data
+    );
     yield put({
       type: SUCCESS(CATEGORY_ACTION.EDIT_CATEGORY),
       payload: {
@@ -45,7 +53,10 @@ function* editCategorySaga(action) {
       },
     });
   } catch (e) {
-    yield put({ type: FAILURE(CATEGORY_ACTION.EDIT_CATEGORY), payload: e.message });
+    yield put({
+      type: FAILURE(CATEGORY_ACTION.EDIT_CATEGORY),
+      payload: e.message,
+    });
   }
 }
 
@@ -58,7 +69,10 @@ function* deleteCategorySaga(action) {
       payload: { id },
     });
   } catch (e) {
-    yield put({ type: FAILURE(CATEGORY_ACTION.DELETE_CATEGORY), payload: e.message });
+    yield put({
+      type: FAILURE(CATEGORY_ACTION.DELETE_CATEGORY),
+      payload: e.message,
+    });
   }
 }
 

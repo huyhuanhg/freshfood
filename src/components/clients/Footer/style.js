@@ -6,7 +6,8 @@ export const FooterWrap = styled.footer`
   background-attachment: fixed;
   background-position: 0 400px;
   background-repeat: no-repeat;
-  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(${bg});
+  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+    url(${bg});
   color: rgba(255, 255, 255, 0.8);
   font-size: 130%;
 

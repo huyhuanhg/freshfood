@@ -10,7 +10,7 @@ export const TilteDiv = styled.div`
 `;
 export const TitleFirstSpan = styled.span`
   display: block;
-  content: '';
+  content: "";
   width: 30%;
   border-top: 1px dashed #ccc;
   position: absolute;
@@ -19,7 +19,7 @@ export const TitleFirstSpan = styled.span`
   &:after {
     right: -8%;
     display: block;
-    content: '';
+    content: "";
     width: 10px;
     height: 10px;
     border-radius: 50%;
@@ -30,7 +30,7 @@ export const TitleFirstSpan = styled.span`
 `;
 export const TitleLastSpan = styled.span`
   display: block;
-  content: '';
+  content: "";
   width: 30%;
   border-top: 1px dashed #ccc;
   position: absolute;
@@ -39,7 +39,7 @@ export const TitleLastSpan = styled.span`
   &:after {
     left: -8%;
     display: block;
-    content: '';
+    content: "";
     width: 10px;
     height: 10px;
     border-radius: 50%;
@@ -122,7 +122,8 @@ export const Invite = styled.section`
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
-  background-image: linear-gradient(rgba(26, 38, 92, 0.6), rgba(26, 38, 92, 0.6)), url(${bgInvite});
+  background-image: linear-gradient(rgba(26, 38, 92, 0.6), rgba(26, 38, 92, 0.6)),
+    url(${bgInvite});
   // background-attachment: fixed;
   & > div {
     max-width: 1430px;

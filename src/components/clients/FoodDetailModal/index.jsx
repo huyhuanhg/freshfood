@@ -1,9 +1,9 @@
 import { Col, Row } from 'antd';
-import * as S from './style';
 import NumberFormat from 'react-number-format';
 import { useSelector } from 'react-redux';
-import { ROOT_PATH } from '../../../contants';
 import PropTypes from 'prop-types';
+import { ROOT_PATH } from '../../../contants';
+import * as S from './style';
 
 const FoodDetailModal = function ({ show, setShow, setShowLogin }) {
   const { foodDetail } = useSelector((state) => state.foodReducer);
@@ -39,7 +39,10 @@ const FoodDetailModal = function ({ show, setShow, setShowLogin }) {
                 <div className="imgbox-desc">{foodDetail.data.foodDescription}</div>
                 <div className="imgbox-total">
                   Đã được đặt
-                  <span className="txt-bold">&nbsp;{foodDetail.data.totalOrder}&nbsp;</span>lần
+                  <span className="txt-bold">
+                    &nbsp;{foodDetail.data.totalOrder}&nbsp;
+                  </span>
+                  lần
                 </div>
               </Col>
               <Col span={4} style={{ alignSelf: 'center' }}>

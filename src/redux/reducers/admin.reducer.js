@@ -1,5 +1,5 @@
-import { REQUEST, SUCCESS, FAILURE, ADMIN_ACTION } from '../constants';
 import { createReducer } from '@reduxjs/toolkit';
+import { REQUEST, SUCCESS, FAILURE, ADMIN_ACTION } from '../constants';
 
 const initialState = {
   userAdminList: [],

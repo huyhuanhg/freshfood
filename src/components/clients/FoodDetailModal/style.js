@@ -103,8 +103,8 @@ export const ModalCustom = styled(Modal)`
       border: 1px solid #cf2127;
       line-height: 1.5;
       border-radius: 3px;
-      transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out,
-        box-shadow 0.15s ease-in-out;
+      transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
+        border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
       overflow: visible;
       text-transform: none;
     }

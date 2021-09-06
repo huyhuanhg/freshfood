@@ -42,7 +42,7 @@ export const ControlLoading = styled(Spin)`
 `;
 export const CheckboxWrap = styled.div`
   ${({ error }) =>
-    error &&
+  error &&
     css`
       color: red !important;
     `}

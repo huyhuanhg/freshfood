@@ -1,8 +1,8 @@
 import { Affix, Button, Col, Menu, Row, Select } from 'antd';
 import { MdNavigateNext } from 'react-icons/all';
-import * as HomeS from '../../styles';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
+import * as HomeS from '../../styles';
 
 const SectionFoodList = ({ render }) => {
   const { Option } = Select;
@@ -13,7 +13,10 @@ const SectionFoodList = ({ render }) => {
     return tagList.data.map((tag) => {
       if (tag.tagActive === 1) {
         return (
-          <Menu.Item key={tag.id} icon={<MdNavigateNext className="custom-icon-position" />}>
+          <Menu.Item
+            key={tag.id}
+            icon={<MdNavigateNext className="custom-icon-position" />}
+          >
             {tag.tagName}
           </Menu.Item>
         );
@@ -33,7 +36,10 @@ const SectionFoodList = ({ render }) => {
             defaultSelectedKeys={['0']}
             mode="inline"
           >
-            <Menu.Item key="0" icon={<MdNavigateNext className="custom-icon-position" />}>
+            <Menu.Item
+              key="0"
+              icon={<MdNavigateNext className="custom-icon-position" />}
+            >
               Tất cả
             </Menu.Item>
             {renderTagList()}

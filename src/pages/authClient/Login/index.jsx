@@ -146,8 +146,14 @@ function LoginPage() {
         </AuthStyle.FormControlWrap>
         <AuthStyle.InvalidMsg>{valid.message.email}</AuthStyle.InvalidMsg>
       </AuthStyle.FormGroup>
-      <AuthStyle.FormGroup focus={fieldFocus.password} error={!!valid.message.password}>
-        <AuthStyle.IconWrap focus={fieldFocus.password} error={!!valid.message.password}>
+      <AuthStyle.FormGroup
+        focus={fieldFocus.password}
+        error={!!valid.message.password}
+      >
+        <AuthStyle.IconWrap
+          focus={fieldFocus.password}
+          error={!!valid.message.password}
+        >
           <LockOutlined />
         </AuthStyle.IconWrap>
         <AuthStyle.FormControlWrap>

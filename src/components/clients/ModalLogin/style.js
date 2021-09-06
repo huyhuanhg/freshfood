@@ -27,7 +27,7 @@ export const ModalLoginCustom = styled(Modal)`
 
     & h2 {
       color: #0f9d58;
-      font-family: 'Poppins', sans-serif !important;
+      font-family: "Poppins", sans-serif !important;
       font-weight: 800;
       font-size: 200%;
       margin-bottom: 0;

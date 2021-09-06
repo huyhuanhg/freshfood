@@ -1,12 +1,16 @@
 import { Affix, Col, Menu, Row, Select, Spin } from 'antd';
-import * as StoreDetailStyle from '../style';
-import FoodDetailCarousel from '../../../../components/clients/FoodDeatilCarousle';
 import { useSelector } from 'react-redux';
 import { useState } from 'react';
-import { FoodStore } from '../../../../components/clients/FoodItem';
 import PropTypes from 'prop-types';
+import * as StoreDetailStyle from '../style';
+import FoodDetailCarousel from '../../../../components/clients/FoodDeatilCarousle';
+import { FoodStore } from '../../../../components/clients/FoodItem';
 
-const StoreDetailPromotion = ({ showFoodDetail, setShowLogin, setShowFoodDetail }) => {
+const StoreDetailPromotion = ({
+  showFoodDetail,
+  setShowLogin,
+  setShowFoodDetail,
+}) => {
   const { foodPromotions } = useSelector((state) => state.foodReducer);
   const { userInfo } = useSelector((state) => state.userReducer);
 
@@ -82,7 +86,9 @@ const StoreDetailPromotion = ({ showFoodDetail, setShowLogin, setShowFoodDetail 
         </div>
       </Affix>
       <StoreDetailStyle.StoreContent>
-        <StoreDetailStyle.StoreContentTitle>Đặt món</StoreDetailStyle.StoreContentTitle>
+        <StoreDetailStyle.StoreContentTitle>
+          Đặt món
+        </StoreDetailStyle.StoreContentTitle>
         <Row>
           {renderFoodPromotions(12, foodPromotions.load)}
           {foodPromotions.load && (

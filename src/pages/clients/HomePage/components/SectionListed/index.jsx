@@ -1,9 +1,15 @@
-import * as S from './style';
 import { Col, Row } from 'antd';
-import { BiStore, FiPercent, GiCheckMark, GiSpellBook, IoFastFoodOutline } from 'react-icons/all';
+import {
+  BiStore,
+  FiPercent,
+  GiCheckMark,
+  GiSpellBook,
+  IoFastFoodOutline,
+} from 'react-icons/all';
 import { useEffect, useRef, useState } from 'react';
-import { SERVER_CLIENT_API_URL } from '../../../../../contants';
 import camelCaseKeys from 'camelcase-keys';
+import { SERVER_CLIENT_API_URL } from '../../../../../contants';
+import * as S from './style';
 
 const SectionListed = () => {
   const [totalList, setTotalList] = useState({
@@ -39,8 +45,9 @@ const SectionListed = () => {
               <span>FoodBooking</span>- Thực phẩm online
             </h2>
             <p>
-              Trong diễn biến dịch bệnh SARS-CoV-2 đang ngày càng phức tạp, FoodBooking đang phấn đấu từng ngày để chung
-              sức đánh tan dịch bệnh, hỗ trợ và phục vụ khách hàng cùng vượt qua thời điểm khó khăn.
+              Trong diễn biến dịch bệnh SARS-CoV-2 đang ngày càng phức tạp,
+              FoodBooking đang phấn đấu từng ngày để chung sức đánh tan dịch bệnh, hỗ
+              trợ và phục vụ khách hàng cùng vượt qua thời điểm khó khăn.
             </p>
           </Col>
           <Col span={10}>

@@ -1,6 +1,6 @@
 import { Menu, Select } from 'antd';
-import * as S from '../../style';
 import { useSelector } from 'react-redux';
+import * as S from '../../style';
 
 const FoodFilter = () => {
   const { Option } = Select;

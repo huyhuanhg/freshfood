@@ -1,12 +1,12 @@
 import { Form, Input } from 'antd';
-import * as AppStyle from '../../styles';
-import * as Style from './styles';
 
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { adminLoginAction } from '../../redux/actions';
 import { useEffect } from 'react';
+import { adminLoginAction } from '../../redux/actions';
+import * as Style from './styles';
+import * as AppStyle from '../../styles';
 
 function AdminLoginPage() {
   const dispatch = useDispatch();
@@ -58,14 +58,26 @@ function AdminLoginPage() {
               },
             ]}
           >
-            <Input placeholder="Tài khoản" prefix={<UserOutlined className="site-form-item-icon" />} />
+            <Input
+              placeholder="Tài khoản"
+              prefix={<UserOutlined className="site-form-item-icon" />}
+            />
           </Form.Item>
 
-          <Form.Item name="password" rules={[{ required: true, message: 'Vui lòng nhập mật khẩu!' }]}>
-            <Input.Password placeholder="Mật khẩu" prefix={<LockOutlined className="site-form-item-icon" />} />
+          <Form.Item
+            name="password"
+            rules={[{ required: true, message: 'Vui lòng nhập mật khẩu!' }]}
+          >
+            <Input.Password
+              placeholder="Mật khẩu"
+              prefix={<LockOutlined className="site-form-item-icon" />}
+            />
           </Form.Item>
           <Form.Item wrapperCol={{ offset: 0, span: 24 }}>
-            <Style.ButtonSubmit htmlType="submit" loading={responseAction.login.load}>
+            <Style.ButtonSubmit
+              htmlType="submit"
+              loading={responseAction.login.load}
+            >
               {!responseAction.login.load && 'Đăng nhập'}
             </Style.ButtonSubmit>
           </Form.Item>

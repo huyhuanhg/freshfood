@@ -65,7 +65,7 @@ export const StoreComment = styled.div`
   float: left !important;
 
   &:after {
-    content: '';
+    content: "";
     position: absolute;
     right: 0;
     width: 1em;
@@ -75,7 +75,7 @@ export const StoreComment = styled.div`
   }
 
   &:before {
-    content: '...';
+    content: "...";
     position: absolute;
     right: 2px;
     bottom: 0;

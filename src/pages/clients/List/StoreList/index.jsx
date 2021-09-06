@@ -1,8 +1,9 @@
-import { TITLE } from '../../../../contants';
 import { Button, Col, Row } from 'antd';
 import { useSelector } from 'react-redux';
+import { TITLE } from '../../../../contants';
 import StoreItem from '../../../../components/clients/StoreItem';
 import StoreFilter from '../components/StoreFilter';
+
 function StoreList() {
   document.title = TITLE.STORE_LIST;
   const { storeList } = useSelector((state) => state.storeReducer);

@@ -1,8 +1,8 @@
 import { put, takeEvery } from 'redux-saga/effects';
 import axios from 'axios';
+import camelCaseKeys from 'camelcase-keys';
 import { REQUEST, SUCCESS, FOOD_ACTION } from '../constants';
 import { SERVER_CLIENT_API_URL } from '../../contants';
-import camelCaseKeys from 'camelcase-keys';
 
 function* getFoodListSaga() {
   try {

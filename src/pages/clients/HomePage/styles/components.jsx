@@ -1,5 +1,5 @@
-import { TilteDiv, TitleWrap, TitleFirstSpan, TitleLastSpan, Title } from './style';
 import PropTypes from 'prop-types';
+import { TilteDiv, TitleWrap, TitleFirstSpan, TitleLastSpan, Title } from './style';
 
 export const SectionTitle = ({ children }) => {
   return (

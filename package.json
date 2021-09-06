@@ -15,6 +15,7 @@
     "camelcase-keys": "^7.0.0",
     "craco-less": "^1.20.0",
     "eslint": "^7.32.0",
+    "eslint-config-airbnb": "^18.2.1",
     "history": "4.10.1",
     "moment": "^2.29.1",
     "prop-types": "^15.7.2",
@@ -38,7 +39,7 @@
     }
   },
   "lint-staged": {
-    "**/*.{js,jsx}": [
+    "*.+(js|jsx)": [
       "eslint --fix",
       "git add"
     ]
@@ -49,7 +50,7 @@
     "test": "craco test",
     "eject": "craco eject",
     "eslint": "eslint \"src/**/*.{jsx,js}\" --fix ",
-    "prettier": "eslint \"src/**/*.{jsx,js}\" --format table"
+    "format": "prettier --write \"src/**/*.{jsx,js}\""
   },
   "eslintConfig": {
     "extends": [
@@ -73,11 +74,9 @@
     "babel-eslint": "^10.1.0",
     "eslint": "^7.32.0",
     "eslint-auto-fix": "^1.0.3",
-    "eslint-config-prettier": "^8.3.0",
-    "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-react": "^7.25.1",
+    "eslint-plugin-react-hooks": "^4.2.0",
     "husky": "^7.0.2",
-    "lint-staged": "^11.1.2",
-    "prettier": "2.3.2"
+    "lint-staged": "^11.1.2"
   }
 }

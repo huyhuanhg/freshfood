@@ -1,10 +1,10 @@
 import { Carousel, Col, Row } from 'antd';
-import * as Style from './style';
 import NumberFormat from 'react-number-format';
 import { FcNext, FcPrevious } from 'react-icons/all';
 import { useEffect, useRef } from 'react';
-import { ROOT_PATH } from '../../../contants';
 import PropTypes from 'prop-types';
+import { ROOT_PATH } from '../../../contants';
+import * as Style from './style';
 
 const NextArrow = ({ onClick, index, lastIndex }) => {
   return (
@@ -47,7 +47,10 @@ const FoodDetailCarousel = function ({ foodList, index, setIndex }) {
                   <div className="imgbox-desc">{foodItem.foodDescription}</div>
                   <div className="imgbox-total">
                     Đã được đặt
-                    <span className="txt-bold">&nbsp;{foodItem.totalOrder}&nbsp;</span>lần
+                    <span className="txt-bold">
+                      &nbsp;{foodItem.totalOrder}&nbsp;
+                    </span>
+                    lần
                   </div>
                 </Col>
                 <Col span={4} style={{ alignSelf: 'center' }}>

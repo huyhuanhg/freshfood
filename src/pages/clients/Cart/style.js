@@ -117,7 +117,7 @@ export const CartList = styled.ul`
 
           &:before,
           &:after {
-            content: '';
+            content: "";
             width: 2px;
             height: 8px;
             background: #fff;

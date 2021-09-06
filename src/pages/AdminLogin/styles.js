@@ -21,7 +21,7 @@ export const H3 = styled.h3`
   font-size: 18px;
   line-height: 24px;
   margin: 0 0 15px;
-  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-weight: 400;
   color: #444;
 `;

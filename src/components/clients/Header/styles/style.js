@@ -84,7 +84,7 @@ export const MenuWrap = styled.div`
   padding: 0.5rem 0;
 `;
 export const Logo = styled(Link)`
-  font-family: 'Poppins', sans-serif !important;
+  font-family: "Poppins", sans-serif !important;
   text-transform: uppercase;
   font-size: 2rem;
   font-weight: 900;

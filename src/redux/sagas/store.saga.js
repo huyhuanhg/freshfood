@@ -1,8 +1,8 @@
 import { put, takeEvery } from 'redux-saga/effects';
 import axios from 'axios';
+import camelCaseKeys from 'camelcase-keys';
 import { REQUEST, SUCCESS, FAILURE, STORE_ACTION } from '../constants';
 import { SERVER_CLIENT_API_URL } from '../../contants';
-import camelCaseKeys from 'camelcase-keys';
 
 function* getStoreListSaga() {
   try {
@@ -40,10 +40,16 @@ function* getStoreDetailSaga(action) {
         },
       });
     } else {
-      yield put({ type: FAILURE(STORE_ACTION.GET_STORE_DETAIL), payload: { error: 'StoreId không tồn tại' } });
+      yield put({
+        type: FAILURE(STORE_ACTION.GET_STORE_DETAIL),
+        payload: { error: 'StoreId không tồn tại' },
+      });
     }
   } catch (e) {
-    yield put({ type: FAILURE(STORE_ACTION.GET_STORE_DETAIL), payload: { error: e.message } });
+    yield put({
+      type: FAILURE(STORE_ACTION.GET_STORE_DETAIL),
+      payload: { error: e.message },
+    });
   }
 }
 

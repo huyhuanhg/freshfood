@@ -21,7 +21,7 @@ export const FormControl = styled.input`
   font-size: 1.2rem;
   font-weight: bold;
   color: #555;
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
 `;
 export const BtnSubmit = styled.button`
   display: block;
@@ -34,7 +34,7 @@ export const BtnSubmit = styled.button`
   background-size: 200%;
   font-size: 1.2rem;
   color: #fff;
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
   text-transform: uppercase;
   margin: 3rem 0 1rem;
   cursor: pointer;
@@ -65,7 +65,7 @@ export const FormGroup = styled.div`
   margin: 12px 0 24px;
   padding: 5px 0;
   ${({ grid }) =>
-    grid &&
+  grid &&
     css`
       padding-left: 5px;
     `}
@@ -87,7 +87,7 @@ export const FormGroup = styled.div`
 
   &:before,
   &:after {
-    content: '';
+    content: "";
     position: absolute;
     bottom: -2px;
     height: 2px;
@@ -95,7 +95,8 @@ export const FormGroup = styled.div`
   }
 `;
 export const IconWrap = styled.div`
-  color: ${({ focus, error }) => (error ? '#ff7878' : focus ? '#38d39f' : '#d9d9d9')};
+  color: ${({ focus, error }) =>
+  error ? '#ff7878' : focus ? '#38d39f' : '#d9d9d9'};
   display: flex;
   justify-content: center;
   align-items: center;
@@ -108,12 +109,12 @@ export const TitleFormControl = styled.label`
   position: absolute;
   left: 10px;
   ${({ focus }) =>
-    focus
-      ? css`
+  focus
+    ? css`
           top: -5px;
           font-size: 17px;
         `
-      : css`
+    : css`
           top: 50%;
           font-size: 20px;
         `}

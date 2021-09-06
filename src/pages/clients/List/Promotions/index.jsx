@@ -1,6 +1,6 @@
-import { TITLE } from '../../../../contants';
 import { Button, Col, Row } from 'antd';
 import { useSelector } from 'react-redux';
+import { TITLE } from '../../../../contants';
 
 import { FoodItemHome } from '../../../../components/clients/FoodItem';
 import FoodFilter from '../components/FoodFilter';

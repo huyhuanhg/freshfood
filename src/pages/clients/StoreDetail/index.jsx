@@ -1,7 +1,3 @@
-import { ROOT_PATH, TITLE } from '../../../contants';
-
-import * as ClientStyle from '../styles';
-import * as StoreDetailStyle from './style';
 import { Affix, Col, Menu, Rate, Row, Skeleton } from 'antd';
 import PropTypes from 'prop-types';
 import {
@@ -17,13 +13,15 @@ import {
   TiLocationArrow,
 } from 'react-icons/all';
 
-import loadAvatarStore from '../../../assets/images/loadStore.png';
-
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
-import StoreDetailFood from './StoreDetailFood';
 import { Redirect, Route, Switch } from 'react-router-dom';
+import StoreDetailFood from './StoreDetailFood';
+import loadAvatarStore from '../../../assets/images/loadStore.png';
+import * as ClientStyle from '../styles';
+import * as StoreDetailStyle from './style';
+import { ROOT_PATH, TITLE } from '../../../contants';
 import StoreDetailPromotion from './StoreDetailPromotion';
 import history from '../../../utils/history';
 import StoreDetailComment from './StoreDetailComment';
@@ -98,7 +96,11 @@ const StoreDetail = ({ setShowLogin, match }) => {
               <StoreDetailStyle.MainImg>
                 <StoreDetailStyle.ImageWrap>
                   <StoreDetailStyle.StoreImg
-                    src={storeDetail.load ? loadAvatarStore : `${ROOT_PATH}${storeDetail.data.storeAvatar}`}
+                    src={
+                      storeDetail.load
+                        ? loadAvatarStore
+                        : `${ROOT_PATH}${storeDetail.data.storeAvatar}`
+                    }
                     alt=""
                   />
                 </StoreDetailStyle.ImageWrap>
@@ -108,10 +110,14 @@ const StoreDetail = ({ setShowLogin, match }) => {
               {/*main-information*/}
               <StoreDetailStyle.MainInformation>
                 <StoreDetailStyle.ResCommon>
-                  {storeDetail.load && <Skeleton loading={storeDetail.load} active />}
+                  {storeDetail.load && (
+                    <Skeleton loading={storeDetail.load} active />
+                  )}
                   <Skeleton loading={storeDetail.load} title={false} active>
                     <StoreDetailStyle.MainInfoTitle>
-                      <StoreDetailStyle.StoreName>{storeDetail.data.storeName}</StoreDetailStyle.StoreName>
+                      <StoreDetailStyle.StoreName>
+                        {storeDetail.data.storeName}
+                      </StoreDetailStyle.StoreName>
                       <StoreDetailStyle.StoreCategory>
                         <small>{storeDetail.data.storeCateName}</small>
                       </StoreDetailStyle.StoreCategory>
@@ -120,38 +126,55 @@ const StoreDetail = ({ setShowLogin, match }) => {
                     <StoreDetailStyle.ResSummaryPoint>
                       <StoreDetailStyle.MicroPoints>
                         <StoreDetailStyle.MicroReviewCount>
-                          {storeDetail.data.avgRate === 0 ? '--' : storeDetail.data.avgRate}
+                          {storeDetail.data.avgRate === 0
+                            ? '--'
+                            : storeDetail.data.avgRate}
                           {storeDetail.data.avgRate !== 0 && <AiFillStar />}
                         </StoreDetailStyle.MicroReviewCount>
-                        <StoreDetailStyle.MicroReviewText>Trung bình</StoreDetailStyle.MicroReviewText>
+                        <StoreDetailStyle.MicroReviewText>
+                          Trung bình
+                        </StoreDetailStyle.MicroReviewText>
                       </StoreDetailStyle.MicroPoints>
                       <StoreDetailStyle.MicroPoints>
                         <StoreDetailStyle.MicroReviewCount>
                           {storeDetail.data.totalComment}
                         </StoreDetailStyle.MicroReviewCount>
-                        <StoreDetailStyle.MicroReviewText>Bình luận</StoreDetailStyle.MicroReviewText>
+                        <StoreDetailStyle.MicroReviewText>
+                          Bình luận
+                        </StoreDetailStyle.MicroReviewText>
                       </StoreDetailStyle.MicroPoints>
                       <StoreDetailStyle.MicroPoints>
                         <StoreDetailStyle.MicroReviewCount>
                           {storeDetail.data.totalFood}
                         </StoreDetailStyle.MicroReviewCount>
-                        <StoreDetailStyle.MicroReviewText>Món ăn</StoreDetailStyle.MicroReviewText>
+                        <StoreDetailStyle.MicroReviewText>
+                          Món ăn
+                        </StoreDetailStyle.MicroReviewText>
                       </StoreDetailStyle.MicroPoints>
                       <StoreDetailStyle.MicroPoints>
                         <StoreDetailStyle.MicroReviewCount>
                           {storeDetail.data.totalRating}
                         </StoreDetailStyle.MicroReviewCount>
-                        <StoreDetailStyle.MicroReviewText>Lượt đánh giá</StoreDetailStyle.MicroReviewText>
+                        <StoreDetailStyle.MicroReviewText>
+                          Lượt đánh giá
+                        </StoreDetailStyle.MicroReviewText>
                       </StoreDetailStyle.MicroPoints>
                       <StoreDetailStyle.YourRate>
                         <div>
-                          <Rate disabled={!!storeDetail.data.userRate} defaultValue={storeDetail.data.userRate} />
+                          <Rate
+                            disabled={!!storeDetail.data.userRate}
+                            defaultValue={storeDetail.data.userRate}
+                          />
                         </div>
                         <StoreDetailStyle.YourRateCount>
-                          {!storeDetail.data.userRate ? '--' : storeDetail.data.userRate}
+                          {!storeDetail.data.userRate
+                            ? '--'
+                            : storeDetail.data.userRate}
                           {!!storeDetail.data.userRate && <AiFillStar />}
                         </StoreDetailStyle.YourRateCount>
-                        <StoreDetailStyle.YourRateText>Đánh giá của bạn</StoreDetailStyle.YourRateText>
+                        <StoreDetailStyle.YourRateText>
+                          Đánh giá của bạn
+                        </StoreDetailStyle.YourRateText>
                       </StoreDetailStyle.YourRate>
                     </StoreDetailStyle.ResSummaryPoint>
                     <div>
@@ -177,7 +200,8 @@ const StoreDetail = ({ setShowLogin, match }) => {
                         )}
                         {isOpen !== null && (
                           <span>
-                            &nbsp;{storeDetail.data.openTime} - {storeDetail.data.closeTime}
+                            &nbsp;{storeDetail.data.openTime} -{' '}
+                            {storeDetail.data.closeTime}
                           </span>
                         )}
                       </StoreDetailStyle.StoreTime>
@@ -211,7 +235,9 @@ const StoreDetail = ({ setShowLogin, match }) => {
                     icon={<MdNavigateNext />}
                     onClick={() => {
                       setDefaultActiveMenu('food');
-                      history.push(`/stores/${storeDetail.data.storeNotMark}.${storeDetail.data.id}`);
+                      history.push(
+                        `/stores/${storeDetail.data.storeNotMark}.${storeDetail.data.id}`
+                      );
                     }}
                   >
                     Món ăn
@@ -221,7 +247,9 @@ const StoreDetail = ({ setShowLogin, match }) => {
                     icon={<MdNavigateNext />}
                     onClick={() => {
                       setDefaultActiveMenu('comment');
-                      history.push(`/stores/${storeDetail.data.storeNotMark}.${storeDetail.data.id}/comment`);
+                      history.push(
+                        `/stores/${storeDetail.data.storeNotMark}.${storeDetail.data.id}/comment`
+                      );
                     }}
                   >
                     Bình luận
@@ -231,7 +259,9 @@ const StoreDetail = ({ setShowLogin, match }) => {
                     icon={<MdNavigateNext />}
                     onClick={() => {
                       setDefaultActiveMenu('promotion');
-                      history.push(`/stores/${storeDetail.data.storeNotMark}.${storeDetail.data.id}/promotion`);
+                      history.push(
+                        `/stores/${storeDetail.data.storeNotMark}.${storeDetail.data.id}/promotion`
+                      );
                     }}
                   >
                     Khuyến mãi
@@ -241,7 +271,9 @@ const StoreDetail = ({ setShowLogin, match }) => {
                     icon={<MdNavigateNext />}
                     onClick={() => {
                       setDefaultActiveMenu('picture');
-                      history.push(`/stores/${storeDetail.data.storeNotMark}.${storeDetail.data.id}/picture`);
+                      history.push(
+                        `/stores/${storeDetail.data.storeNotMark}.${storeDetail.data.id}/picture`
+                      );
                     }}
                   >
                     Hình ảnh

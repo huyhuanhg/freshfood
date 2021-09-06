@@ -2,13 +2,13 @@ import { ShoppingCartOutlined } from '@ant-design/icons';
 import { Card, Skeleton, Space } from 'antd';
 import NumberFormat from 'react-number-format';
 
+import { useDispatch, useSelector } from 'react-redux';
+import PropTypes from 'prop-types';
 import * as S from './style';
 
 import storeLoading from '../../../assets/images/loadStore.png';
-import { useDispatch, useSelector } from 'react-redux';
 import { ROOT_PATH } from '../../../contants';
 import { getFoodDetailAction } from '../../../redux/actions';
-import PropTypes from 'prop-types';
 
 const MetaTitle = ({ name, store, slug }) => {
   return (
@@ -26,12 +26,22 @@ const MetaDescription = ({ price, priceAfter }) => {
     <Space>
       <p>
         <S.AfterPrice>
-          <NumberFormat value={priceAfter} displayType={'text'} thousandSeparator suffix={'đ'} />
+          <NumberFormat
+            value={priceAfter}
+            displayType={'text'}
+            thousandSeparator
+            suffix={'đ'}
+          />
         </S.AfterPrice>
       </p>
       <p style={{ paddingLeft: 10 }}>
         <S.Price>
-          <NumberFormat value={price} displayType={'text'} thousandSeparator suffix={'đ'} />
+          <NumberFormat
+            value={price}
+            displayType={'text'}
+            thousandSeparator
+            suffix={'đ'}
+          />
         </S.Price>
       </p>
     </Space>
@@ -56,7 +66,9 @@ export const FoodItemHome = ({
   return (
     <S.CardItem
       hoverable
-      cover={<S.CardImage avatar={loading ? storeLoading : `${ROOT_PATH}${foodAvatar}`} />}
+      cover={
+        <S.CardImage avatar={loading ? storeLoading : `${ROOT_PATH}${foodAvatar}`} />
+      }
       onClick={() => {
         if (!loading) {
           dispatch(
@@ -72,9 +84,18 @@ export const FoodItemHome = ({
     >
       <Skeleton loading={loading} active>
         <Meta
-          title={<MetaTitle name={foodName} store={storeName} slug={`${storeNotMark}.${storeId}`} />}
+          title={
+            <MetaTitle
+              name={foodName}
+              store={storeName}
+              slug={`${storeNotMark}.${storeId}`}
+            />
+          }
           description={
-            <MetaDescription price={discount?.value && price} priceAfter={discount?.value ? discount?.value : price} />
+            <MetaDescription
+              price={discount?.value && price}
+              priceAfter={discount?.value ? discount?.value : price}
+            />
           }
           avatar={
             <S.AddCard
