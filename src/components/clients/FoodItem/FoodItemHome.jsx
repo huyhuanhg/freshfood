@@ -9,6 +9,7 @@ import * as S from './style';
 import storeLoading from '../../../assets/images/loadStore.png';
 import { ROOT_PATH } from '../../../contants';
 import { getFoodDetailAction } from '../../../redux/actions';
+import handleStopPropagation from '../../../utils/common';
 
 const MetaTitle = ({ name, store, slug }) => {
   return (
@@ -100,7 +101,7 @@ export const FoodItemHome = ({
           avatar={
             <S.AddCard
               onClick={(e) => {
-                e.stopPropagation();
+                handleStopPropagation(e);
                 if (!userInfo.data.id) {
                   setShowLogin(true);
                 }
@@ -134,7 +135,9 @@ FoodItemHome.propTypes = {
   storeName: PropTypes.string,
   storeNotMark: PropTypes.string,
   price: PropTypes.number,
-  discount: PropTypes.number,
+  discount: PropTypes.shape({
+    value: PropTypes.number
+  }),
   loading: PropTypes.bool,
   setShowDetail: PropTypes.func,
   setShowLogin: PropTypes.func,

@@ -309,6 +309,7 @@ const StoreDetail = ({ setShowLogin, match }) => {
                     showFoodDetail={showFoodDetail}
                     setShowLogin={setShowLogin}
                     setShowFoodDetail={setShowFoodDetail}
+                    match={match}
                   />
                 </Route>
                 <Route exact path="/stores/:slug/comment">
@@ -341,7 +342,9 @@ export default StoreDetail;
 
 StoreDetail.propTypes = {
   match: PropTypes.shape({
-    params: PropTypes.shape,
+    params: PropTypes.shape({
+      slug: PropTypes.string.isRequired
+    }),
   }),
   setShowLogin: PropTypes.func.isRequired,
 };

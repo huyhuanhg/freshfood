@@ -3,12 +3,30 @@ import axios from 'axios';
 import camelCaseKeys from 'camelcase-keys';
 import { REQUEST, SUCCESS, FOOD_ACTION } from '../constants';
 import { SERVER_CLIENT_API_URL } from '../../contants';
+import toSnakeCase from '../../utils/toSnakeCase';
 
-function* getFoodListSaga() {
+function* getFoodListSaga(action) {
   try {
+    const store = action.payload?.store;
+    const tags = action.payload?.tags;
+    const group = action.payload?.group;
+    const sort = action.payload?.sort;
+    const sortType = action.payload?.sortType;
+    const user = action.payload?.user;
+    const page = action.payload?.page;
+
+    const params = {
+      ...store && { store },
+      ...tags && { tags: JSON.stringify(tags) },
+      ...group && { group },
+      ...sort && { sort, sortType },
+      ...user && { user },
+      ...page && { page },
+    };
     const result = yield axios({
       method: 'GET',
       url: `${SERVER_CLIENT_API_URL}/foods`,
+      params: toSnakeCase(params),
     });
     yield put({
       type: SUCCESS(FOOD_ACTION.GET_FOOD_LIST),
@@ -17,6 +35,7 @@ function* getFoodListSaga() {
       },
     });
   } catch (e) {
+    console.log(e.message);
     // yield put({ type: FAILURE(FOOD_ACTION.GET_FOOD_LIST_INITIAL), payload: e.message });
   }
 }

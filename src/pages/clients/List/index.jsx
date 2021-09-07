@@ -17,16 +17,16 @@ const ClientList = () => {
           <Col span={4}>
             <Affix offsetTop={52.7}>
               <Menu
-                theme="light"
+                theme='light'
                 style={{
                   background: '#fff',
                   height: 'auto',
                 }}
                 defaultSelectedKeys={[history.location.pathname]}
-                mode="inline"
+                mode='inline'
               >
                 <Menu.Item
-                  key="/stores"
+                  key='/stores'
                   icon={<MdNavigateNext />}
                   onClick={() => {
                     history.push('/stores');
@@ -35,7 +35,7 @@ const ClientList = () => {
                   Ở đâu
                 </Menu.Item>
                 <Menu.Item
-                  key="/foods"
+                  key='/foods'
                   icon={<MdNavigateNext />}
                   onClick={() => {
                     history.push('/foods');
@@ -44,7 +44,7 @@ const ClientList = () => {
                   Ăn gì
                 </Menu.Item>
                 <Menu.Item
-                  key="/promotions"
+                  key='/promotions'
                   icon={<MdNavigateNext />}
                   onClick={() => {
                     history.push('/promotions');
@@ -53,7 +53,7 @@ const ClientList = () => {
                   Khuyến mãi
                 </Menu.Item>
                 <Menu.Item
-                  key="/crowded"
+                  key='/crowded'
                   icon={<MdNavigateNext />}
                   onClick={() => {
                     history.push('/crowded');
@@ -62,7 +62,7 @@ const ClientList = () => {
                   Đông khách
                 </Menu.Item>
                 <Menu.Item
-                  key="/favorite"
+                  key='/favorite'
                   icon={<MdNavigateNext />}
                   onClick={() => {
                     history.push('/favorite');
@@ -75,11 +75,11 @@ const ClientList = () => {
           </Col>
           <Col span={20}>
             <Switch>
-              <Route exact path="/stores" component={StoreList} />
-              <Route exact path="/foods" component={FoodList} />
-              <Route exact path="/promotions" component={Promotions} />
-              <Route exact path="/crowded" component={CrowdedList} />
-              <Route exact path="/favorite" component={FavoritesList} />
+              <Route exact path='/stores' component={StoreList} />
+              <Route exact path='/foods' component={FoodList} />
+              <Route exact path='/promotions' component={Promotions} />
+              <Route exact path='/crowded' component={CrowdedList} />
+              <Route exact path='/favorite' component={FavoritesList} />
             </Switch>
           </Col>
         </Row>

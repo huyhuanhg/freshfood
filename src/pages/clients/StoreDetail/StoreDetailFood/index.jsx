@@ -1,16 +1,27 @@
 import { Affix, Col, Menu, Row, Select, Spin } from 'antd';
-import { useSelector } from 'react-redux';
-import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import * as StoreDetailStyle from '../style';
 import FoodDetailCarousel from '../../../../components/clients/FoodDeatilCarousle';
 import { FoodStore } from '../../../../components/clients/FoodItem';
+import { getFoodListAction } from '../../../../redux/actions';
 
-const StoreDetailFood = ({ showFoodDetail, setShowLogin, setShowFoodDetail }) => {
+const StoreDetailFood = ({ showFoodDetail, setShowLogin, setShowFoodDetail, match }) => {
+  const dispatch = useDispatch();
   const { foodList } = useSelector((state) => state.foodReducer);
   const { userInfo } = useSelector((state) => state.userReducer);
 
   const [foodIndex, setFoodIndex] = useState(0);
+
+  useEffect(() => {
+    const store = match.params.slug.slice(match.params.slug.lastIndexOf('.') + 1);
+    if (store) {
+      dispatch(getFoodListAction({
+        store,
+      }));
+    }
+  }, []);
 
   const renderFoodList = (span = 6) => {
     return foodList.data.map((food, index) => {
@@ -38,14 +49,14 @@ const StoreDetailFood = ({ showFoodDetail, setShowLogin, setShowFoodDetail }) =>
           }}
         >
           <Menu
-            mode="horizontal"
+            mode='horizontal'
             defaultSelectedKeys={['mail']}
             style={{
               flexBasis: '50%',
             }}
           >
-            <Menu.Item key="mail">Mới nhất </Menu.Item>
-            <Menu.Item key="app">Đã lưu</Menu.Item>
+            <Menu.Item key='mail'>Mới nhất </Menu.Item>
+            <Menu.Item key='app'>Đã lưu</Menu.Item>
           </Menu>
           <ul
             style={{
@@ -58,24 +69,24 @@ const StoreDetailFood = ({ showFoodDetail, setShowLogin, setShowFoodDetail }) =>
           >
             <li>
               <Select defaultValue={''} style={{ width: 160, margin: '0 5px' }}>
-                <Select.Option value="" selected hidden disabled>
+                <Select.Option value='' selected hidden disabled>
                   -Danh mục-
                 </Select.Option>
-                <Select.Option value="0">Sang trọng</Select.Option>
-                <Select.Option value="1">Vỉa hè</Select.Option>
-                <Select.Option value="2">Buffet</Select.Option>
-                <Select.Option value="3">Nhà hàng</Select.Option>
-                <Select.Option value="4">Quán ăn</Select.Option>
-                <Select.Option value="5">Quán nhậu</Select.Option>
+                <Select.Option value='0'>Sang trọng</Select.Option>
+                <Select.Option value='1'>Vỉa hè</Select.Option>
+                <Select.Option value='2'>Buffet</Select.Option>
+                <Select.Option value='3'>Nhà hàng</Select.Option>
+                <Select.Option value='4'>Quán ăn</Select.Option>
+                <Select.Option value='5'>Quán nhậu</Select.Option>
               </Select>
             </li>
             <li>
-              <Select defaultValue="" style={{ width: 160 }}>
-                <Select.Option value="" selected hidden disabled>
+              <Select defaultValue='' style={{ width: 160 }}>
+                <Select.Option value='' selected hidden disabled>
                   -Đánh giá-
                 </Select.Option>
-                <Select.Option value="0">Đánh giá tăng dần</Select.Option>
-                <Select.Option value="1">Đánh giá giảm dần</Select.Option>
+                <Select.Option value='0'>Đánh giá tăng dần</Select.Option>
+                <Select.Option value='1'>Đánh giá giảm dần</Select.Option>
               </Select>
             </li>
           </ul>
@@ -135,4 +146,9 @@ StoreDetailFood.propTypes = {
   showFoodDetail: PropTypes.bool,
   setShowLogin: PropTypes.func,
   setShowFoodDetail: PropTypes.func,
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      slug: PropTypes.string.isRequired,
+    }),
+  }),
 };

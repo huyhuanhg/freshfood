@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { ROOT_PATH } from '../../../contants';
 import * as S from './style';
+import handleStopPropagation from '../../../utils/common';
 
 export const FoodStore = ({
   foodAvatar,
@@ -40,7 +41,7 @@ export const FoodStore = ({
           <S.FoodStorePrice>
             <div className="price-discount">
               <NumberFormat
-                value={discount?.value ?? price}
+                value={discount?.value && price}
                 displayType={'text'}
                 thousandSeparator
                 suffix={'đ'}
@@ -57,7 +58,7 @@ export const FoodStore = ({
             <span
               className="btn-adding"
               onClick={(e) => {
-                e.stopPropagation();
+                handleStopPropagation(e);
                 if (!userInfo.data.id) {
                   setShowLogin(true);
                 }
@@ -78,7 +79,9 @@ FoodStore.propTypes = {
   foodDescription: PropTypes.string,
   totalOrder: PropTypes.number,
   price: PropTypes.number,
-  discount: PropTypes.number,
+  discount: PropTypes.shape({
+    value: PropTypes.number
+  }),
   loading: PropTypes.bool,
   handleClick: PropTypes.func,
   setIndex: PropTypes.func,

@@ -6,6 +6,9 @@ const initialState = {
     data: [],
     load: false,
     error: null,
+    currentPage: 1,
+    lastPage: 1,
+    total: 0,
   },
   foodPromotions: {
     data: [],
@@ -44,13 +47,20 @@ const foodReducer = createReducer(initialState, {
   },
   [SUCCESS(FOOD_ACTION.GET_FOOD_LIST)]: (state, action) => {
     const { foods } = action.payload.data;
+    let newFoods = [...foods.data];
+    if (foods.currentPage > state.foodList.currentPage) {
+      newFoods = [...state.foodList.data, ...newFoods];
+    }
     return {
       ...state,
       foodList: {
         ...state.foodList,
-        data: foods,
+        data: newFoods,
         load: false,
         error: null,
+        currentPage: foods.currentPage,
+        lastPage: foods.lastPage,
+        total: foods.total,
       },
     };
   },

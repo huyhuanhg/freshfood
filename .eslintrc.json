@@ -47,7 +47,6 @@
       2,
       "always"
     ],
-    "new-cap": 1,
     "no-case-declarations": 0,
     "new-parens": 2,
     "arrow-parens": 2,
@@ -264,7 +263,7 @@
     "no-undef": "off",
     "no-undef-init": "off",
     "no-undefined": "off",
-    "no-unused-vars": "off",
+//    "no-unused-vars": "off",
     "no-use-before-define": "off",
     // Variables -- end
 
@@ -310,7 +309,7 @@
     "max-statements-per-line": "off",
     "multiline-comment-style": "off",
     "multiline-ternary": "off",
-//    "new-cap": "off",
+    "new-cap": "off",
 //    "new-parens": "off",
     "newline-per-chained-call": "off",
     "no-array-constructor": "off",

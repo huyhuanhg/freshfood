@@ -19,11 +19,7 @@ import FoodDetailModal from '../../../components/clients/FoodDetailModal';
 import SectionListed from './components/SectionListed';
 import SectionFoodList from './components/SectionFoodList';
 
-import {
-  getFoodListAction,
-  getFoodPromotionAction,
-  getStoresAction,
-} from '../../../redux/actions';
+import { getFoodPromotionAction, getStoresAction } from '../../../redux/actions';
 import SectionPromotion from './components/SectionPromotion';
 import SectionStore from './components/SectionStore';
 
@@ -37,7 +33,6 @@ function HomePage({ setShowLogin }) {
   const [showFoodDetail, setShowFoodDetail] = useState(false);
 
   useEffect(() => {
-    dispatch(getFoodListAction());
     dispatch(getFoodPromotionAction());
     dispatch(getStoresAction());
   }, []);
@@ -67,7 +62,7 @@ function HomePage({ setShowLogin }) {
         setShowLogin={setShowLogin}
       />
       <HomeS.Heading>
-        <HomeS.HeadingCarousel autoplay dots={false} effect="fade">
+        <HomeS.HeadingCarousel autoplay dots={false} effect='fade'>
           <HomeS.CarouselItem src={bg1} />
           <HomeS.CarouselItem src={bg2} />
           <HomeS.CarouselItem src={bg3} />
@@ -93,7 +88,7 @@ function HomePage({ setShowLogin }) {
 
       <HomeS.Invite>
         <div>
-          <Row justify="center">
+          <Row justify='center'>
             <Col span={12}>
               <h2>
                 <b>Bạn</b> là người <b>kinh doanh</b>?
@@ -101,10 +96,10 @@ function HomePage({ setShowLogin }) {
               <p>
                 <b>Chỉ thị 16</b> kéo dài, cửa hàng <b>vắng khách</b>?
               </p>
-              <p className="invite">
+              <p className='invite'>
                 Đừng ngần ngại <b>FoodBooking</b> sẽ cùng bạn vượt qua khó khăn
               </p>
-              <Link to="/">
+              <Link to='/'>
                 <HomeS.BtnInvite>Đăng ký bán hàng</HomeS.BtnInvite>
               </Link>
             </Col>
@@ -112,7 +107,7 @@ function HomePage({ setShowLogin }) {
         </div>
       </HomeS.Invite>
 
-      <HomeS.Section id="test" style={{ backgroundColor: '#eee' }}>
+      <HomeS.Section id='test' style={{ backgroundColor: '#eee' }}>
         <HomeS.SectionContainer style={{ marginTop: 0 }}>
           <SectionFoodList render={renderFood} />
         </HomeS.SectionContainer>

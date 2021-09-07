@@ -1,21 +1,57 @@
-import { Affix, Button, Col, Menu, Row, Select } from 'antd';
-import { MdNavigateNext } from 'react-icons/all';
+import { Affix, Button, Col, Menu, Row, Select, Spin } from 'antd';
 import PropTypes from 'prop-types';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import * as HomeS from '../../styles';
+import { useEffect, useState } from 'react';
+import { MdNavigateNext, MdRemoveShoppingCart } from 'react-icons/all';
+import { getFoodListAction } from '../../../../../redux/actions';
 
 const SectionFoodList = ({ render }) => {
   const { Option } = Select;
+  const dispatch = useDispatch();
   const { foodList } = useSelector((state) => state.foodReducer);
   const { tagList } = useSelector((state) => state.tagReducer);
 
-  const renderTagList = () => {
+  const [menuActive, setMenuActive] = useState('created_at');
+  const [sortPrice, setSortPrice] = useState('');
+  const [request, setRequest] = useState({
+    group: null,
+    sort: 'created_at',
+    sortType: -1,
+    page: 1,
+    tags: [],
+  });
+
+  useEffect(() => {
+    dispatch(getFoodListAction(request));
+  }, [request]);
+
+  const handleChaneTag = (key) => {
+    let tagsActive = [...request.tags];
+    if (key === '') {
+      tagsActive = [];
+    } else {
+      const tagIndex = tagsActive.indexOf(key);
+      if (tagIndex !== -1) {
+        tagsActive.splice(tagIndex, 1);
+      } else {
+        tagsActive.push(key);
+      }
+    }
+    setRequest({
+      ...request,
+      tags: tagsActive,
+    });
+  };
+
+  const renderTagListMenu = () => {
     return tagList.data.map((tag) => {
       if (tag.tagActive === 1) {
         return (
           <Menu.Item
             key={tag.id}
-            icon={<MdNavigateNext className="custom-icon-position" />}
+            icon={<MdNavigateNext className='custom-icon-position' />}
+            onClick={({ key }) => handleChaneTag(key)}
           >
             {tag.tagName}
           </Menu.Item>
@@ -28,21 +64,22 @@ const SectionFoodList = ({ render }) => {
       <Col span={4}>
         <Affix offsetTop={52.7}>
           <Menu
-            theme="light"
+            theme='light'
             style={{
               background: '#fff',
               height: 'auto',
             }}
-            defaultSelectedKeys={['0']}
-            mode="inline"
+            selectedKeys={request.tags.length === 0 ? [''] : request.tags}
+            mode='inline'
           >
             <Menu.Item
-              key="0"
-              icon={<MdNavigateNext className="custom-icon-position" />}
+              key=''
+              icon={<MdNavigateNext className='custom-icon-position' />}
+              onClick={({ key }) => handleChaneTag(key)}
             >
               Tất cả
             </Menu.Item>
-            {renderTagList()}
+            {renderTagListMenu()}
           </Menu>
         </Affix>
       </Col>
@@ -56,15 +93,58 @@ const SectionFoodList = ({ render }) => {
             }}
           >
             <Menu
-              mode="horizontal"
-              defaultSelectedKeys={['mail']}
+              mode='horizontal'
+              selectedKeys={[menuActive]}
               style={{
                 flexBasis: '50%',
               }}
             >
-              <Menu.Item key="mail">Mới nhất </Menu.Item>
-              <Menu.Item key="app">Khuyến mãi</Menu.Item>
-              <Menu.Item key="abc">Bán chạy</Menu.Item>
+              <Menu.Item
+                key='created_at'
+                onClick={({ key }) => {
+                  setMenuActive(key);
+                  setSortPrice('');
+                  setRequest({
+                    ...request,
+                    sort: key,
+                    sortType: -1,
+                    group: null,
+                    page: 1,
+                  });
+                }}
+              >
+                Mới nhất
+              </Menu.Item>
+              <Menu.Item
+                key='promotion'
+                onClick={({ key }) => {
+                  setMenuActive(key);
+                  setRequest({
+                    ...request,
+                    sort: null,
+                    group: key,
+                    page: 1,
+                  });
+                }}
+              >
+                Khuyến mãi
+              </Menu.Item>
+              <Menu.Item
+                key='food_consume'
+                onClick={({ key }) => {
+                  setMenuActive(key);
+                  setSortPrice('');
+                  setRequest({
+                    ...request,
+                    sort: key,
+                    sortType: -1,
+                    group: null,
+                    page: 1,
+                  });
+                }}
+              >
+                Bán chạy
+              </Menu.Item>
             </Menu>
             <ul
               style={{
@@ -77,37 +157,72 @@ const SectionFoodList = ({ render }) => {
             >
               <li>
                 <Select
-                  defaultValue={''}
+                  value={sortPrice}
                   style={{ width: 120, margin: '0 5px' }}
                   getPopupContainer={(trigger) => trigger.parentNode}
-                >
-                  <Option value="" selected hidden disabled>
-                    Giá
-                  </Option>
-                  <Option value="0">Giá tăng dần</Option>
-                  <Option value="1">Giá giảm dần</Option>
-                </Select>
-              </li>
-              <li>
-                <Select
-                  defaultValue=""
-                  style={{ width: 160 }}
-                  getPopupContainer={(trigger) => {
-                    return trigger.parentNode;
+                  onChange={(value) => {
+                    setSortPrice(value);
+                    if (menuActive === 'created_at' || menuActive === 'food_consume') {
+                      setMenuActive('');
+                    }
+                    setRequest({
+                      ...request,
+                      sort: 'price',
+                      sortType: value,
+                      page: 1,
+                    });
                   }}
                 >
-                  <Option value="" selected hidden disabled>
-                    Đánh giá
+                  <Option value='' selected hidden disabled>
+                    Giá
                   </Option>
-                  <Option value="0">Đánh giá tăng dần</Option>
-                  <Option value="1">Đánh giá giảm dần</Option>
+                  <Option value='1'>Giá tăng dần</Option>
+                  <Option value='-1'>Giá giảm dần</Option>
                 </Select>
               </li>
             </ul>
           </div>
         </HomeS.AffixIndex>
-        <div style={{ paddingTop: 20 }}>
-          {render(foodList.data, 6)}
+        <div style={{ paddingTop: 20, position: 'relative' }}>
+          {foodList.total === 0
+            ?
+            <div
+              style={{
+                minHeight: '400px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                textAlign: 'center',
+                fontSize: '150%',
+                fontWeight: 'bold',
+              }}
+            >
+              <div>
+                <MdRemoveShoppingCart
+                  style={{
+                    color: 'red',
+                    fontSize: '200%',
+                  }}
+                /><br />
+                Không có món ăn nào!
+              </div>
+            </div>
+            :
+            render(foodList.data, 6)
+          }
+          {
+            foodList.load &&
+            <Spin
+              size='large'
+              style={{
+                position: 'absolute',
+                top: '100%',
+                left: '50%',
+                transform: 'translate(-50%, -200%)',
+              }}
+            />
+          }
+          {foodList.currentPage < foodList.lastPage &&
           <div
             style={{
               display: 'flex',
@@ -116,8 +231,16 @@ const SectionFoodList = ({ render }) => {
               marginTop: '3rem',
             }}
           >
-            <Button>Xem thêm</Button>
+            <Button
+              onClick={() => setRequest({
+                ...request,
+                page: request.page + 1,
+              })}
+            >
+              Xem thêm
+            </Button>
           </div>
+          }
         </div>
       </Col>
     </Row>
