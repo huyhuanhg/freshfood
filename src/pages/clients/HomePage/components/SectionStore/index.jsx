@@ -1,12 +1,18 @@
 import { Link } from 'react-router-dom';
 import { Button, Col, Row } from 'antd';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import StoreItem from '../../../../../components/clients/StoreItem';
 import * as HomeS from '../../styles';
+import { useEffect } from 'react';
+import { getStoresAction } from '../../../../../redux/actions';
 
 const SectionStore = () => {
+  const dispatch = useDispatch();
   const { storeList } = useSelector((state) => state.storeReducer);
 
+  useEffect(() => {
+    dispatch(getStoresAction());
+  }, []);
   const renderStore = (span = 4) => {
     return (
       <Row gutter={[16, 16]}>
@@ -33,7 +39,7 @@ const SectionStore = () => {
             marginTop: '3rem',
           }}
         >
-          <Link to="/stores">
+          <Link to='/stores'>
             <Button>Xem tất cả</Button>
           </Link>
         </div>

@@ -7,19 +7,21 @@ import { ROOT_PATH } from '../../../contants';
 import * as S from './style';
 import handleStopPropagation from '../../../utils/common';
 
-export const FoodStore = ({
-  foodAvatar,
-  foodName,
-  foodDescription,
-  totalOrder,
-  price,
-  discount,
-  loading,
-  handleClick,
-  setIndex,
-  index,
-  setShowLogin,
-}) => {
+export const FoodStore = (
+  {
+    foodAvatar,
+    foodName,
+    foodDescription,
+    foodConsume,
+    price,
+    discount,
+    loading,
+    handleClick,
+    setIndex,
+    index,
+    setShowLogin,
+  },
+) => {
   const { userInfo } = useSelector((state) => state.userReducer);
   return (
     <S.FoodStore
@@ -29,34 +31,36 @@ export const FoodStore = ({
       }}
     >
       <S.FoodStoreAvatar>
-        {loading ? <BsImage /> : <img src={`${ROOT_PATH}${foodAvatar}`} />}
+        {loading ? <BsImage /> : <img src={`${ROOT_PATH}${foodAvatar}`}  alt={foodName}/>}
       </S.FoodStoreAvatar>
       <S.FoodStoreItemRight>
         <S.SkeletonCustom loading={loading} active>
           <S.FoodStoreTitle>{foodName}</S.FoodStoreTitle>
           <S.FoodStoreDescription>{foodDescription}</S.FoodStoreDescription>
           <p>
-            <S.TotalOrder>Lượt đặt: {totalOrder}</S.TotalOrder>
+            <S.TotalOrder>Lượt đặt: {foodConsume}</S.TotalOrder>
           </p>
           <S.FoodStorePrice>
-            <div className="price-discount">
+            <div className='price-discount'>
+              {price > discount &&
               <NumberFormat
-                value={discount?.value && price}
+                value={price}
                 displayType={'text'}
                 thousandSeparator
                 suffix={'đ'}
               />
+              }
             </div>
-            <span className="price">
+            <span className='price'>
               <NumberFormat
-                value={discount?.value ? discount?.value : price}
+                value={discount}
                 displayType={'text'}
                 thousandSeparator
                 suffix={'đ'}
               />
             </span>
             <span
-              className="btn-adding"
+              className='btn-adding'
               onClick={(e) => {
                 handleStopPropagation(e);
                 if (!userInfo.data.id) {
@@ -77,11 +81,9 @@ FoodStore.propTypes = {
   foodAvatar: PropTypes.string,
   foodName: PropTypes.string,
   foodDescription: PropTypes.string,
-  totalOrder: PropTypes.number,
+  foodConsume: PropTypes.number,
   price: PropTypes.number,
-  discount: PropTypes.shape({
-    value: PropTypes.number
-  }),
+  discount: PropTypes.number,
   loading: PropTypes.bool,
   handleClick: PropTypes.func,
   setIndex: PropTypes.func,

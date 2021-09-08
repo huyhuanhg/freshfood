@@ -3,13 +3,16 @@ import { MdNavigateNext } from 'react-icons/all';
 import { Route, Switch } from 'react-router-dom';
 import history from '../../../utils/history';
 import * as ClientStyle from '../styles';
-import StoreList from './StoreList';
-import FoodList from './FoodList';
-import Promotions from './Promotions';
-import CrowdedList from './CrowdedList';
-import FavoritesList from './FavoritesList';
+import StoreList from './components/StoreList';
+import FoodList from './components/FoodList';
+import PropTypes from 'prop-types';
+import { useEffect, useState } from 'react';
 
-const ClientList = () => {
+const ClientList = ({ setShowLogin }) => {
+  const [menuActive, setMenuActive] = useState('foods');
+  useEffect(() => {
+    setMenuActive(history.location.pathname);
+  }, [history.location.pathname]);
   return (
     <ClientStyle.Section style={{ backgroundColor: '#eee' }}>
       <ClientStyle.Container>
@@ -22,7 +25,7 @@ const ClientList = () => {
                   background: '#fff',
                   height: 'auto',
                 }}
-                defaultSelectedKeys={[history.location.pathname]}
+                selectedKeys={[menuActive]}
                 mode='inline'
               >
                 <Menu.Item
@@ -76,10 +79,24 @@ const ClientList = () => {
           <Col span={20}>
             <Switch>
               <Route exact path='/stores' component={StoreList} />
-              <Route exact path='/foods' component={FoodList} />
-              <Route exact path='/promotions' component={Promotions} />
-              <Route exact path='/crowded' component={CrowdedList} />
-              <Route exact path='/favorite' component={FavoritesList} />
+              <Route
+                exact
+                path='/foods'
+                setShowLogin={setShowLogin}
+                component={FoodList}
+              />
+              <Route
+                exact
+                path='/promotions'
+                setShowLogin={setShowLogin}
+                component={FoodList}
+              />
+              <Route
+                exact
+                path='/crowded'
+                component={StoreList}
+              />
+              <Route exact path='/favorite' component={FoodList} />
             </Switch>
           </Col>
         </Row>
@@ -88,3 +105,7 @@ const ClientList = () => {
   );
 };
 export default ClientList;
+
+ClientList.propTypes = {
+  setShowLogin: PropTypes.func,
+};

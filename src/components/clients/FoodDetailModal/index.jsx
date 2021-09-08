@@ -40,7 +40,7 @@ const FoodDetailModal = function ({ show, setShow, setShowLogin }) {
                 <div className="imgbox-total">
                   Đã được đặt
                   <span className="txt-bold">
-                    &nbsp;{foodDetail.data.totalOrder}&nbsp;
+                    &nbsp;{foodDetail.data.foodConsume}&nbsp;
                   </span>
                   lần
                 </div>
@@ -48,7 +48,7 @@ const FoodDetailModal = function ({ show, setShow, setShowLogin }) {
               <Col span={4} style={{ alignSelf: 'center' }}>
                 <div className="imgbox-current-price">
                   <NumberFormat
-                    value={foodDetail.data.discount?.value || foodDetail.data.price}
+                    value={foodDetail.data.discount}
                     displayType={'text'}
                     thousandSeparator
                     suffix={'đ'}

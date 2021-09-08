@@ -19,7 +19,7 @@ import FoodDetailModal from '../../../components/clients/FoodDetailModal';
 import SectionListed from './components/SectionListed';
 import SectionFoodList from './components/SectionFoodList';
 
-import { getFoodPromotionAction, getStoresAction } from '../../../redux/actions';
+import { getFoodPromotionAction } from '../../../redux/actions';
 import SectionPromotion from './components/SectionPromotion';
 import SectionStore from './components/SectionStore';
 
@@ -34,7 +34,6 @@ function HomePage({ setShowLogin }) {
 
   useEffect(() => {
     dispatch(getFoodPromotionAction());
-    dispatch(getStoresAction());
   }, []);
 
   const renderFood = (foodList, span = 4) => {
@@ -55,7 +54,7 @@ function HomePage({ setShowLogin }) {
     );
   };
   return (
-    <>
+    <div>
       <FoodDetailModal
         show={showFoodDetail}
         setShow={setShowFoodDetail}
@@ -112,7 +111,7 @@ function HomePage({ setShowLogin }) {
           <SectionFoodList render={renderFood} />
         </HomeS.SectionContainer>
       </HomeS.Section>
-    </>
+    </div>
   );
 }
 

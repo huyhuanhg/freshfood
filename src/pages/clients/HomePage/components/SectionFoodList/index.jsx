@@ -43,6 +43,29 @@ const SectionFoodList = ({ render }) => {
       tags: tagsActive,
     });
   };
+  const handleChangeMenu = (key) => {
+    setMenuActive(key);
+    let menuRequest = {
+      ...request,
+      page: 1
+    };
+    if (key === 'promotion') {
+      menuRequest = {
+        ...menuRequest,
+        sort: null,
+        group: key,
+      };
+    } else {
+      setSortPrice('');
+      menuRequest = {
+        ...menuRequest,
+        sort: key,
+        sortType: -1,
+        group: null,
+      };
+    }
+    setRequest(menuRequest);
+  };
 
   const renderTagListMenu = () => {
     return tagList.data.map((tag) => {
@@ -99,50 +122,13 @@ const SectionFoodList = ({ render }) => {
                 flexBasis: '50%',
               }}
             >
-              <Menu.Item
-                key='created_at'
-                onClick={({ key }) => {
-                  setMenuActive(key);
-                  setSortPrice('');
-                  setRequest({
-                    ...request,
-                    sort: key,
-                    sortType: -1,
-                    group: null,
-                    page: 1,
-                  });
-                }}
-              >
+              <Menu.Item key='created_at' onClick={({ key }) => {handleChangeMenu(key);}}>
                 Mới nhất
               </Menu.Item>
-              <Menu.Item
-                key='promotion'
-                onClick={({ key }) => {
-                  setMenuActive(key);
-                  setRequest({
-                    ...request,
-                    sort: null,
-                    group: key,
-                    page: 1,
-                  });
-                }}
-              >
+              <Menu.Item key='promotion' onClick={({ key }) => {handleChangeMenu(key);}}>
                 Khuyến mãi
               </Menu.Item>
-              <Menu.Item
-                key='food_consume'
-                onClick={({ key }) => {
-                  setMenuActive(key);
-                  setSortPrice('');
-                  setRequest({
-                    ...request,
-                    sort: key,
-                    sortType: -1,
-                    group: null,
-                    page: 1,
-                  });
-                }}
-              >
+              <Menu.Item key='food_consume' onClick={({ key }) => {handleChangeMenu(key);}}>
                 Bán chạy
               </Menu.Item>
             </Menu>

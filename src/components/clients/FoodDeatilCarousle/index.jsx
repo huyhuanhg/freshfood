@@ -26,7 +26,7 @@ const PrevArrow = ({ onClick, index }) => {
   );
 };
 
-const FoodDetailCarousel = function ({ foodList, index, setIndex }) {
+const FoodDetailCarousel = function({ foodList, index, setIndex }) {
   const slider = useRef(null);
 
   useEffect(() => {
@@ -39,24 +39,24 @@ const FoodDetailCarousel = function ({ foodList, index, setIndex }) {
       return (
         <Style.CarouselItem key={foodItem.id}>
           <div>
-            <img src={`${ROOT_PATH}${foodItem.foodAvatar}`} />
-            <div className="info">
+            <img src={`${ROOT_PATH}${foodItem.foodAvatar}`} alt={foodItem.foodName} />
+            <div className='info'>
               <Row>
                 <Col span={20}>
-                  <div className="imgbox-food-name">{foodItem.foodName}</div>
-                  <div className="imgbox-desc">{foodItem.foodDescription}</div>
-                  <div className="imgbox-total">
+                  <div className='imgbox-food-name'>{foodItem.foodName}</div>
+                  <div className='imgbox-desc'>{foodItem.foodDescription}</div>
+                  <div className='imgbox-total'>
                     Đã được đặt
-                    <span className="txt-bold">
-                      &nbsp;{foodItem.totalOrder}&nbsp;
+                    <span className='txt-bold'>
+                      &nbsp;{foodItem.foodConsume}&nbsp;
                     </span>
                     lần
                   </div>
                 </Col>
                 <Col span={4} style={{ alignSelf: 'center' }}>
-                  <div className="imgbox-current-price">
+                  <div className='imgbox-current-price'>
                     <NumberFormat
-                      value={foodItem.discount?.value || foodItem.price}
+                      value={foodItem.discount}
                       displayType={'text'}
                       thousandSeparator
                       suffix={'đ'}

@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { SearchOutlined } from '@ant-design/icons';
-import { Avatar, Button } from 'antd';
+import { Avatar, Button, Select } from 'antd';
 
 export const TopBar = styled.div`
   background-color: #1a265c;
@@ -81,7 +81,7 @@ export const MenuWrap = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0.5rem 0;
+  padding: 0.75rem 0;
 `;
 export const Logo = styled(Link)`
   font-family: "Poppins", sans-serif !important;
@@ -95,7 +95,7 @@ export const Logo = styled(Link)`
   }
 `;
 export const SearchWrap = styled.div`
-  flex-basis: 35%;
+  flex-basis: 50%;
 `;
 export const FormGroup = styled.div`
   position: relative;
@@ -135,4 +135,10 @@ export const UserAvatar = styled(Avatar)`
   border-color: rgba(15, 157, 88, 0.1);
   box-shadow: 0 0 5px 0 rgb(15 157 88 / 30%);
   color: rgb(15, 157, 88);
+`;
+
+export const SearchType = styled(Select)`
+  & .ant-select-selection-item {
+    color: black !important;
+  }
 `;

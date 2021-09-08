@@ -13,7 +13,7 @@ import {
   ShoppingCartOutlined,
   UserOutlined,
 } from '@ant-design/icons';
-import { Affix, Badge, Dropdown, Form, Input, Menu, Space } from 'antd';
+import { Affix, Badge, Button, Dropdown, Form, Input, Menu, Select, Space } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
@@ -24,25 +24,37 @@ import history from '../../../utils/history';
 import { logoutAction } from '../../../redux/actions';
 import { ROOT_PATH } from '../../../contants';
 
+import { useState } from 'react';
+
 function Header({ setShowModalLogin }) {
+  const { Option } = Select;
   const dispatch = useDispatch();
+  const [searchForm] = Form.useForm();
+  const [searchType, setSearchType] = useState('stores');
   const { userInfo } = useSelector((state) => state.userReducer);
   const { total: totalCart } = useSelector((state) => state.cartReducer);
+
   const handleLogout = () => {
     const userInfo = JSON.parse(localStorage.getItem('userInfo'));
     dispatch(
       logoutAction({
         data: userInfo.accessToken,
-      })
+      }),
     );
   };
-
+  const handleSearch = ({ searchType, search }) => {
+    searchForm.resetFields();
+    history.push({
+      pathname: searchType,
+      search: `?search=${search}`,
+    });
+  };
   const userMenu = (
     <Menu style={{ width: '250px', display: 'fixed' }}>
       {userInfo.data.id ? (
-        <>
+        <div>
           <Menu.Item
-            key="1"
+            key='1'
             style={{ padding: '1rem 2rem' }}
             onClick={() => {
               history.push('/profile/user-info');
@@ -50,7 +62,7 @@ function Header({ setShowModalLogin }) {
           >
             <Space>
               <HeaderStyle.UserAvatar
-                size="large"
+                size='large'
                 src={userInfo.data.avatar && `${ROOT_PATH}${userInfo.data.avatar}`}
               >
                 {!userInfo.data.avatar && (
@@ -67,7 +79,7 @@ function Header({ setShowModalLogin }) {
           </Menu.Item>
           <Menu.Divider />
           <Menu.Item
-            key="2"
+            key='2'
             style={{ padding: '1rem 2rem' }}
             icon={<FaHistory />}
             onClick={() => {
@@ -78,7 +90,7 @@ function Header({ setShowModalLogin }) {
           </Menu.Item>
           <Menu.Divider />
           <Menu.Item
-            key="3"
+            key='3'
             style={{ padding: '1rem 2rem' }}
             icon={<FiActivity />}
             onClick={() => {
@@ -89,21 +101,21 @@ function Header({ setShowModalLogin }) {
           </Menu.Item>
           <Menu.Divider />
           <Menu.Item
-            key="4"
+            key='4'
             style={{ padding: '1rem 2rem' }}
             icon={<LogoutOutlined />}
             onClick={handleLogout}
           >
             Đăng xuất
           </Menu.Item>
-        </>
+        </div>
       ) : (
         <>
-          <Menu.Item key="0" style={{ padding: '1rem 2rem' }}>
-            <Link to="/login">Đăng nhập</Link>
+          <Menu.Item key='0' style={{ padding: '1rem 2rem' }}>
+            <Link to='/login'>Đăng nhập</Link>
           </Menu.Item>
-          <Menu.Item key="1" style={{ padding: '1rem 2rem' }}>
-            <Link to="/register">Đăng ký</Link>
+          <Menu.Item key='1' style={{ padding: '1rem 2rem' }}>
+            <Link to='/register'>Đăng ký</Link>
           </Menu.Item>
         </>
       )}
@@ -145,16 +157,50 @@ function Header({ setShowModalLogin }) {
       <Affix offsetTop={0}>
         <HeaderStyle.Header>
           <HeaderStyle.MenuWrap>
-            <HeaderStyle.Logo to="/">FoodBooking</HeaderStyle.Logo>
+            <HeaderStyle.Logo to='/'>FoodBooking</HeaderStyle.Logo>
             <HeaderStyle.SearchWrap>
               {/*<HeaderStyle.Search/>*/}
-              <Form>
-                <Form.Item style={{ marginBottom: 0 }}>
+              <Form
+                layout='inline'
+                onFinish={handleSearch}
+                form={searchForm}
+                initialValues={{
+                  searchType: 'stores',
+                  search: '',
+                }}
+              >
+                <Form.Item
+                  name='searchType'
+                  style={{
+                    margin: '0 8px 0 0',
+                    flexBasis: '20%',
+                  }}
+                >
+                  <HeaderStyle.SearchType
+                    size='large'
+                    defaultValue={'stores'}
+                    onChange={(value) => {
+                      setSearchType(value);
+                    }}
+                  >
+                    <Option value='stores'>Cửa hàng</Option>
+                    <Option value='foods'>Món ăn</Option>
+                  </HeaderStyle.SearchType>
+                </Form.Item>
+                <Form.Item
+                  name='search'
+                  style={{
+                    margin: 0,
+                    flexBasis: 'calc(100% - 16px - 20%)',
+                  }}
+                >
                   <Input
-                    placeholder="Món ăn, cửa hàng"
+                    size='large'
+                    placeholder={`Tìm kiếm ${searchType === 'stores' ? 'cửa hàng' : 'món ăn'}`}
                     style={{ background: 'unset' }}
                   />
                 </Form.Item>
+                <Button htmlType='submit' style={{ display: 'none' }} />
               </Form>
             </HeaderStyle.SearchWrap>
             <Space>
@@ -176,21 +222,21 @@ function Header({ setShowModalLogin }) {
               <Dropdown
                 overlay={userMenu}
                 trigger={['click']}
-                placement="bottomRight"
-                className="dropdown-user-profile"
+                placement='bottomRight'
+                className='dropdown-user-profile'
                 getPopupContainer={(trigger) => {
                   return trigger.parentNode;
                 }}
               >
                 <a
-                  className="ant-dropdown-link"
+                  className='ant-dropdown-link'
                   onClick={(e) => {
                     e.stopPropagation();
                   }}
                 >
                   {userInfo.data.id ? (
                     <HeaderStyle.UserAvatar
-                      size="large"
+                      size='large'
                       src={
                         userInfo.data.avatar && `${ROOT_PATH}${userInfo.data.avatar}`
                       }
@@ -202,7 +248,7 @@ function Header({ setShowModalLogin }) {
                       )}
                     </HeaderStyle.UserAvatar>
                   ) : (
-                    <HeaderStyle.UserAvatar size="large" icon={<UserOutlined />} />
+                    <HeaderStyle.UserAvatar size='large' icon={<UserOutlined />} />
                   )}
                 </a>
               </Dropdown>

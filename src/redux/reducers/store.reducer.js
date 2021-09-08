@@ -6,6 +6,9 @@ const initialState = {
     data: [],
     load: false,
     error: null,
+    currentPage: 1,
+    lastPage: 1,
+    total: 0,
   },
   storeDetail: {
     data: {},
@@ -26,11 +29,18 @@ const storeReducer = createReducer(initialState, {
   },
   [SUCCESS(STORE_ACTION.GET_STORE_LIST)]: (state, action) => {
     const { stores } = action.payload.data;
+    let newStores = [...stores.data];
+    if (stores.currentPage > state.storeList.currentPage) {
+      newStores = [...state.storeList.data, ...newStores];
+    }
     return {
       ...state,
       storeList: {
         ...state.storeList,
-        data: stores,
+        data: newStores,
+        currentPage: stores.currentPage,
+        lastPage: stores.lastPage,
+        total: stores.total,
         load: false,
         error: null,
       },

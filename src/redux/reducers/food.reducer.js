@@ -74,12 +74,12 @@ const foodReducer = createReducer(initialState, {
     };
   },
   [SUCCESS(FOOD_ACTION.GET_FOOD_PROMOTIONS)]: (state, action) => {
-    const { foodPromotions } = action.payload.data;
+    const { foods } = action.payload.data;
     return {
       ...state,
       foodPromotions: {
         ...state.foodPromotions,
-        data: foodPromotions,
+        data: foods.data,
         load: false,
         error: null,
       },

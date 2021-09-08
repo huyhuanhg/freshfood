@@ -1,4 +1,11 @@
-import { Affix, Col, Menu, Rate, Row, Skeleton } from 'antd';
+import {
+  Affix,
+  Col,
+  Menu,
+  Rate,
+  Row,
+  Skeleton
+} from 'antd';
 import PropTypes from 'prop-types';
 import {
   AiFillLike,

@@ -14,6 +14,7 @@ function* getFoodListSaga(action) {
     const sortType = action.payload?.sortType;
     const user = action.payload?.user;
     const page = action.payload?.page;
+    const search = action.payload?.search;
 
     const params = {
       ...store && { store },
@@ -22,6 +23,7 @@ function* getFoodListSaga(action) {
       ...sort && { sort, sortType },
       ...user && { user },
       ...page && { page },
+      ...search && { search },
     };
     const result = yield axios({
       method: 'GET',
@@ -44,7 +46,10 @@ function* getFoodPromotionSaga() {
   try {
     const result = yield axios({
       method: 'GET',
-      url: `${SERVER_CLIENT_API_URL}/food-promotions`,
+      url: `${SERVER_CLIENT_API_URL}/foods`,
+      params: toSnakeCase({
+        group: 'promotion'
+      }),
     });
     yield put({
       type: SUCCESS(FOOD_ACTION.GET_FOOD_PROMOTIONS),

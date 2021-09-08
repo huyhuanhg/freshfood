@@ -135,7 +135,19 @@ const StoreDetailFood = ({ showFoodDetail, setShowLogin, setShowFoodDetail, matc
             />
           </StoreDetailStyle.ModalCustom>
         </Row>
-        <StoreDetailStyle.ViewOther>Xem thêm</StoreDetailStyle.ViewOther>
+        {foodList.currentPage < foodList.lastPage &&
+        <div
+          style={{
+            display: 'flex',
+            alignItem: 'center',
+            justifyContent: 'center',
+            marginTop: '3rem',
+          }}
+        >
+          <StoreDetailStyle.ViewOther>Xem thêm</StoreDetailStyle.ViewOther>
+        </div>
+        }
+
       </StoreDetailStyle.StoreContent>
     </>
   );
