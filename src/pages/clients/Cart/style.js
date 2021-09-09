@@ -22,7 +22,7 @@ export const CartTitle = styled.div`
   }
 `;
 export const CartWrap = styled.div`
-  min-height: calc(100vh - 499.078px);
+  min-height: calc(100vh - 480px);
 `;
 export const CartEmpty = styled.div`
   padding-top: 2rem;

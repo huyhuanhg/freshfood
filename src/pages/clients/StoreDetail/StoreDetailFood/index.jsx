@@ -5,12 +5,13 @@ import PropTypes from 'prop-types';
 import * as StoreDetailStyle from '../style';
 import FoodDetailCarousel from '../../../../components/clients/FoodDeatilCarousle';
 import { FoodStore } from '../../../../components/clients/FoodItem';
-import { getFoodListAction } from '../../../../redux/actions';
+import { getFoodListAction, updateCartAction } from '../../../../redux/actions';
 
 const StoreDetailFood = ({ showFoodDetail, setShowLogin, setShowFoodDetail, match }) => {
   const dispatch = useDispatch();
   const { foodList } = useSelector((state) => state.foodReducer);
   const { userInfo } = useSelector((state) => state.userReducer);
+  const [foodId, setFoodId] = useState(null);
 
   const [foodIndex, setFoodIndex] = useState(0);
 
@@ -33,6 +34,7 @@ const StoreDetailFood = ({ showFoodDetail, setShowLogin, setShowFoodDetail, matc
             index={index}
             setIndex={setFoodIndex}
             setShowLogin={setShowLogin}
+            setFoodId={setFoodId}
           />
         </Col>
       );
@@ -118,6 +120,15 @@ const StoreDetailFood = ({ showFoodDetail, setShowLogin, setShowFoodDetail, matc
                   if (!userInfo.data.id) {
                     setShowFoodDetail(false);
                     setShowLogin(true);
+                  } else {
+                    const userToken = localStorage.userInfo;
+                    dispatch(updateCartAction({
+                      data: {
+                        accessToken: JSON.parse(userToken).accessToken,
+                        food: foodId,
+                      },
+                    }));
+                    setShowFoodDetail(false);
                   }
                 }}
               >
@@ -131,7 +142,7 @@ const StoreDetailFood = ({ showFoodDetail, setShowLogin, setShowFoodDetail, matc
               foodList={foodList.data}
               index={foodIndex}
               setIndex={setFoodIndex}
-              setShowLogin={setShowLogin}
+              setFoodId={setFoodId}
             />
           </StoreDetailStyle.ModalCustom>
         </Row>

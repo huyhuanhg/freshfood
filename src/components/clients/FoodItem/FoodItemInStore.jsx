@@ -1,14 +1,16 @@
 import NumberFormat from 'react-number-format';
 
 import { BsImage, HiShoppingCart } from 'react-icons/all';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { ROOT_PATH } from '../../../contants';
 import * as S from './style';
 import handleStopPropagation from '../../../utils/common';
+import { updateCartAction } from '../../../redux/actions';
 
 export const FoodStore = (
   {
+    id,
     foodAvatar,
     foodName,
     foodDescription,
@@ -20,14 +22,17 @@ export const FoodStore = (
     setIndex,
     index,
     setShowLogin,
+    setFoodId
   },
 ) => {
+  const dispatch = useDispatch();
   const { userInfo } = useSelector((state) => state.userReducer);
   return (
     <S.FoodStore
       onClick={() => {
         handleClick(true);
         setIndex(index);
+        setFoodId(id);
       }}
     >
       <S.FoodStoreAvatar>
@@ -65,6 +70,14 @@ export const FoodStore = (
                 handleStopPropagation(e);
                 if (!userInfo.data.id) {
                   setShowLogin(true);
+                } else {
+                  const userToken = localStorage.userInfo;
+                  dispatch(updateCartAction({
+                    data: {
+                      accessToken: JSON.parse(userToken).accessToken,
+                      food: id
+                    },
+                  }));
                 }
               }}
             >
@@ -78,6 +91,7 @@ export const FoodStore = (
 };
 
 FoodStore.propTypes = {
+  id: PropTypes.number,
   foodAvatar: PropTypes.string,
   foodName: PropTypes.string,
   foodDescription: PropTypes.string,
@@ -89,4 +103,5 @@ FoodStore.propTypes = {
   setIndex: PropTypes.func,
   index: PropTypes.number,
   setShowLogin: PropTypes.func,
+  setFoodId: PropTypes.func,
 };

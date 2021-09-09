@@ -8,7 +8,7 @@ import * as S from './style';
 
 import foodLoading from '../../../assets/images/food_logo.png';
 import { ROOT_PATH } from '../../../contants';
-import { getFoodDetailAction } from '../../../redux/actions';
+import { getFoodDetailAction, updateCartAction } from '../../../redux/actions';
 import handleStopPropagation from '../../../utils/common';
 
 const MetaTitle = ({ name, store, slug }) => {
@@ -108,6 +108,15 @@ export const FoodItemHome = (
                 handleStopPropagation(e);
                 if (!userInfo.data.id) {
                   setShowLogin(true);
+                } else {
+                  const userToken = localStorage.userInfo;
+                  dispatch(updateCartAction({
+                    data: {
+                      accessToken: JSON.parse(userToken).accessToken,
+                      food: id
+                    },
+                  }));
+                  setShowDetail(false);
                 }
               }}
             >

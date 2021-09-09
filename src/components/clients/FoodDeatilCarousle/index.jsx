@@ -6,27 +6,33 @@ import PropTypes from 'prop-types';
 import { ROOT_PATH } from '../../../contants';
 import * as Style from './style';
 
-const NextArrow = ({ onClick, index, lastIndex }) => {
+const NextArrow = ({ onClick, index, lastIndex, setFoodId, foodId }) => {
   return (
     <Style.NextArrowButtonWrap hide={index === lastIndex}>
-      <Style.NextArrowButton onClick={onClick}>
+      <Style.NextArrowButton onClick={() => {
+        onClick();
+        setFoodId(foodId);
+      }}>
         <FcNext />
       </Style.NextArrowButton>
     </Style.NextArrowButtonWrap>
   );
 };
 
-const PrevArrow = ({ onClick, index }) => {
+const PrevArrow = ({ onClick, index, setFoodId, foodId }) => {
   return (
     <Style.PrevArrowButtonWrap hide={index === 0}>
-      <Style.PrevArrowButton onClick={onClick}>
+      <Style.PrevArrowButton onClick={() => {
+        onClick();
+        setFoodId(foodId);
+      }}>
         <FcPrevious />
       </Style.PrevArrowButton>
     </Style.PrevArrowButtonWrap>
   );
 };
 
-const FoodDetailCarousel = function({ foodList, index, setIndex }) {
+const FoodDetailCarousel = function({ foodList, index, setIndex, setFoodId }) {
   const slider = useRef(null);
 
   useEffect(() => {
@@ -73,8 +79,21 @@ const FoodDetailCarousel = function({ foodList, index, setIndex }) {
   return (
     <Carousel
       arrows
-      nextArrow={<NextArrow index={index} lastIndex={foodList.length - 1} />}
-      prevArrow={<PrevArrow index={index} />}
+      nextArrow={
+        <NextArrow
+          index={index}
+          lastIndex={foodList.length - 1}
+          setFoodId={setFoodId}
+          foodId={foodList[index]['id']}
+        />
+      }
+      prevArrow={
+        <PrevArrow
+          index={index}
+          setFoodId={setFoodId}
+          foodId={foodList[index]['id']}
+        />
+      }
       dots={false}
       ref={slider}
       afterChange={(current) => {
@@ -88,16 +107,21 @@ const FoodDetailCarousel = function({ foodList, index, setIndex }) {
 export default FoodDetailCarousel;
 
 NextArrow.propTypes = {
+  foodId: PropTypes.number,
   onClick: PropTypes.func,
   index: PropTypes.number,
   lastIndex: PropTypes.number,
+  setFoodId: PropTypes.func,
 };
 PrevArrow.propTypes = {
+  foodId: PropTypes.number,
   onClick: PropTypes.func,
   index: PropTypes.number,
+  setFoodId: PropTypes.func,
 };
 FoodDetailCarousel.propTypes = {
   foodList: PropTypes.arrayOf,
   index: PropTypes.number,
   setIndex: PropTypes.func,
+  setFoodId: PropTypes.func,
 };

@@ -1,11 +1,13 @@
 import { Col, Row } from 'antd';
 import NumberFormat from 'react-number-format';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { ROOT_PATH } from '../../../contants';
 import * as S from './style';
+import { updateCartAction } from '../../../redux/actions';
 
-const FoodDetailModal = function ({ show, setShow, setShowLogin }) {
+const FoodDetailModal = function({ show, setShow, setShowLogin }) {
+  const dispatch = useDispatch();
   const { foodDetail } = useSelector((state) => state.foodReducer);
   const { userInfo } = useSelector((state) => state.userReducer);
 
@@ -18,6 +20,15 @@ const FoodDetailModal = function ({ show, setShow, setShowLogin }) {
             if (!userInfo.data.id) {
               setShow(false);
               setShowLogin(true);
+            } else {
+              const userToken = localStorage.userInfo;
+              dispatch(updateCartAction({
+                data: {
+                  accessToken: JSON.parse(userToken).accessToken,
+                  food: foodDetail.data.id,
+                },
+              }));
+              setShow(false);
             }
           }}
         >
@@ -32,21 +43,21 @@ const FoodDetailModal = function ({ show, setShow, setShowLogin }) {
       <S.FoodItem>
         <div>
           <img src={`${ROOT_PATH}${foodDetail.data.foodAvatar}`} />
-          <div className="info">
+          <div className='info'>
             <Row>
               <Col span={20}>
-                <div className="imgbox-food-name">{foodDetail.data.foodName}</div>
-                <div className="imgbox-desc">{foodDetail.data.foodDescription}</div>
-                <div className="imgbox-total">
+                <div className='imgbox-food-name'>{foodDetail.data.foodName}</div>
+                <div className='imgbox-desc'>{foodDetail.data.foodDescription}</div>
+                <div className='imgbox-total'>
                   Đã được đặt
-                  <span className="txt-bold">
+                  <span className='txt-bold'>
                     &nbsp;{foodDetail.data.foodConsume}&nbsp;
                   </span>
                   lần
                 </div>
               </Col>
               <Col span={4} style={{ alignSelf: 'center' }}>
-                <div className="imgbox-current-price">
+                <div className='imgbox-current-price'>
                   <NumberFormat
                     value={foodDetail.data.discount}
                     displayType={'text'}

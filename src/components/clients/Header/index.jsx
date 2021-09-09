@@ -33,7 +33,6 @@ function Header({ setShowModalLogin }) {
   const [searchType, setSearchType] = useState('stores');
   const { userInfo } = useSelector((state) => state.userReducer);
   const { total: totalCart } = useSelector((state) => state.cartReducer);
-
   const handleLogout = () => {
     const userInfo = JSON.parse(localStorage.getItem('userInfo'));
     dispatch(
