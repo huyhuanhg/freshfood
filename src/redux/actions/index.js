@@ -8,3 +8,8 @@ export * from './common.action';
 
 export * from './store.action';
 export * from './cart.action';
+
+export * from './tag.action';
+export * from './promotion.action';
+
+export * from './address.action';

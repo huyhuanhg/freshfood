@@ -1,5 +1,5 @@
-import styled from "styled-components";
-import {Form, Modal, Spin} from "antd";
+import styled from 'styled-components';
+import { Form, Modal, Spin } from 'antd';
 
 export const ModalLoginCustom = styled(Modal)`
   padding-bottom: 0;
@@ -10,7 +10,7 @@ export const ModalLoginCustom = styled(Modal)`
 
     & > span.ant-modal-close-x {
       border-radius: 50%;
-      transform: scale(.7);
+      transform: scale(0.7);
       background-color: #fff;
       font-size: 200%;
       color: rgba(0, 0, 0, 0.65);
@@ -27,7 +27,7 @@ export const ModalLoginCustom = styled(Modal)`
 
     & h2 {
       color: #0f9d58;
-      font-family: 'Poppins', sans-serif !important;
+      font-family: "Poppins", sans-serif !important;
       font-weight: 800;
       font-size: 200%;
       margin-bottom: 0;
@@ -43,7 +43,7 @@ export const ModalLoginCustom = styled(Modal)`
   & a {
     color: #1890ff;
   }
-`
+`;
 export const FormCustom = styled(Form)`
   & input {
     padding: 10px 15px !important;
@@ -59,7 +59,6 @@ export const FormCustom = styled(Form)`
   }
 
   & .ant-col.ant-form-item-control {
-
     & button {
       width: 100%;
       font-weight: bold;
@@ -67,22 +66,21 @@ export const FormCustom = styled(Form)`
       margin-top: 10px;
       height: auto;
 
-      &[disabled]{
+      &[disabled] {
         cursor: wait;
       }
-      
+
       & > span {
         font-size: 120%;
       }
     }
   }
-
-`
+`;
 
 export const SubmitLoading = styled(Spin)`
-  display: ${({show}) => show ? 'block' : 'none'};
+  display: ${({ show }) => (show ? 'block' : 'none')};
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-`
+`;

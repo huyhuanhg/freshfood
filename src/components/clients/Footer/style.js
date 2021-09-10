@@ -1,13 +1,14 @@
-import styled, {css} from 'styled-components';
-import bg from '../../../assets/images/bgfooter.png'
+import styled from 'styled-components';
+import bg from '../../../assets/images/bgfooter.png';
 
 export const FooterWrap = styled.footer`
   padding: 0;
   background-attachment: fixed;
   background-position: 0 400px;
   background-repeat: no-repeat;
-  background-image: linear-gradient(rgba(0, 0, 0, .5), rgba(0, 0, 0, .5)), url(${bg});
-  color: rgba(255, 255, 255, .8);
+  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+    url(${bg});
+  color: rgba(255, 255, 255, 0.8);
   font-size: 130%;
 
   & > div {
@@ -22,7 +23,7 @@ export const FooterWrap = styled.footer`
     color: #29d197;
     margin-bottom: 16px;
   }
-`
+`;
 export const AboutFooter = styled.footer`
   & > div {
     display: flex;
@@ -41,13 +42,13 @@ export const AboutFooter = styled.footer`
       cursor: pointer;
 
       &:hover > svg {
-        transition: .4s;
+        transition: 0.4s;
         color: #29d197;
         transform: scale(1.2);
       }
     }
   }
-`
+`;
 export const Subscribe = styled.div`
   & > form {
     position: relative;
@@ -57,12 +58,13 @@ export const Subscribe = styled.div`
       background-color: unset;
       outline: none;
       border-radius: 30px;
-      border: 1px solid rgba(255, 255, 255, .5);
+      border: 1px solid rgba(255, 255, 255, 0.5);
       color: white;
       width: 100%;
-      transition: .4s ease-in-out;
+      transition: 0.4s ease-in-out;
 
-      &:hover, &:focus {
+      &:hover,
+      &:focus {
         border-color: #29d197;
       }
     }
@@ -82,7 +84,7 @@ export const Subscribe = styled.div`
       color: white;
     }
   }
-`
+`;
 export const GetInTouch = styled.div`
   & > ul {
     list-style: none;
@@ -93,18 +95,20 @@ export const GetInTouch = styled.div`
     & > li {
       margin: 0 30px 10px 0;
 
-      &:hover > svg, &:hover > span {
-        transition: .4s;
+      &:hover > svg,
+      &:hover > span {
+        transition: 0.4s;
         transform: scale(1.2);
       }
 
-      & > svg, & > span {
+      & > svg,
+      & > span {
         color: #29d197;
         margin-right: 5px;
       }
     }
   }
-`
+`;
 export const Copyright = styled.div`
   background-color: #1a265c;
   text-align: center;
@@ -117,4 +121,4 @@ export const Copyright = styled.div`
     color: #29d197;
     font-weight: bold;
   }
-`
+`;

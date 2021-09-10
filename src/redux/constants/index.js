@@ -6,3 +6,6 @@ export * from './common.constant';
 export * from './admin.contant';
 export * from './store.contant';
 export * from './cart.constant';
+export * from './tag.contant';
+export * from './promotion.contant';
+export * from './address.contant';

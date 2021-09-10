@@ -1,6 +1,5 @@
-import styled, {css} from 'styled-components';
-import Search from "antd/es/input/Search";
-import {Button} from "antd";
+import styled from 'styled-components';
+import Search from 'antd/es/input/Search';
 
 export const Header = styled.header`
   background: #fff;
@@ -15,7 +14,6 @@ export const Header = styled.header`
 export const Flex = styled.div`
   align-items: center !important;
   display: flex !important;
-  align-items: center !important;
   justify-content: space-between;
 `;
 export const SearchForm = styled(Search)`

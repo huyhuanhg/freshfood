@@ -1,16 +1,16 @@
-import styled from "styled-components";
-import {Button, Card, Skeleton} from "antd";
-import {Link} from "react-router-dom";
+import styled from 'styled-components';
+import { Button, Card, Skeleton } from 'antd';
+import { Link } from 'react-router-dom';
 
 export const CardImage = styled.div`
   height: 230px;
-  background-image: url(${({avatar}) => avatar});
+  background-image: url(${({ avatar }) => avatar});
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
   border-radius: 4px 4px 0 0;
-  transition: .3s ease;
-`
+  transition: 0.3s ease;
+`;
 export const AddCard = styled(Button)`
   position: absolute;
   right: 10px;
@@ -21,27 +21,27 @@ export const AddCard = styled(Button)`
     border-color: #0f9d58;
 
     & > span {
-      transition: .4s ease;
+      transition: 0.4s ease;
       transform: scale(1.2);
     }
   }
-`
+`;
 export const AfterPrice = styled.span`
   color: red;
   font-size: 1.5rem;
-`
+`;
 export const CardItem = styled(Card)`
   border-radius: 4px;
   max-height: 347px;
   overflow: hidden;
-`
+`;
 export const FoodTitle = styled.h3`
   white-space: nowrap;
   text-overflow: ellipsis;
   max-width: 80%;
   overflow: hidden;
   margin-bottom: 0;
-`
+`;
 export const FoodStoreWrap = styled(Link)`
   display: block;
   max-width: 80%;
@@ -49,20 +49,20 @@ export const FoodStoreWrap = styled(Link)`
   white-space: nowrap;
   text-overflow: ellipsis;
   color: #aaa;
-`
+`;
 export const Price = styled.span`
   color: #888;
   text-decoration: line-through;
   font-size: 1.2rem;
-`
+`;
 export const StoreName = styled.small`
   color: #aaa;
-  transition: .4s;
+  transition: 0.4s;
 
   &:hover {
     color: #1890ff;
   }
-`
+`;
 export const FoodStore = styled.div`
   position: relative;
   margin: 0 10px 10px 15px;
@@ -74,12 +74,13 @@ export const FoodStore = styled.div`
   height: 70px;
   box-sizing: border-box;
   cursor: pointer;
-`
+`;
 export const FoodStoreAvatar = styled.div`
   float: left;
   width: 60px;
 
-  & > img, & > svg {
+  & > img,
+  & > svg {
     border-radius: 2px;
     border: 0;
     height: 60px;
@@ -92,14 +93,14 @@ export const FoodStoreAvatar = styled.div`
   & > svg {
     color: #bfbfbf;
   }
-`
+`;
 export const FoodStoreItemRight = styled.div`
   float: left;
   max-width: 80%;
   width: 80%;
   margin-left: 16px;
   line-height: 2em;
-`
+`;
 export const FoodStoreTitle = styled.div`
   color: #464646;
   font-weight: 700;
@@ -110,7 +111,7 @@ export const FoodStoreTitle = styled.div`
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-`
+`;
 export const FoodStoreDescription = styled.div`
   width: 75%;
   line-height: 2em;
@@ -120,7 +121,7 @@ export const FoodStoreDescription = styled.div`
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-`
+`;
 export const FoodStoreRate = styled.span`
   color: #206b9b;
 
@@ -128,12 +129,12 @@ export const FoodStoreRate = styled.span`
     color: #fadb14;
     margin-right: 5px;
   }
-`
+`;
 export const TotalOrder = styled.span`
   font-size: 12px;
   color: #a1a1a1;
   margin: 0;
-`
+`;
 export const FoodStorePrice = styled.div`
   position: absolute;
   bottom: 20px;
@@ -165,13 +166,13 @@ export const FoodStorePrice = styled.div`
     border-radius: 4px;
     -moz-border-radius: 4px;
     -webkit-border-radius: 4px;
-    background-color: #EE4D2D;
+    background-color: #ee4d2d;
     display: inline-block;
     margin-left: 10px;
     cursor: pointer !important;
     outline: 0;
   }
-`
+`;
 export const SkeletonCustom = styled(Skeleton)`
   & h3 {
     margin-top: 0 !important;
@@ -184,4 +185,4 @@ export const SkeletonCustom = styled(Skeleton)`
       margin-top: 10px !important;
     }
   }
-`
+`;

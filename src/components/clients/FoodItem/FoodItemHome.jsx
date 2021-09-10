@@ -1,97 +1,155 @@
-import {Link} from "react-router-dom";
-import {ShoppingCartOutlined} from "@ant-design/icons";
-import {Card, Skeleton, Space} from "antd";
-import NumberFormat from "react-number-format";
+import { ShoppingCartOutlined } from '@ant-design/icons';
+import { Card, Skeleton, Space } from 'antd';
+import NumberFormat from 'react-number-format';
 
+import { useDispatch, useSelector } from 'react-redux';
+import PropTypes from 'prop-types';
 import * as S from './style';
 
-import storeLoading from "../../../assets/images/loadStore.png";
-import {FoodStore} from "./style";
-import {useDispatch, useSelector} from "react-redux";
-import {getFoodDetailAction} from "../../../redux/actions";
+import foodLoading from '../../../assets/images/food_logo.png';
+import { ROOT_PATH } from '../../../contants';
+import { getFoodDetailAction, updateCartAction } from '../../../redux/actions';
+import handleStopPropagation from '../../../utils/common';
 
-const MetaTitle = ({name, store, slug}) => {
-    return (
-        <>
-            <S.FoodTitle>{name}</S.FoodTitle>
-            <S.FoodStoreWrap
-                to={`/stores/${slug}`}
-                onClick={(e)=>e.stopPropagation()}
-            >
-                <S.StoreName>{store}</S.StoreName>
-            </S.FoodStoreWrap>
-        </>
-    );
-}
-const MetaDescription = ({price, priceAfter}) => {
-    return (
-        <Space>
-            <p>
-                <S.AfterPrice>
-                    <NumberFormat value={priceAfter} displayType={'text'}
-                                  thousandSeparator suffix={'đ'}/>
-                </S.AfterPrice>
-                <sup>đ</sup>
-            </p>
-            <p style={{paddingLeft: 10}}>
-                <S.Price>
-                    <NumberFormat value={price} displayType={'text'}
-                                  thousandSeparator suffix={'đ'}/>
-                </S.Price>
-            </p>
-        </Space>
-    );
-}
+const MetaTitle = ({ name, store, slug }) => {
+  return (
+    <div>
+      <S.FoodTitle>{name}</S.FoodTitle>
+      <S.FoodStoreWrap to={`/stores/${slug}`} onClick={(e) => e.stopPropagation()}>
+        <S.StoreName>{store}</S.StoreName>
+      </S.FoodStoreWrap>
+    </div>
+  );
+};
+
+const MetaDescription = ({ price, discount }) => {
+  return (
+    <Space>
+      <p>
+        <S.AfterPrice>
+          <NumberFormat
+            value={discount}
+            displayType={'text'}
+            thousandSeparator
+            suffix={'đ'}
+          />
+        </S.AfterPrice>
+      </p>
+      <p style={{ paddingLeft: 10 }}>
+        <S.Price>
+          {price > discount &&
+          <NumberFormat
+            value={price}
+            displayType={'text'}
+            thousandSeparator
+            suffix={'đ'}
+          />
+          }
+        </S.Price>
+      </p>
+    </Space>
+  );
+};
 export const FoodItemHome = (
-    {
-        id,
-        avatar,
-        name,
-        store_id,
-        store,
-        store_not_mark,
-        price,
-        priceAfter,
-        loading,
-        setShowDetail,
-        setShowLogin
-    }
+  {
+    id,
+    foodAvatar,
+    foodName,
+    storeId,
+    storeName,
+    storeNotMark,
+    price,
+    discount,
+    load,
+    setShowDetail,
+    setShowLogin,
+  },
 ) => {
-    const {Meta} = Card;
-    const dispatch = useDispatch();
-    const {userInfo} = useSelector(state => state.userReducer);
-    return (
-        <S.CardItem
-            hoverable
-            cover={
-                <S.CardImage avatar={loading ? storeLoading : avatar}/>
-            }
-            onClick={() => {
-                if (!loading) {
-                    dispatch(getFoodDetailAction({
-                        data: {
-                            id,
-                        }
-                    }))
-                    setShowDetail(true);
+  const { Meta } = Card;
+  const dispatch = useDispatch();
+  const { userInfo } = useSelector((state) => state.userReducer);
+  return (
+    <S.CardItem
+      hoverable
+      cover={
+        <S.CardImage avatar={load ? foodLoading : `${ROOT_PATH}${foodAvatar}`} />
+      }
+      onClick={() => {
+        if (!load) {
+          dispatch(
+            getFoodDetailAction({
+              data: {
+                id,
+              },
+            }),
+          );
+          setShowDetail(true);
+        }
+      }}
+    >
+      <Skeleton loading={load} active>
+        <Meta
+          title={
+            <MetaTitle
+              name={foodName}
+              store={storeName}
+              slug={`${storeNotMark}.${storeId}`}
+            />
+          }
+          description={
+            <MetaDescription
+              price={price}
+              discount={discount}
+            />
+          }
+          avatar={
+            <S.AddCard
+              onClick={(e) => {
+                handleStopPropagation(e);
+                if (!userInfo.data.id) {
+                  setShowLogin(true);
+                } else {
+                  const userToken = localStorage.userInfo;
+                  dispatch(updateCartAction({
+                    data: {
+                      accessToken: JSON.parse(userToken).accessToken,
+                      food: id
+                    },
+                  }));
+                  setShowDetail(false);
                 }
-            }}
-        >
-            <Skeleton loading={loading} active>
-                <Meta
-                    title={<MetaTitle name={name} store={store} slug={`${store_not_mark}.${store_id}`}/>}
-                    description={<MetaDescription price={price} priceAfter={priceAfter}/>}
-                    avatar={
-                        <S.AddCard onClick={(e) => {
-                            e.stopPropagation();
-                            if (!userInfo.data.id) {
-                                setShowLogin(true);
-                            }
-                        }}>
-                            <ShoppingCartOutlined/>
-                        </S.AddCard>}
-                />
-            </Skeleton>
-        </S.CardItem>
-    );
-}
+              }}
+            >
+              <ShoppingCartOutlined />
+            </S.AddCard>
+          }
+        />
+      </Skeleton>
+    </S.CardItem>
+  );
+};
+
+MetaTitle.propTypes = {
+  name: PropTypes.string,
+  store: PropTypes.string,
+  slug: PropTypes.string,
+};
+
+MetaDescription.propTypes = {
+  price: PropTypes.number,
+  discount: PropTypes.number,
+};
+
+FoodItemHome.propTypes = {
+  id: PropTypes.number,
+  foodAvatar: PropTypes.string,
+  foodName: PropTypes.string,
+  storeId: PropTypes.number,
+  storeName: PropTypes.string,
+  storeNotMark: PropTypes.string,
+  price: PropTypes.number,
+  discount: PropTypes.number,
+  load: PropTypes.bool,
+  setShowDetail: PropTypes.func,
+  setShowLogin: PropTypes.func,
+};
