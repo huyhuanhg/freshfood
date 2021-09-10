@@ -7,6 +7,7 @@ import adminSaga from './admin.saga';
 import promotionSaga from './promotion.saga';
 import storeSaga from './store.saga';
 import cartSaga from './cart.saga';
+import addressSaga from './address.saga';
 
 export default function* rootSaga() {
   yield fork(foodSaga);
@@ -17,4 +18,5 @@ export default function* rootSaga() {
   yield fork(storeSaga);
 
   yield fork(categorySaga);
+  yield fork(addressSaga);
 }

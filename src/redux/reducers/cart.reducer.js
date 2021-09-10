@@ -12,6 +12,7 @@ const initialState = {
 };
 
 const cartReducer = createReducer(initialState, {
+
   [REQUEST(CART_ACTION.GET_CART_LIST)]: (state) => {
     return {
       ...state,
@@ -160,6 +161,18 @@ const cartReducer = createReducer(initialState, {
     return {
       ...state,
       total: carts.count,
+    };
+  },
+
+  [REQUEST(USER_ACTION.LOGOUT)]: () => {
+    return {
+      cartList: {
+        data: [],
+        load: false,
+        error: null,
+      },
+      totalMoney: 0,
+      total: 0,
     };
   },
 });

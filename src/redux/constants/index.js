@@ -8,3 +8,4 @@ export * from './store.contant';
 export * from './cart.constant';
 export * from './tag.contant';
 export * from './promotion.contant';
+export * from './address.contant';

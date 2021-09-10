@@ -1,24 +1,34 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { FcPrevious, HiMinus, HiPlusSm, MdRemoveShoppingCart } from 'react-icons/all';
-import { Affix, Col, Form, Input, Row, Spin } from 'antd';
+import { Affix, Col, Form, Input, Row, Select, Spin } from 'antd';
 import { Link, Redirect } from 'react-router-dom';
 import NumberFormat from 'react-number-format';
 import { useEffect, useState } from 'react';
 import * as S from './style';
 import * as ClientStyle from '../styles';
 import { ROOT_PATH, TITLE } from '../../../contants';
-import { destroyCartsAction, getCartsAction, updateCartAction } from '../../../redux/actions';
+import {
+  destroyCartsAction,
+  getAddressAction,
+  getCartsAction,
+  getDistrictsAction, getWardsAction,
+  updateCartAction,
+} from '../../../redux/actions';
 import history from '../../../utils/history';
+import { shortAddress } from '../../../utils/address';
 
 const CartPage = () => {
+  const { Option } = Select;
+  const [orderForm] = Form.useForm();
   const dispatch = useDispatch();
+
   const { cartList, total, totalMoney } = useSelector((state) => state.cartReducer);
   const { userInfo } = useSelector((state) => state.userReducer);
+  const { provinces, districts, wards } = useSelector((state) => state.addressReducer);
 
   document.title = `${TITLE.CART} | ${userInfo.data.firstName} ${userInfo.data.lastName}`;
 
   const [redirect, setRedirect] = useState(false);
-  const [form] = Form.useForm();
   const userToken = localStorage.userInfo;
 
   useEffect(() => {
@@ -26,10 +36,16 @@ const CartPage = () => {
       setRedirect(true);
     }
     if (userInfo.data.id) {
-      form.setFieldsValue({
-        fullname: `${userInfo.data.firstName} ${userInfo.data.lastName}`,
+      const { provinceCode, districtCode, wardCode } = userInfo.data;
+
+      orderForm.setFieldsValue({
+        fullName: `${userInfo.data.firstName} ${userInfo.data.lastName}`,
         phone: userInfo.data.phone,
-        address: userInfo.data.address,
+        address: {
+          province: provinceCode,
+          district: districtCode,
+          ward: wardCode,
+        },
       });
       dispatch(
         getCartsAction({
@@ -38,9 +54,27 @@ const CartPage = () => {
           },
         }),
       );
+      dispatch(getAddressAction({
+        provinceCode,
+        districtCode,
+      }));
     }
   }, [userInfo]);
 
+  const handleOrder = (value) => {
+    console.log({
+      ...value,
+      address: shortAddress(value.address, provinces.data, districts.data, wards.data),
+    });
+  };
+
+  const renderAddressInfo = (typeList) => {
+    return typeList.map((typeListItem) => {
+      return (
+        <Option key={typeListItem.code} value={typeListItem.code}>{typeListItem.name}</Option>
+      );
+    });
+  };
   const renderCart = () => {
     return cartList.data.map((cartItem, cartIndex) => {
       return (
@@ -204,19 +238,104 @@ const CartPage = () => {
                       <Affix offsetTop={75.2}>
                         <S.CartOrder>
                           <h4>Thông tin khách hàng</h4>
-                          <Form form={form} layout='vertical'>
-                            <Form.Item name='fullname'>
+                          <Form
+                            form={orderForm}
+                            layout='vertical'
+                            onFinish={handleOrder}
+                          >
+                            <Form.Item name='fullName'>
                               <Input placeholder='Họ và tên' />
                             </Form.Item>
                             <Form.Item name='phone'>
                               <Input placeholder='Số diện thoại' />
                             </Form.Item>
-                            <Form.Item name='address'>
-                              <Input placeholder='Địa chỉ' />
+
+                            <Form.Item style={{ marginBottom: 0 }}>
+                              <Input.Group>
+                                <Row gutter={3}>
+                                  <Col span={12}>
+                                    <Form.Item
+                                      name={['address', 'province']}
+                                      // rules={[{ required: true, message: 'Province is required' }]}
+                                    >
+                                      <Select
+                                        placeholder='--Tỉnh--'
+                                        style={{ width: '100%' }}
+                                        onChange={(value) => {
+                                          dispatch(getDistrictsAction({
+                                            provinceCode: value,
+                                          }));
+                                          orderForm.setFieldsValue({
+                                            address: {
+                                              district: null,
+                                              ward: null,
+                                            },
+                                          });
+                                        }}
+                                      >
+                                        {renderAddressInfo(provinces.data)}
+                                      </Select>
+                                    </Form.Item>
+                                  </Col>
+
+                                  <Col span={12}>
+                                    <Form.Item
+                                      name={['address', 'district']}
+                                      // rules={[{ required: true, message: 'Province is required' }]}
+                                    >
+                                      <Select
+                                        placeholder='--Quận/Huyện--'
+                                        style={{ width: '100%' }}
+                                        disabled={districts.load}
+                                        onChange={(value) => {
+                                          dispatch(getWardsAction({
+                                            districtCode: value,
+                                          }));
+                                          orderForm.setFieldsValue({
+                                            address: {
+                                              ward: null,
+                                            },
+                                          });
+                                        }}
+                                      >
+                                        {renderAddressInfo(districts.data)}
+                                      </Select>
+                                    </Form.Item>
+                                  </Col>
+                                </Row>
+
+                                <Row gutter={3}>
+                                  <Col span={12}>
+                                    <Form.Item
+                                      name={['address', 'ward']}
+                                      // rules={[{ required: true, message: 'Province is required' }]}
+                                    >
+                                      <Select
+                                        placeholder='--Phường/Xã--'
+                                        style={{ width: '100%' }}
+                                        disabled={wards.data.length === 0}
+                                      >
+                                        {renderAddressInfo(wards.data)}
+                                      </Select>
+                                    </Form.Item>
+                                  </Col>
+
+                                  <Col span={12}>
+                                    <Form.Item
+                                      name={['address', 'street']}
+                                      rules={[{ required: true, message: 'Street is required' }]}
+                                    >
+                                      <Input placeholder='Đường / Thôn xóm' />
+                                    </Form.Item>
+                                  </Col>
+                                </Row>
+                              </Input.Group>
                             </Form.Item>
+
                             <Form.Item name='note'>
                               <Input placeholder='Yêu cầu khác' />
                             </Form.Item>
+
                             <S.OrderTotal>
                               <span>
                                 Tổng <b>{total}</b> sản phẩm:
@@ -237,7 +356,7 @@ const CartPage = () => {
                                 marginBottom: 10,
                               }}
                             >
-                              <S.OrderButton htmlType='submit'>
+                              <S.OrderButton htmlType='submit' disabled={total === 0}>
                                 Đặt hàng
                               </S.OrderButton>
                             </Form.Item>
