@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Anchor, Col, Row } from 'antd';
 import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
@@ -19,7 +19,7 @@ import FoodDetailModal from '../../../components/clients/FoodDetailModal';
 import SectionListed from './components/SectionListed';
 import SectionFoodList from './components/SectionFoodList';
 
-import { getFoodPromotionAction } from '../../../redux/actions';
+import { getFoodPromotionAction, getLikesAction } from '../../../redux/actions';
 import SectionPromotion from './components/SectionPromotion';
 import SectionStore from './components/SectionStore';
 
@@ -28,6 +28,8 @@ function HomePage({ setShowLogin }) {
 
   const dispatch = useDispatch();
 
+  const { foodPromotions, foodList } = useSelector((state) => state.foodReducer);
+  const { userInfo } = useSelector((state) => state.userReducer);
   const { Link: AnchorLink } = Anchor;
 
   const [showFoodDetail, setShowFoodDetail] = useState(false);
@@ -35,6 +37,34 @@ function HomePage({ setShowLogin }) {
   useEffect(() => {
     dispatch(getFoodPromotionAction());
   }, []);
+
+  useEffect(() => {
+    if (userInfo.data.id) {
+      let type = null;
+      let foodIds = [];
+      const { accessToken } = JSON.parse(localStorage.userInfo);
+      if (!foodList.likeLoaded && foodList.data.length > 0) {
+        foodIds = foodList.data.map((foodItem) => {
+          return foodItem.id;
+        });
+        type = 'food';
+      }
+
+      if (!foodPromotions.likeLoaded && foodPromotions.data.length > 0) {
+        foodIds = foodPromotions.data.map((foodItem) => {
+          return foodItem.id;
+        });
+        type = 'promotion';
+      }
+      if (type) {
+        dispatch(getLikesAction({
+          type,
+          accessToken,
+          data: { foodIds: JSON.stringify(foodIds) },
+        }));
+      }
+    }
+  }, [userInfo, foodList]);
 
   const renderFood = (foodList, span = 4) => {
     return (

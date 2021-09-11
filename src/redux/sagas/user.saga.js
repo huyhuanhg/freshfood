@@ -13,7 +13,6 @@ function* loginSaga(action) {
     const { data } = action.payload;
     let result = yield axios.post(`${SERVER_CLIENT_API_URL}/login`, data);
     yield (result = camelCaseKeys(result.data, { deep: true }));
-    console.log(result);
     yield (localStorage.userInfo = JSON.stringify({
       accessToken: result.accessToken,
       expires: result.expire,

@@ -42,9 +42,8 @@ function Header({ setShowModalLogin }) {
     );
   };
   const handleSearch = ({ searchType, search }) => {
-    searchForm.resetFields();
     history.push({
-      pathname: searchType,
+      pathname: `/${searchType}`,
       search: `?search=${search}`,
     });
   };

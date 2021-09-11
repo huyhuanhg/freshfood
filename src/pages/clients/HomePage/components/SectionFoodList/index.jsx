@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import * as HomeS from '../../styles';
 import { useEffect, useState } from 'react';
-import { MdNavigateNext, MdRemoveShoppingCart } from 'react-icons/all';
+import { BsCheck, MdNavigateNext, MdRemoveShoppingCart } from 'react-icons/all';
 import { getFoodListAction } from '../../../../../redux/actions';
 
 const SectionFoodList = ({ render }) => {
@@ -47,7 +47,7 @@ const SectionFoodList = ({ render }) => {
     setMenuActive(key);
     let menuRequest = {
       ...request,
-      page: 1
+      page: 1,
     };
     if (key === 'promotion') {
       menuRequest = {
@@ -73,7 +73,7 @@ const SectionFoodList = ({ render }) => {
         return (
           <Menu.Item
             key={tag.id}
-            icon={<MdNavigateNext className='custom-icon-position' />}
+            icon={<BsCheck className='custom-icon-position' />}
             onClick={({ key }) => handleChaneTag(key)}
           >
             {tag.tagName}
@@ -122,13 +122,19 @@ const SectionFoodList = ({ render }) => {
                 flexBasis: '50%',
               }}
             >
-              <Menu.Item key='created_at' onClick={({ key }) => {handleChangeMenu(key);}}>
+              <Menu.Item key='created_at' onClick={({ key }) => {
+                handleChangeMenu(key);
+              }}>
                 Mới nhất
               </Menu.Item>
-              <Menu.Item key='promotion' onClick={({ key }) => {handleChangeMenu(key);}}>
+              <Menu.Item key='promotion' onClick={({ key }) => {
+                handleChangeMenu(key);
+              }}>
                 Khuyến mãi
               </Menu.Item>
-              <Menu.Item key='food_consume' onClick={({ key }) => {handleChangeMenu(key);}}>
+              <Menu.Item key='food_consume' onClick={({ key }) => {
+                handleChangeMenu(key);
+              }}>
                 Bán chạy
               </Menu.Item>
             </Menu>

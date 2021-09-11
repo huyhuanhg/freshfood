@@ -4,11 +4,10 @@ import {
   Menu,
   Rate,
   Row,
-  Skeleton
+  Skeleton,
 } from 'antd';
 import PropTypes from 'prop-types';
 import {
-  AiFillLike,
   AiFillStar,
   BiTime,
   BsFillBookmarkFill,
@@ -33,7 +32,8 @@ import StoreDetailPromotion from './StoreDetailPromotion';
 import history from '../../../utils/history';
 import StoreDetailComment from './StoreDetailComment';
 import StoreDetailPicture from './StoreDetailPicture';
-import { getStoreDetailAction } from '../../../redux/actions';
+import { createRateAction, getStoreDetailAction } from '../../../redux/actions';
+import ModalStoreDetail from './componets/ModalStoreDetail';
 
 const StoreDetail = ({ setShowLogin, match }) => {
   const dispatch = useDispatch();
@@ -44,10 +44,16 @@ const StoreDetail = ({ setShowLogin, match }) => {
   const [showFoodDetail, setShowFoodDetail] = useState(false);
   const [isOpen, setIsOpen] = useState(null);
 
+  const [isShowAction, setIsShowAction] = useState({
+    status: false,
+    isComment: true,
+  });
+
   const [defaultActiveMenu, setDefaultActiveMenu] = useState('food');
 
   document.title = storeDetail.data.store_name || TITLE.STORE_DETAIL;
 
+  const userToken = localStorage.userInfo;
   useEffect(() => {
     const pathArr = history.location.pathname.replace('/stores/', '').split('/');
     const content = pathArr[1];
@@ -55,9 +61,7 @@ const StoreDetail = ({ setShowLogin, match }) => {
       setDefaultActiveMenu(content);
     }
   }, []);
-
   useEffect(() => {
-    const userToken = localStorage.userInfo;
     const request = {
       slug: match.params.slug,
     };
@@ -69,7 +73,7 @@ const StoreDetail = ({ setShowLogin, match }) => {
           getStoreDetailAction({
             ...request,
             user: userInfo.data.id,
-          })
+          }),
         );
       }
     }
@@ -89,9 +93,15 @@ const StoreDetail = ({ setShowLogin, match }) => {
       setIsOpen(open);
     }
   }, [storeDetail]);
-
+  const ckeckLogin = () => {
+    if (!userInfo.data.id) {
+      setShowLogin(true);
+    } else {
+      return true;
+    }
+  };
   if (!!storeDetail.error && !storeDetail.load) {
-    return <Redirect to="/stores" />;
+    return <Redirect to='/stores' />;
   }
   return (
     <ClientStyle.Section style={{ backgroundColor: '#eee' }}>
@@ -108,7 +118,7 @@ const StoreDetail = ({ setShowLogin, match }) => {
                         ? loadAvatarStore
                         : `${ROOT_PATH}${storeDetail.data.storeAvatar}`
                     }
-                    alt=""
+                    alt=''
                   />
                 </StoreDetailStyle.ImageWrap>
               </StoreDetailStyle.MainImg>
@@ -133,10 +143,10 @@ const StoreDetail = ({ setShowLogin, match }) => {
                     <StoreDetailStyle.ResSummaryPoint>
                       <StoreDetailStyle.MicroPoints>
                         <StoreDetailStyle.MicroReviewCount>
-                          {storeDetail.data.avgRate === 0
+                          {storeDetail.data.avgRate === '0'
                             ? '--'
                             : storeDetail.data.avgRate}
-                          {storeDetail.data.avgRate !== 0 && <AiFillStar />}
+                          {storeDetail.data.avgRate !== '0' && <AiFillStar />}
                         </StoreDetailStyle.MicroReviewCount>
                         <StoreDetailStyle.MicroReviewText>
                           Trung bình
@@ -169,8 +179,20 @@ const StoreDetail = ({ setShowLogin, match }) => {
                       <StoreDetailStyle.YourRate>
                         <div>
                           <Rate
-                            disabled={!!storeDetail.data.userRate}
+                            disabled={!!storeDetail.data.userRate || !userInfo.data.id}
                             defaultValue={storeDetail.data.userRate}
+                            onChange={(value) => {
+                              if (ckeckLogin()) {
+                                const { accessToken } = JSON.parse(userToken);
+                                dispatch(createRateAction({
+                                  accessToken,
+                                  data: {
+                                    storeId: storeDetail.data.id,
+                                    rate: value,
+                                  },
+                                }));
+                              }
+                            }}
                           />
                         </div>
                         <StoreDetailStyle.YourRateCount>
@@ -193,15 +215,15 @@ const StoreDetail = ({ setShowLogin, match }) => {
                         <BiTime />
 
                         {isOpen === null ? (
-                          <span className="itsopen" title="">
+                          <span className='itsopen' title=''>
                             Luôn mở cửa
                           </span>
                         ) : isOpen ? (
-                          <span className="itsopen" title="">
+                          <span className='itsopen' title=''>
                             Đang mở cửa
                           </span>
                         ) : (
-                          <span className="itsclosed" title="">
+                          <span className='itsclosed' title=''>
                             Chưa mở cửa
                           </span>
                         )}
@@ -229,57 +251,57 @@ const StoreDetail = ({ setShowLogin, match }) => {
             <Col span={4}>
               <Affix offsetTop={52.7}>
                 <Menu
-                  theme="light"
+                  theme='light'
                   style={{
                     background: '#fff',
                     height: 'auto',
                   }}
                   selectedKeys={[defaultActiveMenu]}
-                  mode="inline"
+                  mode='inline'
                 >
                   <Menu.Item
-                    key="food"
+                    key='food'
                     icon={<MdNavigateNext />}
                     onClick={() => {
                       setDefaultActiveMenu('food');
                       history.push(
-                        `/stores/${storeDetail.data.storeNotMark}.${storeDetail.data.id}`
+                        `/stores/${storeDetail.data.storeNotMark}.${storeDetail.data.id}`,
                       );
                     }}
                   >
                     Món ăn
                   </Menu.Item>
                   <Menu.Item
-                    key="comment"
+                    key='comment'
                     icon={<MdNavigateNext />}
                     onClick={() => {
                       setDefaultActiveMenu('comment');
                       history.push(
-                        `/stores/${storeDetail.data.storeNotMark}.${storeDetail.data.id}/comment`
+                        `/stores/${storeDetail.data.storeNotMark}.${storeDetail.data.id}/comment`,
                       );
                     }}
                   >
                     Bình luận
                   </Menu.Item>
                   <Menu.Item
-                    key="promotion"
+                    key='promotion'
                     icon={<MdNavigateNext />}
                     onClick={() => {
                       setDefaultActiveMenu('promotion');
                       history.push(
-                        `/stores/${storeDetail.data.storeNotMark}.${storeDetail.data.id}/promotion`
+                        `/stores/${storeDetail.data.storeNotMark}.${storeDetail.data.id}/promotion`,
                       );
                     }}
                   >
                     Khuyến mãi
                   </Menu.Item>
                   <Menu.Item
-                    key="picture"
+                    key='picture'
                     icon={<MdNavigateNext />}
                     onClick={() => {
                       setDefaultActiveMenu('picture');
                       history.push(
-                        `/stores/${storeDetail.data.storeNotMark}.${storeDetail.data.id}/picture`
+                        `/stores/${storeDetail.data.storeNotMark}.${storeDetail.data.id}/picture`,
                       );
                     }}
                   >
@@ -289,20 +311,36 @@ const StoreDetail = ({ setShowLogin, match }) => {
               </Affix>
             </Col>
             <Col span={20}>
+              <ModalStoreDetail
+                isShow={isShowAction.status}
+                setShow={setIsShowAction}
+                isComment={isShowAction.isComment}
+                avgRate={storeDetail.data.avgRate}
+                avatar={storeDetail.data.storeAvatar}
+                address={storeDetail.data.storeAddress}
+                storeName={storeDetail.data.storeName}
+              />
               <Affix offsetTop={52.7}>
                 <StoreDetailStyle.StoreToolbar>
                   <ul>
                     <li>
                       <FaPhoneAlt /> Gọi điện thoại
                     </li>
-                    <li>
+                    <li onClick={() => {
+                      if (ckeckLogin()) {
+                        // TODO
+                      }
+                      setIsShowAction({ status: true, isComment: true });
+                    }}>
                       <FaCommentDots /> Bình luận
                     </li>
-                    <li>
+                    <li onClick={() => {
+                      if (ckeckLogin()) {
+                        // TODO
+                      }
+                      setIsShowAction({ status: true, isComment: false });
+                    }}>
                       <BsFillBookmarkFill /> Lưu bộ sưu tập
-                    </li>
-                    <li>
-                      <AiFillLike /> Like
                     </li>
                     <li>
                       <FaShareAlt /> Chia sẻ
@@ -311,7 +349,7 @@ const StoreDetail = ({ setShowLogin, match }) => {
                 </StoreDetailStyle.StoreToolbar>
               </Affix>
               <Switch>
-                <Route exact path="/stores/:slug">
+                <Route exact path='/stores/:slug'>
                   <StoreDetailFood
                     showFoodDetail={showFoodDetail}
                     setShowLogin={setShowLogin}
@@ -319,22 +357,22 @@ const StoreDetail = ({ setShowLogin, match }) => {
                     match={match}
                   />
                 </Route>
-                <Route exact path="/stores/:slug/comment">
+                <Route exact path='/stores/:slug/comment'>
                   <StoreDetailComment />
                 </Route>
-                <Route exact path="/stores/:slug/promotion">
+                <Route exact path='/stores/:slug/promotion'>
                   <StoreDetailPromotion
                     showFoodDetail={showFoodDetail}
                     setShowLogin={setShowLogin}
                     setShowFoodDetail={setShowFoodDetail}
                   />
                 </Route>
-                <Route exact path="/stores/:slug/picture">
+                <Route exact path='/stores/:slug/picture'>
                   <StoreDetailPicture />
                 </Route>
                 <Route
                   render={() => {
-                    return <Redirect to="/stores" />;
+                    return <Redirect to='/stores' />;
                   }}
                 />
               </Switch>
@@ -350,7 +388,7 @@ export default StoreDetail;
 StoreDetail.propTypes = {
   match: PropTypes.shape({
     params: PropTypes.shape({
-      slug: PropTypes.string.isRequired
+      slug: PropTypes.string.isRequired,
     }),
   }),
   setShowLogin: PropTypes.func.isRequired,

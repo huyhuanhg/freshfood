@@ -8,6 +8,7 @@ import * as S from './style';
 import * as ClientStyle from '../styles';
 import { ROOT_PATH, TITLE } from '../../../contants';
 import {
+  createOrderAction,
   destroyCartsAction,
   getAddressAction,
   getCartsAction,
@@ -62,10 +63,13 @@ const CartPage = () => {
   }, [userInfo]);
 
   const handleOrder = (value) => {
-    console.log({
-      ...value,
-      address: shortAddress(value.address, provinces.data, districts.data, wards.data),
-    });
+    dispatch(createOrderAction({
+      accessToken: JSON.parse(userToken).accessToken,
+      data: {
+        ...value,
+        address: shortAddress(value.address, provinces.data, districts.data, wards.data),
+      },
+    }));
   };
 
   const renderAddressInfo = (typeList) => {

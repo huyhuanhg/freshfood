@@ -8,8 +8,9 @@ import * as S from './style';
 
 import foodLoading from '../../../assets/images/food_logo.png';
 import { ROOT_PATH } from '../../../contants';
-import { getFoodDetailAction, updateCartAction } from '../../../redux/actions';
+import { getFoodDetailAction, toggleLikeAction, updateCartAction } from '../../../redux/actions';
 import handleStopPropagation from '../../../utils/common';
+import { AiOutlineHeart, FcLike } from 'react-icons/all';
 
 const MetaTitle = ({ name, store, slug }) => {
   return (
@@ -22,9 +23,10 @@ const MetaTitle = ({ name, store, slug }) => {
   );
 };
 
-const MetaDescription = ({ price, discount }) => {
+const MetaDescription = ({ id, price, discount, isLike }) => {
+  const dispatch = useDispatch();
   return (
-    <Space>
+    <Space style={{ position: 'relative', width: '100%' }}>
       <p>
         <S.AfterPrice>
           <NumberFormat
@@ -47,6 +49,29 @@ const MetaDescription = ({ price, discount }) => {
           }
         </S.Price>
       </p>
+      <div
+        style={{
+          position: 'absolute',
+          fontSize: '150%',
+          top: 0,
+          right: 10,
+          color: 'red',
+        }}
+        onClick={
+          (e) => {
+            const { accessToken } = JSON.parse(localStorage.userInfo);
+            dispatch(toggleLikeAction({
+              accessToken,
+              data: {
+                foodId: id,
+              },
+            }));
+            e.stopPropagation();
+          }
+        }>
+        {isLike ? <FcLike /> : <AiOutlineHeart />}
+      </div>
+
     </Space>
   );
 };
@@ -60,6 +85,7 @@ export const FoodItemHome = (
     storeNotMark,
     price,
     discount,
+    like,
     load,
     setShowDetail,
     setShowLogin,
@@ -98,8 +124,10 @@ export const FoodItemHome = (
           }
           description={
             <MetaDescription
+              id={id}
               price={price}
               discount={discount}
+              isLike={like}
             />
           }
           avatar={
@@ -113,7 +141,7 @@ export const FoodItemHome = (
                   dispatch(updateCartAction({
                     data: {
                       accessToken: JSON.parse(userToken).accessToken,
-                      food: id
+                      food: id,
                     },
                   }));
                   setShowDetail(false);
@@ -136,6 +164,8 @@ MetaTitle.propTypes = {
 };
 
 MetaDescription.propTypes = {
+  id: PropTypes.number,
+  isLike: PropTypes.bool,
   price: PropTypes.number,
   discount: PropTypes.number,
 };
@@ -149,6 +179,7 @@ FoodItemHome.propTypes = {
   storeNotMark: PropTypes.string,
   price: PropTypes.number,
   discount: PropTypes.number,
+  like: PropTypes.bool,
   load: PropTypes.bool,
   setShowDetail: PropTypes.func,
   setShowLogin: PropTypes.func,

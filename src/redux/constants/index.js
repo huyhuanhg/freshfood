@@ -9,3 +9,6 @@ export * from './cart.constant';
 export * from './tag.contant';
 export * from './promotion.contant';
 export * from './address.contant';
+export * from './order.contant';
+export * from './like.contant';
+export * from './rate.contant';

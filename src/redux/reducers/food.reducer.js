@@ -1,5 +1,5 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { REQUEST, SUCCESS, FOOD_ACTION } from '../constants';
+import { REQUEST, SUCCESS, FOOD_ACTION, LIKE_ACTION } from '../constants';
 
 const initialState = {
   foodList: {
@@ -47,6 +47,7 @@ const foodReducer = createReducer(initialState, {
   },
   [SUCCESS(FOOD_ACTION.GET_FOOD_LIST)]: (state, action) => {
     const { foods } = action.payload.data;
+
     let newFoods = [...foods.data];
     if (foods.currentPage > state.foodList.currentPage) {
       newFoods = [...state.foodList.data, ...newFoods];
@@ -61,6 +62,7 @@ const foodReducer = createReducer(initialState, {
         currentPage: foods.currentPage,
         lastPage: foods.lastPage,
         total: foods.total,
+        likeLoaded: false,
       },
     };
   },
@@ -82,6 +84,81 @@ const foodReducer = createReducer(initialState, {
         data: foods.data,
         load: false,
         error: null,
+        likeLoaded: false,
+      },
+    };
+  },
+  [SUCCESS(LIKE_ACTION.GET_LIKE_LIST)]: (state, action) => {
+    const { data, type } = action.payload;
+    let foodList = [];
+    if (type === 'promotion') {
+      foodList = [...state.foodPromotions.data];
+    } else {
+      foodList = [...state.foodList.data];
+    }
+
+    foodList = foodList.map((foodItem) => {
+      const like = data.includes(foodItem.id);
+      return {
+        ...foodItem,
+        like,
+      };
+    });
+    let newList = {
+      likeLoaded: true,
+    };
+
+    if (type === 'promotion') {
+      newList = {
+        ...state,
+        foodPromotions: {
+          ...state.foodPromotions,
+          ...newList,
+          data: foodList,
+        },
+      };
+    } else {
+      newList = {
+        ...state,
+        foodList: {
+          ...state.foodList,
+          ...newList,
+          data: foodList,
+        },
+      };
+    }
+
+    return newList;
+  },
+  [SUCCESS(LIKE_ACTION.TOGGLE_LIKE)]: (state, action) => {
+    const { foodId } = action.payload.data;
+    const foodList = [...state.foodList.data];
+    const foodPromotions = [...state.foodPromotions.data];
+    const foodIndex = foodList.findIndex((foodItem) => foodItem.id === foodId);
+    const promotionIndex = foodPromotions.findIndex((foodItem) => foodItem.id === foodId);
+    if (foodIndex !== -1){
+      const newFood = {
+        ...foodList[foodIndex],
+        like: !foodList[foodIndex].like,
+      };
+      foodList.splice(foodIndex, 1, newFood);
+    }
+    if (promotionIndex !== -1){
+      const newPromotion = {
+        ...foodPromotions[promotionIndex],
+        like: !foodPromotions[promotionIndex].like,
+      };
+      foodPromotions.splice(promotionIndex, 1, newPromotion);
+    }
+    return {
+      ...state,
+      foodList: {
+        ...state.foodList,
+        data: foodList,
+      },
+      foodPromotions: {
+        ...state.foodPromotions,
+        data: foodPromotions,
       },
     };
   },

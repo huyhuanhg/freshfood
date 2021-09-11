@@ -1,15 +1,13 @@
 export * from './admin.action';
-
 export * from './food.action';
 export * from './user.action';
 export * from './category.action';
-
 export * from './common.action';
-
 export * from './store.action';
 export * from './cart.action';
-
 export * from './tag.action';
 export * from './promotion.action';
-
 export * from './address.action';
+export * from './order.action';
+export * from './like.action';
+export * from './rate.action';
