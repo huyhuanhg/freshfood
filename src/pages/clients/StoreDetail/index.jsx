@@ -23,17 +23,17 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
 import { Redirect, Route, Switch } from 'react-router-dom';
-import StoreDetailFood from './StoreDetailFood';
+import StoreDetailFood from './componets/StoreDetailFood';
 import loadAvatarStore from '../../../assets/images/loadStore.png';
 import * as ClientStyle from '../styles';
 import * as StoreDetailStyle from './style';
 import { ROOT_PATH, TITLE } from '../../../contants';
-import StoreDetailPromotion from './StoreDetailPromotion';
+import StoreDetailPromotion from './componets/StoreDetailPromotion';
 import history from '../../../utils/history';
-import StoreDetailComment from './StoreDetailComment';
-import StoreDetailPicture from './StoreDetailPicture';
+import StoreDetailComment from './componets/StoreDetailComment';
+import StoreDetailPicture from './componets/StoreDetailPicture';
 import { createRateAction, getStoreDetailAction } from '../../../redux/actions';
-import ModalStoreDetail from './componets/ModalStoreDetail';
+import ModalStoreDetail from '../../../components/clients/ModalStoreDetail';
 
 const StoreDetail = ({ setShowLogin, match }) => {
   const dispatch = useDispatch();
@@ -315,6 +315,7 @@ const StoreDetail = ({ setShowLogin, match }) => {
                 isShow={isShowAction.status}
                 setShow={setIsShowAction}
                 isComment={isShowAction.isComment}
+                storeId={storeDetail.data.id}
                 avgRate={storeDetail.data.avgRate}
                 avatar={storeDetail.data.storeAvatar}
                 address={storeDetail.data.storeAddress}

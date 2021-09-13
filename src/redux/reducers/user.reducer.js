@@ -249,6 +249,37 @@ const userReducer = createReducer(initialState, {
       },
     };
   },
+  [REQUEST(USER_ACTION.CHANGE_AVATAR)]: (state) => {
+    return {
+      ...state,
+      userInfo: {
+        ...state.userInfo,
+        loadChangeAvatar: true,
+      },
+    };
+  },
+  [SUCCESS(USER_ACTION.CHANGE_AVATAR)]: (state, action) => {
+    const { data } = action.payload;
+    return {
+      ...state,
+      userInfo: {
+        data: {
+          ...state.userInfo.data,
+          avatar: data,
+          loadChangeAvatar: false,
+        },
+      },
+    };
+  },
+  [FAILURE(USER_ACTION.CHANGE_AVATAR)]: (state) => {
+    return {
+      ...state,
+      userInfo: {
+        ...state.userInfo,
+        loadChangeAvatar: false,
+      },
+    };
+  },
 });
 
 export default userReducer;

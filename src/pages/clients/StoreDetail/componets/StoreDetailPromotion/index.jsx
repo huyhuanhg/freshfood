@@ -2,9 +2,9 @@ import { Affix, Col, Menu, Row, Select, Spin } from 'antd';
 import { useSelector } from 'react-redux';
 import { useState } from 'react';
 import PropTypes from 'prop-types';
-import * as StoreDetailStyle from '../style';
-import FoodDetailCarousel from '../../../../components/clients/FoodDeatilCarousle';
-import { FoodStore } from '../../../../components/clients/FoodItem';
+import * as StoreDetailStyle from '../../style';
+import FoodDetailCarousel from '../../../../../components/clients/FoodDeatilCarousle';
+import { FoodStore } from '../../../../../components/clients/FoodItem';
 
 const StoreDetailPromotion = ({
   showFoodDetail,
@@ -32,7 +32,7 @@ const StoreDetailPromotion = ({
     });
   };
   return (
-    <>
+    <div>
       <Affix offsetTop={125} style={{ display: 'none' }}>
         <div
           style={{
@@ -130,7 +130,7 @@ const StoreDetailPromotion = ({
         </Row>
         <StoreDetailStyle.ViewOther>Xem thêm</StoreDetailStyle.ViewOther>
       </StoreDetailStyle.StoreContent>
-    </>
+    </div>
   );
 };
 export default StoreDetailPromotion;

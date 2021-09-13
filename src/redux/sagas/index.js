@@ -11,6 +11,7 @@ import addressSaga from './address.saga';
 import orderSaga from './order.saga';
 import likeSaga from './like.saga';
 import rateSaga from './rate.saga';
+import bookmarkSaga from './bookmark.saga';
 
 export default function* rootSaga() {
   yield fork(foodSaga);
@@ -25,4 +26,5 @@ export default function* rootSaga() {
   yield fork(orderSaga);
   yield fork(likeSaga);
   yield fork(rateSaga);
+  yield fork(bookmarkSaga);
 }

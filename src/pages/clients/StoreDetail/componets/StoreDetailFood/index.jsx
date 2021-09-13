@@ -2,10 +2,10 @@ import { Affix, Col, Menu, Row, Select, Spin } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import * as StoreDetailStyle from '../style';
-import FoodDetailCarousel from '../../../../components/clients/FoodDeatilCarousle';
-import { FoodStore } from '../../../../components/clients/FoodItem';
-import { getFoodListAction, updateCartAction } from '../../../../redux/actions';
+import * as StoreDetailStyle from '../../style';
+import FoodDetailCarousel from '../../../../../components/clients/FoodDeatilCarousle';
+import { FoodStore } from '../../../../../components/clients/FoodItem';
+import { getFoodListAction, updateCartAction } from '../../../../../redux/actions';
 
 const StoreDetailFood = ({ showFoodDetail, setShowLogin, setShowFoodDetail, match }) => {
   const dispatch = useDispatch();
