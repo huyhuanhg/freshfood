@@ -12,3 +12,4 @@ export * from './order.action';
 export * from './like.action';
 export * from './rate.action';
 export * from './bookmark.action';
+export * from './comment.action';

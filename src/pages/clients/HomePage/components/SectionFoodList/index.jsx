@@ -79,6 +79,7 @@ const SectionFoodList = ({ render }) => {
           <Menu.Item
             key={tag.id}
             icon={icon}
+            className='hide-after'
             onClick={({ key }) => handleChaneTag(key)}
           >
             {tag.tagName}
@@ -111,6 +112,7 @@ const SectionFoodList = ({ render }) => {
               Bộ lọc
             </h2>
             <Menu.Item
+              className='hide-after'
               key=''
               icon={request.tags.length === 0 && < BsCheck className='custom-icon-position' />}
               onClick={({ key }) => handleChaneTag(key)}

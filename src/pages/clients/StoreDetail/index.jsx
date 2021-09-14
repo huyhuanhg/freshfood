@@ -28,12 +28,11 @@ import loadAvatarStore from '../../../assets/images/loadStore.png';
 import * as ClientStyle from '../styles';
 import * as StoreDetailStyle from './style';
 import { ROOT_PATH, TITLE } from '../../../contants';
-import StoreDetailPromotion from './componets/StoreDetailPromotion';
 import history from '../../../utils/history';
 import StoreDetailComment from './componets/StoreDetailComment';
 import StoreDetailPicture from './componets/StoreDetailPicture';
-import { createRateAction, getStoreDetailAction } from '../../../redux/actions';
 import ModalStoreDetail from '../../../components/clients/ModalStoreDetail';
+import { createRateAction, getStoreDetailAction } from '../../../redux/actions';
 
 const StoreDetail = ({ setShowLogin, match }) => {
   const dispatch = useDispatch();
@@ -54,6 +53,7 @@ const StoreDetail = ({ setShowLogin, match }) => {
   document.title = storeDetail.data.store_name || TITLE.STORE_DETAIL;
 
   const userToken = localStorage.userInfo;
+
   useEffect(() => {
     const pathArr = history.location.pathname.replace('/stores/', '').split('/');
     const content = pathArr[1];
@@ -93,7 +93,7 @@ const StoreDetail = ({ setShowLogin, match }) => {
       setIsOpen(open);
     }
   }, [storeDetail]);
-  const ckeckLogin = () => {
+  const checkLogin = () => {
     if (!userInfo.data.id) {
       setShowLogin(true);
     } else {
@@ -182,7 +182,7 @@ const StoreDetail = ({ setShowLogin, match }) => {
                             disabled={!!storeDetail.data.userRate || !userInfo.data.id}
                             defaultValue={storeDetail.data.userRate}
                             onChange={(value) => {
-                              if (ckeckLogin()) {
+                              if (checkLogin()) {
                                 const { accessToken } = JSON.parse(userToken);
                                 dispatch(createRateAction({
                                   accessToken,
@@ -249,7 +249,7 @@ const StoreDetail = ({ setShowLogin, match }) => {
         <StoreDetailStyle.MicroMainMenu>
           <Row gutter={20}>
             <Col span={4}>
-              <Affix offsetTop={52.7}>
+              <Affix offsetTop={59.188}>
                 <Menu
                   theme='light'
                   style={{
@@ -272,18 +272,6 @@ const StoreDetail = ({ setShowLogin, match }) => {
                     Món ăn
                   </Menu.Item>
                   <Menu.Item
-                    key='comment'
-                    icon={<MdNavigateNext />}
-                    onClick={() => {
-                      setDefaultActiveMenu('comment');
-                      history.push(
-                        `/stores/${storeDetail.data.storeNotMark}.${storeDetail.data.id}/comment`,
-                      );
-                    }}
-                  >
-                    Bình luận
-                  </Menu.Item>
-                  <Menu.Item
                     key='promotion'
                     icon={<MdNavigateNext />}
                     onClick={() => {
@@ -294,6 +282,18 @@ const StoreDetail = ({ setShowLogin, match }) => {
                     }}
                   >
                     Khuyến mãi
+                  </Menu.Item>
+                  <Menu.Item
+                    key='comment'
+                    icon={<MdNavigateNext />}
+                    onClick={() => {
+                      setDefaultActiveMenu('comment');
+                      history.push(
+                        `/stores/${storeDetail.data.storeNotMark}.${storeDetail.data.id}/comment`,
+                      );
+                    }}
+                  >
+                    Bình luận
                   </Menu.Item>
                   <Menu.Item
                     key='picture'
@@ -310,7 +310,7 @@ const StoreDetail = ({ setShowLogin, match }) => {
                 </Menu>
               </Affix>
             </Col>
-            <Col span={20}>
+            <Col span={20} style={{ minHeight: '300px' }}>
               <ModalStoreDetail
                 isShow={isShowAction.status}
                 setShow={setIsShowAction}
@@ -321,27 +321,25 @@ const StoreDetail = ({ setShowLogin, match }) => {
                 address={storeDetail.data.storeAddress}
                 storeName={storeDetail.data.storeName}
               />
-              <Affix offsetTop={52.7}>
+              <Affix offsetTop={59.188}>
                 <StoreDetailStyle.StoreToolbar>
                   <ul>
                     <li>
                       <FaPhoneAlt /> Gọi điện thoại
                     </li>
                     <li onClick={() => {
-                      if (ckeckLogin()) {
-                        // TODO
+                      if (checkLogin()) {
+                        setIsShowAction({ status: true, isComment: true });
                       }
-                      setIsShowAction({ status: true, isComment: true });
                     }}>
                       <FaCommentDots /> Bình luận
                     </li>
                     <li onClick={() => {
-                      if (ckeckLogin()) {
-                        // TODO
+                      if (checkLogin()) {
+                        setIsShowAction({ status: true, isComment: false });
                       }
-                      setIsShowAction({ status: true, isComment: false });
                     }}>
-                      <BsFillBookmarkFill /> Lưu bộ sưu tập
+                      <BsFillBookmarkFill /> Bộ sưu tập
                     </li>
                     <li>
                       <FaShareAlt /> Chia sẻ
@@ -355,21 +353,28 @@ const StoreDetail = ({ setShowLogin, match }) => {
                     showFoodDetail={showFoodDetail}
                     setShowLogin={setShowLogin}
                     setShowFoodDetail={setShowFoodDetail}
-                    match={match}
+                    slug={match.params.slug}
+
                   />
                 </Route>
                 <Route exact path='/stores/:slug/comment'>
-                  <StoreDetailComment />
+                  <StoreDetailComment
+                    slug={match.params.slug}
+                    checkLogin={checkLogin}
+                    setShowLogin={setShowLogin}
+                    setShowComment={setIsShowAction}
+                  />
                 </Route>
                 <Route exact path='/stores/:slug/promotion'>
-                  <StoreDetailPromotion
+                  <StoreDetailFood
                     showFoodDetail={showFoodDetail}
-                    setShowLogin={setShowLogin}
                     setShowFoodDetail={setShowFoodDetail}
+                    setShowLogin={setShowLogin}
+                    slug={match.params.slug}
                   />
                 </Route>
                 <Route exact path='/stores/:slug/picture'>
-                  <StoreDetailPicture />
+                  <StoreDetailPicture storeId={storeDetail.data.id} />
                 </Route>
                 <Route
                   render={() => {

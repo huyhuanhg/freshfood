@@ -6,7 +6,12 @@ import { ROOT_PATH, SERVER_CLIENT_API_URL } from '../../../contants';
 import { AiFillStar } from 'react-icons/all';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getBookmarkDetailAction, createBookmarkAction, updateBookmarkAction } from '../../../redux/actions';
+import {
+  getBookmarkDetailAction,
+  createBookmarkAction,
+  updateBookmarkAction,
+  createCommentAction,
+} from '../../../redux/actions';
 import { PlusOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import camelcaseKeys from 'camelcase-keys';
@@ -27,6 +32,7 @@ const ModalStoreDetail = (
   const [actionForm] = Form.useForm();
   const accessToken = JSON.parse(localStorage.userInfo)?.accessToken;
   const { bookmarkDetail } = useSelector((state) => state.bookmarkReducer);
+  const { userInfo } = useSelector((state) => state.userReducer);
   // list nhận ảnh nhận về
   const [fileList, setFileList] = useState([]);
   // //list ảnh form
@@ -156,10 +162,14 @@ const ModalStoreDetail = (
     } else {
       const data = {
         ...value,
+        accessToken,
         storeId,
         paths: fileList.map((file) => file.path),
+        lastName: userInfo.data.lastName,
+        firstName: userInfo.data.firstName,
+        userAvatar: userInfo.data.avatar
       };
-      console.log(data);
+      dispatch(createCommentAction(data));
       setFormImages([]);
       setFileList([]);
       actionForm.resetFields();

@@ -1,29 +1,73 @@
-import { Affix, Col, Menu, Row, Select, Spin } from 'antd';
+import { Affix, Col, Row, Select, Spin, Tag } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import * as StoreDetailStyle from '../../style';
+import { MdRemoveShoppingCart } from 'react-icons/all';
+
 import FoodDetailCarousel from '../../../../../components/clients/FoodDeatilCarousle';
 import { FoodStore } from '../../../../../components/clients/FoodItem';
 import { getFoodListAction, updateCartAction } from '../../../../../redux/actions';
+import history from '../../../../../utils/history';
 
-const StoreDetailFood = ({ showFoodDetail, setShowLogin, setShowFoodDetail, match }) => {
+import * as StoreDetailStyle from '../../style';
+
+const StoreDetailFood = ({ showFoodDetail, setShowLogin, setShowFoodDetail, slug }) => {
   const dispatch = useDispatch();
   const { foodList } = useSelector((state) => state.foodReducer);
+  const { tagList } = useSelector((state) => state.tagReducer);
   const { userInfo } = useSelector((state) => state.userReducer);
   const [foodId, setFoodId] = useState(null);
-
+  const [filterFood, setFilterFood] = useState(null);
   const [foodIndex, setFoodIndex] = useState(0);
+  const storeId = slug.slice(slug.lastIndexOf('.') + 1);
 
   useEffect(() => {
-    const store = match.params.slug.slice(match.params.slug.lastIndexOf('.') + 1);
-    if (store) {
+    const pathname = history.location.pathname;
+    let filter = {};
+    if (pathname.match('/promotion')) {
+      filter = {
+        group: 'promotion',
+      };
+    }
+    setFilterFood(filter);
+  }, [history.location.pathname]);
+
+  useEffect(() => {
+    if (filterFood && storeId) {
       dispatch(getFoodListAction({
-        store,
+        store: storeId,
+        ...filterFood,
       }));
     }
-  }, []);
-
+  }, [filterFood]);
+  const tagRender = ({ label, value, closable, onClose }) => {
+    const onPreventMouseDown = (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+    };
+    return (
+      <Tag
+        color='green'
+        onMouseDown={onPreventMouseDown}
+        closable={closable}
+        onClose={onClose}
+        style={{ marginRight: 3 }}
+        value={value}
+      >
+        {label}
+      </Tag>
+    );
+  };
+  const renderTagList = () => {
+    return tagList.data.map((tag) => {
+      if (tag.tagActive === 1) {
+        return {
+          value: tag.id,
+          label: tag.tagName,
+        };
+      }
+    });
+  };
   const renderFoodList = (span = 6) => {
     return foodList.data.map((food, index) => {
       return (
@@ -41,8 +85,8 @@ const StoreDetailFood = ({ showFoodDetail, setShowLogin, setShowFoodDetail, matc
     });
   };
   return (
-    <>
-      <Affix offsetTop={125} style={{ display: 'none' }}>
+    <div>
+      <Affix offsetTop={59.188 + 54}>
         <div
           style={{
             display: 'flex',
@@ -50,16 +94,10 @@ const StoreDetailFood = ({ showFoodDetail, setShowLogin, setShowFoodDetail, matc
             backgroundColor: '#ddd',
           }}
         >
-          <Menu
-            mode='horizontal'
-            defaultSelectedKeys={['mail']}
-            style={{
-              flexBasis: '50%',
-            }}
-          >
-            <Menu.Item key='mail'>Mới nhất </Menu.Item>
-            <Menu.Item key='app'>Đã lưu</Menu.Item>
-          </Menu>
+          <StoreDetailStyle.StoreContentTitle>
+            {history.location.pathname.match('/promotion') ? 'Khuyến mãi' : 'Đặt món'}
+          </StoreDetailStyle.StoreContentTitle>
+          {foodList.total > 0 &&
           <ul
             style={{
               listStyle: 'none',
@@ -70,36 +108,78 @@ const StoreDetailFood = ({ showFoodDetail, setShowLogin, setShowFoodDetail, matc
             }}
           >
             <li>
-              <Select defaultValue={''} style={{ width: 160, margin: '0 5px' }}>
-                <Select.Option value='' selected hidden disabled>
-                  -Danh mục-
-                </Select.Option>
-                <Select.Option value='0'>Sang trọng</Select.Option>
-                <Select.Option value='1'>Vỉa hè</Select.Option>
-                <Select.Option value='2'>Buffet</Select.Option>
-                <Select.Option value='3'>Nhà hàng</Select.Option>
-                <Select.Option value='4'>Quán ăn</Select.Option>
-                <Select.Option value='5'>Quán nhậu</Select.Option>
-              </Select>
+
+              <Select
+                value={filterFood?.tags}
+                mode='multiple'
+                showArrow
+                placeholder='Chọn danh mục'
+                tagRender={tagRender}
+                style={{ width: '370px' }}
+                options={renderTagList()}
+                maxTagCount={3}
+                getPopupContainer={(trigger) => trigger.parentNode}
+                onChange={(value) => {
+                  setFilterFood({
+                    ...filterFood,
+                    tags: value,
+                  });
+                }}
+              />
             </li>
             <li>
-              <Select defaultValue='' style={{ width: 160 }}>
+              <Select
+                defaultValue=''
+                style={{ width: 160 }}
+                getPopupContainer={(trigger) => trigger.parentNode}
+                onChange={(value) => {
+                  setFilterFood({
+                    ...filterFood,
+                    sort: 'price',
+                    sortType: value,
+                  });
+                }}
+              >
                 <Select.Option value='' selected hidden disabled>
-                  -Đánh giá-
+                  -Giá-
                 </Select.Option>
-                <Select.Option value='0'>Đánh giá tăng dần</Select.Option>
-                <Select.Option value='1'>Đánh giá giảm dần</Select.Option>
+                <Select.Option value='1'>Giá tăng dần</Select.Option>
+                <Select.Option value='-1'>Giá giảm dần</Select.Option>
               </Select>
             </li>
           </ul>
+          }
         </div>
       </Affix>
       <StoreDetailStyle.StoreContent>
-        <StoreDetailStyle.StoreContentTitle>
-          Đặt món
-        </StoreDetailStyle.StoreContentTitle>
         <Row>
-          {renderFoodList(12, foodList.load)}
+          {foodList.total === 0
+            ?
+            <Col
+              span={24}
+              style={{
+                minHeight: '200px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                textAlign: 'center',
+                fontSize: '150%',
+                fontWeight: 'bold',
+              }}
+            >
+              <div>
+                <MdRemoveShoppingCart
+                  style={{
+                    color: 'red',
+                    fontSize: '200%',
+                  }}
+                /><br />
+                Không có món ăn nào!
+              </div>
+            </Col>
+            :
+            renderFoodList(12, foodList.load)
+          }
           {foodList.load && (
             <div
               style={{
@@ -160,18 +240,14 @@ const StoreDetailFood = ({ showFoodDetail, setShowLogin, setShowFoodDetail, matc
         }
 
       </StoreDetailStyle.StoreContent>
-    </>
+    </div>
   );
 };
 export default StoreDetailFood;
 
 StoreDetailFood.propTypes = {
+  slug: PropTypes.string,
   showFoodDetail: PropTypes.bool,
   setShowLogin: PropTypes.func,
   setShowFoodDetail: PropTypes.func,
-  match: PropTypes.shape({
-    params: PropTypes.shape({
-      slug: PropTypes.string.isRequired,
-    }),
-  }),
 };

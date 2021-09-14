@@ -13,3 +13,4 @@ export * from './order.contant';
 export * from './like.contant';
 export * from './rate.contant';
 export * from './bookmark.constant';
+export * from './comment.constant';
