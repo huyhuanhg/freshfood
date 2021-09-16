@@ -30,7 +30,7 @@ const ClientList = ({ setShowLogin }) => {
               >
                 <Menu.Item
                   key='/stores'
-                  icon={<MdNavigateNext />}
+                  icon={<MdNavigateNext className='custom-icon-position' />}
                   onClick={() => {
                     history.push('/stores');
                   }}
@@ -39,7 +39,7 @@ const ClientList = ({ setShowLogin }) => {
                 </Menu.Item>
                 <Menu.Item
                   key='/foods'
-                  icon={<MdNavigateNext />}
+                  icon={<MdNavigateNext className='custom-icon-position' />}
                   onClick={() => {
                     history.push('/foods');
                   }}
@@ -48,7 +48,7 @@ const ClientList = ({ setShowLogin }) => {
                 </Menu.Item>
                 <Menu.Item
                   key='/promotions'
-                  icon={<MdNavigateNext />}
+                  icon={<MdNavigateNext className='custom-icon-position' />}
                   onClick={() => {
                     history.push('/promotions');
                   }}
@@ -57,7 +57,7 @@ const ClientList = ({ setShowLogin }) => {
                 </Menu.Item>
                 <Menu.Item
                   key='/crowded'
-                  icon={<MdNavigateNext />}
+                  icon={<MdNavigateNext className='custom-icon-position' />}
                   onClick={() => {
                     history.push('/crowded');
                   }}
@@ -66,7 +66,7 @@ const ClientList = ({ setShowLogin }) => {
                 </Menu.Item>
                 <Menu.Item
                   key='/favorite'
-                  icon={<MdNavigateNext />}
+                  icon={<MdNavigateNext className='custom-icon-position' />}
                   onClick={() => {
                     history.push('/favorite');
                   }}

@@ -261,7 +261,7 @@ const StoreDetail = ({ setShowLogin, match }) => {
                 >
                   <Menu.Item
                     key='food'
-                    icon={<MdNavigateNext />}
+                    icon={<MdNavigateNext className='custom-icon-position' />}
                     onClick={() => {
                       setDefaultActiveMenu('food');
                       history.push(
@@ -273,7 +273,7 @@ const StoreDetail = ({ setShowLogin, match }) => {
                   </Menu.Item>
                   <Menu.Item
                     key='promotion'
-                    icon={<MdNavigateNext />}
+                    icon={<MdNavigateNext className='custom-icon-position' />}
                     onClick={() => {
                       setDefaultActiveMenu('promotion');
                       history.push(
@@ -285,7 +285,7 @@ const StoreDetail = ({ setShowLogin, match }) => {
                   </Menu.Item>
                   <Menu.Item
                     key='comment'
-                    icon={<MdNavigateNext />}
+                    icon={<MdNavigateNext className='custom-icon-position' />}
                     onClick={() => {
                       setDefaultActiveMenu('comment');
                       history.push(
@@ -297,7 +297,7 @@ const StoreDetail = ({ setShowLogin, match }) => {
                   </Menu.Item>
                   <Menu.Item
                     key='picture'
-                    icon={<MdNavigateNext />}
+                    icon={<MdNavigateNext className='custom-icon-position' />}
                     onClick={() => {
                       setDefaultActiveMenu('picture');
                       history.push(

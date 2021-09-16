@@ -8,9 +8,11 @@ import toSnakeCase from '../../utils/toSnakeCase';
 function* getCommentsSaga(action) {
   try {
     const storeId = action.payload?.storeId;
+    const userId = action.payload?.userId;
     const page = action.payload?.page;
     const params = {
       ...storeId && { store: storeId },
+      ...userId && { userId },
       ...page && { page },
     };
     const result = yield axios({

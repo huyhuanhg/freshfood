@@ -25,6 +25,7 @@ import ChangePassword from './ChangePassword';
 import HistoryComment from './HistoryComment';
 import history from '../../../utils/history';
 import { changeAvatarAction, logoutAction } from '../../../redux/actions';
+import EditProfile from './EditProfile';
 
 const UserProfile = ({ match }) => {
   document.title = TITLE.USER_PROFILE;
@@ -119,7 +120,7 @@ const UserProfile = ({ match }) => {
             <S.ProfileWrap>
               <Row gutter={16}>
                 <Col span={6}>
-                  <Affix offsetTop={72.7}>
+                  <Affix offsetTop={79.188}>
                     <S.ProfileSidebar>
                       <S.ProfileAvatarWrap>
                         <label htmlFor='avatar'>
@@ -158,7 +159,7 @@ const UserProfile = ({ match }) => {
                       >
                         <Menu.Item
                           key='order'
-                          icon={<FaHistory />}
+                          icon={<FaHistory className='custom-icon-profile' />}
                           onClick={handleMenuItemClick}
                         >
                           Lịch sử giao dịch
@@ -171,14 +172,14 @@ const UserProfile = ({ match }) => {
                         >
                           <Menu.Item
                             key='history-comment'
-                            icon={<FaComment />}
+                            icon={<FaComment className='custom-icon-profile' />}
                             onClick={handleMenuItemClick}
                           >
                             Bình luận
                           </Menu.Item>
                           <Menu.Item
                             key='history-rating'
-                            icon={<GiRank3 />}
+                            icon={<GiRank3 className='custom-icon-profile' />}
                             onClick={handleMenuItemClick}
                           >
                             Đánh giá
@@ -192,14 +193,14 @@ const UserProfile = ({ match }) => {
                         >
                           <Menu.Item
                             key='user-info'
-                            icon={<BsPencilSquare />}
+                            icon={<BsPencilSquare className='custom-icon-profile' />}
                             onClick={handleMenuItemClick}
                           >
                             Thông tin tài khoản
                           </Menu.Item>
                           <Menu.Item
                             key='user-password'
-                            icon={<FaUserAlt />}
+                            icon={<FaUserAlt className='custom-icon-profile' />}
                             onClick={handleMenuItemClick}
                           >
                             Đổi mật khẩu
@@ -207,7 +208,7 @@ const UserProfile = ({ match }) => {
                         </SubMenu>
                         <Menu.Item
                           key='1'
-                          icon={<AiOutlinePoweroff />}
+                          icon={<AiOutlinePoweroff className='custom-icon-profile' />}
                           onClick={handleLogout}
                         >
                           Đăng xuất
@@ -221,6 +222,9 @@ const UserProfile = ({ match }) => {
                     <Switch>
                       <Route exact path='/profile/user-info'>
                         <Profile />
+                      </Route>
+                      <Route exact path='/profile/user-info/edit'>
+                        <EditProfile />
                       </Route>
                       <Route exact path='/profile/order'>
                         <HistoryOrder />

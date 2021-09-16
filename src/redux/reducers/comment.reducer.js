@@ -62,10 +62,14 @@ const commentReducer = createReducer(initialState, {
   },
   [SUCCESS(COMMENT_ACTION.GET_COMMENT_LIST)]: (state, action) => {
     const { data, currentPage, total, lastPage } = action.payload.data;
+    let newComments = [...data];
+    if (currentPage > state.commentList.currentPage) {
+      newComments = [...state.commentList.data, ...newComments];
+    }
     return {
       ...state,
       commentList: {
-        data,
+        data: newComments,
         currentPage,
         total,
         lastPage,

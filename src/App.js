@@ -2,6 +2,7 @@ import { Router, Switch } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { useEffect } from 'react';
 import moment from 'moment';
+import 'moment/locale/vi';
 
 import history from './utils/history';
 

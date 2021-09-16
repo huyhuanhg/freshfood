@@ -36,6 +36,32 @@ function* createOrderSaga(action) {
   }
 }
 
+function* getListOrdersSaga(action) {
+  try {
+    const { params, accessToken } = action.payload;
+    const result = yield axios({
+      method: 'GET',
+      url: `${SERVER_CLIENT_API_URL}/order`,
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+      params: toSnakeCase(params),
+    });
+    yield put({
+      type: SUCCESS(ORDER_ACTION.GET_ORDER_LIST),
+      payload: {
+        data: camelCaseKeys(result.data, { deep: true }),
+      },
+    });
+  } catch (e) {
+    yield put({
+      type: FAILURE(ORDER_ACTION.GET_ORDER_LIST),
+      payload: { error: e.message },
+    });
+  }
+}
+
 export default function* orderSaga() {
   yield takeEvery(REQUEST(ORDER_ACTION.CREATE_ORDER), createOrderSaga);
+  yield takeEvery(REQUEST(ORDER_ACTION.GET_ORDER_LIST), getListOrdersSaga);
 }

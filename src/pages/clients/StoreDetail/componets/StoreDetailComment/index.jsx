@@ -9,7 +9,6 @@ import { useEffect } from 'react';
 import { getCommentsAction } from '../../../../../redux/actions';
 import { ROOT_PATH } from '../../../../../contants';
 import moment from 'moment';
-import 'moment/locale/vi';
 import { EyeOutlined } from '@ant-design/icons';
 
 const StoreDetailComment = (
@@ -71,7 +70,7 @@ const StoreDetailComment = (
                           src={`${ROOT_PATH}${picture}`}
                           alt={picture}
                           preview={{
-                            mask: <div><EyeOutlined /> Xem ảnh</div>
+                            mask: <div><EyeOutlined /> Xem ảnh</div>,
                           }}
                         />
                       </div>
@@ -121,6 +120,27 @@ const StoreDetailComment = (
           </Affix>
           <div>
             {renderComment()}
+            {commentList.currentPage < commentList.lastPage &&
+            <div
+              style={{
+                display: 'flex',
+                alignItem: 'center',
+                justifyContent: 'center',
+                marginTop: '3rem',
+              }}
+            >
+              <Button
+                onClick={() =>
+                  dispatch(getCommentsAction({
+                    storeId,
+                    page: commentList.currentPage + 1,
+                  }))
+                }
+              >
+                Xem thêm
+              </Button>
+            </div>
+            }
           </div>
         </div>
         :
