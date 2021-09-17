@@ -78,7 +78,7 @@ const MetaDescription = ({ id, price, discount, isLike }) => {
 export const FoodItemHome = (
   {
     id,
-    foodAvatar,
+    foodImage,
     foodName,
     storeId,
     storeName,
@@ -98,7 +98,7 @@ export const FoodItemHome = (
     <S.CardItem
       hoverable
       cover={
-        <S.CardImage avatar={load ? foodLoading : `${ROOT_PATH}${foodAvatar}`} />
+        <S.CardImage avatar={load ? foodLoading : `${ROOT_PATH}${foodImage}`} />
       }
       onClick={() => {
         if (!load) {
@@ -172,7 +172,7 @@ MetaDescription.propTypes = {
 
 FoodItemHome.propTypes = {
   id: PropTypes.number,
-  foodAvatar: PropTypes.string,
+  foodImage: PropTypes.string,
   foodName: PropTypes.string,
   storeId: PropTypes.number,
   storeName: PropTypes.string,

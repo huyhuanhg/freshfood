@@ -45,7 +45,7 @@ const FoodDetailCarousel = function({ foodList, index, setIndex, setFoodId }) {
       return (
         <Style.CarouselItem key={foodItem.id}>
           <div>
-            <img src={`${ROOT_PATH}${foodItem.foodAvatar}`} alt={foodItem.foodName} />
+            <img src={`${ROOT_PATH}${foodItem.foodImage}`} alt={foodItem.foodName} />
             <div className='info'>
               <Row>
                 <Col span={20}>

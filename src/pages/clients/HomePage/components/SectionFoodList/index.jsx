@@ -40,6 +40,7 @@ const SectionFoodList = ({ render }) => {
     }
     setRequest({
       ...request,
+      page: 1,
       tags: tagsActive,
     });
   };

@@ -18,7 +18,7 @@ function* getFoodListSaga(action) {
 
     const params = {
       ...store && { store },
-      ...tags && { tags: JSON.stringify(tags) },
+      ...tags && { tags },
       ...group && { group },
       ...sort && { sort, sortType },
       ...user && { user },
@@ -48,7 +48,7 @@ function* getFoodPromotionSaga() {
       method: 'GET',
       url: `${SERVER_CLIENT_API_URL}/foods`,
       params: toSnakeCase({
-        group: 'promotion'
+        group: 'promotion',
       }),
     });
     yield put({

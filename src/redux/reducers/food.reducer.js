@@ -47,10 +47,9 @@ const foodReducer = createReducer(initialState, {
   },
   [SUCCESS(FOOD_ACTION.GET_FOOD_LIST)]: (state, action) => {
     const { foods } = action.payload.data;
-
     let newFoods = [...foods.data];
     if (foods.currentPage > state.foodList.currentPage) {
-      newFoods = [...state.foodList.data, ...newFoods];
+      newFoods = [...state.foodList.data, ...foods.data];
     }
     return {
       ...state,

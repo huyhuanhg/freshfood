@@ -50,7 +50,7 @@ const StoreDetail = ({ setShowLogin, match }) => {
 
   const [defaultActiveMenu, setDefaultActiveMenu] = useState('food');
 
-  document.title = storeDetail.data.store_name || TITLE.STORE_DETAIL;
+  document.title = storeDetail.data.storeName || TITLE.STORE_DETAIL;
 
   const userToken = localStorage.userInfo;
 
@@ -116,7 +116,7 @@ const StoreDetail = ({ setShowLogin, match }) => {
                     src={
                       storeDetail.load
                         ? loadAvatarStore
-                        : `${ROOT_PATH}${storeDetail.data.storeAvatar}`
+                        : `${ROOT_PATH}${storeDetail.data.storeImage}`
                     }
                     alt=''
                   />
@@ -317,7 +317,7 @@ const StoreDetail = ({ setShowLogin, match }) => {
                 isComment={isShowAction.isComment}
                 storeId={storeDetail.data.id}
                 avgRate={storeDetail.data.avgRate}
-                avatar={storeDetail.data.storeAvatar}
+                image={storeDetail.data.storeImage}
                 address={storeDetail.data.storeAddress}
                 storeName={storeDetail.data.storeName}
               />

@@ -60,7 +60,7 @@ function HomePage({ setShowLogin }) {
         dispatch(getLikesAction({
           type,
           accessToken,
-          data: { foodIds: JSON.stringify(foodIds) },
+          data: { foodIds },
         }));
       }
     }

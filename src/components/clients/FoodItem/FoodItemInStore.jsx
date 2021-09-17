@@ -11,7 +11,7 @@ import { updateCartAction } from '../../../redux/actions';
 export const FoodStore = (
   {
     id,
-    foodAvatar,
+    foodImage,
     foodName,
     foodDescription,
     foodConsume,
@@ -36,7 +36,7 @@ export const FoodStore = (
       }}
     >
       <S.FoodStoreAvatar>
-        {loading ? <BsImage /> : <img src={`${ROOT_PATH}${foodAvatar}`}  alt={foodName}/>}
+        {loading ? <BsImage /> : <img src={`${ROOT_PATH}${foodImage}`}  alt={foodName}/>}
       </S.FoodStoreAvatar>
       <S.FoodStoreItemRight>
         <S.SkeletonCustom loading={loading} active>
@@ -92,7 +92,7 @@ export const FoodStore = (
 
 FoodStore.propTypes = {
   id: PropTypes.number,
-  foodAvatar: PropTypes.string,
+  foodImage: PropTypes.string,
   foodName: PropTypes.string,
   foodDescription: PropTypes.string,
   foodConsume: PropTypes.number,

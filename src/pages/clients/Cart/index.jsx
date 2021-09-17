@@ -85,7 +85,7 @@ const CartPage = () => {
         <li key={cartIndex}>
           <div className='img'>
             <Link to={'/'} style={{}}>
-              <img src={`${ROOT_PATH}${cartItem.foodAvatar}`} alt='' />
+              <img src={`${ROOT_PATH}${cartItem.foodImage}`} alt='' />
             </Link>
             <button onClick={() => {
               dispatch(destroyCartsAction({
@@ -198,178 +198,190 @@ const CartPage = () => {
                   <button onClick={() => history.push('/foods')}>Tiếp tục mua sắm</button>
                 </S.CartEmpty>
               ) : (
-                <>
-                  <Row gutter={16}>
-                    <Col span={15}>
-                      <S.CartTitle>
-                        <Link to='/stores'>
-                          <FcPrevious />
-                          Mua thêm sản phẩm khác
-                        </Link>
-                        <span>Giỏ hàng của bạn</span>
-                      </S.CartTitle>
-                    </Col>
-                  </Row>
-                  <Row gutter={16}>
-                    <Col span={15}>
-                      <S.CartContent>
-                        <S.CartList>{renderCart()}</S.CartList>
-                        <S.TotalProvisional>
-                          <span>Tạm tính ({total} sản phẩm):</span>
-                          <span>
-                            <NumberFormat
-                              value={totalMoney}
-                              displayType={'text'}
-                              thousandSeparator
-                              suffix={'đ'}
-                            />
-                          </span>
-                        </S.TotalProvisional>
-                        <S.DeleteAllBtn
-                          onClick={() => {
-                            dispatch(destroyCartsAction({
-                              data: {
-                                accessToken: JSON.parse(userToken).accessToken,
-                              },
-                            }));
-                          }}
-                        >
-                          Xóa tất cả
-                        </S.DeleteAllBtn>
-                      </S.CartContent>
-                    </Col>
-                    <Col span={9}>
-                      <Affix offsetTop={75.2}>
-                        <S.CartOrder>
-                          <h4>Thông tin khách hàng</h4>
-                          <Form
-                            form={orderForm}
-                            layout='vertical'
-                            onFinish={handleOrder}
-                          >
-                            <Form.Item name='fullName'>
-                              <Input placeholder='Họ và tên' />
-                            </Form.Item>
-                            <Form.Item name='phone'>
-                              <Input placeholder='Số diện thoại' />
-                            </Form.Item>
+                <div>
+                  {
+                    cartList.load ?
+                      <div style={{
+                        display: 'flex',
+                        justifyContent: 'center',
+                        minHeight: '500px',
+                        alignItems: 'center'
+                      }}>
+                        <Spin />
+                      </div>
+                      :
+                      <div>
+                        <Row gutter={16}>
+                          <Col span={15}>
+                            <S.CartTitle>
+                              <Link to='/stores'>
+                                <FcPrevious />
+                                Mua thêm sản phẩm khác
+                              </Link>
+                              <span>Giỏ hàng của bạn</span>
+                            </S.CartTitle>
+                          </Col>
+                        </Row>
+                        <Row gutter={16}>
+                          <Col span={15}>
+                            <S.CartContent>
+                              <S.CartList>{renderCart()}</S.CartList>
+                              <S.TotalProvisional>
+                                <span>Tạm tính ({total} sản phẩm):</span>
+                                <span>
+                                  <NumberFormat
+                                    value={totalMoney}
+                                    displayType={'text'}
+                                    thousandSeparator
+                                    suffix={'đ'}
+                                  />
+                                </span>
+                              </S.TotalProvisional>
+                              <S.DeleteAllBtn
+                                onClick={() => {
+                                  dispatch(destroyCartsAction({
+                                    data: {
+                                      accessToken: JSON.parse(userToken).accessToken,
+                                    },
+                                  }));
+                                }}
+                              >
+                                Xóa tất cả
+                              </S.DeleteAllBtn>
+                            </S.CartContent>
+                          </Col>
+                          <Col span={9}>
+                            <Affix offsetTop={75.2}>
+                              <S.CartOrder>
+                                <h4>Thông tin khách hàng</h4>
+                                <Form
+                                  form={orderForm}
+                                  layout='vertical'
+                                  onFinish={handleOrder}
+                                >
+                                  <Form.Item name='fullName'>
+                                    <Input placeholder='Họ và tên' />
+                                  </Form.Item>
+                                  <Form.Item name='phone'>
+                                    <Input placeholder='Số diện thoại' />
+                                  </Form.Item>
 
-                            <Form.Item style={{ marginBottom: 0 }}>
-                              <Input.Group>
-                                <Row gutter={3}>
-                                  <Col span={12}>
-                                    <Form.Item
-                                      name={['address', 'province']}
-                                      // rules={[{ required: true, message: 'Province is required' }]}
-                                    >
-                                      <Select
-                                        placeholder='--Tỉnh--'
-                                        style={{ width: '100%' }}
-                                        onChange={(value) => {
-                                          dispatch(getDistrictsAction({
-                                            provinceCode: value,
-                                          }));
-                                          orderForm.setFieldsValue({
-                                            address: {
-                                              district: null,
-                                              ward: null,
-                                            },
-                                          });
-                                        }}
-                                      >
-                                        {renderAddressInfo(provinces.data)}
-                                      </Select>
-                                    </Form.Item>
-                                  </Col>
+                                  <Form.Item style={{ marginBottom: 0 }}>
+                                    <Input.Group>
+                                      <Row gutter={3}>
+                                        <Col span={12}>
+                                          <Form.Item
+                                            name={['address', 'province']}
+                                            // rules={[{ required: true, message: 'Province is required' }]}
+                                          >
+                                            <Select
+                                              placeholder='--Tỉnh--'
+                                              style={{ width: '100%' }}
+                                              onChange={(value) => {
+                                                dispatch(getDistrictsAction({
+                                                  provinceCode: value,
+                                                }));
+                                                orderForm.setFieldsValue({
+                                                  address: {
+                                                    district: null,
+                                                    ward: null,
+                                                  },
+                                                });
+                                              }}
+                                            >
+                                              {renderAddressInfo(provinces.data)}
+                                            </Select>
+                                          </Form.Item>
+                                        </Col>
 
-                                  <Col span={12}>
-                                    <Form.Item
-                                      name={['address', 'district']}
-                                      // rules={[{ required: true, message: 'Province is required' }]}
-                                    >
-                                      <Select
-                                        placeholder='--Quận/Huyện--'
-                                        style={{ width: '100%' }}
-                                        disabled={districts.load}
-                                        onChange={(value) => {
-                                          dispatch(getWardsAction({
-                                            districtCode: value,
-                                          }));
-                                          orderForm.setFieldsValue({
-                                            address: {
-                                              ward: null,
-                                            },
-                                          });
-                                        }}
-                                      >
-                                        {renderAddressInfo(districts.data)}
-                                      </Select>
-                                    </Form.Item>
-                                  </Col>
-                                </Row>
+                                        <Col span={12}>
+                                          <Form.Item
+                                            name={['address', 'district']}
+                                            // rules={[{ required: true, message: 'Province is required' }]}
+                                          >
+                                            <Select
+                                              placeholder='--Quận/Huyện--'
+                                              style={{ width: '100%' }}
+                                              disabled={districts.load}
+                                              onChange={(value) => {
+                                                dispatch(getWardsAction({
+                                                  districtCode: value,
+                                                }));
+                                                orderForm.setFieldsValue({
+                                                  address: {
+                                                    ward: null,
+                                                  },
+                                                });
+                                              }}
+                                            >
+                                              {renderAddressInfo(districts.data)}
+                                            </Select>
+                                          </Form.Item>
+                                        </Col>
+                                      </Row>
 
-                                <Row gutter={3}>
-                                  <Col span={12}>
-                                    <Form.Item
-                                      name={['address', 'ward']}
-                                      // rules={[{ required: true, message: 'Province is required' }]}
-                                    >
-                                      <Select
-                                        placeholder='--Phường/Xã--'
-                                        style={{ width: '100%' }}
-                                        disabled={wards.data.length === 0}
-                                      >
-                                        {renderAddressInfo(wards.data)}
-                                      </Select>
-                                    </Form.Item>
-                                  </Col>
+                                      <Row gutter={3}>
+                                        <Col span={12}>
+                                          <Form.Item
+                                            name={['address', 'ward']}
+                                            // rules={[{ required: true, message: 'Province is required' }]}
+                                          >
+                                            <Select
+                                              placeholder='--Phường/Xã--'
+                                              style={{ width: '100%' }}
+                                              disabled={wards.data.length === 0}
+                                            >
+                                              {renderAddressInfo(wards.data)}
+                                            </Select>
+                                          </Form.Item>
+                                        </Col>
 
-                                  <Col span={12}>
-                                    <Form.Item
-                                      name={['address', 'street']}
-                                      rules={[{ required: true, message: 'Street is required' }]}
-                                    >
-                                      <Input placeholder='Đường / Thôn xóm' />
-                                    </Form.Item>
-                                  </Col>
-                                </Row>
-                              </Input.Group>
-                            </Form.Item>
+                                        <Col span={12}>
+                                          <Form.Item
+                                            name={['address', 'street']}
+                                            rules={[{ required: true, message: 'Street is required' }]}
+                                          >
+                                            <Input placeholder='Đường / Thôn xóm' />
+                                          </Form.Item>
+                                        </Col>
+                                      </Row>
+                                    </Input.Group>
+                                  </Form.Item>
 
-                            <Form.Item name='note'>
-                              <Input placeholder='Yêu cầu khác' />
-                            </Form.Item>
+                                  <Form.Item name='note'>
+                                    <Input placeholder='Yêu cầu khác' />
+                                  </Form.Item>
 
-                            <S.OrderTotal>
-                              <span>
-                                Tổng <b>{total}</b> sản phẩm:
-                              </span>
-                              <span>
-                                <NumberFormat
-                                  value={totalMoney}
-                                  displayType={'text'}
-                                  thousandSeparator
-                                  suffix={'đ'}
-                                />
-                              </span>
-                            </S.OrderTotal>
-                            <Form.Item
-                              style={{
-                                textAlign: 'center',
-                                paddingTop: 20,
-                                marginBottom: 10,
-                              }}
-                            >
-                              <S.OrderButton htmlType='submit' disabled={total === 0}>
-                                Đặt hàng
-                              </S.OrderButton>
-                            </Form.Item>
-                          </Form>
-                        </S.CartOrder>
-                      </Affix>
-                    </Col>
-                  </Row>
-                </>
+                                  <S.OrderTotal>
+                                    <span>Tổng <b>{total}</b> sản phẩm:</span>
+                                    <span>
+                                      <NumberFormat
+                                        value={totalMoney}
+                                        displayType={'text'}
+                                        thousandSeparator
+                                        suffix={'đ'}
+                                      />
+                                    </span>
+                                  </S.OrderTotal>
+                                  <Form.Item
+                                    style={{
+                                      textAlign: 'center',
+                                      paddingTop: 20,
+                                      marginBottom: 10,
+                                    }}
+                                  >
+                                    <S.OrderButton htmlType='submit' disabled={total === 0}>
+                                      Đặt hàng
+                                    </S.OrderButton>
+                                  </Form.Item>
+                                </Form>
+                              </S.CartOrder>
+                            </Affix>
+                          </Col>
+                        </Row>
+                      </div>
+                  }
+                </div>
               )}
             </S.CartWrap>
           </ClientStyle.Container>

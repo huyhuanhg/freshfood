@@ -31,7 +31,7 @@ const FoodList = ({ setShowLogin }) => {
         });
         dispatch(getLikesAction({
           accessToken,
-          data: { foodIds: JSON.stringify(foodIds) },
+          data: { foodIds },
         }));
       }
     }
@@ -60,7 +60,7 @@ const FoodList = ({ setShowLogin }) => {
     setFieldActive('created_at');
     setSortPriceType('');
     setRequest(foodRequest);
-  }, [history.location.pathname]);
+  }, [history.location.pathname, history.location.search]);
 
   useEffect(() => {
     const { pathname } = history.location;

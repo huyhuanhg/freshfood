@@ -42,7 +42,7 @@ const FoodDetailModal = function({ show, setShow, setShowLogin }) {
     >
       <S.FoodItem>
         <div>
-          <img src={`${ROOT_PATH}${foodDetail.data.foodAvatar}`} />
+          <img src={`${ROOT_PATH}${foodDetail.data.foodImage}`} />
           <div className='info'>
             <Row>
               <Col span={20}>

@@ -57,7 +57,7 @@ const HistoryOrder = () => {
                 <S.StoreList>
                   <div>
                     <img
-                      src={`${ROOT_PATH}${orderDetail.storeAvatar}`}
+                      src={`${ROOT_PATH}${orderDetail.storeImage}`}
                       alt={orderDetail.storeName}
                     />
                     <Link to={`/stores/${orderDetail.storeNotMark}.${orderDetail.storeId}`}>
@@ -81,7 +81,7 @@ const HistoryOrder = () => {
                   <S.FoodList key={food.foodId}>
                     <div>
                       <img
-                        src={`${ROOT_PATH}${food.foodAvatar}`}
+                        src={`${ROOT_PATH}${food.foodImage}`}
                         alt={food.foodName}
                       />
                       {food.foodName}

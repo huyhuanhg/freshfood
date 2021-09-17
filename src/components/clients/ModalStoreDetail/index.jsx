@@ -22,7 +22,7 @@ const ModalStoreDetail = (
     setShow,
     isComment,
     storeId,
-    avatar,
+    image,
     address,
     avgRate,
     storeName,
@@ -30,7 +30,11 @@ const ModalStoreDetail = (
 ) => {
   const dispatch = useDispatch();
   const [actionForm] = Form.useForm();
-  const accessToken = JSON.parse(localStorage.userInfo)?.accessToken;
+  const userToken = localStorage.getItem('userInfo');
+  let accessToken = null;
+  if (userToken) {
+    accessToken = JSON.parse(userToken)?.accessToken;
+  }
   const { bookmarkDetail } = useSelector((state) => state.bookmarkReducer);
   const { userInfo } = useSelector((state) => state.userReducer);
   // list nhận ảnh nhận về
@@ -167,7 +171,7 @@ const ModalStoreDetail = (
         paths: fileList.map((file) => file.path),
         lastName: userInfo.data.lastName,
         firstName: userInfo.data.firstName,
-        userAvatar: userInfo.data.avatar
+        userAvatar: userInfo.data.avatar,
       };
       dispatch(createCommentAction(data));
       setFormImages([]);
@@ -202,8 +206,8 @@ const ModalStoreDetail = (
           <div>
             <img
               src={
-                avatar
-                  ? `${ROOT_PATH}${avatar}`
+                image
+                  ? `${ROOT_PATH}${image}`
                   : loadAvatarStore
               }
               alt={storeName}
@@ -287,7 +291,7 @@ ModalStoreDetail.propTypes = {
   isShow: PropTypes.bool.isRequired,
   setShow: PropTypes.func.isRequired,
   isComment: PropTypes.bool,
-  avatar: PropTypes.string,
+  image: PropTypes.string,
   address: PropTypes.string,
   avgRate: PropTypes.number,
   storeId: PropTypes.number,
