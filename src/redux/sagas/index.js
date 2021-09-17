@@ -8,6 +8,11 @@ import promotionSaga from './promotion.saga';
 import storeSaga from './store.saga';
 import cartSaga from './cart.saga';
 import addressSaga from './address.saga';
+import orderSaga from './order.saga';
+import likeSaga from './like.saga';
+import rateSaga from './rate.saga';
+import bookmarkSaga from './bookmark.saga';
+import commentSaga from './comment.saga';
 
 export default function* rootSaga() {
   yield fork(foodSaga);
@@ -19,4 +24,9 @@ export default function* rootSaga() {
 
   yield fork(categorySaga);
   yield fork(addressSaga);
+  yield fork(orderSaga);
+  yield fork(likeSaga);
+  yield fork(rateSaga);
+  yield fork(bookmarkSaga);
+  yield fork(commentSaga);
 }

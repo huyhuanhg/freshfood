@@ -5,7 +5,7 @@ import { MdRemoveShoppingCart } from 'react-icons/all';
 import { FoodItemHome } from '../../../../../components/clients/FoodItem';
 import history from '../../../../../utils/history';
 import { useEffect, useState } from 'react';
-import { getFoodListAction } from '../../../../../redux/actions';
+import { getFoodListAction, getLikesAction } from '../../../../../redux/actions';
 import FoodDetailModal from '../../../../../components/clients/FoodDetailModal';
 import PropTypes from 'prop-types';
 
@@ -20,6 +20,22 @@ const FoodList = ({ setShowLogin }) => {
   const [sortPriceType, setSortPriceType] = useState('');
 
   const [request, setRequest] = useState(null);
+
+  useEffect(() => {
+    if (userInfo.data.id) {
+      let foodIds = [];
+      const { accessToken } = JSON.parse(localStorage.userInfo);
+      if (!foodList.likeLoaded && foodList.data.length > 0) {
+        foodIds = foodList.data.map((foodItem) => {
+          return foodItem.id;
+        });
+        dispatch(getLikesAction({
+          accessToken,
+          data: { foodIds },
+        }));
+      }
+    }
+  }, [userInfo, foodList]);
 
   useEffect(() => {
     const { pathname, search } = history.location;
@@ -44,7 +60,7 @@ const FoodList = ({ setShowLogin }) => {
     setFieldActive('created_at');
     setSortPriceType('');
     setRequest(foodRequest);
-  }, [history.location.pathname]);
+  }, [history.location.pathname, history.location.search]);
 
   useEffect(() => {
     const { pathname } = history.location;

@@ -13,7 +13,6 @@ function* loginSaga(action) {
     const { data } = action.payload;
     let result = yield axios.post(`${SERVER_CLIENT_API_URL}/login`, data);
     yield (result = camelCaseKeys(result.data, { deep: true }));
-    console.log(result);
     yield (localStorage.userInfo = JSON.stringify({
       accessToken: result.accessToken,
       expires: result.expire,
@@ -148,6 +147,34 @@ function* logoutSaga(action) {
   yield history.push('/login');
 }
 
+
+function* changeAvatarSaga(action) {
+  try {
+    const { data, accessToken } = action.payload;
+    const formData = new FormData();
+    formData.set('image', data.image);
+    const result = yield axios.post(`${SERVER_CLIENT_API_URL}/user-avatar`, formData, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+    yield put({
+      type: SUCCESS(USER_ACTION.CHANGE_AVATAR),
+      payload: {
+        data: result.data,
+      },
+    });
+  } catch (e) {
+    yield put({
+      type: FAILURE(USER_ACTION.CHANGE_AVATAR),
+      payload: {
+        error: e.message,
+      },
+    });
+  }
+}
+
 export default function* adminSaga() {
   yield takeEvery(REQUEST(USER_ACTION.LOGIN), loginSaga);
   yield takeEvery(REQUEST(USER_ACTION.REFRESH_TOKEN), refreshSaga);
@@ -155,4 +182,5 @@ export default function* adminSaga() {
   yield takeEvery(REQUEST(USER_ACTION.REGISTER), registerSaga);
   yield takeEvery(REQUEST(USER_ACTION.GET_USER_INFO), getInfoSaga);
   yield takeEvery(REQUEST(USER_ACTION.LOGOUT), logoutSaga);
+  yield takeEvery(REQUEST(USER_ACTION.CHANGE_AVATAR), changeAvatarSaga);
 }

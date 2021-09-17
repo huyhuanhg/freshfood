@@ -38,7 +38,7 @@ const StoreList = () => {
     }
     setMenuActive('created_at');
     setRequest(foodRequest);
-  }, [history.location.pathname]);
+  }, [history.location.pathname, history.location.search]);
 
   useEffect(() => {
     if (request) {
@@ -69,7 +69,7 @@ const StoreList = () => {
   const renderCategories = () => {
     return categories.data.map((cate) => {
       if (cate.categoryActive === 1) {
-        return <Option value={cate.id}>{cate.storeCateName}</Option>;
+        return <Option value={cate.id} key={cate.id}>{cate.storeCateName}</Option>;
       }
     });
   };

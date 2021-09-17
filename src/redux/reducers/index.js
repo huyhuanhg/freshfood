@@ -11,6 +11,9 @@ import tagReducer from './tag.reducer';
 import promotionReducer from './promotion.reducer';
 import categoryReducer from './category.reducer';
 import addressReducer from './address.reducer';
+import bookmarkReducer from './bookmark.reducer';
+import commentReducer from './comment.reducer';
+import orderReducer from './order.reducer';
 
 import rootSaga from '../sagas';
 
@@ -27,7 +30,10 @@ const store = configureStore({
     tagReducer,
     promotionReducer,
     categoryReducer,
-    addressReducer
+    addressReducer,
+    bookmarkReducer,
+    commentReducer,
+    orderReducer,
   },
   middleware: [...getDefaultMiddleware({ thunk: false }), sagaMiddleware],
 });

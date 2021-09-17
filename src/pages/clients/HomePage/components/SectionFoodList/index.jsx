@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import * as HomeS from '../../styles';
 import { useEffect, useState } from 'react';
-import { MdNavigateNext, MdRemoveShoppingCart } from 'react-icons/all';
+import { BsCheck, MdRemoveShoppingCart } from 'react-icons/all';
 import { getFoodListAction } from '../../../../../redux/actions';
 
 const SectionFoodList = ({ render }) => {
@@ -40,6 +40,7 @@ const SectionFoodList = ({ render }) => {
     }
     setRequest({
       ...request,
+      page: 1,
       tags: tagsActive,
     });
   };
@@ -47,7 +48,7 @@ const SectionFoodList = ({ render }) => {
     setMenuActive(key);
     let menuRequest = {
       ...request,
-      page: 1
+      page: 1,
     };
     if (key === 'promotion') {
       menuRequest = {
@@ -67,13 +68,19 @@ const SectionFoodList = ({ render }) => {
     setRequest(menuRequest);
   };
 
-  const renderTagListMenu = () => {
+  const renderTagListMenu = (tagsActive) => {
     return tagList.data.map((tag) => {
       if (tag.tagActive === 1) {
+        let icon = null;
+        const isActive = tagsActive.indexOf(`${tag.id}`) > -1;
+        if (isActive) {
+          icon = (<BsCheck className='custom-icon-position' />);
+        }
         return (
           <Menu.Item
             key={tag.id}
-            icon={<MdNavigateNext className='custom-icon-position' />}
+            icon={icon}
+            className='hide-after'
             onClick={({ key }) => handleChaneTag(key)}
           >
             {tag.tagName}
@@ -85,7 +92,7 @@ const SectionFoodList = ({ render }) => {
   return (
     <Row gutter={20}>
       <Col span={4}>
-        <Affix offsetTop={52.7}>
+        <Affix offsetTop={59.188}>
           <Menu
             theme='light'
             style={{
@@ -95,14 +102,25 @@ const SectionFoodList = ({ render }) => {
             selectedKeys={request.tags.length === 0 ? [''] : request.tags}
             mode='inline'
           >
+            <h2
+              style={{
+                padding: '20px 10px',
+                margin: 0,
+                fontSize: '20px',
+                fontWeight: 'bold',
+              }}
+            >
+              Bộ lọc
+            </h2>
             <Menu.Item
+              className='hide-after'
               key=''
-              icon={<MdNavigateNext className='custom-icon-position' />}
+              icon={request.tags.length === 0 && < BsCheck className='custom-icon-position' />}
               onClick={({ key }) => handleChaneTag(key)}
             >
               Tất cả
             </Menu.Item>
-            {renderTagListMenu()}
+            {renderTagListMenu(request.tags)}
           </Menu>
         </Affix>
       </Col>
@@ -117,18 +135,25 @@ const SectionFoodList = ({ render }) => {
           >
             <Menu
               mode='horizontal'
+              multiple={true}
               selectedKeys={[menuActive]}
               style={{
                 flexBasis: '50%',
               }}
             >
-              <Menu.Item key='created_at' onClick={({ key }) => {handleChangeMenu(key);}}>
+              <Menu.Item key='created_at' onClick={({ key }) => {
+                handleChangeMenu(key);
+              }}>
                 Mới nhất
               </Menu.Item>
-              <Menu.Item key='promotion' onClick={({ key }) => {handleChangeMenu(key);}}>
+              <Menu.Item key='promotion' onClick={({ key }) => {
+                handleChangeMenu(key);
+              }}>
                 Khuyến mãi
               </Menu.Item>
-              <Menu.Item key='food_consume' onClick={({ key }) => {handleChangeMenu(key);}}>
+              <Menu.Item key='food_consume' onClick={({ key }) => {
+                handleChangeMenu(key);
+              }}>
                 Bán chạy
               </Menu.Item>
             </Menu>

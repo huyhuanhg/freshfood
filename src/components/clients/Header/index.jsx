@@ -9,7 +9,7 @@ import {
 import {
   LogoutOutlined,
   MailOutlined,
-  PhoneOutlined,
+  PhoneOutlined, SearchOutlined,
   ShoppingCartOutlined,
   UserOutlined,
 } from '@ant-design/icons';
@@ -24,7 +24,8 @@ import history from '../../../utils/history';
 import { logoutAction } from '../../../redux/actions';
 import { ROOT_PATH } from '../../../contants';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import toNotMark from '../../../utils/toNotMark';
 
 function Header({ setShowModalLogin }) {
   const { Option } = Select;
@@ -42,12 +43,16 @@ function Header({ setShowModalLogin }) {
     );
   };
   const handleSearch = ({ searchType, search }) => {
-    searchForm.resetFields();
-    history.push({
-      pathname: searchType,
-      search: `?search=${search}`,
-    });
+    if (search) {
+      history.push({
+        pathname: `/${searchType}`,
+        search: `?search=${toNotMark(search)}`,
+      });
+    }
   };
+  useEffect(() => {
+    searchForm.resetFields();
+  }, [history.location.pathname]);
   const userMenu = (
     <Menu style={{ width: '250px', display: 'fixed' }}>
       {userInfo.data.id ? (
@@ -157,10 +162,9 @@ function Header({ setShowModalLogin }) {
         <HeaderStyle.Header>
           <HeaderStyle.MenuWrap>
             <HeaderStyle.Logo to='/'>FoodBooking</HeaderStyle.Logo>
+
             <HeaderStyle.SearchWrap>
-              {/*<HeaderStyle.Search/>*/}
               <Form
-                layout='inline'
                 onFinish={handleSearch}
                 form={searchForm}
                 initialValues={{
@@ -168,35 +172,44 @@ function Header({ setShowModalLogin }) {
                   search: '',
                 }}
               >
-                <Form.Item
-                  name='searchType'
-                  style={{
-                    margin: '0 8px 0 0',
-                    flexBasis: '20%',
-                  }}
-                >
-                  <HeaderStyle.SearchType
-                    size='large'
-                    defaultValue={'stores'}
-                    onChange={(value) => {
-                      setSearchType(value);
-                    }}
-                  >
-                    <Option value='stores'>Cửa hàng</Option>
-                    <Option value='foods'>Món ăn</Option>
-                  </HeaderStyle.SearchType>
-                </Form.Item>
+
                 <Form.Item
                   name='search'
-                  style={{
-                    margin: 0,
-                    flexBasis: 'calc(100% - 16px - 20%)',
-                  }}
+                  noStyle
                 >
                   <Input
-                    size='large'
                     placeholder={`Tìm kiếm ${searchType === 'stores' ? 'cửa hàng' : 'món ăn'}`}
                     style={{ background: 'unset' }}
+                    suffix={
+                      <Button
+                        htmlType='submit'
+                        style={{
+                          background: 'unset',
+                          border: 0,
+                          fontSize: '150%',
+                          color: '#ccc',
+                          padding: 0,
+                        }}
+                      >
+                        <SearchOutlined />
+                      </Button>}
+                    addonBefore={
+                      <Form.Item
+                        name='searchType'
+                        noStyle
+                      >
+                        <HeaderStyle.SearchType
+                          size='large'
+                          defaultValue={'stores'}
+                          onChange={(value) => {
+                            setSearchType(value);
+                          }}
+                        >
+                          <Option value='stores'>Cửa hàng</Option>
+                          <Option value='foods'>Món ăn</Option>
+                        </HeaderStyle.SearchType>
+                      </Form.Item>
+                    }
                   />
                 </Form.Item>
                 <Button htmlType='submit' style={{ display: 'none' }} />

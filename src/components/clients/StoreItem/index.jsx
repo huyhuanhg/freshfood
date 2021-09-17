@@ -16,7 +16,7 @@ import { ROOT_PATH } from '../../../contants';
 
 const StoreItem = ({
   id,
-  storeAvatar,
+  storeImage,
   storeName,
   storeAddress,
   storeNotMark,
@@ -31,7 +31,7 @@ const StoreItem = ({
       hoverable
       cover={
         <S.StoreImage
-          avatar={loading ? storeLoading : `${ROOT_PATH}${storeAvatar}`}
+          avatar={loading ? storeLoading : `${ROOT_PATH}${storeImage}`}
         />
       }
       onClick={() => {
@@ -58,7 +58,7 @@ const StoreItem = ({
             }
           />
         ) : (
-          <div style={{ minHeight: 44 }}></div>
+          <div style={{ minHeight: 44 }}/>
         )}
 
         <S.StoreStatistical>
@@ -90,7 +90,7 @@ export default StoreItem;
 
 StoreItem.propTypes = {
   id: PropTypes.number,
-  storeAvatar: PropTypes.string,
+  storeImage: PropTypes.string,
   storeName: PropTypes.string,
   storeAddress: PropTypes.string,
   storeNotMark: PropTypes.string,

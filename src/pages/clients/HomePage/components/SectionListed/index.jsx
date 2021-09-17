@@ -70,7 +70,7 @@ const SectionListed = () => {
         <div className="list">
           <Row justify="center">
             <Col span={6}>
-              <S.IntroduceLink to={'/'} color={'#d44ca1'}>
+              <S.IntroduceLink to={'/stores'} color={'#d44ca1'}>
                 <figure>
                   <BiStore />
                   <figcaption>
@@ -82,7 +82,7 @@ const SectionListed = () => {
               </S.IntroduceLink>
             </Col>
             <Col span={6}>
-              <S.IntroduceLink to={'/'} color={'#e4b42e'}>
+              <S.IntroduceLink to={'/foods'} color={'#e4b42e'}>
                 <figure>
                   <IoFastFoodOutline />
                   <figcaption>
@@ -94,7 +94,7 @@ const SectionListed = () => {
               </S.IntroduceLink>
             </Col>
             <Col span={6}>
-              <S.IntroduceLink to={'/'} color={'#1a265c'}>
+              <S.IntroduceLink to={'/promotions'} color={'#1a265c'}>
                 <figure>
                   <FiPercent />
                   <figcaption>
@@ -106,7 +106,7 @@ const SectionListed = () => {
               </S.IntroduceLink>
             </Col>
             <Col span={6}>
-              <S.IntroduceLink to={'/'} color={'#08bcca'}>
+              <S.IntroduceLink to={'/crowded'} color={'#08bcca'}>
                 <figure>
                   <GiSpellBook />
                   <figcaption>

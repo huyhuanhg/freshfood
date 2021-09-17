@@ -217,18 +217,16 @@ export const StoreContent = styled.div`
   border: 1px solid #eee;
   margin-bottom: 15px;
   border-radius: 2px;
+  padding-top: 20px;
 `;
 export const StoreContentTitle = styled.div`
   font-size: 1.25rem;
   font-weight: 600;
   padding: 10px 15px 5px 10px;
   border-bottom: 1px solid #eee;
-  margin-bottom: 20px !important;
   overflow: hidden;
-  background: #fff;
   color: #333;
   margin-left: 5px;
-  margin-bottom: 5px;
 `;
 export const ViewOther = styled.div`
   width: 100%;

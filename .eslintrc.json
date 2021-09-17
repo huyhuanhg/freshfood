@@ -86,6 +86,7 @@
     "jsx-no-lambda": 0,
     "jsx-no-multiline-js": 0,
     "jsx-wrap-multiline": 0,
+    "react/display-name": "off",
     // disable es6 rules -- start
     "arrow-body-style": "off",
 //    "arrow-parens": "off",

@@ -1,5 +1,5 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { CART_ACTION, FAILURE, REQUEST, SUCCESS, USER_ACTION } from '../constants';
+import { CART_ACTION, FAILURE, ORDER_ACTION, REQUEST, SUCCESS, USER_ACTION } from '../constants';
 
 const initialState = {
   cartList: {
@@ -150,30 +150,28 @@ const cartReducer = createReducer(initialState, {
 
   [SUCCESS(USER_ACTION.GET_USER_INFO)]: (state, action) => {
     const { carts } = action.payload.data;
+    const total = carts?.count || 0;
     return {
       ...state,
-      total: carts.count,
+      total,
     };
   },
 
   [SUCCESS(USER_ACTION.LOGIN)]: (state, action) => {
     const { carts } = action.payload.data;
+    const total = carts?.count || 0;
     return {
       ...state,
-      total: carts.count,
+      total,
     };
   },
 
+  [SUCCESS(ORDER_ACTION.CREATE_ORDER)]: () => {
+    return initialState;
+  },
+
   [REQUEST(USER_ACTION.LOGOUT)]: () => {
-    return {
-      cartList: {
-        data: [],
-        load: false,
-        error: null,
-      },
-      totalMoney: 0,
-      total: 0,
-    };
+    return initialState;
   },
 });
 

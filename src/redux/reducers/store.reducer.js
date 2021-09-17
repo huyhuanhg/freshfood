@@ -1,5 +1,5 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { REQUEST, SUCCESS, FAILURE, STORE_ACTION } from '../constants';
+import { REQUEST, SUCCESS, FAILURE, STORE_ACTION, RATE_ACTION, COMMENT_ACTION } from '../constants';
 
 const initialState = {
   storeList: {
@@ -78,6 +78,34 @@ const storeReducer = createReducer(initialState, {
       },
     };
   },
+  [SUCCESS(RATE_ACTION.CREATE_RATE)]: (state, action) => {
+    const { avgRate, rate } = action.payload.data;
+    return {
+      ...state,
+      storeDetail: {
+        ...state.storeDetail,
+        data: {
+          ...state.storeDetail.data,
+          userRate: rate,
+          avgRate,
+          totalRating: state.storeDetail.data.totalRating + 1,
+        },
+      },
+    };
+  },
+  [SUCCESS(COMMENT_ACTION.CREATE_COMMENT)]: (state) => {
+    return {
+      ...state,
+      storeDetail: {
+        ...state.storeDetail,
+        data: {
+          ...state.storeDetail.data,
+          totalComment: state.storeDetail.data.totalComment + 1,
+        },
+      },
+    };
+  },
+
 });
 
 export default storeReducer;
