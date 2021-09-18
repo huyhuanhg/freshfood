@@ -169,6 +169,16 @@ export const FoodStorePrice = styled.div`
     margin-left: 10px;
     cursor: pointer !important;
     outline: 0;
+    transition: .3s;
+
+    &:hover {
+      background-color: #cb4327;
+
+      & > svg {
+        transition: .3s;
+        transform: scale(1.1);
+      }
+    }
   }
 `;
 export const SkeletonCustom = styled(Skeleton)`
@@ -199,10 +209,11 @@ const likeIcon = keyframes`
   }
 `;
 const likeStyle = css`
-  &:hover{
+  &:hover {
     transform: scale(1.2);
     opacity: 0.6;
   }
+
   animation-name: ${likeIcon};
   animation-duration: .5s;
   animation-direction: normal;

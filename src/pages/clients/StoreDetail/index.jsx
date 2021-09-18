@@ -339,7 +339,7 @@ const StoreDetail = ({ setShowLogin, match }) => {
                         setIsShowAction({ status: true, isComment: false });
                       }
                     }}>
-                      <BsFillBookmarkFill /> Bộ sưu tập
+                      <BsFillBookmarkFill /> Lưu bộ sưu tập
                     </li>
                     <li>
                       <FaShareAlt /> Chia sẻ

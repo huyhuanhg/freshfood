@@ -171,6 +171,10 @@ export const YourRateText = styled.div`
 `;
 export const MicroMainMenu = styled.div`
   margin-top: 20px;
+
+  & .ant-affix {
+    z-index: 5;
+  }
 `;
 export const StoreToolbar = styled.div`
   margin-bottom: 15px;
@@ -275,7 +279,7 @@ export const ModalCustom = styled(Modal)`
       line-height: 1.5;
       border-radius: 3px;
       transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
-        border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+      border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
       overflow: visible;
       text-transform: none;
     }

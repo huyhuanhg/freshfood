@@ -23,6 +23,10 @@ export const CartTitle = styled.div`
 `;
 export const CartWrap = styled.div`
   min-height: calc(100vh - 480px);
+
+  & .ant-affix {
+    z-index: 5;
+  }
 `;
 export const CartEmpty = styled.div`
   padding-top: 2rem;
