@@ -1,5 +1,5 @@
 const toNotMark = (str) => {
-  return str.toLowerCase()
+  return str.toLowerCase().trim()
     .replaceAll(/(à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ)/g, 'a')
     .replaceAll(/(è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ)/g, 'e')
     .replaceAll(/(ì|í|ị|ỉ|ĩ)/g, 'i')

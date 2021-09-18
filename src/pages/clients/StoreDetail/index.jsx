@@ -249,7 +249,7 @@ const StoreDetail = ({ setShowLogin, match }) => {
         <StoreDetailStyle.MicroMainMenu>
           <Row gutter={20}>
             <Col span={4}>
-              <Affix offsetTop={59.188}>
+              <Affix offsetTop={61.188} style={{ zIndex: 1 }}>
                 <Menu
                   theme='light'
                   style={{
@@ -321,7 +321,7 @@ const StoreDetail = ({ setShowLogin, match }) => {
                 address={storeDetail.data.storeAddress}
                 storeName={storeDetail.data.storeName}
               />
-              <Affix offsetTop={59.188}>
+              <Affix offsetTop={61.188}>
                 <StoreDetailStyle.StoreToolbar>
                   <ul>
                     <li>
@@ -339,7 +339,7 @@ const StoreDetail = ({ setShowLogin, match }) => {
                         setIsShowAction({ status: true, isComment: false });
                       }
                     }}>
-                      <BsFillBookmarkFill /> Bộ sưu tập
+                      <BsFillBookmarkFill /> Lưu bộ sưu tập
                     </li>
                     <li>
                       <FaShareAlt /> Chia sẻ

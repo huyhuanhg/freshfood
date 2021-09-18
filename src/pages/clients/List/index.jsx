@@ -18,7 +18,7 @@ const ClientList = ({ setShowLogin }) => {
       <ClientStyle.Container>
         <Row gutter={20}>
           <Col span={4}>
-            <Affix offsetTop={52.7}>
+            <Affix offsetTop={61.188}>
               <Menu
                 theme='light'
                 style={{

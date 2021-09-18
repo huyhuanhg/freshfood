@@ -49,12 +49,23 @@ const cartReducer = createReducer(initialState, {
   },
 
 
-  [REQUEST(CART_ACTION.UPDATE_CART)]: (state) => {
+  [REQUEST(CART_ACTION.UPDATE_CART)]: (state, action) => {
+    const { food } = action.payload.data;
+    const data = [...state.cartList.data];
+    const cartIndex = data.findIndex((cartItem) => cartItem.id === food);
+    if (cartIndex !== -1) {
+      let updateItem = data[cartIndex];
+      updateItem = {
+        ...updateItem,
+        load: true,
+      };
+      data.splice(cartIndex, 1, updateItem);
+    }
     return {
       ...state,
       cartList: {
-        ...state.cartList,
-        load: true,
+        data,
+        load: false,
         error: null,
       },
     };
@@ -68,6 +79,7 @@ const cartReducer = createReducer(initialState, {
       const { quantity } = cartUpdate.pivot;
       updateItem = {
         ...updateItem,
+        load: false,
         pivot: {
           ...updateItem.pivot,
           quantity,
@@ -88,10 +100,21 @@ const cartReducer = createReducer(initialState, {
   },
   [FAILURE(CART_ACTION.UPDATE_CART)]: (state, action) => {
     const { error } = action.payload;
+    const { food } = action.payload.data;
+    const data = [...state.cartList.data];
+    const cartIndex = data.findIndex((cartItem) => cartItem.id === food);
+    if (cartIndex !== -1) {
+      let updateItem = data[cartIndex];
+      updateItem = {
+        ...updateItem,
+        load: false,
+      };
+      data.splice(cartIndex, 1, updateItem);
+    }
     return {
       ...state,
       cartList: {
-        ...state.cartList,
+        data,
         load: false,
         error,
       },
@@ -99,12 +122,25 @@ const cartReducer = createReducer(initialState, {
   },
 
 
-  [REQUEST(CART_ACTION.DESTROY_CART)]: (state) => {
+  [REQUEST(CART_ACTION.DESTROY_CART)]: (state, action) => {
+    const { food } = action.payload.data;
+    const data = [...state.cartList.data];
+    if (food){
+      const cartIndex = data.findIndex((cartItem) => cartItem.id === food);
+      if (cartIndex !== -1) {
+        let updateItem = data[cartIndex];
+        updateItem = {
+          ...updateItem,
+          load: true,
+        };
+        data.splice(cartIndex, 1, updateItem);
+      }
+    }
     return {
       ...state,
       cartList: {
-        ...state.cartList,
-        load: true,
+        data,
+        load: false,
         error: null,
       },
     };
@@ -137,10 +173,23 @@ const cartReducer = createReducer(initialState, {
   },
   [FAILURE(CART_ACTION.DESTROY_CART)]: (state, action) => {
     const { error } = action.payload;
+    const { food } = action.payload.data;
+    const data = [...state.cartList.data];
+    if (food){
+      const cartIndex = data.findIndex((cartItem) => cartItem.id === food);
+      if (cartIndex !== -1) {
+        let updateItem = data[cartIndex];
+        updateItem = {
+          ...updateItem,
+          load: false,
+        };
+        data.splice(cartIndex, 1, updateItem);
+      }
+    }
     return {
       ...state,
       cartList: {
-        ...state.cartList,
+        data,
         load: false,
         error,
       },

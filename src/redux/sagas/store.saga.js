@@ -14,6 +14,7 @@ function* getStoreListSaga(action) {
     const user = action.payload?.user;
     const page = action.payload?.page;
     const search = action.payload?.search;
+    const limit = action.payload?.limit;
 
     const params = {
       ...category && { category },
@@ -22,6 +23,7 @@ function* getStoreListSaga(action) {
       ...user && { user },
       ...page && { page },
       ...search && { search },
+      ...limit && { limit },
     };
     const result = yield axios({
       method: 'GET',

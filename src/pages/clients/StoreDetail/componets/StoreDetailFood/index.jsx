@@ -206,6 +206,7 @@ const StoreDetailFood = ({ showFoodDetail, setShowLogin, setShowFoodDetail, slug
                       data: {
                         accessToken: JSON.parse(userToken).accessToken,
                         food: foodId,
+                        isDisplayMessage: true,
                       },
                     }));
                     setShowFoodDetail(false);

@@ -11,7 +11,7 @@ const SectionStore = () => {
   const { storeList } = useSelector((state) => state.storeReducer);
 
   useEffect(() => {
-    dispatch(getStoresAction());
+    dispatch(getStoresAction({ limit: 12 }));
   }, []);
   const renderStore = (span = 4) => {
     return (

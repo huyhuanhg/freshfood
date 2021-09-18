@@ -35,7 +35,7 @@ const HistoryComment = () => {
                     <Col span={10}>
                       <S.StoreTitle>
                         <img
-                          src={`${ROOT_PATH}${commentItem.storeAvatar}`}
+                          src={`${ROOT_PATH}${commentItem.storeImage}`}
                           alt={commentItem.storeName}
                         />
                         <Link to={`/stores/${commentItem.storeNotMark}.${commentItem.storeId}`}>

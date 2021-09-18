@@ -22,7 +22,7 @@ export const FoodStore = (
     setIndex,
     index,
     setShowLogin,
-    setFoodId
+    setFoodId,
   },
 ) => {
   const dispatch = useDispatch();
@@ -36,7 +36,7 @@ export const FoodStore = (
       }}
     >
       <S.FoodStoreAvatar>
-        {loading ? <BsImage /> : <img src={`${ROOT_PATH}${foodImage}`}  alt={foodName}/>}
+        {loading ? <BsImage /> : <img src={`${ROOT_PATH}${foodImage}`} alt={foodName} />}
       </S.FoodStoreAvatar>
       <S.FoodStoreItemRight>
         <S.SkeletonCustom loading={loading} active>
@@ -75,7 +75,8 @@ export const FoodStore = (
                   dispatch(updateCartAction({
                     data: {
                       accessToken: JSON.parse(userToken).accessToken,
-                      food: id
+                      food: id,
+                      isDisplayMessage: true,
                     },
                   }));
                 }

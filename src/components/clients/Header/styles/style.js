@@ -96,7 +96,12 @@ export const Logo = styled(Link)`
 `;
 export const SearchWrap = styled.div`
   flex-basis: 50%;
+  & .ant-input-group-addon{
+    width: 22%;
+    padding: 0;
+  }
 `;
+
 export const FormGroup = styled.div`
   position: relative;
 `;
@@ -138,6 +143,8 @@ export const UserAvatar = styled(Avatar)`
 `;
 
 export const SearchType = styled(Select)`
+  width: 100%;
+
   & .ant-select-selection-item {
     color: black !important;
   }

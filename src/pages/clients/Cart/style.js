@@ -23,6 +23,10 @@ export const CartTitle = styled.div`
 `;
 export const CartWrap = styled.div`
   min-height: calc(100vh - 480px);
+
+  & .ant-affix {
+    z-index: 5;
+  }
 `;
 export const CartEmpty = styled.div`
   padding-top: 2rem;
@@ -105,6 +109,15 @@ export const CartList = styled.ul`
         font-size: 12px;
         cursor: pointer;
         outline: none;
+        transition: .3s;
+
+        &:hover {
+          color: rgba(220, 9, 54, .8);
+
+          & > span {
+            background: rgba(220, 9, 54, .8);
+          }
+        }
 
         & > span {
           float: left;
@@ -114,6 +127,7 @@ export const CartList = styled.ul`
           height: 12px;
           position: relative;
           margin: 2px 3px 0 0;
+          transition: .3s;
 
           &:before,
           &:after {
@@ -162,6 +176,10 @@ export const CartInfo = styled.div`
 
       & > a {
         color: #aaa;
+
+        &:hover {
+          color: rgb(51, 128, 216);
+        }
       }
     }
 
@@ -208,8 +226,14 @@ export const CartInfo = styled.div`
         cursor: pointer;
         font-size: 20px;
 
+        &:hover > svg {
+          color: #777;
+          transform: scale(1.2);
+        }
+
         & > svg {
           color: #ccc;
+          transition: .3s;
         }
       }
 
@@ -228,8 +252,14 @@ export const CartInfo = styled.div`
         cursor: pointer;
         font-size: 20px;
 
+        &:hover > svg {
+          color: #777;
+          transform: scale(1.2);
+        }
+
         & > svg {
           color: #ccc;
+          transition: .3s;
         }
       }
     }

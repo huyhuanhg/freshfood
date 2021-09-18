@@ -120,7 +120,7 @@ const UserProfile = ({ match }) => {
             <S.ProfileWrap>
               <Row gutter={16}>
                 <Col span={6}>
-                  <Affix offsetTop={79.188}>
+                  <Affix offsetTop={81.188}>
                     <S.ProfileSidebar>
                       <S.ProfileAvatarWrap>
                         <label htmlFor='avatar'>
