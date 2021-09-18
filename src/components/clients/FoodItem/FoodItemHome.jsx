@@ -10,7 +10,6 @@ import foodLoading from '../../../assets/images/food_logo.png';
 import { ROOT_PATH } from '../../../contants';
 import { getFoodDetailAction, toggleLikeAction, updateCartAction } from '../../../redux/actions';
 import handleStopPropagation from '../../../utils/common';
-import { AiOutlineHeart, FcLike } from 'react-icons/all';
 
 const MetaTitle = ({ name, store, slug }) => {
   return (
@@ -69,7 +68,7 @@ const MetaDescription = ({ id, price, discount, isLike }) => {
             e.stopPropagation();
           }
         }>
-        {isLike ? <FcLike /> : <AiOutlineHeart />}
+        {isLike ? <S.Like /> : <S.UnLike />}
       </div>
 
     </Space>
@@ -142,6 +141,7 @@ export const FoodItemHome = (
                     data: {
                       accessToken: JSON.parse(userToken).accessToken,
                       food: id,
+                      isDisplayMessage: true,
                     },
                   }));
                   setShowDetail(false);

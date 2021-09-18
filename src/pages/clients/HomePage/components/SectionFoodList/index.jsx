@@ -2,8 +2,9 @@ import { Affix, Button, Col, Menu, Row, Select, Spin } from 'antd';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import * as HomeS from '../../styles';
+import * as S from './style';
 import { useEffect, useState } from 'react';
-import { BsCheck, MdRemoveShoppingCart } from 'react-icons/all';
+import { BiFilterAlt, BsCheck, MdRemoveShoppingCart } from 'react-icons/all';
 import { getFoodListAction } from '../../../../../redux/actions';
 
 const SectionFoodList = ({ render }) => {
@@ -92,7 +93,7 @@ const SectionFoodList = ({ render }) => {
   return (
     <Row gutter={20}>
       <Col span={4}>
-        <Affix offsetTop={59.188}>
+        <Affix offsetTop={61.188}>
           <Menu
             theme='light'
             style={{
@@ -102,16 +103,9 @@ const SectionFoodList = ({ render }) => {
             selectedKeys={request.tags.length === 0 ? [''] : request.tags}
             mode='inline'
           >
-            <h2
-              style={{
-                padding: '20px 10px',
-                margin: 0,
-                fontSize: '20px',
-                fontWeight: 'bold',
-              }}
-            >
-              Bộ lọc
-            </h2>
+            <S.HeaderFilter>
+              <BiFilterAlt /> Bộ lọc
+            </S.HeaderFilter>
             <Menu.Item
               className='hide-after'
               key=''
@@ -125,7 +119,7 @@ const SectionFoodList = ({ render }) => {
         </Affix>
       </Col>
       <Col span={20}>
-        <HomeS.AffixIndex offsetTop={52.7}>
+        <HomeS.AffixIndex offsetTop={61.188}>
           <div
             style={{
               display: 'flex',

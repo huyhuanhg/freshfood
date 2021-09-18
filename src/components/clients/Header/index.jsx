@@ -43,16 +43,32 @@ function Header({ setShowModalLogin }) {
     );
   };
   const handleSearch = ({ searchType, search }) => {
-    if (search) {
+    if (search.trim()) {
       history.push({
         pathname: `/${searchType}`,
         search: `?search=${toNotMark(search)}`,
       });
+    } else {
+      searchForm.resetFields();
     }
   };
   useEffect(() => {
-    searchForm.resetFields();
-  }, [history.location.pathname]);
+    const pathname = history.location.pathname;
+    if (pathname === '/foods' || pathname === '/stores') {
+      let field = {
+        searchType: pathname.slice(1),
+      };
+      if (!history.location.search) {
+        field = {
+          ...field,
+          search: '',
+        };
+      }
+      searchForm.setFieldsValue(field);
+    } else {
+      searchForm.resetFields();
+    }
+  }, [history.location.pathname, history.location.search]);
   const userMenu = (
     <Menu style={{ width: '250px', display: 'fixed' }}>
       {userInfo.data.id ? (

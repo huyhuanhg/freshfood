@@ -26,6 +26,7 @@ const FoodDetailModal = function({ show, setShow, setShowLogin }) {
                 data: {
                   accessToken: JSON.parse(userToken).accessToken,
                   food: foodDetail.data.id,
+                  isDisplayMessage: true,
                 },
               }));
               setShow(false);

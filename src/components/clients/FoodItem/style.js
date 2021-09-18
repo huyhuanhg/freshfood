@@ -1,6 +1,7 @@
-import styled from 'styled-components';
+import styled, { css, keyframes } from 'styled-components';
 import { Button, Card, Skeleton } from 'antd';
 import { Link } from 'react-router-dom';
+import { AiOutlineHeart, FcLike } from 'react-icons/all';
 
 export const CardImage = styled.div`
   height: 230px;
@@ -71,8 +72,6 @@ export const FoodStore = styled.div`
   overflow: hidden;
   border-bottom: #f5f5f5 1px solid;
   padding-bottom: 10px;
-  height: 70px;
-  box-sizing: border-box;
   cursor: pointer;
 `;
 export const FoodStoreAvatar = styled.div`
@@ -117,7 +116,6 @@ export const FoodStoreDescription = styled.div`
   line-height: 2em;
   font-size: 12px;
   margin: 0;
-  font-size: 12px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -185,4 +183,33 @@ export const SkeletonCustom = styled(Skeleton)`
       margin-top: 10px !important;
     }
   }
+`;
+const likeIcon = keyframes`
+  0% {
+    transform: scale(0.8);
+    opacity: 0.6;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 0.3;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+`;
+const likeStyle = css`
+  &:hover{
+    transform: scale(1.2);
+    opacity: 0.6;
+  }
+  animation-name: ${likeIcon};
+  animation-duration: .5s;
+  animation-direction: normal;
+`;
+export const Like = styled(FcLike)`
+  ${likeStyle}
+`;
+export const UnLike = styled(AiOutlineHeart)`
+  ${likeStyle}
 `;

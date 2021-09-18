@@ -142,7 +142,7 @@ const FoodList = ({ setShowLogin }) => {
         setShow={setShowFoodDetail}
         setShowLogin={setShowLogin}
       />
-      <S.AffixIndex offsetTop={52.7}>
+      <S.AffixIndex offsetTop={61.188}>
         <div
           style={{
             display: 'flex',
@@ -163,7 +163,9 @@ const FoodList = ({ setShowLogin }) => {
                 fontWeight: 'bold',
                 fontSize: 16,
               }}
-            >Món ăn đã thích</h3>
+            >
+              Món ăn đã thích
+            </h3>
             :
             <Menu
               mode='horizontal'
@@ -208,6 +210,7 @@ const FoodList = ({ setShowLogin }) => {
                   setRequest({
                     ...request,
                     tags: value,
+                    page: 1,
                   });
                 }}
               />
@@ -226,6 +229,7 @@ const FoodList = ({ setShowLogin }) => {
                     ...request,
                     sort: 'price',
                     sortType: value,
+                    page: 1
                   });
                 }}
               >

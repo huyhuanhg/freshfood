@@ -80,11 +80,22 @@ const CartPage = () => {
     });
   };
   const renderCart = () => {
-    return cartList.data.map((cartItem, cartIndex) => {
+    return cartList.data.map((cartItem) => {
       return (
-        <li key={cartIndex}>
+        <li key={cartItem.id} style={{ position: 'relative' }}>
+          {
+            cartItem.load &&
+            <div style={{
+              position: 'absolute',
+              top: '50%',
+              left: '50%',
+            }}
+            >
+              <Spin />
+            </div>
+          }
           <div className='img'>
-            <Link to={'/'} style={{}}>
+            <Link to={`/stores/${cartItem.storeNotMark}.${cartItem.storeId}`} style={{}}>
               <img src={`${ROOT_PATH}${cartItem.foodImage}`} alt='' />
             </Link>
             <button onClick={() => {
@@ -101,7 +112,7 @@ const CartPage = () => {
           <S.CartInfo>
             <div className='food-info'>
               <div className='food-name'>
-                <Link to={'/'}>{cartItem.foodName}</Link>
+                <Link to={`/stores/${cartItem.storeNotMark}.${cartItem.storeId}`}>{cartItem.foodName}</Link>
               </div>
               <div className='store-name'>
                 <Link to={`/stores/${cartItem.storeNotMark}.${cartItem.storeId}`}>
@@ -205,7 +216,7 @@ const CartPage = () => {
                         display: 'flex',
                         justifyContent: 'center',
                         minHeight: '500px',
-                        alignItems: 'center'
+                        alignItems: 'center',
                       }}>
                         <Spin />
                       </div>

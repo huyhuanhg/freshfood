@@ -75,7 +75,7 @@ const StoreList = () => {
   };
   return (
     <div>
-      <S.AffixIndex offsetTop={52.7}>
+      <S.AffixIndex offsetTop={61.188}>
         <div
           style={{
             display: 'flex',
@@ -100,6 +100,7 @@ const StoreList = () => {
                   group: null,
                   sort: key,
                   sortType: -1,
+                  page: 1
                 });
               }}
             >
@@ -112,6 +113,7 @@ const StoreList = () => {
                 setRequest({
                   ...request,
                   group: key,
+                  page: 1
                 });
               }}
             >
@@ -136,6 +138,7 @@ const StoreList = () => {
                   setRequest({
                     ...request,
                     category: value,
+                    page: 1
                   });
                 }
                 }
@@ -160,6 +163,7 @@ const StoreList = () => {
                     ...request,
                     sort: 'avg_rate',
                     sortType: value,
+                    page: 1
                   });
                 }}
               >
