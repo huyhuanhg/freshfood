@@ -4,6 +4,7 @@ import { REQUEST, COMMENT_ACTION, FAILURE, SUCCESS } from '../constants';
 import { SERVER_CLIENT_API_URL } from '../../contants';
 import camelCaseKeys from 'camelcase-keys';
 import toSnakeCase from '../../utils/toSnakeCase';
+import history from '../../utils/history';
 
 function* getCommentsSaga(action) {
   try {
@@ -36,7 +37,8 @@ function* getCommentsSaga(action) {
 
 function* createCommentSaga(action) {
   try {
-    const { storeId, description, paths, accessToken, firstName, lastName, userAvatar } = action.payload;
+    const { slug, description, paths, accessToken, firstName, lastName, userAvatar } = action.payload;
+    const storeId = slug.slice(slug.lastIndexOf('.') + 1);
     const data = { storeId, paths, content: description };
     const result = yield axios({
       method: 'POST',
@@ -58,6 +60,7 @@ function* createCommentSaga(action) {
         },
       },
     });
+    yield history.push(`/stores/${slug}/comment`);
   } catch (e) {
     yield put({
       type: FAILURE(COMMENT_ACTION.CREATE_COMMENT),
