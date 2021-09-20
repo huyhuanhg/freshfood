@@ -1,16 +1,17 @@
 import { Button, Col, DatePicker, Form, Input, Row, Select, Space } from 'antd';
-import * as S from '../style';
-import history from '../../../../utils/history';
 import moment from 'moment';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
+
+import * as S from '../style';
+import history from '../../../../utils/history';
 import { getAddressAction, getDistrictsAction, getWardsAction } from '../../../../redux/actions';
 
 const EditProfile = () => {
   const dispatch = useDispatch();
   const [userForm] = Form.useForm();
-  const { userInfo } = useSelector((state) => state.userReducer);
-  const { provinces, districts, wards } = useSelector((state) => state.addressReducer);
+  const { userInfo } = useSelector(({ userReducer }) => userReducer);
+  const { provinces, districts, wards } = useSelector(({ addressReducer }) => addressReducer);
   useEffect(() => {
     dispatch(getAddressAction({
       provinceCode: userInfo.data.provinceCode,
@@ -240,7 +241,7 @@ const EditProfile = () => {
             label='Mô tả bản thân'
             name='description'
           >
-            <Input.TextArea placeholder='Hãy viết gì đó về bản thân....' style={{ resize: 'none' }} rows={5}/>
+            <Input.TextArea placeholder='Hãy viết gì đó về bản thân....' style={{ resize: 'none' }} rows={5} />
           </Form.Item>
 
           <Form.Item wrapperCol={{ offset: 8, span: 16 }}>

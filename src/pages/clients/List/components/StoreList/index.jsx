@@ -1,18 +1,21 @@
-import { Button, Col, Menu, Row, Select, Spin } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
-import * as S from '../../style';
-import StoreItem from '../../../../../components/clients/StoreItem';
-import { MdRemoveShoppingCart } from 'react-icons/all';
 import { useEffect, useState } from 'react';
+import { MdRemoveShoppingCart } from 'react-icons/all';
+import { Button, Col, Menu, Row, Select, Spin } from 'antd';
+
+import * as S from '../../style';
+
+import StoreItem from '../../../../../components/clients/StoreItem';
 import history from '../../../../../utils/history';
 import { getStoresAction } from '../../../../../redux/actions';
+import { Filter as FilterStyle } from '../../../../../styles';
 
 const StoreList = () => {
   const { Option } = Select;
   const dispatch = useDispatch();
-  const { categories } = useSelector((state) => state.categoryReducer);
-  const { storeList } = useSelector((state) => state.storeReducer);
-  const { userInfo } = useSelector((state) => state.userReducer);
+  const { categories } = useSelector(({ categoryReducer }) => categoryReducer);
+  const { storeList } = useSelector(({ storeReducer }) => storeReducer);
+  const { userInfo } = useSelector(({ userReducer }) => userReducer);
   const [menuActive, setMenuActive] = useState('created_at');
   const [request, setRequest] = useState(null);
   const [sortAvgType, setSortAvgType] = useState(0);
@@ -67,22 +70,16 @@ const StoreList = () => {
     });
   };
   const renderCategories = () => {
-    return categories.data.map((cate) => {
-      if (cate.categoryActive === 1) {
-        return <Option value={cate.id} key={cate.id}>{cate.storeCateName}</Option>;
+    return categories.data.map(({ categoryActive, id, storeCateName }) => {
+      if (categoryActive === 1) {
+        return <Option value={id} key={id}>{storeCateName}</Option>;
       }
     });
   };
   return (
     <div>
       <S.AffixIndex offsetTop={61.188}>
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            backgroundColor: '#ddd',
-          }}
-        >
+        <FilterStyle>
           <Menu
             mode='horizontal'
             selectedKeys={[menuActive]}
@@ -100,7 +97,7 @@ const StoreList = () => {
                   group: null,
                   sort: key,
                   sortType: -1,
-                  page: 1
+                  page: 1,
                 });
               }}
             >
@@ -113,22 +110,14 @@ const StoreList = () => {
                 setRequest({
                   ...request,
                   group: key,
-                  page: 1
+                  page: 1,
                 });
               }}
             >
               Đã lưu
             </Menu.Item>
           </Menu>
-          <ul
-            style={{
-              listStyle: 'none',
-              display: 'flex',
-              alignItems: 'center',
-              paddingRight: '20px',
-              margin: 0,
-            }}
-          >
+          <ul className='d-flex vertical-center m-0 pr-2r'>
             <li>
               <Select
                 value={request?.category}
@@ -138,7 +127,7 @@ const StoreList = () => {
                   setRequest({
                     ...request,
                     category: value,
-                    page: 1
+                    page: 1,
                   });
                 }
                 }
@@ -163,7 +152,7 @@ const StoreList = () => {
                     ...request,
                     sort: 'avg_rate',
                     sortType: value,
-                    page: 1
+                    page: 1,
                   });
                 }}
               >
@@ -175,32 +164,22 @@ const StoreList = () => {
               </Select>
             </li>
           </ul>
-        </div>
+        </FilterStyle>
       </S.AffixIndex>
-      <div
-        style={{
-          paddingTop: 20,
-          position: 'relative',
-          minHeight: '500px',
-        }}
-      >
+      <div className='p-relative pt-2r' style={{ minHeight: '500px' }}>
         {storeList.total === 0
           ?
           <div
+            className='d-flex vertical-center horizontal-center fw-b t-center'
             style={{
               minHeight: '500px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              textAlign: 'center',
               fontSize: '150%',
-              fontWeight: 'bold',
             }}
           >
             <div>
               <MdRemoveShoppingCart
                 style={{
-                  color: 'red',
+                  color: '#f5222d',
                   fontSize: '200%',
                 }}
               /><br />
@@ -219,8 +198,8 @@ const StoreList = () => {
           storeList.load &&
           <Spin
             size='large'
+            className='p-absolute'
             style={{
-              position: 'absolute',
               top: '100%',
               left: '50%',
               transform: 'translate(-50%, -200%)',
@@ -228,14 +207,7 @@ const StoreList = () => {
           />
         }
         {storeList.currentPage < storeList.lastPage &&
-        <div
-          style={{
-            display: 'flex',
-            alignItem: 'center',
-            justifyContent: 'center',
-            marginTop: '3rem',
-          }}
-        >
+        <div className='d-flex vertical-center horizontal-center mt-3r'>
           <Button
             onClick={() => setRequest({
               ...request,

@@ -1,20 +1,22 @@
-import PropTypes from 'prop-types';
-import * as S from './style';
-import { Row, Col, Form, Upload } from 'antd';
-import loadAvatarStore from '../../../assets/images/loadStore.png';
-import { ROOT_PATH, SERVER_CLIENT_API_URL } from '../../../contants';
-import { AiFillStar } from 'react-icons/all';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import PropTypes from 'prop-types';
+import { Row, Col, Form, Upload } from 'antd';
+import { PlusOutlined } from '@ant-design/icons';
+import { AiFillStar } from 'react-icons/all';
+import camelcaseKeys from 'camelcase-keys';
+import axios from 'axios';
+
+import * as S from './style';
 import {
   getBookmarkDetailAction,
   createBookmarkAction,
   updateBookmarkAction,
   createCommentAction,
 } from '../../../redux/actions';
-import { PlusOutlined } from '@ant-design/icons';
-import axios from 'axios';
-import camelcaseKeys from 'camelcase-keys';
+
+import { ROOT_PATH, SERVER_CLIENT_API_URL } from '../../../contants';
+import loadAvatarStore from '../../../assets/images/loadStore.png';
 
 const ModalStoreDetail = (
   {
@@ -35,8 +37,8 @@ const ModalStoreDetail = (
   if (userToken) {
     accessToken = JSON.parse(userToken)?.accessToken;
   }
-  const { bookmarkDetail } = useSelector((state) => state.bookmarkReducer);
-  const { userInfo } = useSelector((state) => state.userReducer);
+  const { bookmarkDetail } = useSelector(({ bookmarkReducer }) => bookmarkReducer);
+  const { userInfo } = useSelector(({ userReducer }) => userReducer);
   // list nhận ảnh nhận về
   const [fileList, setFileList] = useState([]);
   // //list ảnh form

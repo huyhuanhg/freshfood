@@ -1,8 +1,8 @@
+import { useDispatch, useSelector } from 'react-redux';
 import { ShoppingCartOutlined } from '@ant-design/icons';
 import { Card, Skeleton, Space } from 'antd';
 import NumberFormat from 'react-number-format';
 
-import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import * as S from './style';
 
@@ -49,12 +49,11 @@ const MetaDescription = ({ id, price, discount, isLike }) => {
         </S.Price>
       </p>
       <div
+        className='p-absolute'
         style={{
-          position: 'absolute',
           fontSize: '150%',
           top: 0,
           right: 10,
-          color: 'red',
         }}
         onClick={
           (e) => {
@@ -92,7 +91,7 @@ export const FoodItemHome = (
 ) => {
   const { Meta } = Card;
   const dispatch = useDispatch();
-  const { userInfo } = useSelector((state) => state.userReducer);
+  const { userInfo } = useSelector(({ userReducer }) => userReducer);
   return (
     <S.CardItem
       hoverable

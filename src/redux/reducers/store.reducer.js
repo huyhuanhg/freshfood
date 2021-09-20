@@ -15,6 +15,14 @@ const initialState = {
     load: false,
     error: null,
   },
+  pictures: {
+    data: [],
+    load: false,
+    error: null,
+    currentPage: 1,
+    lastPage: 1,
+    total: 0,
+  },
 };
 
 const storeReducer = createReducer(initialState, {
@@ -102,6 +110,45 @@ const storeReducer = createReducer(initialState, {
           ...state.storeDetail.data,
           totalComment: state.storeDetail.data.totalComment + 1,
         },
+      },
+    };
+  },
+  [REQUEST(STORE_ACTION.GET_STORE_PICTURES)]: (state) => {
+    return {
+      ...state,
+      pictures: {
+        ...state.pictures,
+        load: true,
+      },
+    };
+  },
+  [SUCCESS(STORE_ACTION.GET_STORE_PICTURES)]: (state, action) => {
+    const { data, currentPage, lastPage, total } = action.payload.data;
+    let newPictures = [...data];
+    if (data.currentPage > state.pictures.currentPage) {
+      newPictures = [...state.storeList.data, ...newPictures];
+    }
+    return {
+      ...state,
+      pictures: {
+        ...state.pictures,
+        data: newPictures,
+        currentPage,
+        lastPage,
+        total,
+        load: false,
+        error: null,
+      },
+    };
+  },
+  [FAILURE(STORE_ACTION.GET_STORE_PICTURES)]: (state, action) => {
+    const { error } = action.payload;
+    return {
+      ...state,
+      pictures: {
+        ...state.pictures,
+        load: false,
+        error,
       },
     };
   },

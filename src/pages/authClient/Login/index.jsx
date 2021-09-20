@@ -13,7 +13,7 @@ function LoginPage() {
   document.title = TITLE.LOGIN;
 
   const dispatch = useDispatch();
-  const { responseAction } = useSelector((state) => state.userReducer);
+  const { responseAction } = useSelector(({ userReducer }) => userReducer);
 
   const [valid, setValid] = useState({
     valid: {

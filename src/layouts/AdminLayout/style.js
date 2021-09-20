@@ -1,15 +1,14 @@
-import styled, { css } from 'styled-components';
-
-export const Container = styled.div``;
 export const Sidebar = styled.div`
-  box-shadow: 0 0 3px rgb(52 58 64 / 15%);
-  background-color: #fff;
-  transition: all 0.3s ease;
+  position: fixed;
+  top: 0;
+  z-index: 999;
   width: 300px;
   height: 100%;
   max-height: 100%;
-  position: fixed;
-  top: 0;
+  border-right: 1px solid #e9ecef;
+  box-shadow: 0 0 3px rgb(52 58 64 / 15%);
+  background-color: #fff;
+  transition: all 0.3s ease;
   ${(props) =>
   props.isShow
     ? css`
@@ -18,9 +17,10 @@ export const Sidebar = styled.div`
     : css`
           left: -300px;
         `}
-  z-index: 999;
-  border-right: 1px solid #e9ecef;
 `;
+
+import styled, { css } from 'styled-components';
+export const Container = styled.div``;
 export const SiteLayout = styled.div`
   position: relative;
   ${(props) =>
@@ -38,6 +38,7 @@ export const Header = styled.div`
   position: fixed;
   right: 0;
   top: 0;
+  z-index: 999;
   ${(props) =>
   props.isFull
     ? css`
@@ -46,7 +47,6 @@ export const Header = styled.div`
     : css`
           left: 301px;
         `}
-  z-index: 999;
   max-height: 70px;
   transition: all 0.3s;
 `;

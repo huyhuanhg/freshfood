@@ -1,14 +1,15 @@
-import { Link } from 'react-router-dom';
-import { Button, Col, Row } from 'antd';
-import { useDispatch, useSelector } from 'react-redux';
-import StoreItem from '../../../../../components/clients/StoreItem';
-import * as HomeS from '../../styles';
 import { useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import { Col, Row } from 'antd';
+import { useDispatch, useSelector } from 'react-redux';
+
+import * as HomeS from '../../styles';
+import StoreItem from '../../../../../components/clients/StoreItem';
 import { getStoresAction } from '../../../../../redux/actions';
 
 const SectionStore = () => {
   const dispatch = useDispatch();
-  const { storeList } = useSelector((state) => state.storeReducer);
+  const { storeList } = useSelector(({ storeReducer }) => storeReducer);
 
   useEffect(() => {
     dispatch(getStoresAction({ limit: 12 }));
@@ -31,16 +32,9 @@ const SectionStore = () => {
       <HomeS.SectionTitle>Cửa hàng</HomeS.SectionTitle>
       <HomeS.SectionContainer>
         {renderStore()}
-        <div
-          style={{
-            display: 'flex',
-            alignItem: 'center',
-            justifyContent: 'center',
-            marginTop: '3rem',
-          }}
-        >
-          <Link to='/stores'>
-            <Button>Xem tất cả</Button>
+        <div className='d-flex vertical-center horizontal-center mt-3r'>
+          <Link to='/stores' className='d-inline-block w-40'>
+            <HomeS.ButtonCustom>Xem tất cả</HomeS.ButtonCustom>
           </Link>
         </div>
       </HomeS.SectionContainer>

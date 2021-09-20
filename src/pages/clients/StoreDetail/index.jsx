@@ -36,9 +36,9 @@ import { createRateAction, getStoreDetailAction } from '../../../redux/actions';
 
 const StoreDetail = ({ setShowLogin, match }) => {
   const dispatch = useDispatch();
-  const { storeDetail } = useSelector((state) => state.storeReducer);
+  const { storeDetail } = useSelector(({ storeReducer }) => storeReducer);
 
-  const { userInfo } = useSelector((state) => state.userReducer);
+  const { userInfo } = useSelector(({ userReducer }) => userReducer);
 
   const [showFoodDetail, setShowFoodDetail] = useState(false);
   const [isOpen, setIsOpen] = useState(null);
@@ -109,7 +109,6 @@ const StoreDetail = ({ setShowLogin, match }) => {
         <StoreDetailStyle.MicroHeader>
           <Row>
             <Col span={10} style={{ overflow: 'hidden' }}>
-              {/*main image*/}
               <StoreDetailStyle.MainImg>
                 <StoreDetailStyle.ImageWrap>
                   <StoreDetailStyle.StoreImg
@@ -124,7 +123,6 @@ const StoreDetail = ({ setShowLogin, match }) => {
               </StoreDetailStyle.MainImg>
             </Col>
             <Col span={14}>
-              {/*main-information*/}
               <StoreDetailStyle.MainInformation>
                 <StoreDetailStyle.ResCommon>
                   {storeDetail.load && (
@@ -249,7 +247,7 @@ const StoreDetail = ({ setShowLogin, match }) => {
         <StoreDetailStyle.MicroMainMenu>
           <Row gutter={20}>
             <Col span={4}>
-              <Affix offsetTop={61.188} style={{ zIndex: 1 }}>
+              <Affix offsetTop={61.188}>
                 <Menu
                   theme='light'
                   style={{
@@ -374,7 +372,7 @@ const StoreDetail = ({ setShowLogin, match }) => {
                   />
                 </Route>
                 <Route exact path='/stores/:slug/picture'>
-                  <StoreDetailPicture storeId={storeDetail.data.id} />
+                  <StoreDetailPicture slug={match.params.slug} />
                 </Route>
                 <Route
                   render={() => {

@@ -10,30 +10,30 @@ export const FoodItem = styled.div`
     & > img {
       position: absolute;
       top: 50%;
-      transform: translateY(-50%);
       max-width: 100%;
       height: 500px;
       width: 100%;
       max-height: 500px;
-      vertical-align: middle;
       border-style: none;
+      vertical-align: middle;
+      transform: translateY(-50%);
     }
 
     & > div.info {
       position: absolute;
-      color: #fff;
       top: auto;
       bottom: 0;
       left: 0;
+      padding: 10px;
       width: 100%;
       box-sizing: border-box;
-      background-color: rgba(0, 0, 0, 0.8);
-      padding: 10px;
+      background-color: rgba(0, 0, 0, 0.6);
+      color: #fff;
 
       & div.imgbox-food-name {
+        margin-bottom: 3px;
         font-size: 16px;
         font-weight: bold;
-        margin-bottom: 3px;
       }
 
       & div.imgbox-desc {
@@ -57,19 +57,6 @@ export const FoodItem = styled.div`
     }
   }
 
-  & > span.rate {
-    display: flex;
-    align-items: center;
-    position: relative;
-    top: 10px;
-    left: 10px;
-    color: #999;
-    font-size: 200%;
-
-    & > svg {
-      color: #f09724;
-    }
-  }
 `;
 export const ModalCustom = styled(Modal)`
   & .ant-modal-body {
@@ -83,30 +70,26 @@ export const ModalCustom = styled(Modal)`
     padding: 10px 15px;
 
     & > button {
-      font-size: 16px;
-      width: 50%;
-      cursor: pointer;
-      background-color: #cf2127;
-      color: #fff;
+      display: inline-block;
       padding: 4px 10px;
-      display: inline-block;
-      text-align: center;
+      width: 50%;
+      border: 1px solid ${(props)=>props.theme.price};
+      border-radius: 3px;
       white-space: nowrap;
-      vertical-align: middle;
-      -webkit-appearance: button;
-      display: inline-block;
+      font-size: 16px;
       font-weight: 400;
       text-align: center;
-      white-space: nowrap;
-      vertical-align: middle;
-      user-select: none;
-      border: 1px solid #cf2127;
-      line-height: 1.5;
-      border-radius: 3px;
-      transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
-        border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-      overflow: visible;
       text-transform: none;
+      line-height: 1.5;
+      color: #fff;
+      background-color: ${(props)=>props.theme.price};
+      cursor: pointer;
+      vertical-align: middle;
+      -webkit-appearance: button;
+      user-select: none;
+      overflow: visible;
+      transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
+      border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
     }
   }
 `;

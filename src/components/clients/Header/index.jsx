@@ -1,3 +1,8 @@
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
+
+import { Affix, Badge, Button, Dropdown, Form, Input, Menu, Select, Space } from 'antd';
 import {
   AiFillSkype,
   FaFacebookF,
@@ -6,6 +11,7 @@ import {
   GrGooglePlus,
   RiMapPin2Fill,
 } from 'react-icons/all';
+
 import {
   LogoutOutlined,
   MailOutlined,
@@ -13,18 +19,14 @@ import {
   ShoppingCartOutlined,
   UserOutlined,
 } from '@ant-design/icons';
-import { Affix, Badge, Button, Dropdown, Form, Input, Menu, Select, Space } from 'antd';
-import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
 
 import PropTypes from 'prop-types';
+
 import * as HeaderStyle from './styles';
 
 import history from '../../../utils/history';
 import { logoutAction } from '../../../redux/actions';
 import { ROOT_PATH } from '../../../contants';
-
-import { useEffect, useState } from 'react';
 import toNotMark from '../../../utils/toNotMark';
 
 function Header({ setShowModalLogin }) {
@@ -32,8 +34,8 @@ function Header({ setShowModalLogin }) {
   const dispatch = useDispatch();
   const [searchForm] = Form.useForm();
   const [searchType, setSearchType] = useState('stores');
-  const { userInfo } = useSelector((state) => state.userReducer);
-  const { total: totalCart } = useSelector((state) => state.cartReducer);
+  const { userInfo } = useSelector(({ userReducer }) => userReducer);
+  const { total: totalCart } = useSelector(({ cartReducer }) => cartReducer);
   const handleLogout = () => {
     const userInfo = JSON.parse(localStorage.getItem('userInfo'));
     dispatch(
@@ -162,13 +164,13 @@ function Header({ setShowModalLogin }) {
           </ul>
           <div>
             <p>Flow us:</p>
-            <div>
+            <div className='facebook'>
               <FaFacebookF />
             </div>
-            <div>
+            <div className='google'>
               <GrGooglePlus />
             </div>
-            <div>
+            <div className='skype'>
               <AiFillSkype />
             </div>
           </div>
@@ -177,7 +179,7 @@ function Header({ setShowModalLogin }) {
       <Affix offsetTop={0}>
         <HeaderStyle.Header>
           <HeaderStyle.MenuWrap>
-            <HeaderStyle.Logo to='/'>FoodBooking</HeaderStyle.Logo>
+            <HeaderStyle.Logo to='/'>FreshFood</HeaderStyle.Logo>
 
             <HeaderStyle.SearchWrap>
               <Form

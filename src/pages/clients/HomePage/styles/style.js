@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Affix, Carousel } from 'antd';
+import { Affix, Button, Carousel } from 'antd';
 
 import bgInvite from '../../../../assets/images/bg5.jpg';
 
@@ -9,43 +9,43 @@ export const TilteDiv = styled.div`
   margin: 0 45%;
 `;
 export const TitleFirstSpan = styled.span`
-  display: block;
-  content: "";
-  width: 30%;
-  border-top: 1px dashed #ccc;
   position: absolute;
   right: 54%;
+  display: block;
+  width: 30%;
+  border-top: 1px dashed #ccc;
+  content: "";
 
   &:after {
+    position: absolute;
+    top: -5px;
     right: -8%;
     display: block;
-    content: "";
     width: 10px;
     height: 10px;
     border-radius: 50%;
+    content: "";
     background-color: #ccc;
-    position: absolute;
-    top: -5px;
   }
 `;
 export const TitleLastSpan = styled.span`
-  display: block;
-  content: "";
-  width: 30%;
-  border-top: 1px dashed #ccc;
   position: absolute;
   left: 54%;
+  display: block;
+  width: 30%;
+  border-top: 1px dashed #ccc;
+  content: "";
 
   &:after {
+    position: absolute;
+    top: -5px;
     left: -8%;
     display: block;
-    content: "";
     width: 10px;
     height: 10px;
     border-radius: 50%;
+    content: "";
     background-color: #ccc;
-    position: absolute;
-    top: -5px;
   }
 `;
 export const TitleWrap = styled.div`
@@ -70,43 +70,42 @@ export const CarouselItem = styled.img`
   height: auto;
 `;
 export const Slogan = styled.div`
-  text-align: left;
-  max-width: 50%;
   position: absolute;
   top: 50%;
   left: 50%;
+  max-width: 50%;
+  text-align: left;
   transform: translate(-570px, -150px);
 `;
 
 export const SloganTitle = styled.h1`
+  margin-bottom: 0;
   font-weight: 700;
   font-size: 7rem;
-  color: #0f9d58;
+  color: ${(props) => props.theme.rootColor};
   text-align: left;
-  margin-bottom: 0;
 `;
 export const SloganDescription = styled.p`
   font-size: 1.5rem;
   font-weight: bold;
-  color: gray;
+  color: ${(props) => props.theme.gray};
 `;
 
 export const SloganBtn = styled.button`
   padding: 1rem 5rem;
-  border: none;
   outline: 0;
   background-color: unset;
-  border: 0.125rem solid #0f9d58;
+  border: 0.125rem solid ${(props) => props.theme.rootColor};
   border-radius: 2.5rem;
-  color: #0f9d58;
+  color: ${(props) => props.theme.rootColor};
   cursor: pointer;
   font-size: 1.5rem;
   font-weight: 600;
   transition: 0.3s ease-in-out;
 
   &:hover {
-    border-color: #6464ff;
-    color: #6464ff;
+    border-color: ${(props) => props.theme.supColor2};
+    color: ${(props) => props.theme.supColor2};
   }
 `;
 export const Section = styled.section`
@@ -122,23 +121,22 @@ export const Invite = styled.section`
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
-  background-image: linear-gradient(rgba(26, 38, 92, 0.6), rgba(26, 38, 92, 0.6)),
-    url(${bgInvite});
-  // background-attachment: fixed;
+  background-image: linear-gradient(rgba(26, 38, 92, 0.6), rgba(26, 38, 92, 0.6)), url(${bgInvite});
+
   & > div {
-    max-width: 1430px;
     margin: 0 auto;
     padding: 50px 0 80px;
+    max-width: 1430px;
     text-align: center;
-    color: white;
+    color: #fff;
 
     & h2 {
-      color: white;
+      color: #fff;
       font-size: 350%;
       text-transform: uppercase;
 
       & > b {
-        color: #29d197;
+        color: ${(props) => props.theme.rootColor};
       }
     }
 
@@ -147,7 +145,7 @@ export const Invite = styled.section`
       margin-bottom: 0;
 
       & > b {
-        color: #29d197;
+        color: ${(props) => props.theme.rootColor};
       }
     }
 
@@ -164,20 +162,19 @@ export const Invite = styled.section`
 `;
 export const BtnInvite = styled.button`
   padding: 1rem 5rem;
-  border: none;
+  border: 0.125rem solid ${(props) => props.theme.rootColor};
+  border-radius: 2.5rem;
   outline: 0;
   background-color: unset;
-  border: 0.125rem solid #29d197;
-  border-radius: 2.5rem;
-  color: #29d197;
+  color: ${(props) => props.theme.rootColor};
   cursor: pointer;
   font-size: 1.5rem;
   font-weight: 600;
   transition: 0.3s ease-in-out;
 
   &:hover {
-    background-color: #29d197;
-    color: white;
+    background-color: ${(props) => props.theme.rootColor};
+    color: #fff;
   }
 `;
 
@@ -185,4 +182,7 @@ export const AffixIndex = styled(Affix)`
   & .ant-affix {
     z-index: 1;
   }
+`;
+export const ButtonCustom = styled(Button)`
+  width: 100%;
 `;

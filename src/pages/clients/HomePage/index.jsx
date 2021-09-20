@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Anchor, Col, Row } from 'antd';
 import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
+
 import * as HomeS from './styles';
 import { TITLE } from '../../../contants';
 
@@ -17,19 +18,19 @@ import './styles/style.css';
 import { FoodItemHome } from '../../../components/clients/FoodItem';
 import FoodDetailModal from '../../../components/clients/FoodDetailModal';
 import SectionListed from './components/SectionListed';
+import SectionPromotion from './components/SectionPromotion';
+import SectionStore from './components/SectionStore';
 import SectionFoodList from './components/SectionFoodList';
 
 import { getFoodPromotionAction, getLikesAction } from '../../../redux/actions';
-import SectionPromotion from './components/SectionPromotion';
-import SectionStore from './components/SectionStore';
 
 function HomePage({ setShowLogin }) {
   document.title = TITLE.HOME;
 
   const dispatch = useDispatch();
 
-  const { foodPromotions, foodList } = useSelector((state) => state.foodReducer);
-  const { userInfo } = useSelector((state) => state.userReducer);
+  const { foodPromotions, foodList } = useSelector(({ foodReducer }) => foodReducer);
+  const { userInfo } = useSelector(({ userReducer }) => userReducer);
   const { Link: AnchorLink } = Anchor;
 
   const [showFoodDetail, setShowFoodDetail] = useState(false);
@@ -97,7 +98,7 @@ function HomePage({ setShowLogin }) {
           <HomeS.CarouselItem src={bg3} />
         </HomeS.HeadingCarousel>
         <HomeS.Slogan>
-          <HomeS.SloganTitle>FoodBooking</HomeS.SloganTitle>
+          <HomeS.SloganTitle>FreshFood</HomeS.SloganTitle>
           <HomeS.SloganDescription>
             Cửa hàng thực phẩm online,
             <br />
@@ -126,7 +127,7 @@ function HomePage({ setShowLogin }) {
                 <b>Chỉ thị 16</b> kéo dài, cửa hàng <b>vắng khách</b>?
               </p>
               <p className='invite'>
-                Đừng ngần ngại <b>FoodBooking</b> sẽ cùng bạn vượt qua khó khăn
+                Đừng ngần ngại <b>FreshFood</b> sẽ cùng bạn vượt qua khó khăn
               </p>
               <Link to='/'>
                 <HomeS.BtnInvite>Đăng ký bán hàng</HomeS.BtnInvite>
@@ -136,8 +137,8 @@ function HomePage({ setShowLogin }) {
         </div>
       </HomeS.Invite>
 
-      <HomeS.Section id='test' style={{ backgroundColor: '#eee' }}>
-        <HomeS.SectionContainer style={{ marginTop: 0 }}>
+      <HomeS.Section style={{ background: '#f3f3f3' }}>
+        <HomeS.SectionContainer className='mt-0'>
           <SectionFoodList render={renderFood} />
         </HomeS.SectionContainer>
       </HomeS.Section>

@@ -23,15 +23,15 @@ IconCheck.propTypes = {
 const IconSuccess = styled.div`
   position: absolute;
   top: 50%;
-  background: #38d39f;
   right: 10px;
-  width: 25px;
-  height: 25px;
-  border-radius: 50%;
-  transform: translateY(-50%);
   display: flex;
   justify-content: center;
   align-items: center;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: #38d39f;
+  transform: translateY(-50%);
   color: white;
 `;
 export const ControlLoading = styled(Spin)`
@@ -41,16 +41,16 @@ export const ControlLoading = styled(Spin)`
   transform: translateY(-50%);
 `;
 export const CheckboxWrap = styled.div`
-  ${({ error }) =>
+  ${({ error, theme }) =>
   error &&
     css`
-      color: red !important;
+      color: ${theme.btnDanger} !important;
     `}
   width: 100%;
   text-align: left;
 `;
 export const CheckboxCustom = styled(Checkbox)`
-  color: ${({ error }) => (error ? 'red' : '#1890ff')};
+  color: ${({ error, theme }) => (error ? theme.btnDanger : theme.btnPrimary)};
 `;
 export const IconCustom = styled(Icon)`
   transition: 0.3s;

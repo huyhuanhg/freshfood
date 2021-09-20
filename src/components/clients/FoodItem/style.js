@@ -5,11 +5,11 @@ import { AiOutlineHeart, FcLike } from 'react-icons/all';
 
 export const CardImage = styled.div`
   height: 230px;
+  border-radius: 4px 4px 0 0;
   background-image: url(${({ avatar }) => avatar});
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  border-radius: 4px 4px 0 0;
   transition: 0.3s ease;
 `;
 export const AddCard = styled(Button)`
@@ -18,9 +18,6 @@ export const AddCard = styled(Button)`
   top: 20%;
 
   &:hover {
-    color: #0f9d58;
-    border-color: #0f9d58;
-
     & > span {
       transition: 0.4s ease;
       transform: scale(1.2);
@@ -28,20 +25,20 @@ export const AddCard = styled(Button)`
   }
 `;
 export const AfterPrice = styled.span`
-  color: red;
+  color: ${(props) => props.theme.price};
   font-size: 1.5rem;
 `;
 export const CardItem = styled(Card)`
-  border-radius: 4px;
   max-height: 347px;
+  border-radius: 4px;
   overflow: hidden;
 `;
 export const FoodTitle = styled.h3`
+  margin-bottom: 0;
+  max-width: 80%;
   white-space: nowrap;
   text-overflow: ellipsis;
-  max-width: 80%;
   overflow: hidden;
-  margin-bottom: 0;
 `;
 export const FoodStoreWrap = styled(Link)`
   display: block;
@@ -61,17 +58,17 @@ export const StoreName = styled.small`
   transition: 0.4s;
 
   &:hover {
-    color: #1890ff;
+    color: ${(props) => props.theme.btnPrimary};
   }
 `;
 export const FoodStore = styled.div`
   position: relative;
   margin: 0 10px 10px 15px;
+  padding-bottom: 10px;
   height: 70px;
+  border-bottom: #f5f5f5 1px solid;
   box-sizing: border-box;
   overflow: hidden;
-  border-bottom: #f5f5f5 1px solid;
-  padding-bottom: 10px;
   cursor: pointer;
 `;
 export const FoodStoreAvatar = styled.div`
@@ -80,13 +77,13 @@ export const FoodStoreAvatar = styled.div`
 
   & > img,
   & > svg {
+    position: relative;
+    display: block;
+    height: 60px;
+    width: 60px;
     border-radius: 2px;
     border: 0;
-    height: 60px;
     aspect-ratio: auto 60 / 60;
-    width: 60px;
-    display: block;
-    position: relative;
   }
 
   & > svg {
@@ -101,37 +98,29 @@ export const FoodStoreItemRight = styled.div`
   line-height: 2em;
 `;
 export const FoodStoreTitle = styled.div`
+  max-width: 75%;
+  max-height: 40px;
   color: #464646;
   font-weight: 700;
   font-size: 16px;
-  max-width: 75%;
-  max-height: 40px;
   line-height: 20px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 `;
 export const FoodStoreDescription = styled.div`
+  margin: 0;
   width: 75%;
   line-height: 2em;
   font-size: 12px;
-  margin: 0;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 `;
-export const FoodStoreRate = styled.span`
-  color: #206b9b;
-
-  & > svg {
-    color: #fadb14;
-    margin-right: 5px;
-  }
-`;
 export const TotalOrder = styled.span`
-  font-size: 12px;
-  color: #a1a1a1;
   margin: 0;
+  font-size: 12px;
+  color: ${(props) => props.theme.supGray};
 `;
 export const FoodStorePrice = styled.div`
   position: absolute;
@@ -140,39 +129,39 @@ export const FoodStorePrice = styled.div`
   z-index: 4;
 
   & > .price-discount {
-    color: #8b8b8b;
-    font-size: 14px;
     height: 20px;
+    color: ${(props) => props.theme.gray};
+    font-size: 14px;
     text-decoration: line-through;
   }
 
   & > .price {
-    color: #206b9b;
+    color: ${(props) => props.theme.priceBlue};
     font-size: 16px;
     font-weight: 700;
   }
 
   & > .btn-adding {
+    display: inline-block;
     padding-top: 3px;
+    margin-left: 10px;
     width: 1.75rem;
     height: 1.75rem;
+    border-radius: 4px;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
     text-align: center;
     line-height: 1.75rem;
     font-size: 1rem;
     color: #fff;
     font-weight: 700;
-    border-radius: 4px;
-    -moz-border-radius: 4px;
-    -webkit-border-radius: 4px;
-    background-color: #ee4d2d;
-    display: inline-block;
-    margin-left: 10px;
+    background-color: ${(props) => props.theme.btnDanger};
     cursor: pointer !important;
     outline: 0;
     transition: .3s;
 
     &:hover {
-      background-color: #cb4327;
+      background-color: #e01423;
 
       & > svg {
         transition: .3s;
@@ -209,6 +198,8 @@ const likeIcon = keyframes`
   }
 `;
 const likeStyle = css`
+  color: ${(props) => props.theme.price};
+
   &:hover {
     transform: scale(1.2);
     opacity: 0.6;

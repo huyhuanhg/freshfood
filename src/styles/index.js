@@ -68,3 +68,11 @@ export const Icon = styled(Button)`
   font-weight: 400;
   user-select: none;
 `;
+
+export const Filter = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  min-height: 41px;
+  background-color: ${(props) => props.theme.bgFilter};
+`;

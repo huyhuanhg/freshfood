@@ -29,7 +29,6 @@ function* loginSaga(action) {
       message: 'Đăng nhập thành công!',
     });
   } catch (e) {
-    console.log(e.message);
     yield put({
       type: FAILURE(USER_ACTION.LOGIN),
       payload: {
@@ -88,7 +87,6 @@ function* checkEmailExistsSaga(action) {
   }
 }
 
-// eslint-disable-next-line require-yield
 function* registerSaga(action) {
   try {
     const { data } = action.payload;
@@ -165,11 +163,136 @@ function* changeAvatarSaga(action) {
         data: result.data,
       },
     });
+    yield notification.success({
+      message: 'Đổi ảnh đại diện thành công!',
+    });
   } catch (e) {
     yield put({
       type: FAILURE(USER_ACTION.CHANGE_AVATAR),
       payload: {
         error: e.message,
+      },
+    });
+  }
+}
+
+function* changeFullNameSaga(action) {
+  try {
+    const { data, accessToken } = action.payload;
+    const result = yield axios.patch(
+      `${SERVER_CLIENT_API_URL}/user-full-name`,
+      toSnakeCase(data),
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+    yield put({
+      type: SUCCESS(USER_ACTION.CHANGE_FULL_NAME),
+      payload: {
+        data: camelCaseKeys(result.data),
+      },
+    });
+    yield notification.success({
+      message: 'Đổi họ tên thành công!',
+    });
+  } catch (e) {
+    yield put({
+      type: FAILURE(USER_ACTION.CHANGE_FULL_NAME),
+      payload: {
+        error: e.message,
+      },
+    });
+  }
+}
+
+function* changeEmailSaga(action) {
+  try {
+    const { data, accessToken } = action.payload;
+    const result = yield axios.patch(
+      `${SERVER_CLIENT_API_URL}/user-email`,
+      data,
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+    yield put({
+      type: SUCCESS(USER_ACTION.CHANGE_EMAIL),
+      payload: {
+        data: camelCaseKeys(result.data),
+      },
+    });
+    yield notification.success({
+      message: 'Đổi email thành công!',
+    });
+  } catch (e) {
+    yield put({
+      type: FAILURE(USER_ACTION.CHANGE_EMAIL),
+      payload: {
+        error: 'Email dẫ tồn tại!',
+      },
+    });
+  }
+}
+
+function* changeNumberPhoneSaga(action) {
+  try {
+    const { data, accessToken } = action.payload;
+    const result = yield axios.patch(
+      `${SERVER_CLIENT_API_URL}/user-phone`,
+      data,
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+    yield put({
+      type: SUCCESS(USER_ACTION.CHANGE_NUMBER_PHONE),
+      payload: {
+        data: camelCaseKeys(result.data),
+      },
+    });
+    yield notification.success({
+      message: 'Đổi số điện thoại thành công!',
+    });
+  } catch (e) {
+    yield put({
+      type: FAILURE(USER_ACTION.CHANGE_NUMBER_PHONE),
+      payload: {
+        error: e.message,
+      },
+    });
+  }
+}
+
+function* changePasswordSaga(action) {
+  try {
+    const { data, accessToken } = action.payload;
+    const result = yield axios.patch(
+      `${SERVER_CLIENT_API_URL}/user-change-password`,
+      toSnakeCase(data),
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+    yield put({
+      type: SUCCESS(USER_ACTION.CHANGE_PASSWORD),
+      payload: {
+        data: camelCaseKeys(result.data),
+      },
+    });
+    yield notification.success({
+      message: 'Đổi mật khẩu thành công!',
+    });
+    yield history.push('/profile/user-info');
+  } catch (e) {
+    const data = camelCaseKeys(e.response.data);
+    yield put({
+      type: FAILURE(USER_ACTION.CHANGE_PASSWORD),
+      payload: {
+        error: { ...data },
       },
     });
   }
@@ -183,4 +306,8 @@ export default function* adminSaga() {
   yield takeEvery(REQUEST(USER_ACTION.GET_USER_INFO), getInfoSaga);
   yield takeEvery(REQUEST(USER_ACTION.LOGOUT), logoutSaga);
   yield takeEvery(REQUEST(USER_ACTION.CHANGE_AVATAR), changeAvatarSaga);
+  yield takeEvery(REQUEST(USER_ACTION.CHANGE_FULL_NAME), changeFullNameSaga);
+  yield takeEvery(REQUEST(USER_ACTION.CHANGE_EMAIL), changeEmailSaga);
+  yield takeEvery(REQUEST(USER_ACTION.CHANGE_NUMBER_PHONE), changeNumberPhoneSaga);
+  yield takeEvery(REQUEST(USER_ACTION.CHANGE_PASSWORD), changePasswordSaga);
 }

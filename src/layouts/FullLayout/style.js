@@ -4,15 +4,15 @@ export const BackGround = styled.img`
   position: fixed;
   bottom: 0;
   left: 0;
-  height: 100%;
   z-index: -1;
+  height: 100%;
 `;
 export const Container = styled.div`
-  width: 100vw;
-  height: 100vh;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   grid-gap: 7rem;
+  width: 100vw;
+  height: 100vh;
   padding: 0 2rem;
 `;
 export const LogoWrap = styled.div`
@@ -22,8 +22,8 @@ export const LogoWrap = styled.div`
 
   & > a {
     position: relative;
-    transform: translateX(-150px);
     display: block;
+    transform: translateX(-150px);
   }
 `;
 export const LogoImg = styled.img`
@@ -31,10 +31,10 @@ export const LogoImg = styled.img`
   height: 700px;
 
   & + h1 {
-    font-family: "Poppins", sans-serif !important;
     position: absolute;
     left: 50%;
     bottom: 20px;
+    font-family: "Poppins", sans-serif !important;
     transform: translateX(-50%);
     color: #fff;
     font-size: 500%;

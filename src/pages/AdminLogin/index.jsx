@@ -1,16 +1,18 @@
-import { Form, Input } from 'antd';
-
-import { UserOutlined, LockOutlined } from '@ant-design/icons';
-import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
+
+import { Link } from 'react-router-dom';
+import { Form, Input } from 'antd';
+import { UserOutlined, LockOutlined } from '@ant-design/icons';
+
 import { adminLoginAction } from '../../redux/actions';
+
 import * as Style from './styles';
 import * as AppStyle from '../../styles';
 
 function AdminLoginPage() {
   const dispatch = useDispatch();
-  const { responseAction } = useSelector((state) => state.adminReducer);
+  const { responseAction } = useSelector(({ adminReducer }) => adminReducer);
   document.title = 'Foodbooking | Đăng nhập';
 
   const onLogin = (value) => {

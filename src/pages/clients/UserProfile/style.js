@@ -5,7 +5,7 @@ export const ProfileWrap = styled.div`
   min-height: calc(100vh - 475px);
 `;
 export const ProfileSidebar = styled.div`
-  background: rgb(255, 255, 255);
+  background: #fff;
   border: 1px solid #ddd;
   padding: 20px 0 10px 0;
   margin-top: -20px;
@@ -48,7 +48,7 @@ export const ProfileFullName = styled.div`
   margin-top: 10px;
 
   & > div {
-    color: #5a7391;
+    color: ${(props) => props.theme.btnPrimary};
     font-size: 16px;
     font-weight: 600;
     margin-bottom: 7px;
@@ -85,9 +85,11 @@ export const TableCustom = styled(Table)`
   & .ant-table-row {
     cursor: pointer;
   }
-  & th.ant-table-cell.order-name, td.ant-table-cell.order-name{
+
+  & th.ant-table-cell.order-name, td.ant-table-cell.order-name {
     padding-left: 0;
   }
+
   & tr.ant-table-row.ant-table-row-level-0 > td.ant-table-cell.ant-table-row-expand-icon-cell,
   & th.ant-table-cell.ant-table-row-expand-icon-cell {
     padding: 16px 8px;
@@ -182,7 +184,7 @@ export const FoodList = styled.div`
       font-weight: 600;
 
       & > span.value {
-        color: red;
+        color: ${(props) => props.theme.price};
       }
     }
   }
@@ -205,9 +207,27 @@ export const TitleContent = styled.div`
   background-color: rgb(221, 221, 221);
 `;
 export const UserProfile = styled.div`
-  & p {
+  & div.user-content, div.user-profile-title {
     font-size: 14px;
     font-weight: bold;
+
+    & > form.only-field {
+      position: relative;
+
+      & .ant-row.ant-form-item.ant-form-item-with-help.ant-form-item-has-error,
+      & .ant-row.ant-form-item.ant-form-item-has-success.ant-form-item-with-help {
+        margin-bottom: 0;
+
+        & .ant-form-item-explain {
+          position: absolute;;
+
+          & > div {
+            font-size: 12px;
+            font-weight: 400;
+          }
+        }
+      }
+    }
 
     & > span {
       display: inline-block;
@@ -220,18 +240,18 @@ export const UserProfile = styled.div`
         margin-right: 16px;
         font-size: 14px;
         font-weight: 300;
-        color: #5b9bd1;
+        color: ${(props) => props.theme.btnPrimary};
         opacity: 0;
         transition: .3s;
         cursor: pointer;
 
         &:hover:after {
           position: absolute;
-          content: '';
-          display: block;
           bottom: 2px;
+          display: block;
           width: 100%;
-          border-bottom: 1px solid #5b9bd1;
+          border-bottom: 1px solid ${(props) => props.theme.btnPrimary};
+          content: '';
         }
       }
     }
@@ -246,6 +266,3 @@ export const UserProfile = styled.div`
     text-align: right;
   }
 `;
-// export const EditProfile = styled.div`
-//   padding-right: 60px;
-// `;

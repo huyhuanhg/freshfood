@@ -1,17 +1,19 @@
+import { useEffect, useState } from 'react';
 import { Affix, Button, Col, Menu, Row, Select, Spin } from 'antd';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
+
 import * as HomeS from '../../styles';
 import * as S from './style';
-import { useEffect, useState } from 'react';
+import { Filter as FilterStyle } from '../../../../../styles';
 import { BiFilterAlt, BsCheck, MdRemoveShoppingCart } from 'react-icons/all';
 import { getFoodListAction } from '../../../../../redux/actions';
 
 const SectionFoodList = ({ render }) => {
   const { Option } = Select;
   const dispatch = useDispatch();
-  const { foodList } = useSelector((state) => state.foodReducer);
-  const { tagList } = useSelector((state) => state.tagReducer);
+  const { foodList } = useSelector(({ foodReducer }) => foodReducer);
+  const { tagList } = useSelector(({ tagReducer }) => tagReducer);
 
   const [menuActive, setMenuActive] = useState('created_at');
   const [sortPrice, setSortPrice] = useState('');
@@ -70,21 +72,21 @@ const SectionFoodList = ({ render }) => {
   };
 
   const renderTagListMenu = (tagsActive) => {
-    return tagList.data.map((tag) => {
-      if (tag.tagActive === 1) {
+    return tagList.data.map(({ id, tagActive, tagName }) => {
+      if (tagActive === 1) {
         let icon = null;
-        const isActive = tagsActive.indexOf(`${tag.id}`) > -1;
+        const isActive = tagsActive.indexOf(`${id}`) > -1;
         if (isActive) {
           icon = (<BsCheck className='custom-icon-position' />);
         }
         return (
           <Menu.Item
-            key={tag.id}
+            key={id}
             icon={icon}
             className='hide-after'
             onClick={({ key }) => handleChaneTag(key)}
           >
-            {tag.tagName}
+            {tagName}
           </Menu.Item>
         );
       }
@@ -96,10 +98,7 @@ const SectionFoodList = ({ render }) => {
         <Affix offsetTop={61.188}>
           <Menu
             theme='light'
-            style={{
-              background: '#fff',
-              height: 'auto',
-            }}
+            style={{ background: '#fff', height: 'auto' }}
             selectedKeys={request.tags.length === 0 ? [''] : request.tags}
             mode='inline'
           >
@@ -120,13 +119,7 @@ const SectionFoodList = ({ render }) => {
       </Col>
       <Col span={20}>
         <HomeS.AffixIndex offsetTop={61.188}>
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              backgroundColor: '#ddd',
-            }}
-          >
+          <FilterStyle>
             <Menu
               mode='horizontal'
               multiple={true}
@@ -151,15 +144,7 @@ const SectionFoodList = ({ render }) => {
                 Bán chạy
               </Menu.Item>
             </Menu>
-            <ul
-              style={{
-                listStyle: 'none',
-                display: 'flex',
-                alignItems: 'center',
-                paddingRight: '20px',
-                margin: 0,
-              }}
-            >
+            <ul className='m-0 d-flex vertical-center pr-2r'>
               <li>
                 <Select
                   value={sortPrice}
@@ -186,26 +171,22 @@ const SectionFoodList = ({ render }) => {
                 </Select>
               </li>
             </ul>
-          </div>
+          </FilterStyle>
         </HomeS.AffixIndex>
-        <div style={{ paddingTop: 20, position: 'relative' }}>
+        <div className='p-relative pt-2r'>
           {foodList.total === 0
             ?
             <div
+              className='d-flex vertical-center horizontal-center t-center fw-b'
               style={{
                 minHeight: '400px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                textAlign: 'center',
                 fontSize: '150%',
-                fontWeight: 'bold',
               }}
             >
               <div>
                 <MdRemoveShoppingCart
                   style={{
-                    color: 'red',
+                    color: '#f5222d',
                     fontSize: '200%',
                   }}
                 /><br />
@@ -219,8 +200,8 @@ const SectionFoodList = ({ render }) => {
             foodList.load &&
             <Spin
               size='large'
+              className='p-absolute'
               style={{
-                position: 'absolute',
                 top: '100%',
                 left: '50%',
                 transform: 'translate(-50%, -200%)',
@@ -228,14 +209,7 @@ const SectionFoodList = ({ render }) => {
             />
           }
           {foodList.currentPage < foodList.lastPage &&
-          <div
-            style={{
-              display: 'flex',
-              alignItem: 'center',
-              justifyContent: 'center',
-              marginTop: '3rem',
-            }}
-          >
+          <div className='d-flex vertical-center horizontal-center mt-3r'>
             <Button
               onClick={() => setRequest({
                 ...request,

@@ -1,16 +1,19 @@
-import { Button, Form, Input } from 'antd';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
+
+import { Button, Form, Input } from 'antd';
 import PropTypes from 'prop-types';
+
 import { loginAction } from '../../../redux/actions';
+
 import * as S from './style';
 
 const ModalLogin = ({ visible, setVisible }) => {
   const [form] = Form.useForm();
   const dispatch = useDispatch();
-  const { responseAction } = useSelector((state) => state.userReducer);
-  const { userInfo } = useSelector((state) => state.userReducer);
+  const { responseAction } = useSelector(({ userReducer }) => userReducer);
+  const { userInfo } = useSelector(({ userReducer }) => userReducer);
   useEffect(() => {
     if (userInfo.data.id) {
       setVisible(false);
@@ -32,7 +35,7 @@ const ModalLogin = ({ visible, setVisible }) => {
     dispatch(
       loginAction({
         data: value,
-      })
+      }),
     );
   };
   return (
@@ -44,44 +47,44 @@ const ModalLogin = ({ visible, setVisible }) => {
       <div>
         <h2>FoodBooking</h2>
         <h5>Đăng nhập để mua sắm</h5>
-        <S.FormCustom form={form} layout="vertical" onFinish={handleLogin}>
+        <S.FormCustom form={form} layout='vertical' onFinish={handleLogin}>
           <Form.Item
-            name="email"
+            name='email'
             rules={[
               { required: true, message: 'Vui lòng nhập email' },
               {
                 pattern: new RegExp(
-                  '^(([^<>()[\\]\\\\.,;:\\s@"]+(\\.[^<>()[\\]\\\\.,;:\\s@"]+)*)|(".+"))@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$'
+                  '^(([^<>()[\\]\\\\.,;:\\s@"]+(\\.[^<>()[\\]\\\\.,;:\\s@"]+)*)|(".+"))@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$',
                 ),
                 message: 'Định dạng email không đúng!',
               },
             ]}
           >
-            <Input placeholder="Email" />
+            <Input placeholder='Email' />
           </Form.Item>
           <Form.Item
-            name="password"
+            name='password'
             rules={[
               { required: true, message: 'Vui lòng nhập mật khẩu' },
               { min: 6, message: 'Mật khẩu tối thiểu 6 kí tự!' },
             ]}
           >
-            <Input.Password placeholder="Mật khẩu" />
+            <Input.Password placeholder='Mật khẩu' />
           </Form.Item>
           <Form.Item>
             <Button
-              type="primary"
-              htmlType="submit"
+              type='primary'
+              htmlType='submit'
               disabled={responseAction.login.load}
             >
               Đăng nhập
-              <S.SubmitLoading size="middle" show={responseAction.login.load} />
+              <S.SubmitLoading size='middle' show={responseAction.login.load} />
             </Button>
           </Form.Item>
         </S.FormCustom>
-        <Link to="/forgot">Quên mật khẩu?</Link>
+        <Link to='/forgot'>Quên mật khẩu?</Link>
         <p>
-          Chưa có tài khoản? <Link to="/register">Đăng ký</Link>
+          Chưa có tài khoản? <Link to='/register'>Đăng ký</Link>
         </p>
       </div>
     </S.ModalLoginCustom>

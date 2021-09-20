@@ -1,19 +1,20 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
-import { getCommentsAction } from '../../../../redux/actions';
-import * as S from '../style';
-import { CommentOutlined, EyeOutlined } from '@ant-design/icons';
-import { Button, Col, Collapse, Image, Row } from 'antd';
-import { ROOT_PATH } from '../../../../contants';
 import { Link } from 'react-router-dom';
 import moment from 'moment';
 import { BsCardImage } from 'react-icons/all';
+import { CommentOutlined, EyeOutlined } from '@ant-design/icons';
+import { Button, Col, Collapse, Image, Row } from 'antd';
+
+import { getCommentsAction } from '../../../../redux/actions';
+import * as S from '../style';
+import { ROOT_PATH } from '../../../../contants';
 
 const HistoryComment = () => {
   moment.locale('vi');
   const dispatch = useDispatch();
-  const { userInfo } = useSelector((state) => state.userReducer);
-  const { commentList } = useSelector((state) => state.commentReducer);
+  const { userInfo } = useSelector(({ userReducer }) => userReducer);
+  const { commentList } = useSelector(({ commentReducer }) => commentReducer);
   console.log(commentList);
   useEffect(() => {
     if (userInfo.data.id) {
@@ -44,12 +45,9 @@ const HistoryComment = () => {
                       </S.StoreTitle>
                     </Col>
                     <Col
+                      className='d-flex vertical-center'
                       span={10}
-                      style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'space-around',
-                      }}
+                      style={{ justifyContent: 'space-around' }}
                     >
                       <S.CommentTitleContent>{commentItem.content}</S.CommentTitleContent>
                       <div>
@@ -124,14 +122,7 @@ const HistoryComment = () => {
             </S.TitleContent>
             {renderComments()}
             {commentList.currentPage < commentList.lastPage &&
-            <div
-              style={{
-                display: 'flex',
-                alignItem: 'center',
-                justifyContent: 'center',
-                marginTop: '3rem',
-              }}
-            >
+            <div className='d-flex vertical-center horizontal-center mt-3r'>
               <Button
                 onClick={() =>
                   dispatch(getCommentsAction({

@@ -28,7 +28,7 @@ function* getStoreListSaga(action) {
     const result = yield axios({
       method: 'GET',
       url: `${SERVER_CLIENT_API_URL}/stores`,
-      params : toSnakeCase(params),
+      params: toSnakeCase(params),
     });
     yield put({
       type: SUCCESS(STORE_ACTION.GET_STORE_LIST),
@@ -73,7 +73,30 @@ function* getStoreDetailSaga(action) {
   }
 }
 
+function* getStorePicturesSaga(action) {
+  try {
+    const { params, storeId } = action.payload;
+    const result = yield axios({
+      method: 'GET',
+      url: `${SERVER_CLIENT_API_URL}/stores/${storeId}/pictures`,
+      params,
+    });
+    yield put({
+      type: SUCCESS(STORE_ACTION.GET_STORE_PICTURES),
+      payload: {
+        data: camelCaseKeys(result.data, { deep: true }),
+      },
+    });
+  } catch (e) {
+    yield put({
+      type: FAILURE(STORE_ACTION.GET_STORE_PICTURES),
+      payload: { error: e.message },
+    });
+  }
+}
+
 export default function* storeSaga() {
   yield takeEvery(REQUEST(STORE_ACTION.GET_STORE_LIST), getStoreListSaga);
   yield takeEvery(REQUEST(STORE_ACTION.GET_STORE_DETAIL), getStoreDetailSaga);
+  yield takeEvery(REQUEST(STORE_ACTION.GET_STORE_PICTURES), getStorePicturesSaga);
 }

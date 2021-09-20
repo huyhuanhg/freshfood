@@ -1,6 +1,6 @@
 import * as StoreDetailStyle from '../../style';
 import * as S from './style';
-import { Affix, Avatar, Row, Col, Image } from 'antd';
+import { Affix, Avatar, Row, Col, Image, Spin } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { Button } from 'antd';
@@ -10,6 +10,7 @@ import { getCommentsAction } from '../../../../../redux/actions';
 import { ROOT_PATH } from '../../../../../contants';
 import moment from 'moment';
 import { EyeOutlined } from '@ant-design/icons';
+import { Filter as FilterStyle } from '../../../../../styles';
 
 const StoreDetailComment = (
   {
@@ -19,12 +20,14 @@ const StoreDetailComment = (
   },
 ) => {
   const dispatch = useDispatch();
-  const { commentList } = useSelector((state) => state.commentReducer);
+  const { commentList } = useSelector(({ commentReducer }) => commentReducer);
   const storeId = slug.slice(slug.lastIndexOf('.') + 1);
   moment.locale('vi');
+
   useEffect(() => {
     dispatch(getCommentsAction({ storeId }));
   }, []);
+
   const renderComment = () => {
     return commentList.data.map((commentItem) => {
       return (
@@ -91,21 +94,14 @@ const StoreDetailComment = (
         ?
         <div>
           <Affix offsetTop={59.188 + 54}>
-            <div
-              style={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                backgroundColor: '#ddd',
-              }}
-            >
-              <StoreDetailStyle.StoreContentTitle>
+            <FilterStyle>
+              <StoreDetailStyle.StoreFilterTitle>
                 Bình luận cửa hàng
-              </StoreDetailStyle.StoreContentTitle>
+              </StoreDetailStyle.StoreFilterTitle>
               <Button
                 style={{
                   color: '#fff',
-                  background: '#2373ff',
+                  background: '#3380d8',
                   marginRight: 10,
                 }}
                 onClick={() => {
@@ -116,19 +112,12 @@ const StoreDetailComment = (
               >
                 Viết Bình luận
               </Button>
-            </div>
+            </FilterStyle>
           </Affix>
           <div>
             {renderComment()}
             {commentList.currentPage < commentList.lastPage &&
-            <div
-              style={{
-                display: 'flex',
-                alignItem: 'center',
-                justifyContent: 'center',
-                marginTop: '3rem',
-              }}
-            >
+            <div className='d-flex vertical-center horizontal-center mt-3r'>
               <Button
                 onClick={() =>
                   dispatch(getCommentsAction({
@@ -144,15 +133,7 @@ const StoreDetailComment = (
           </div>
         </div>
         :
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            textAlign: 'center',
-            minHeight: 200,
-            fontSize: 16,
-          }}>
+        <div className='d-flex vertical-center horizontal-center t-center' style={{ minHeight: 200, fontSize: 16 }}>
           <div>
             <p>Chưa có bình luận nào!</p>
             <p>Hãy là người đầu tiên bình luận về cửa hàng</p>
@@ -160,7 +141,7 @@ const StoreDetailComment = (
               style={{
                 width: '80%',
                 color: '#fff',
-                background: '#2373ff',
+                background: '#3380d8',
               }}
               onClick={() => {
                 if (checkLogin()) {
@@ -173,6 +154,11 @@ const StoreDetailComment = (
           </div>
         </div>
       }
+      {commentList.load && (
+        <div className='d-flex horizontal-center vertical-center' style={{ width: '100%' }}>
+          <Spin />
+        </div>
+      )}
     </div>
   );
 };

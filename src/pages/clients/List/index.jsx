@@ -1,12 +1,14 @@
+import { useEffect, useState } from 'react';
 import { Affix, Col, Menu, Row } from 'antd';
 import { MdNavigateNext } from 'react-icons/all';
 import { Route, Switch } from 'react-router-dom';
+import PropTypes from 'prop-types';
+
 import history from '../../../utils/history';
-import * as ClientStyle from '../styles';
 import StoreList from './components/StoreList';
 import FoodList from './components/FoodList';
-import PropTypes from 'prop-types';
-import { useEffect, useState } from 'react';
+
+import * as ClientStyle from '../styles';
 
 const ClientList = ({ setShowLogin }) => {
   const [menuActive, setMenuActive] = useState('foods');
@@ -14,7 +16,7 @@ const ClientList = ({ setShowLogin }) => {
     setMenuActive(history.location.pathname);
   }, [history.location.pathname]);
   return (
-    <ClientStyle.Section style={{ backgroundColor: '#eee' }}>
+    <ClientStyle.Section style={{ backgroundColor: '#f3f3f3' }}>
       <ClientStyle.Container>
         <Row gutter={20}>
           <Col span={4}>

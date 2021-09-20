@@ -7,12 +7,13 @@ import {
 } from 'react-icons/all';
 
 import PropTypes from 'prop-types';
+
 import history from '../../../utils/history';
 
 import * as S from './style';
 
-import storeLoading from '../../../assets/images/loadStore.png';
 import { ROOT_PATH } from '../../../contants';
+import storeLoading from '../../../assets/images/loadStore.png';
 
 const StoreItem = ({
   id,

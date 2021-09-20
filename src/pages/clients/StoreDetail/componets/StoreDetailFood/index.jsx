@@ -8,14 +8,15 @@ import FoodDetailCarousel from '../../../../../components/clients/FoodDeatilCaro
 import { FoodStore } from '../../../../../components/clients/FoodItem';
 import { getFoodListAction, updateCartAction } from '../../../../../redux/actions';
 import history from '../../../../../utils/history';
+import { Filter as FilterStyle } from '../../../../../styles';
 
 import * as StoreDetailStyle from '../../style';
 
 const StoreDetailFood = ({ showFoodDetail, setShowLogin, setShowFoodDetail, slug }) => {
   const dispatch = useDispatch();
-  const { foodList } = useSelector((state) => state.foodReducer);
-  const { tagList } = useSelector((state) => state.tagReducer);
-  const { userInfo } = useSelector((state) => state.userReducer);
+  const { foodList } = useSelector(({ foodReducer }) => foodReducer);
+  const { tagList } = useSelector(({ tagReducer }) => tagReducer);
+  const { userInfo } = useSelector(({ userReducer }) => userReducer);
   const [foodId, setFoodId] = useState(null);
   const [filterFood, setFilterFood] = useState(null);
   const [foodIndex, setFoodIndex] = useState(0);
@@ -27,6 +28,7 @@ const StoreDetailFood = ({ showFoodDetail, setShowLogin, setShowFoodDetail, slug
     if (pathname.match('/promotion')) {
       filter = {
         group: 'promotion',
+        page: 1,
       };
     }
     setFilterFood(filter);
@@ -36,6 +38,7 @@ const StoreDetailFood = ({ showFoodDetail, setShowLogin, setShowFoodDetail, slug
     if (filterFood && storeId) {
       dispatch(getFoodListAction({
         store: storeId,
+        page: 1,
         ...filterFood,
       }));
     }
@@ -59,11 +62,11 @@ const StoreDetailFood = ({ showFoodDetail, setShowLogin, setShowFoodDetail, slug
     );
   };
   const renderTagList = () => {
-    return tagList.data.map((tag) => {
-      if (tag.tagActive === 1) {
+    return tagList.data.map(({ id, tagActive, tagName }) => {
+      if (tagActive === 1) {
         return {
-          value: tag.id,
-          label: tag.tagName,
+          value: id,
+          label: tagName,
         };
       }
     });
@@ -87,28 +90,13 @@ const StoreDetailFood = ({ showFoodDetail, setShowLogin, setShowFoodDetail, slug
   return (
     <div>
       <Affix offsetTop={59.188 + 54}>
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            backgroundColor: '#ddd',
-          }}
-        >
-          <StoreDetailStyle.StoreContentTitle>
+        <FilterStyle>
+          <StoreDetailStyle.StoreFilterTitle>
             {history.location.pathname.match('/promotion') ? 'Khuyến mãi' : 'Đặt món'}
-          </StoreDetailStyle.StoreContentTitle>
+          </StoreDetailStyle.StoreFilterTitle>
           {foodList.total > 0 &&
-          <ul
-            style={{
-              listStyle: 'none',
-              display: 'flex',
-              alignItems: 'center',
-              paddingRight: '20px',
-              margin: 0,
-            }}
-          >
+          <ul className='d-flex vertical-center m-0 pr-2r'>
             <li>
-
               <Select
                 value={filterFood?.tags}
                 mode='multiple'
@@ -123,6 +111,7 @@ const StoreDetailFood = ({ showFoodDetail, setShowLogin, setShowFoodDetail, slug
                   setFilterFood({
                     ...filterFood,
                     tags: value,
+                    page: 1,
                   });
                 }}
               />
@@ -137,6 +126,7 @@ const StoreDetailFood = ({ showFoodDetail, setShowLogin, setShowFoodDetail, slug
                     ...filterFood,
                     sort: 'price',
                     sortType: value,
+                    page: 1,
                   });
                 }}
               >
@@ -149,22 +139,18 @@ const StoreDetailFood = ({ showFoodDetail, setShowLogin, setShowFoodDetail, slug
             </li>
           </ul>
           }
-        </div>
+        </FilterStyle>
       </Affix>
       <StoreDetailStyle.StoreContent>
         <Row>
           {foodList.total === 0
             ?
             <Col
+              className='d-flex horizontal-center vertical-center t-center fw-b'
               span={24}
               style={{
                 minHeight: '200px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                textAlign: 'center',
                 fontSize: '150%',
-                fontWeight: 'bold',
               }}
             >
               <div>
@@ -181,14 +167,7 @@ const StoreDetailFood = ({ showFoodDetail, setShowLogin, setShowFoodDetail, slug
             renderFoodList(12, foodList.load)
           }
           {foodList.load && (
-            <div
-              style={{
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                width: '100%',
-              }}
-            >
+            <div className='d-flex horizontal-center vertical-center' style={{ width: '100%' }}>
               <Spin />
             </div>
           )}
@@ -228,18 +207,17 @@ const StoreDetailFood = ({ showFoodDetail, setShowLogin, setShowFoodDetail, slug
           </StoreDetailStyle.ModalCustom>
         </Row>
         {foodList.currentPage < foodList.lastPage &&
-        <div
-          style={{
-            display: 'flex',
-            alignItem: 'center',
-            justifyContent: 'center',
-            marginTop: '3rem',
-          }}
-        >
-          <StoreDetailStyle.ViewOther>Xem thêm</StoreDetailStyle.ViewOther>
+        <div className='d-flex horizontal-center vertical-center mt-3r'>
+          <StoreDetailStyle.ViewOther
+            onClick={() => setFilterFood({
+              ...filterFood,
+              page: foodList.currentPage + 1,
+            })}
+          >
+            Xem thêm
+          </StoreDetailStyle.ViewOther>
         </div>
         }
-
       </StoreDetailStyle.StoreContent>
     </div>
   );

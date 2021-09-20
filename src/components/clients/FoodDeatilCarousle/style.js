@@ -9,30 +9,30 @@ export const CarouselItem = styled.div`
     & > img {
       position: absolute;
       top: 50%;
-      transform: translateY(-50%);
       max-width: 100%;
       height: 500px;
       width: 100%;
       max-height: 500px;
-      vertical-align: middle;
       border-style: none;
+      vertical-align: middle;
+      transform: translateY(-50%);
     }
 
     & > div.info {
       position: absolute;
-      color: #fff;
       top: auto;
-      bottom: 0;
       left: 0;
-      width: 100%;
-      box-sizing: border-box;
-      background-color: rgba(0, 0, 0, 0.8);
+      bottom: 0;
       padding: 10px;
+      width: 100%;
+      color: #fff;
+      background-color: rgba(0, 0, 0, 0.6);
+      box-sizing: border-box;
 
       & div.imgbox-food-name {
+        margin-bottom: 3px;
         font-size: 16px;
         font-weight: bold;
-        margin-bottom: 3px;
       }
 
       & div.imgbox-desc {
@@ -55,51 +55,34 @@ export const CarouselItem = styled.div`
       }
     }
   }
-
-  & > span.rate {
-    display: flex;
-    align-items: center;
-    position: relative;
-    top: 10px;
-    left: 10px;
-    color: #999;
-    font-size: 200%;
-
-    & > svg {
-      color: #f09724;
-    }
-  }
 `;
 export const NextArrowButtonWrap = styled.div`
   position: absolute;
   right: 0;
   top: 46%;
   left: auto;
-  transform: translateY(-50%);
-
-  width: 50px;
-  height: 60px;
-
-  overflow: hidden;
+  z-index: 100;
   display: ${({ hide }) => (hide ? 'none' : 'flex')};
   align-items: center;
-
-  z-index: 100;
+  width: 50px;
+  height: 60px;
+  overflow: hidden;
+  transform: translateY(-50%);
 `;
 export const NextArrowButton = styled.button`
   position: relative;
-  transform: translateX(50%);
-  cursor: pointer;
   flex-basis: 100%;
+  padding: 0;
   height: 50px;
   width: 50px;
-  border-radius: 50%;
-  outline: none;
   border: 0;
+  border-radius: 50%;
   border-left: 1px solid #444;
   background: rgba(204, 204, 204, 0.8);
   box-shadow: 0 0 10px 1px #898989;
-  padding: 0;
+  transform: translateX(50%);
+  cursor: pointer;
+  outline: none;
 
   & > svg {
     position: absolute;
@@ -113,31 +96,26 @@ export const PrevArrowButtonWrap = styled.div`
   right: auto;
   top: 46%;
   left: 0;
-  transform: translateY(-50%);
-
+  z-index: 100;
+  display: ${({ hide }) => (hide ? 'none' : 'flex')};
   width: 50px;
   height: 60px;
-
   overflow: hidden;
-  display: ${({ hide }) => (hide ? 'none' : 'flex')};
   align-items: center;
-
-  z-index: 100;
+  transform: translateY(-50%);
 `;
 export const PrevArrowButton = styled.button`
   position: relative;
-  cursor: pointer;
   flex-basis: 100%;
   height: 50px;
   border-radius: 50%;
-
-  transform: translateX(-50%);
-
-  outline: none;
   border: 0;
   border-right: 1px solid #444;
+  transform: translateX(-50%);
+  outline: none;
   background: rgba(204, 204, 204, 0.8);
   box-shadow: 0 0 10px 1px #898989;
+  cursor: pointer;
 
   & > svg {
     position: absolute;

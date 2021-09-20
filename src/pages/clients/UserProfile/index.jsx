@@ -1,3 +1,6 @@
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect, useState } from 'react';
+import { Redirect, Route, Switch } from 'react-router-dom';
 import { Affix, Col, Menu, Row, Spin } from 'antd';
 import {
   AiFillEdit,
@@ -10,12 +13,11 @@ import {
   FiSettings,
   GiRank3,
 } from 'react-icons/all';
-import { useDispatch, useSelector } from 'react-redux';
-import { Redirect, Route, Switch } from 'react-router-dom';
-import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
+
 import * as ClientStyle from '../styles';
 import * as S from './style';
+
 import { ROOT_PATH, TITLE } from '../../../contants';
 
 import Profile from './Profile';
@@ -23,15 +25,16 @@ import HistoryOrder from './HistoryOrder';
 import HistoryRating from './HistoryRating';
 import ChangePassword from './ChangePassword';
 import HistoryComment from './HistoryComment';
+import EditProfile from './EditProfile';
+
 import history from '../../../utils/history';
 import { changeAvatarAction, logoutAction } from '../../../redux/actions';
-import EditProfile from './EditProfile';
 
 const UserProfile = ({ match }) => {
   document.title = TITLE.USER_PROFILE;
   const { SubMenu } = Menu;
   const userToken = localStorage.userInfo;
-  const { userInfo } = useSelector((state) => state.userReducer);
+  const { userInfo } = useSelector(({ userReducer }) => userReducer);
   const dispatch = useDispatch();
   const [activeMenu, setActiveMenu] = useState({
     subMenu: [],

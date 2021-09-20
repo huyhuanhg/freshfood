@@ -280,6 +280,147 @@ const userReducer = createReducer(initialState, {
       },
     };
   },
+  [REQUEST(USER_ACTION.CHANGE_FULL_NAME)]: (state) => {
+    return {
+      ...state,
+      userInfo: {
+        ...state.userInfo,
+        loadChangeFullName: true,
+        changeFullNameSuccess: false,
+      },
+    };
+  },
+  [SUCCESS(USER_ACTION.CHANGE_FULL_NAME)]: (state, action) => {
+    const { data } = action.payload;
+    return {
+      ...state,
+      userInfo: {
+        ...state.userInfo,
+        data,
+        loadChangeFullName: false,
+        changeFullNameSuccess: true,
+      },
+    };
+  },
+  [FAILURE(USER_ACTION.CHANGE_FULL_NAME)]: (state) => {
+    return {
+      ...state,
+      userInfo: {
+        ...state.userInfo,
+        loadChangeFullName: false,
+        changeFullNameSuccess: false,
+      },
+    };
+  },
+  [REQUEST(USER_ACTION.CHANGE_EMAIL)]: (state) => {
+    return {
+      ...state,
+      userInfo: {
+        ...state.userInfo,
+        loadChangeEmail: true,
+        errorChangeEmail: null,
+        changeEmailSuccess: false,
+      },
+    };
+  },
+  [SUCCESS(USER_ACTION.CHANGE_EMAIL)]: (state, action) => {
+    const { data } = action.payload;
+    return {
+      ...state,
+      userInfo: {
+        ...state.userInfo,
+        data,
+        loadChangeEmail: false,
+        errorChangeEmail: null,
+        changeEmailSuccess: true,
+      },
+    };
+  },
+  [FAILURE(USER_ACTION.CHANGE_EMAIL)]: (state, action) => {
+    const { error } = action.payload;
+    return {
+      ...state,
+      userInfo: {
+        ...state.userInfo,
+        loadChangeEmail: false,
+        changeEmailSuccess: false,
+        errorChangeEmail: error,
+      },
+    };
+  },
+  [REQUEST(USER_ACTION.CHANGE_NUMBER_PHONE)]: (state) => {
+    return {
+      ...state,
+      userInfo: {
+        ...state.userInfo,
+        loadChangeNumberPhone: true,
+        changePhoneSuccess: false,
+      },
+    };
+  },
+  [SUCCESS(USER_ACTION.CHANGE_NUMBER_PHONE)]: (state, action) => {
+    const { data } = action.payload;
+    return {
+      ...state,
+      userInfo: {
+        ...state.userInfo,
+        data,
+        loadChangeNumberPhone: false,
+        changePhoneSuccess: true,
+      },
+    };
+  },
+  [FAILURE(USER_ACTION.CHANGE_NUMBER_PHONE)]: (state) => {
+    return {
+      ...state,
+      userInfo: {
+        ...state.userInfo,
+        loadChangeNumberPhone: false,
+        changePhoneSuccess: false,
+      },
+    };
+  },
+  [REQUEST(USER_ACTION.CHANGE_PASSWORD)]: (state) => {
+    return {
+      ...state,
+      userInfo: {
+        ...state.userInfo,
+        loadChangePassword: true,
+        errorChangePassword: null,
+      },
+    };
+  },
+  [SUCCESS(USER_ACTION.CHANGE_PASSWORD)]: (state, action) => {
+    const { data } = action.payload;
+    return {
+      ...state,
+      userInfo: {
+        ...state.userInfo,
+        data,
+        loadChangePassword: false,
+      },
+    };
+  },
+  [FAILURE(USER_ACTION.CHANGE_PASSWORD)]: (state, action) => {
+    const { error } = action.payload;
+    return {
+      ...state,
+      userInfo: {
+        ...state.userInfo,
+        loadChangePassword: false,
+        errorChangePassword: error,
+      },
+    };
+  },
+  [USER_ACTION.RESET_ERROR_PASSWORD]: (state) => {
+    return {
+      ...state,
+      userInfo: {
+        ...state.userInfo,
+        errorChangePassword: null,
+      },
+    };
+  },
 });
 
 export default userReducer;

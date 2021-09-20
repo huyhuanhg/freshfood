@@ -1,4 +1,5 @@
 import { Col, Row } from 'antd';
+import { useEffect, useRef, useState } from 'react';
 import {
   BiStore,
   FiPercent,
@@ -6,8 +7,8 @@ import {
   GiSpellBook,
   IoFastFoodOutline,
 } from 'react-icons/all';
-import { useEffect, useRef, useState } from 'react';
 import camelCaseKeys from 'camelcase-keys';
+
 import { SERVER_CLIENT_API_URL } from '../../../../../contants';
 import * as S from './style';
 
@@ -42,11 +43,11 @@ const SectionListed = () => {
         <Row justify="space-around">
           <Col span={10}>
             <h2>
-              <span>FoodBooking</span>- Thực phẩm online
+              <span>FreshFood</span> - Thực phẩm online
             </h2>
             <p>
               Trong diễn biến dịch bệnh SARS-CoV-2 đang ngày càng phức tạp,
-              FoodBooking đang phấn đấu từng ngày để chung sức đánh tan dịch bệnh, hỗ
+              FreshFood đang phấn đấu từng ngày để chung sức đánh tan dịch bệnh, hỗ
               trợ và phục vụ khách hàng cùng vượt qua thời điểm khó khăn.
             </p>
           </Col>
@@ -70,7 +71,7 @@ const SectionListed = () => {
         <div className="list">
           <Row justify="center">
             <Col span={6}>
-              <S.IntroduceLink to={'/stores'} color={'#d44ca1'}>
+              <S.IntroduceLink to={'/stores'} color={'#ff85c0'}>
                 <figure>
                   <BiStore />
                   <figcaption>
@@ -82,7 +83,7 @@ const SectionListed = () => {
               </S.IntroduceLink>
             </Col>
             <Col span={6}>
-              <S.IntroduceLink to={'/foods'} color={'#e4b42e'}>
+              <S.IntroduceLink to={'/foods'} color={'#ffd666'}>
                 <figure>
                   <IoFastFoodOutline />
                   <figcaption>
@@ -94,7 +95,7 @@ const SectionListed = () => {
               </S.IntroduceLink>
             </Col>
             <Col span={6}>
-              <S.IntroduceLink to={'/promotions'} color={'#1a265c'}>
+              <S.IntroduceLink to={'/promotions'} color={'#85a5ff'}>
                 <figure>
                   <FiPercent />
                   <figcaption>
@@ -106,7 +107,7 @@ const SectionListed = () => {
               </S.IntroduceLink>
             </Col>
             <Col span={6}>
-              <S.IntroduceLink to={'/crowded'} color={'#08bcca'}>
+              <S.IntroduceLink to={'/crowded'} color={'#5cdbd3'}>
                 <figure>
                   <GiSpellBook />
                   <figcaption>

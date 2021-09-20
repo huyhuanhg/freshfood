@@ -26,22 +26,23 @@ export const ModalLoginCustom = styled(Modal)`
     padding: 3rem;
 
     & h2 {
-      color: #0f9d58;
+      margin-bottom: 0;
+      color: ${(props) => props.theme.rootColor};
       font-family: "Poppins", sans-serif !important;
       font-weight: 800;
       font-size: 200%;
-      margin-bottom: 0;
 
       & + h5 {
+        margin-bottom: 20px;
         font-weight: 600;
         font-size: 120%;
         color: #777;
-        margin-bottom: 20px;
       }
     }
   }
+
   & a {
-    color: #1890ff;
+    color: ${(props) => props.theme.btnPrimary};
   }
 `;
 export const FormCustom = styled(Form)`
@@ -60,11 +61,11 @@ export const FormCustom = styled(Form)`
 
   & .ant-col.ant-form-item-control {
     & button {
+      height: auto;
       width: 100%;
-      font-weight: bold;
       padding: 5px;
       margin-top: 10px;
-      height: auto;
+      font-weight: bold;
 
       &[disabled] {
         cursor: wait;
@@ -78,9 +79,9 @@ export const FormCustom = styled(Form)`
 `;
 
 export const SubmitLoading = styled(Spin)`
-  display: ${({ show }) => (show ? 'block' : 'none')};
   position: absolute;
   top: 50%;
   left: 50%;
+  display: ${({ show }) => (show ? 'block' : 'none')};
   transform: translate(-50%, -50%);
 `;

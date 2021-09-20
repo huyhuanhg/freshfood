@@ -1,14 +1,12 @@
 import styled from 'styled-components';
-import bg from '../../../assets/images/bgfooter.png';
 
 export const FooterWrap = styled.footer`
   padding: 0;
   background-attachment: fixed;
   background-position: 0 400px;
   background-repeat: no-repeat;
-  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
-    url(${bg});
-  color: rgba(255, 255, 255, 0.8);
+  background-color: ${(props) => props.theme.bg};
+  color: ${(props) => props.theme.gray};
   font-size: 130%;
 
   & > div {
@@ -18,10 +16,10 @@ export const FooterWrap = styled.footer`
   }
 
   & h4 {
+    margin-bottom: 16px;
     font-size: 130%;
     font-weight: bold;
-    color: #29d197;
-    margin-bottom: 16px;
+    color: ${(props) => props.theme.gray};
   }
 `;
 export const AboutFooter = styled.footer`
@@ -30,20 +28,32 @@ export const AboutFooter = styled.footer`
     align-items: center;
 
     & > div {
-      width: 37px;
-      height: 37px;
-      border-radius: 50%;
-      background-color: rgba(255, 255, 255, 0.2);
       display: flex;
       justify-content: center;
       align-items: center;
       margin-right: 5px;
-      color: white;
+      width: 37px;
+      height: 37px;
+      border-radius: 50%;
       cursor: pointer;
+
+      &.facebook {
+        color: ${(props) => props.theme.facebook};
+        background-color: ${(props) => props.theme.facebook1};
+      }
+
+      &.google {
+        color: ${(props) => props.theme.google};
+        background-color: ${(props) => props.theme.google1};
+      }
+
+      &.skype {
+        color: ${(props) => props.theme.skype};
+        background-color: ${(props) => props.theme.skype1};
+      }
 
       &:hover > svg {
         transition: 0.4s;
-        color: #29d197;
         transform: scale(1.2);
       }
     }
@@ -55,42 +65,42 @@ export const Subscribe = styled.div`
 
     & > input {
       padding: 15px 20px;
+      width: 100%;
+      border-radius: 30px;
+      border: 1px solid ${(props) => props.theme.supColor2};
       background-color: unset;
       outline: none;
-      border-radius: 30px;
-      border: 1px solid rgba(255, 255, 255, 0.5);
-      color: white;
-      width: 100%;
-      transition: 0.4s ease-in-out;
+      color: ${(props) => props.theme.gray};
+      transition: 0.3s ease-in-out;
 
       &:hover,
       &:focus {
-        border-color: #29d197;
+        border-color: ${(props) => props.theme.rootColor};
       }
     }
 
     & > button {
-      display: flex;
-      align-items: center;
-      outline: none;
-      background-color: unset;
-      border: none;
-      font-size: 20px;
       position: absolute;
       top: 50%;
       right: 8%;
+      display: flex;
+      align-items: center;
+      border: none;
+      outline: none;
+      background-color: unset;
+      font-size: 20px;
       transform: translate(50%, -50%);
       cursor: pointer;
-      color: white;
+      color: ${(props) => props.theme.gray};
     }
   }
 `;
 export const GetInTouch = styled.div`
   & > ul {
-    list-style: none;
-    color: white;
     margin: 0;
     padding-left: 0;
+    list-style: none;
+    color: ${(props) => props.theme.gray};
 
     & > li {
       margin: 0 30px 10px 0;
@@ -103,22 +113,22 @@ export const GetInTouch = styled.div`
 
       & > svg,
       & > span {
-        color: #29d197;
         margin-right: 5px;
+        color: ${(props) => props.theme.supColor2};
       }
     }
   }
 `;
 export const Copyright = styled.div`
-  background-color: #1a265c;
-  text-align: center;
-  padding: 10px 0;
   position: relative;
-  color: white;
+  padding: 10px 0;
+  background-color: ${(props) => props.theme.supColor1};
+  text-align: center;
+  color: ${(props) => props.theme.gray};
   font-size: 14px;
 
   & > span {
-    color: #29d197;
+    color: ${(props) => props.theme.gray};
     font-weight: bold;
   }
 `;

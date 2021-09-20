@@ -1,25 +1,20 @@
-import { Anchor, Button } from 'antd';
+import { Anchor } from 'antd';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import * as HomeS from '../../styles';
 
 const SectionPromotion = ({ render, anchor: AnchorLink }) => {
-  const { foodPromotions } = useSelector((state) => state.foodReducer);
+  const { foodPromotions } = useSelector(({ foodReducer }) => foodReducer);
   return (
     <HomeS.Section>
       <HomeS.SectionTitle>Khuyến mãi</HomeS.SectionTitle>
       <HomeS.SectionContainer>
         {render(foodPromotions.data)}
-        <div
-          style={{
-            display: 'flex',
-            alignItem: 'center',
-            justifyContent: 'center',
-            marginTop: '3rem',
-          }}
-        >
-          <Anchor affix={false}>
-            <AnchorLink href="#test" title={<Button>Xem tất cả</Button>} />
+        <div className='d-flex vertical-center horizontal-center mt-3r'>
+          <Anchor affix={false} className='d-inline-block w-40'>
+            <AnchorLink href='#test' title={
+              <HomeS.ButtonCustom>Xem tất cả</HomeS.ButtonCustom>
+            } />
           </Anchor>
         </div>
       </HomeS.SectionContainer>

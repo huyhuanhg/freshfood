@@ -6,6 +6,7 @@ import {
 } from '@ant-design/icons';
 import { Space } from 'antd';
 import PropTypes from 'prop-types';
+
 import * as AppStyle from '../../../styles';
 import * as Style from './style';
 
@@ -21,7 +22,7 @@ function Header({ collapsed, toggle }) {
               <MenuFoldOutlined onClick={() => toggle(!collapsed)} />
             )}
           </AppStyle.Icon>
-          <Style.SearchForm placeholder="Search Keywords..." />
+          <Style.SearchForm placeholder='Search Keywords...' />
         </Space>
         <Space>
           <AppStyle.Icon>

@@ -1,10 +1,13 @@
+import { useEffect, useRef } from 'react';
+
 import { Carousel, Col, Row } from 'antd';
 import NumberFormat from 'react-number-format';
 import { FcNext, FcPrevious } from 'react-icons/all';
-import { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
-import { ROOT_PATH } from '../../../contants';
+
 import * as Style from './style';
+
+import { ROOT_PATH } from '../../../contants';
 
 const NextArrow = ({ onClick, index, lastIndex, setFoodId, foodId }) => {
   return (

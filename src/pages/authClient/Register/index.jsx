@@ -23,7 +23,7 @@ function RegisterPage() {
 
   const dispatch = useDispatch();
 
-  const { register } = useSelector((state) => state.userReducer.responseAction);
+  const { register } = useSelector(({ userReducer }) => userReducer.responseAction);
 
   const [readySubmit, setReadySubmit] = useState(false);
 
@@ -192,7 +192,7 @@ function RegisterPage() {
           data: {
             email: field.email,
           },
-        })
+        }),
       );
     }
   };
@@ -211,7 +211,7 @@ function RegisterPage() {
       dispatch(
         registerAction({
           data: field,
-        })
+        }),
       );
     }
   };
@@ -233,17 +233,17 @@ function RegisterPage() {
             </AuthStyle.IconWrap>
             <AuthStyle.FormControlWrap>
               <AuthStyle.TitleFormControl
-                htmlFor="firstName"
+                htmlFor='firstName'
                 focus={fieldFocus.firstName}
               >
                 Họ
               </AuthStyle.TitleFormControl>
               <AuthStyle.FormControl
-                id="firstName"
-                type="text"
-                name="firstName"
+                id='firstName'
+                type='text'
+                name='firstName'
                 value={field.firstName}
-                autoComplete="off"
+                autoComplete='off'
                 onFocus={handleFocus}
                 onBlur={handleBlur}
                 onChange={handleChangeField}
@@ -259,17 +259,17 @@ function RegisterPage() {
             <div />
             <AuthStyle.FormControlWrap>
               <AuthStyle.TitleFormControl
-                htmlFor="lastName"
+                htmlFor='lastName'
                 focus={fieldFocus.lastName}
               >
                 Tên
               </AuthStyle.TitleFormControl>
               <AuthStyle.FormControl
-                id="lastName"
-                type="text"
-                name="lastName"
+                id='lastName'
+                type='text'
+                name='lastName'
                 value={field.lastName}
-                autoComplete="off"
+                autoComplete='off'
                 onFocus={handleFocus}
                 onBlur={handleBlur}
                 onChange={handleChangeField}
@@ -297,15 +297,15 @@ function RegisterPage() {
               <RegisterStyle.IconCustom icon={PhoneOutlined} />
             </AuthStyle.IconWrap>
             <AuthStyle.FormControlWrap>
-              <AuthStyle.TitleFormControl htmlFor="phone" focus={fieldFocus.phone}>
+              <AuthStyle.TitleFormControl htmlFor='phone' focus={fieldFocus.phone}>
                 Số điện thoại
               </AuthStyle.TitleFormControl>
               <AuthStyle.FormControl
-                id="phone"
-                type="text"
-                name="phone"
+                id='phone'
+                type='text'
+                name='phone'
                 value={field.phone}
-                autoComplete="off"
+                autoComplete='off'
                 onFocus={handleFocus}
                 onBlur={handleBlur}
                 onChange={handleChangeField}
@@ -320,8 +320,8 @@ function RegisterPage() {
             </AuthStyle.IconWrap>
             <AuthStyle.FormControlWrap>
               <RegisterStyle.SelectCustom
-                id="gender"
-                name="gender"
+                id='gender'
+                name='gender'
                 defaultValue={field.gender}
                 onChange={(e) => {
                   setField({
@@ -334,7 +334,7 @@ function RegisterPage() {
                   setValid(invalid);
                 }}
               >
-                <option value="false" disabled hidden>
+                <option value='false' disabled hidden>
                   Giới tính
                 </option>
                 <option value={1}>Nam</option>
@@ -351,23 +351,23 @@ function RegisterPage() {
           <RegisterStyle.IconCustom icon={MailOutlined} />
         </AuthStyle.IconWrap>
         <AuthStyle.FormControlWrap>
-          <AuthStyle.TitleFormControl htmlFor="email" focus={fieldFocus.email}>
+          <AuthStyle.TitleFormControl htmlFor='email' focus={fieldFocus.email}>
             Email
           </AuthStyle.TitleFormControl>
           <AuthStyle.FormControl
-            id="email"
-            type="text"
-            name="email"
+            id='email'
+            type='text'
+            name='email'
             value={field.email}
-            autoComplete="off"
+            autoComplete='off'
             onFocus={handleFocus}
             onBlur={handleBlur}
             onChange={handleChangeField}
           />
-          {(register.email.load && <RegisterStyle.ControlLoading size="middle" />) ||
-            (register.email.success && (
-              <RegisterStyle.IconCheck icon={CheckOutlined} />
-            ))}
+          {(register.email.load && <RegisterStyle.ControlLoading size='middle' />) ||
+          (register.email.success && (
+            <RegisterStyle.IconCheck icon={CheckOutlined} />
+          ))}
         </AuthStyle.FormControlWrap>
         <AuthStyle.InvalidMsg>{valid.message.email}</AuthStyle.InvalidMsg>
       </AuthStyle.FormGroup>
@@ -383,13 +383,13 @@ function RegisterPage() {
           <RegisterStyle.IconCustom icon={LockOutlined} />
         </AuthStyle.IconWrap>
         <AuthStyle.FormControlWrap>
-          <AuthStyle.TitleFormControl htmlFor="password" focus={fieldFocus.password}>
+          <AuthStyle.TitleFormControl htmlFor='password' focus={fieldFocus.password}>
             Mật khẩu
           </AuthStyle.TitleFormControl>
           <AuthStyle.FormControl
-            id="password"
-            type="password"
-            name="password"
+            id='password'
+            type='password'
+            name='password'
             value={field.password}
             onFocus={handleFocus}
             onBlur={handleBlur}
@@ -411,15 +411,15 @@ function RegisterPage() {
         </AuthStyle.IconWrap>
         <AuthStyle.FormControlWrap>
           <AuthStyle.TitleFormControl
-            htmlFor="confirmPassword"
+            htmlFor='confirmPassword'
             focus={fieldFocus.confirmPassword}
           >
             Nhập lại mật khẩu
           </AuthStyle.TitleFormControl>
           <AuthStyle.FormControl
-            id="confirmPassword"
-            type="password"
-            name="confirmPassword"
+            id='confirmPassword'
+            type='password'
+            name='confirmPassword'
             value={field.confirmPassword}
             onFocus={handleFocus}
             onBlur={handleBlur}
@@ -430,7 +430,7 @@ function RegisterPage() {
       </AuthStyle.FormGroup>
       <RegisterStyle.CheckboxWrap>
         <RegisterStyle.CheckboxCustom
-          name="agree"
+          name='agree'
           value={field.agree}
           error={!!valid.message.agree}
           onClick={(e) => {
@@ -448,12 +448,12 @@ function RegisterPage() {
         </RegisterStyle.CheckboxCustom>
       </RegisterStyle.CheckboxWrap>
       <AuthStyle.BtnSubmit
-        htmlType="submit"
+        htmlType='submit'
         disabled={register.load}
         style={{ marginTop: '2rem' }}
       >
         Đăng ký
-        <AuthStyle.SubmitLoading size="middle" show={register.load} />
+        <AuthStyle.SubmitLoading size='middle' show={register.load} />
       </AuthStyle.BtnSubmit>
       <div
         style={{

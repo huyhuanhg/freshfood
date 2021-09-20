@@ -3,15 +3,16 @@ import { useSelector } from 'react-redux';
 
 import { Spin } from 'antd';
 import PropTypes from 'prop-types';
+
 import * as LayoutStyle from './style';
 
 import bgLogin from '../../assets/images/bg-login.png';
 import foodLogo from '../../assets/images/food_logo.png';
 
 function FullLayout({ exact, path, component: Component }) {
-  const { userInfo } = useSelector((state) => state.userReducer);
+  const { userInfo } = useSelector(({ userReducer }) => userReducer);
   if (userInfo.data.id) {
-    return <Redirect to="/" />;
+    return <Redirect to='/' />;
   } else {
     if (userInfo.load) {
       return (
@@ -36,7 +37,7 @@ function FullLayout({ exact, path, component: Component }) {
                 <LayoutStyle.BackGround src={bgLogin} />
                 <LayoutStyle.Container>
                   <LayoutStyle.LogoWrap>
-                    <Link to="/">
+                    <Link to='/'>
                       <LayoutStyle.LogoImg src={foodLogo} />
                       <h1>FoodBooking</h1>
                     </Link>

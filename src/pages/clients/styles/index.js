@@ -5,7 +5,7 @@ export const Section = styled.section`
   padding: 50px 0;
 `;
 export const Container = styled.div`
+  margin: 0 auto;
   width: 100%;
   max-width: 1140px;
-  margin: 0 auto;
 `;

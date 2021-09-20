@@ -7,6 +7,7 @@ import {
   RiMapPin2Fill,
 } from 'react-icons/all';
 import { MailOutlined, PhoneOutlined } from '@ant-design/icons';
+
 import * as FooterStyle from './style';
 
 function Footer() {
@@ -23,13 +24,13 @@ function Footer() {
                   diam nonumy nibh euismod tincidunt.
                 </p>
                 <div>
-                  <div>
+                  <div className='facebook'>
                     <FaFacebookF />
                   </div>
-                  <div>
+                  <div className='google'>
                     <GrGooglePlus />
                   </div>
-                  <div>
+                  <div className='skype'>
                     <AiFillSkype />
                   </div>
                 </div>
@@ -70,7 +71,7 @@ function Footer() {
         </div>
       </FooterStyle.FooterWrap>
       <FooterStyle.Copyright>
-        <span>FoodBooking </span>- Copyright 2021. Design by <span> Huy Huấn</span>
+        <span>FreshFood </span>- Copyright 2021. Design by <span> Huy Huấn</span>
       </FooterStyle.Copyright>
     </>
   );

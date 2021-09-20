@@ -1,19 +1,20 @@
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect } from 'react';
 import { MdRemoveShoppingCart } from 'react-icons/all';
 import { PlusCircleTwoTone, MinusCircleTwoTone } from '@ant-design/icons';
-import * as S from '../style';
-import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { getordersAction } from '../../../../redux/actions';
 import { Collapse, Pagination, Tag } from 'antd';
+import NumberFormat from 'react-number-format';
 import moment from 'moment';
 import { Link } from 'react-router-dom';
+
+import * as S from '../style';
+import { getordersAction } from '../../../../redux/actions';
 import { ROOT_PATH } from '../../../../contants';
-import NumberFormat from 'react-number-format';
 
 const HistoryOrder = () => {
   const dispatch = useDispatch();
   const { accessToken } = JSON.parse(localStorage.userInfo);
-  const { orderList } = useSelector((state) => state.orderReducer);
+  const { orderList } = useSelector(({ orderReducer }) => orderReducer);
   useEffect(() => {
     dispatch(getordersAction({
       accessToken,
@@ -49,25 +50,25 @@ const HistoryOrder = () => {
         {record.orderNote && <p><span>Ghi chú: </span>{record.orderNote}</p>}
       </S.OrderInfo>
       <Collapse expandIconPosition='right'>
-        {record.detail.map((orderDetail) => {
+        {record.detail.map(({ storeId, storeImage, storeName, storeNotMark, totalMoney, foods }) => {
           return (
             <Collapse.Panel
-              key={orderDetail.storeId}
+              key={storeId}
               header={
                 <S.StoreList>
                   <div>
                     <img
-                      src={`${ROOT_PATH}${orderDetail.storeImage}`}
-                      alt={orderDetail.storeName}
+                      src={`${ROOT_PATH}${storeImage}`}
+                      alt={storeName}
                     />
-                    <Link to={`/stores/${orderDetail.storeNotMark}.${orderDetail.storeId}`}>
-                      {orderDetail.storeName}
+                    <Link to={`/stores/${storeNotMark}.${storeId}`}>
+                      {storeName}
                     </Link>
                   </div>
                   <div>
                     <NumberFormat
                       style={{ color: 'red' }}
-                      value={orderDetail.totalMoney}
+                      value={totalMoney}
                       displayType={'text'}
                       thousandSeparator
                       suffix={'đ'}
@@ -76,7 +77,7 @@ const HistoryOrder = () => {
                 </S.StoreList>
               }
             >
-              {orderDetail.foods.map((food) => {
+              {foods.map((food) => {
                 return (
                   <S.FoodList key={food.foodId}>
                     <div>
@@ -187,7 +188,7 @@ const HistoryOrder = () => {
                 expandedRowRender: openDetail,
                 expandRowByClick: true,
                 expandIcon,
-                columnWidth: 20
+                columnWidth: 20,
               }}
               pagination={false}
               dataSource={renderOrderList()}

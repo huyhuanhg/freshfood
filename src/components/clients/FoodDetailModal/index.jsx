@@ -1,15 +1,19 @@
-import { Col, Row } from 'antd';
-import NumberFormat from 'react-number-format';
 import { useDispatch, useSelector } from 'react-redux';
+import { Col, Row } from 'antd';
+
+import NumberFormat from 'react-number-format';
 import PropTypes from 'prop-types';
+
 import { ROOT_PATH } from '../../../contants';
-import * as S from './style';
+
 import { updateCartAction } from '../../../redux/actions';
+
+import * as S from './style';
 
 const FoodDetailModal = function({ show, setShow, setShowLogin }) {
   const dispatch = useDispatch();
-  const { foodDetail } = useSelector((state) => state.foodReducer);
-  const { userInfo } = useSelector((state) => state.userReducer);
+  const { foodDetail } = useSelector(({ foodReducer }) => foodReducer);
+  const { userInfo } = useSelector(({ userReducer }) => userReducer);
 
   return (
     <S.ModalCustom
@@ -43,7 +47,7 @@ const FoodDetailModal = function({ show, setShow, setShowLogin }) {
     >
       <S.FoodItem>
         <div>
-          <img src={`${ROOT_PATH}${foodDetail.data.foodImage}`} />
+          <img src={`${ROOT_PATH}${foodDetail.data.foodImage}`}  alt={foodDetail.data.foodName}/>
           <div className='info'>
             <Row>
               <Col span={20}>

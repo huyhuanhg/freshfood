@@ -1,12 +1,13 @@
-import NumberFormat from 'react-number-format';
-
-import { BsImage, HiShoppingCart } from 'react-icons/all';
 import { useDispatch, useSelector } from 'react-redux';
+import { BsImage, HiShoppingCart } from 'react-icons/all';
+import NumberFormat from 'react-number-format';
 import PropTypes from 'prop-types';
+
 import { ROOT_PATH } from '../../../contants';
-import * as S from './style';
 import handleStopPropagation from '../../../utils/common';
 import { updateCartAction } from '../../../redux/actions';
+
+import * as S from './style';
 
 export const FoodStore = (
   {
@@ -26,7 +27,7 @@ export const FoodStore = (
   },
 ) => {
   const dispatch = useDispatch();
-  const { userInfo } = useSelector((state) => state.userReducer);
+  const { userInfo } = useSelector(({ userReducer }) => userReducer);
   return (
     <S.FoodStore
       onClick={() => {
