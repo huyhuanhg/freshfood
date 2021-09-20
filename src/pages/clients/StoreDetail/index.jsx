@@ -85,11 +85,7 @@ const StoreDetail = ({ setShowLogin, match }) => {
       const openTime = moment(storeDetail.data.openTime, 'H:m');
       const closeTime = moment(storeDetail.data.closeTime, 'H:m');
       const now = moment(moment().format('H:m'), 'H:m');
-      if (now > openTime && now < closeTime) {
-        open = true;
-      } else {
-        open = false;
-      }
+      open = now > openTime && now < closeTime;
       setIsOpen(open);
     }
   }, [storeDetail]);
@@ -314,6 +310,7 @@ const StoreDetail = ({ setShowLogin, match }) => {
                 setShow={setIsShowAction}
                 isComment={isShowAction.isComment}
                 storeId={storeDetail.data.id}
+                slug={match.params.slug}
                 avgRate={storeDetail.data.avgRate}
                 image={storeDetail.data.storeImage}
                 address={storeDetail.data.storeAddress}

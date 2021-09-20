@@ -298,6 +298,38 @@ function* changePasswordSaga(action) {
   }
 }
 
+function* updateUserSaga(action) {
+  try {
+    const { data, accessToken } = action.payload;
+    const result = yield axios.patch(
+      `${SERVER_CLIENT_API_URL}/user`,
+      toSnakeCase(data),
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+    yield put({
+      type: SUCCESS(USER_ACTION.UPDATE_USER),
+      payload: {
+        data: camelCaseKeys(result.data),
+      },
+    });
+    yield notification.success({
+      message: 'Cập nhật thành công!',
+    });
+    yield history.push('/profile/user-info');
+  } catch (e) {
+    const data = camelCaseKeys(e.response.data);
+    yield put({
+      type: FAILURE(USER_ACTION.UPDATE_USER),
+      payload: {
+        error: { ...data },
+      },
+    });
+  }
+}
+
 export default function* adminSaga() {
   yield takeEvery(REQUEST(USER_ACTION.LOGIN), loginSaga);
   yield takeEvery(REQUEST(USER_ACTION.REFRESH_TOKEN), refreshSaga);
@@ -310,4 +342,5 @@ export default function* adminSaga() {
   yield takeEvery(REQUEST(USER_ACTION.CHANGE_EMAIL), changeEmailSaga);
   yield takeEvery(REQUEST(USER_ACTION.CHANGE_NUMBER_PHONE), changeNumberPhoneSaga);
   yield takeEvery(REQUEST(USER_ACTION.CHANGE_PASSWORD), changePasswordSaga);
+  yield takeEvery(REQUEST(USER_ACTION.UPDATE_USER), updateUserSaga);
 }
