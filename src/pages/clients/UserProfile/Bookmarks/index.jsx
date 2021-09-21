@@ -5,7 +5,7 @@ import { getBookmarksAction } from '../../../../redux/actions';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
-import { ROOT_PATH } from '../../../../contants';
+import { PAGE_TITLE, ROOT_PATH } from '../../../../contants';
 import { Link } from 'react-router-dom';
 
 const Bookmarks = () => {
@@ -23,6 +23,7 @@ const Bookmarks = () => {
   } = useSelector(({ bookmarkReducer }) => bookmarkReducer);
   moment.locale('vi');
   useEffect(() => {
+    document.title = PAGE_TITLE.BOOKMARKS;
     if (userId) {
       dispatch(getBookmarksAction({
         accessToken,

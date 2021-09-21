@@ -5,6 +5,8 @@ import { Route, Switch } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 import history from '../../../utils/history';
+import { PATH } from '../../../contants';
+
 import StoreList from './components/StoreList';
 import FoodList from './components/FoodList';
 
@@ -34,7 +36,7 @@ const ClientList = ({ setShowLogin }) => {
                   key='/stores'
                   icon={<MdNavigateNext className='custom-icon-position' />}
                   onClick={() => {
-                    history.push('/stores');
+                    history.push(PATH.STORE);
                   }}
                 >
                   Ở đâu
@@ -43,7 +45,7 @@ const ClientList = ({ setShowLogin }) => {
                   key='/foods'
                   icon={<MdNavigateNext className='custom-icon-position' />}
                   onClick={() => {
-                    history.push('/foods');
+                    history.push(PATH.FOOD);
                   }}
                 >
                   Ăn gì
@@ -52,7 +54,7 @@ const ClientList = ({ setShowLogin }) => {
                   key='/promotions'
                   icon={<MdNavigateNext className='custom-icon-position' />}
                   onClick={() => {
-                    history.push('/promotions');
+                    history.push(PATH.PROMOTION);
                   }}
                 >
                   Khuyến mãi
@@ -61,7 +63,7 @@ const ClientList = ({ setShowLogin }) => {
                   key='/crowded'
                   icon={<MdNavigateNext className='custom-icon-position' />}
                   onClick={() => {
-                    history.push('/crowded');
+                    history.push(PATH.CROWDED);
                   }}
                 >
                   Đông khách
@@ -70,7 +72,7 @@ const ClientList = ({ setShowLogin }) => {
                   key='/favorite'
                   icon={<MdNavigateNext className='custom-icon-position' />}
                   onClick={() => {
-                    history.push('/favorite');
+                    history.push(PATH.FAVORITE);
                   }}
                 >
                   Yêu thích
@@ -80,25 +82,25 @@ const ClientList = ({ setShowLogin }) => {
           </Col>
           <Col span={20}>
             <Switch>
-              <Route exact path='/stores' component={StoreList} />
+              <Route exact path={PATH.STORE} component={StoreList} />
               <Route
                 exact
-                path='/foods'
+                path={PATH.FOOD}
                 setShowLogin={setShowLogin}
                 component={FoodList}
               />
               <Route
                 exact
-                path='/promotions'
+                path={PATH.PROMOTION}
                 setShowLogin={setShowLogin}
                 component={FoodList}
               />
               <Route
                 exact
-                path='/crowded'
+                path={PATH.CROWDED}
                 component={StoreList}
               />
-              <Route exact path='/favorite' component={FoodList} />
+              <Route exact path={PATH.FAVORITE} component={FoodList} />
             </Switch>
           </Col>
         </Row>

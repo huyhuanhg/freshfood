@@ -9,7 +9,7 @@ import { Link } from 'react-router-dom';
 
 import * as S from '../style';
 import { getordersAction } from '../../../../redux/actions';
-import { ROOT_PATH } from '../../../../contants';
+import { PAGE_TITLE, ROOT_PATH } from '../../../../contants';
 
 const HistoryOrder = () => {
   const dispatch = useDispatch();
@@ -23,6 +23,7 @@ const HistoryOrder = () => {
     },
   } = useSelector(({ orderReducer }) => orderReducer);
   useEffect(() => {
+    document.title = PAGE_TITLE.ORDERS;
     dispatch(getordersAction({
       accessToken,
     }));

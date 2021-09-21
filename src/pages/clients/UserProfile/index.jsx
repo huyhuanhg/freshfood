@@ -18,7 +18,7 @@ import PropTypes from 'prop-types';
 import * as ClientStyle from '../styles';
 import * as S from './style';
 
-import { ROOT_PATH, TITLE } from '../../../contants';
+import { PATH, ROOT_PATH } from '../../../contants';
 
 import Profile from './Profile';
 import HistoryOrder from './HistoryOrder';
@@ -32,14 +32,13 @@ import history from '../../../utils/history';
 import { changeAvatarAction, logoutAction } from '../../../redux/actions';
 
 const UserProfile = ({ match }) => {
-  document.title = TITLE.USER_PROFILE;
   const { SubMenu } = Menu;
   const userToken = localStorage.userInfo;
   const { userInfo } = useSelector(({ userReducer }) => userReducer);
   const dispatch = useDispatch();
   const [activeMenu, setActiveMenu] = useState({
     subMenu: [],
-    menuItem: 'order',
+    menuItem: PATH.PROFILE_ORDER,
   });
   const [redirect, setRedirect] = useState(false);
 
@@ -69,7 +68,7 @@ const UserProfile = ({ match }) => {
     } else {
       setActiveMenu({
         subMenu: [],
-        menuItem: 'order',
+        menuItem: PATH.PROFILE_ORDER,
       });
     }
   }, [match.params.page]);
@@ -92,7 +91,7 @@ const UserProfile = ({ match }) => {
       ...activeMenu,
       menuItem: key,
     });
-    history.push(`/profile/${key}`);
+    history.push(PATH.SUP_PROFILE(key));
   };
   const handleLogout = () => {
     const { accessToken } = JSON.parse(userToken);
@@ -103,7 +102,7 @@ const UserProfile = ({ match }) => {
     );
   };
   if (redirect) {
-    return <Redirect to='/' />;
+    return <Redirect to={PATH.HOME} />;
   } else {
     if (userInfo.load) {
       return (
@@ -175,21 +174,21 @@ const UserProfile = ({ match }) => {
                           onTitleClick={handleSubMenuClick}
                         >
                           <Menu.Item
-                            key='history-bookmark'
+                            key={PATH.PROFILE_BOOKMARKS}
                             icon={<BsFillBookmarkFill className='custom-icon-profile' />}
                             onClick={handleMenuItemClick}
                           >
                             Bộ sưu tập
                           </Menu.Item>
                           <Menu.Item
-                            key='history-comment'
+                            key={PATH.PROFILE_COMMENTS}
                             icon={<FaComment className='custom-icon-profile' />}
                             onClick={handleMenuItemClick}
                           >
                             Bình luận
                           </Menu.Item>
                           <Menu.Item
-                            key='history-rating'
+                            key={PATH.PROFILE_RATES}
                             icon={<GiRank3 className='custom-icon-profile' />}
                             onClick={handleMenuItemClick}
                           >
@@ -203,14 +202,14 @@ const UserProfile = ({ match }) => {
                           onTitleClick={handleSubMenuClick}
                         >
                           <Menu.Item
-                            key='user-info'
+                            key={PATH.PROFILE_INFO}
                             icon={<BsPencilSquare className='custom-icon-profile' />}
                             onClick={handleMenuItemClick}
                           >
                             Thông tin tài khoản
                           </Menu.Item>
                           <Menu.Item
-                            key='user-password'
+                            key={PATH.PROFILE_CHANGE_PASSWORD}
                             icon={<FaUserAlt className='custom-icon-profile' />}
                             onClick={handleMenuItemClick}
                           >
@@ -231,30 +230,30 @@ const UserProfile = ({ match }) => {
                 <Col span={18}>
                   <S.ProfileContent>
                     <Switch>
-                      <Route exact path='/profile/user-info'>
+                      <Route exact path={PATH.SUP_PROFILE(PATH.PROFILE_INFO)}>
                         <Profile />
                       </Route>
-                      <Route exact path='/profile/user-info/edit'>
+                      <Route exact path={PATH.PROFILE_UPDATE}>
                         <EditProfile />
                       </Route>
-                      <Route exact path='/profile/order'>
+                      <Route exact path={PATH.SUP_PROFILE(PATH.PROFILE_ORDER)}>
                         <HistoryOrder />
                       </Route>
-                      <Route exact path='/profile/history-comment'>
+                      <Route exact path={PATH.SUP_PROFILE(PATH.PROFILE_COMMENTS)}>
                         <HistoryComment />
                       </Route>
-                      <Route exact path='/profile/history-bookmark'>
+                      <Route exact path={PATH.SUP_PROFILE(PATH.PROFILE_BOOKMARKS)}>
                         <Bookmarks />
                       </Route>
-                      <Route exact path='/profile/history-rating'>
+                      <Route exact path={PATH.SUP_PROFILE(PATH.PROFILE_RATES)}>
                         <HistoryRating />
                       </Route>
-                      <Route exact path='/profile/user-password'>
+                      <Route exact path={PATH.SUP_PROFILE(PATH.PROFILE_CHANGE_PASSWORD)}>
                         <ChangePassword />
                       </Route>
                       <Route
                         render={() => {
-                          return <Redirect to='/profile/order' />;
+                          return <Redirect to={PATH.SUP_PROFILE(PATH.PROFILE_ORDER)} />;
                         }}
                       />
                     </Switch>

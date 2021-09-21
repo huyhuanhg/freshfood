@@ -26,20 +26,20 @@ import * as HeaderStyle from './styles';
 
 import history from '../../../utils/history';
 import { logoutAction } from '../../../redux/actions';
-import { ROOT_PATH } from '../../../contants';
+import { PATH, ROOT_PATH } from '../../../contants';
 import toNotMark from '../../../utils/toNotMark';
 
 function Header({ setShowModalLogin }) {
   const { Option } = Select;
   const dispatch = useDispatch();
   const [searchForm] = Form.useForm();
-  const [searchType, setSearchType] = useState('stores');
+  const [searchType, setSearchType] = useState(PATH.STORE);
   const {
     userInfo: {
       data: {
         avatar,
         firstName,
-        id : userId,
+        id: userId,
         lastName,
         phone,
       },
@@ -57,7 +57,7 @@ function Header({ setShowModalLogin }) {
   const handleSearch = ({ searchType, search }) => {
     if (search.trim()) {
       history.push({
-        pathname: `/${searchType}`,
+        pathname: `${searchType}`,
         search: `?search=${toNotMark(search)}`,
       });
     } else {
@@ -66,7 +66,7 @@ function Header({ setShowModalLogin }) {
   };
   useEffect(() => {
     const pathname = history.location.pathname;
-    if (pathname === '/foods' || pathname === '/stores') {
+    if (pathname === PATH.FOOD || pathname === PATH.STORE) {
       let field = {
         searchType: pathname.slice(1),
       };
@@ -82,14 +82,14 @@ function Header({ setShowModalLogin }) {
     }
   }, [history.location.pathname, history.location.search]);
   const userMenu = (
-    <Menu style={{ width: '250px', display: 'fixed' }}>
+    <Menu style={{ width: '250px', display: 'fixed', top: 22 }}>
       {userId ? (
         <div>
           <Menu.Item
             key='1'
             style={{ padding: '1rem 2rem' }}
             onClick={() => {
-              history.push('/profile/user-info');
+              history.push(PATH.SUP_PROFILE(PATH.PROFILE_INFO));
             }}
           >
             <Space>
@@ -115,7 +115,7 @@ function Header({ setShowModalLogin }) {
             style={{ padding: '1rem 2rem' }}
             icon={<FaHistory />}
             onClick={() => {
-              history.push('/profile/order');
+              history.push(PATH.SUP_PROFILE(PATH.PROFILE_ORDER));
             }}
           >
             Lịch sử giao dịch
@@ -126,7 +126,7 @@ function Header({ setShowModalLogin }) {
             style={{ padding: '1rem 2rem' }}
             icon={<BsFillBookmarkFill />}
             onClick={() => {
-              history.push('/profile/history-bookmark');
+              history.push(PATH.SUP_PROFILE(PATH.PROFILE_BOOKMARKS));
             }}
           >
             Bộ sưu tập
@@ -136,7 +136,7 @@ function Header({ setShowModalLogin }) {
             style={{ padding: '1rem 2rem' }}
             icon={<FiActivity />}
             onClick={() => {
-              history.push('/profile/history-comment');
+              history.push(PATH.SUP_PROFILE(PATH.PROFILE_COMMENTS));
             }}
           >
             Hoạt động cá nhân
@@ -154,10 +154,10 @@ function Header({ setShowModalLogin }) {
       ) : (
         <>
           <Menu.Item key='0' style={{ padding: '1rem 2rem' }}>
-            <Link to='/login'>Đăng nhập</Link>
+            <Link to={PATH.LOGIN}>Đăng nhập</Link>
           </Menu.Item>
           <Menu.Item key='1' style={{ padding: '1rem 2rem' }}>
-            <Link to='/register'>Đăng ký</Link>
+            <Link to={PATH.REGISTER}>Đăng ký</Link>
           </Menu.Item>
         </>
       )}
@@ -170,28 +170,34 @@ function Header({ setShowModalLogin }) {
         <div>
           <ul>
             <li>
-              <RiMapPin2Fill />
-              K5/22 Nam Cao - Hoa Khanh Nam
+              <a>
+                <RiMapPin2Fill />
+                K5/22 Nam Cao - Hoa Khanh Nam
+              </a>
             </li>
             <li>
-              <PhoneOutlined />
-              +84 935 906 860
+              <a href='tel:0935906860'>
+                <PhoneOutlined />
+                +84 935 906 860
+              </a>
             </li>
             <li>
-              <MailOutlined />
-              huyhuanhg@gmail.com
+              <a href='mailto:huyhuanhg@gmail.com'>
+                <MailOutlined />
+                huyhuanhg@gmail.com
+              </a>
             </li>
           </ul>
           <div>
             <p>Flow us:</p>
             <div className='facebook'>
-              <FaFacebookF />
+              <a href='https://www.facebook.com/danlangvan/'><FaFacebookF /></a>
             </div>
             <div className='google'>
-              <GrGooglePlus />
+              <a href='https://www.google.com.vn/'><GrGooglePlus /></a>
             </div>
             <div className='skype'>
-              <AiFillSkype />
+              <a href='https://www.skype.com/'><AiFillSkype /></a>
             </div>
           </div>
         </div>
@@ -206,7 +212,7 @@ function Header({ setShowModalLogin }) {
                 onFinish={handleSearch}
                 form={searchForm}
                 initialValues={{
-                  searchType: 'stores',
+                  searchType: PATH.STORE,
                   search: '',
                 }}
               >
@@ -216,7 +222,7 @@ function Header({ setShowModalLogin }) {
                   noStyle
                 >
                   <Input
-                    placeholder={`Tìm kiếm ${searchType === 'stores' ? 'cửa hàng' : 'món ăn'}`}
+                    placeholder={`Tìm kiếm ${searchType === PATH.STORE ? 'cửa hàng' : 'món ăn'}`}
                     style={{ background: 'unset' }}
                     suffix={
                       <Button
@@ -238,13 +244,13 @@ function Header({ setShowModalLogin }) {
                       >
                         <HeaderStyle.SearchType
                           size='large'
-                          defaultValue={'stores'}
+                          defaultValue={PATH.STORE}
                           onChange={(value) => {
                             setSearchType(value);
                           }}
                         >
-                          <Option value='stores'>Cửa hàng</Option>
-                          <Option value='foods'>Món ăn</Option>
+                          <Option value={PATH.STORE}>Cửa hàng</Option>
+                          <Option value={PATH.FOOD}>Món ăn</Option>
                         </HeaderStyle.SearchType>
                       </Form.Item>
                     }
@@ -253,17 +259,17 @@ function Header({ setShowModalLogin }) {
                 <Button htmlType='submit' style={{ display: 'none' }} />
               </Form>
             </HeaderStyle.SearchWrap>
-            <Space>
+            <Space className='p-relative'>
               <Badge count={totalCart} style={{ right: '5px' }}>
                 <HeaderStyle.Btn
                   onClick={() => {
                     if (userId) {
-                      history.push('/cart');
+                      history.push(PATH.CART);
                     } else {
                       setShowModalLogin(true);
                     }
                   }}
-                  disabled={history.location.pathname === '/cart'}
+                  disabled={history.location.pathname === PATH.CART}
                 >
                   <ShoppingCartOutlined />
                   Giỏ hàng

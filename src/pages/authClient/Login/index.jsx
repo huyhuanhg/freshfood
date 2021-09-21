@@ -5,15 +5,22 @@ import { LockOutlined, MailOutlined } from '@ant-design/icons';
 
 import * as AuthStyle from '../style';
 
-import { TITLE } from '../../../contants';
+import { TITLE, PATH } from '../../../contants';
 
 import { loginAction } from '../../../redux/actions';
 
 function LoginPage() {
-  document.title = TITLE.LOGIN;
+  document.title = TITLE(PATH.LOGIN);
 
   const dispatch = useDispatch();
-  const { responseAction: { login: { error: responseError, load: LoginLoad } } } = useSelector(({ userReducer }) => userReducer);
+  const {
+    responseAction: {
+      login: {
+        error: responseError,
+        load: LoginLoad,
+      },
+    },
+  } = useSelector(({ userReducer }) => userReducer);
 
   const [valid, setValid] = useState({
     valid: {
@@ -118,7 +125,7 @@ function LoginPage() {
       dispatch(
         loginAction({
           data: field,
-        })
+        }),
       );
     }
   };
@@ -130,15 +137,15 @@ function LoginPage() {
           <MailOutlined />
         </AuthStyle.IconWrap>
         <AuthStyle.FormControlWrap>
-          <AuthStyle.TitleFormControl htmlFor="email" focus={fieldFocus.email}>
+          <AuthStyle.TitleFormControl htmlFor='email' focus={fieldFocus.email}>
             Email
           </AuthStyle.TitleFormControl>
           <AuthStyle.FormControl
-            id="email"
-            type="text"
-            name="email"
+            id='email'
+            type='text'
+            name='email'
             value={field.email}
-            autoComplete="off"
+            autoComplete='off'
             onFocus={handleFocus}
             onBlur={handleBlur}
             onChange={handleChangeField}
@@ -157,13 +164,13 @@ function LoginPage() {
           <LockOutlined />
         </AuthStyle.IconWrap>
         <AuthStyle.FormControlWrap>
-          <AuthStyle.TitleFormControl htmlFor="password" focus={fieldFocus.password}>
+          <AuthStyle.TitleFormControl htmlFor='password' focus={fieldFocus.password}>
             Mật khẩu
           </AuthStyle.TitleFormControl>
           <AuthStyle.FormControl
-            id="password"
-            type="password"
-            name="password"
+            id='password'
+            type='password'
+            name='password'
             value={field.password}
             onFocus={handleFocus}
             onBlur={handleBlur}
@@ -172,9 +179,9 @@ function LoginPage() {
         </AuthStyle.FormControlWrap>
         <AuthStyle.InvalidMsg>{valid.message.password}</AuthStyle.InvalidMsg>
       </AuthStyle.FormGroup>
-      <AuthStyle.BtnSubmit htmlType="submit" disabled={LoginLoad}>
+      <AuthStyle.BtnSubmit htmlType='submit' disabled={LoginLoad}>
         Đăng nhập
-        <AuthStyle.SubmitLoading size="middle" show={LoginLoad} />
+        <AuthStyle.SubmitLoading size='middle' show={LoginLoad} />
       </AuthStyle.BtnSubmit>
       <div
         style={{

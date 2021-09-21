@@ -23,23 +23,25 @@ export const TopBar = styled.div`
 
       margin: 0;
 
-      list-style: none;
-      color: ${(props) => props.theme.gray};
-
       & > li {
         margin-right: 30px;
 
-        &:hover > svg,
-        &:hover > span {
+        & > a {
+          color: ${(props) => props.theme.gray};
+        }
+
+        & > a > svg,
+        & > a > span {
+          color: ${(props) => props.theme.rootColor};
+          margin-right: 5px;
+        }
+
+        &:hover > a > svg,
+        &:hover > a > span {
           transition: 0.4s;
           transform: scale(1.2);
         }
 
-        & > svg,
-        & > span {
-          color: ${(props) => props.theme.rootColor};
-          margin-right: 5px;
-        }
       }
     }
 
@@ -54,30 +56,30 @@ export const TopBar = styled.div`
       }
 
       & > div {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-
         margin-right: 5px;
-
         width: 37px;
         height: 37px;
 
-        border-radius: 50%;
+        & > a {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          width: 100%;
+          height: 100%;
+          border-radius: 50%;
+        }
 
-        cursor: pointer;
-
-        &.facebook {
+        &.facebook > a {
           color: ${(props) => props.theme.facebook};
           background-color: ${(props) => props.theme.facebook1};
         }
 
-        &.google {
+        &.google > a {
           color: ${(props) => props.theme.google};
           background-color: ${(props) => props.theme.google1};
         }
 
-        &.skype {
+        &.skype > a {
           color: ${(props) => props.theme.skype};
           background-color: ${(props) => props.theme.skype1};
         }
@@ -128,7 +130,7 @@ export const SearchWrap = styled.div`
   }
 
   & .ant-select-selector {
-    border: 0!important;
+    border: 0 !important;
   }
 `;
 

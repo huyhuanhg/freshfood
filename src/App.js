@@ -8,6 +8,8 @@ import { ThemeProvider } from 'styled-components';
 
 import history from './utils/history';
 
+import { DYNAMIC, PATH } from './contants/path.contant';
+
 import FullLayout from './layouts/FullLayout';
 import ClientLayout from './layouts/ClientLayout';
 import AdminLayout from './layouts/AdminLayout';
@@ -80,25 +82,25 @@ function App() {
     <ThemeProvider theme={rootTheme}>
       <Router history={history}>
         <Switch>
-          <ClientLayout exact path='/' component={HomePage} />
+          <ClientLayout exact path={PATH.HOME} component={HomePage} />
 
-          <ClientLayout exact path='/stores' component={ClientList} />
-          <ClientLayout exact path='/foods' component={ClientList} />
-          <ClientLayout exact path='/promotions' component={ClientList} />
-          <ClientLayout exact path='/crowded' component={ClientList} />
-          <ClientLayout exact path='/favorite' component={ClientList} />
+          <ClientLayout exact path={PATH.STORE} component={ClientList} />
+          <ClientLayout exact path={PATH.FOOD} component={ClientList} />
+          <ClientLayout exact path={PATH.PROMOTION} component={ClientList} />
+          <ClientLayout exact path={PATH.CROWDED} component={ClientList} />
+          <ClientLayout exact path={PATH.FAVORITE} component={ClientList} />
 
-          <ClientLayout path='/stores/:slug' component={StoreDetail} />
+          <ClientLayout path={DYNAMIC(PATH.STORE, ['slug'])} component={StoreDetail} />
 
-          <ClientLayout exact path='/cart' component={CartPage} />
+          <ClientLayout exact path={PATH.CART} component={CartPage} />
 
-          <ClientLayout path='/profile/:page' component={UserProfile} />
+          <ClientLayout path={DYNAMIC(PATH.PROFILE, ['page'])} component={UserProfile} />
 
-          <AdminLayout exact path='/manager' component={DashboardPage} />
+          <AdminLayout exact path={PATH.ADMIN} component={DashboardPage} />
 
-          <FullLayout exact path='/login' component={LoginPage} />
-          <FullLayout exact path='/register' component={RegisterPage} />
-          <FullLayout exact path='/manager/login' component={AdminLoginPage} />
+          <FullLayout exact path={PATH.LOGIN} component={LoginPage} />
+          <FullLayout exact path={PATH.REGISTER} component={RegisterPage} />
+          <FullLayout exact path={PATH.ADMIN_LOGIN} component={AdminLoginPage} />
 
           <FullLayout component={NotFoundPage} />
         </Switch>

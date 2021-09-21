@@ -1,7 +1,7 @@
 import { put, takeEvery } from 'redux-saga/effects';
 import axios from 'axios';
 import { REQUEST, COMMENT_ACTION, FAILURE, SUCCESS } from '../constants';
-import { SERVER_CLIENT_API_URL } from '../../contants';
+import { PATH, SERVER_CLIENT_API_URL } from '../../contants';
 import camelCaseKeys from 'camelcase-keys';
 import toSnakeCase from '../../utils/toSnakeCase';
 import history from '../../utils/history';
@@ -35,10 +35,9 @@ function* getCommentsSaga({ payload }) {
   }
 }
 
-function* createCommentSaga({ payload }) {
+function* createCommentSaga({ payload: { accessToken, description, firstName, lastName, paths, slug, userAvatar } }) {
   try {
-    const { slug, description, paths, accessToken, firstName, lastName, userAvatar } = payload,
-      storeId = slug.slice(slug.lastIndexOf('.') + 1),
+    const storeId = slug.slice(slug.lastIndexOf('.') + 1),
       data = { storeId, paths, content: description },
       { data: dataResponse } = yield axios({
         method: 'POST',
@@ -60,7 +59,7 @@ function* createCommentSaga({ payload }) {
         },
       },
     });
-    yield history.push(`/stores/${slug}/comment`);
+    history.push(PATH.STORE_DETAIL(slug, PATH.STORE_MENU_COMMENT));
   } catch (e) {
     yield put({
       type: FAILURE(COMMENT_ACTION.CREATE_COMMENT),

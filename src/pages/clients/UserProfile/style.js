@@ -221,6 +221,11 @@ export const UserProfile = styled.div`
     font-size: 14px;
     font-weight: bold;
 
+    & > span.empty {
+      color: #777;
+      font-weight: 500;
+    }
+
     & > form.only-field {
       position: relative;
 

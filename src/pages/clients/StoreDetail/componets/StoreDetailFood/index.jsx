@@ -11,6 +11,7 @@ import history from '../../../../../utils/history';
 import { Filter as FilterStyle } from '../../../../../styles';
 
 import * as StoreDetailStyle from '../../style';
+import { PATH } from '../../../../../contants';
 
 const StoreDetailFood = ({ showFoodDetail, setShowLogin, setShowFoodDetail, slug }) => {
   const dispatch = useDispatch();
@@ -33,9 +34,9 @@ const StoreDetailFood = ({ showFoodDetail, setShowLogin, setShowFoodDetail, slug
   useEffect(() => {
     const pathname = history.location.pathname;
     let filter = {};
-    if (pathname.match('/promotion')) {
+    if (pathname.match(PATH.STORE_MENU_PROMOTION)) {
       filter = {
-        group: 'promotion',
+        group: PATH.STORE_MENU_PROMOTION,
         page: 1,
       };
     }
@@ -100,7 +101,7 @@ const StoreDetailFood = ({ showFoodDetail, setShowLogin, setShowFoodDetail, slug
       <Affix offsetTop={59.188 + 54}>
         <FilterStyle>
           <StoreDetailStyle.StoreFilterTitle>
-            {history.location.pathname.match('/promotion') ? 'Khuyến mãi' : 'Đặt món'}
+            {history.location.pathname.match(PATH.STORE_MENU_PROMOTION) ? 'Khuyến mãi' : 'Đặt món'}
           </StoreDetailStyle.StoreFilterTitle>
           {total > 0 &&
           <ul className='d-flex vertical-center m-0 pr-2r'>

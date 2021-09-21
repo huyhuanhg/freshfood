@@ -6,6 +6,7 @@ import { FcPrevious, HiMinus, HiPlusSm, MdRemoveShoppingCart } from 'react-icons
 import { Affix, Col, Form, Input, Row, Select, Spin } from 'antd';
 import NumberFormat from 'react-number-format';
 
+
 import * as S from './style';
 import * as ClientStyle from '../styles';
 
@@ -19,7 +20,7 @@ import {
 } from '../../../redux/actions';
 
 import history from '../../../utils/history';
-import { ROOT_PATH, TITLE } from '../../../contants';
+import { ROOT_PATH, TITLE, PATH } from '../../../contants';
 import { shortAddress } from '../../../utils/address';
 
 const CartPage = () => {
@@ -44,9 +45,7 @@ const CartPage = () => {
     districts: { data: districts, load: districtLoad },
     wards: { data: wards },
   } = useSelector(({ addressReducer }) => addressReducer);
-
-  document.title = `${TITLE.CART} | ${firstName} ${lastName}`;
-
+  document.title = TITLE(PATH.CART, userId && `${firstName} ${lastName}`);
   const [redirect, setRedirect] = useState(false);
   const userToken = localStorage.userInfo;
 
@@ -245,14 +244,14 @@ const CartPage = () => {
                             <MdRemoveShoppingCart />
                           </div>
                           <div>Không có sản phẩm nào trong giỏ hàng</div>
-                          <button onClick={() => history.push('/foods')}>Tiếp tục mua sắm</button>
+                          <button onClick={() => history.push(PATH.FOOD)}>Tiếp tục mua sắm</button>
                         </S.CartEmpty>
                       )
                       :
                       <Row gutter={16}>
                         <Col span={15}>
                           <S.CartHeader>
-                            <Link to='/stores'><FcPrevious />Tiếp tục mua sắm</Link>
+                            <Link to={PATH.STORE}><FcPrevious />Tiếp tục mua sắm</Link>
                             <h4>Giỏ hàng của bạn</h4>
                           </S.CartHeader>
                         </Col>
@@ -293,20 +292,35 @@ const CartPage = () => {
                                 layout='vertical'
                                 onFinish={handleOrder}
                               >
-                                <Form.Item name='fullName'>
+                                <Form.Item
+                                  name='fullName'
+                                  rules={[{ required: true, message: 'Vui lòng nhập họ tên người nhận' }]}
+                                >
                                   <Input placeholder='Họ và tên' />
                                 </Form.Item>
-                                <Form.Item name='phone'>
+                                <Form.Item
+                                  name='phone'
+                                  rules={[
+                                    { required: true, message: 'Vui lòng nhập số điện thoại' },
+                                    {
+                                      pattern: new RegExp('^(0|\\+84)[3|5|7|8|9][\\d+]{8}$'),
+                                      message: 'Định dạng không hợp lệ (0... / +84...)',
+                                    },
+                                  ]}
+                                >
                                   <Input placeholder='Số diện thoại' />
                                 </Form.Item>
 
-                                <Form.Item style={{ marginBottom: 0 }}>
+                                <Form.Item
+                                  name='address'
+                                  style={{ marginBottom: 0 }}
+                                >
                                   <Input.Group>
                                     <Row gutter={3}>
                                       <Col span={12}>
                                         <Form.Item
                                           name={['address', 'province']}
-                                          // rules={[{ required: true, message: 'Province is required' }]}
+                                          rules={[{ required: true, message: 'Chọn Tỉnh / Thành phố!' }]}
                                         >
                                           <Select
                                             placeholder='--Tỉnh--'
@@ -331,7 +345,7 @@ const CartPage = () => {
                                       <Col span={12}>
                                         <Form.Item
                                           name={['address', 'district']}
-                                          // rules={[{ required: true, message: 'Province is required' }]}
+                                          rules={[{ required: true, message: 'Chọn Quận / Huyện!' }]}
                                         >
                                           <Select
                                             placeholder='--Quận/Huyện--'
@@ -358,7 +372,7 @@ const CartPage = () => {
                                       <Col span={12}>
                                         <Form.Item
                                           name={['address', 'ward']}
-                                          // rules={[{ required: true, message: 'Province is required' }]}
+                                          rules={[{ required: true, message: 'Chọn Xã / Phường!' }]}
                                         >
                                           <Select
                                             placeholder='--Phường/Xã--'
@@ -373,7 +387,7 @@ const CartPage = () => {
                                       <Col span={12}>
                                         <Form.Item
                                           name={['address', 'street']}
-                                          rules={[{ required: true, message: 'Street is required' }]}
+                                          rules={[{ required: true, message: 'Chọn Đường / Thôn!' }]}
                                         >
                                           <Input placeholder='Đường / Thôn xóm' />
                                         </Form.Item>

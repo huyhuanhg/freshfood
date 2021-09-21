@@ -2,10 +2,10 @@ import { put, takeEvery } from 'redux-saga/effects';
 import axios from 'axios';
 import camelCaseKeys from 'camelcase-keys';
 import { REQUEST, CART_ACTION, FAILURE, SUCCESS } from '../constants';
-import { ROOT_PATH, SERVER_CLIENT_API_URL } from '../../contants';
-import { Button, message } from 'antd';
-import NumberFormat from 'react-number-format';
-import history from '../../utils/history';
+import { SERVER_CLIENT_API_URL } from '../../contants';
+import { message } from 'antd';
+
+import AddCartSuccess from '../../components/clients/AddCartSuccess';
 
 function* getCartListSaga({ payload: { data: { accessToken } } }) {
   try {
@@ -56,51 +56,8 @@ function* updateCartSaga({ payload: { data: { accessToken, action, food, isDispl
     const { cartUpdate, totalMoney } = data;
     if (isDisplayMessage) {
       yield message.open({
-        content: (
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              minWidth: 400,
-            }}
-          >
-            <div
-              style={{
-                color: '#777',
-                fontWeight: 700,
-                display: 'flex',
-                alignItems: 'center',
-              }}
-            >
-              <img
-                src={`${ROOT_PATH}${cartUpdate.foodImage}`}
-                alt={''}
-                style={{
-                  marginRight: 10,
-                  width: 64,
-                  height: 64,
-                }}
-              />
-              <div style={{ textAlign: 'left' }}>
-                <span>{cartUpdate.foodName}</span>
-                <p style={{ margin: 0, color: 'red' }}>
-                  <span style={{ color: '#888' }}>Tổng tiền: </span>
-                  <NumberFormat
-                    value={totalMoney}
-                    displayType={'text'}
-                    thousandSeparator
-                    suffix={'đ'}
-                  />
-                </p>
-              </div>
-            </div>
-            <Button type='primary' onClick={() => history.push('/cart')}>Xem giỏ hàng</Button>
-          </div>),
-        duration: 3,
-        style: {
-          marginTop: '61.188px',
-        },
+        className: 'add-cart-message',
+        content: (<AddCartSuccess cartItem={cartUpdate} totalMoney={totalMoney} />),
       });
     }
   } catch (e) {

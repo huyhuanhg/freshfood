@@ -8,11 +8,20 @@ import PropTypes from 'prop-types';
 import { loginAction } from '../../../redux/actions';
 
 import * as S from './style';
+import { MSG } from '../../../contants/message.contant';
+import { PATH } from '../../../contants';
 
 const ModalLogin = ({ visible, setVisible }) => {
   const [form] = Form.useForm();
   const dispatch = useDispatch();
-  const { responseAction: { login: { errorLogin, loadLogin } } } = useSelector(({ userReducer }) => userReducer);
+  const {
+    responseAction: {
+      login: {
+        error: errorLogin,
+        load: loadLogin,
+      },
+    },
+  } = useSelector(({ userReducer }) => userReducer);
   const { userInfo: { data: userData } } = useSelector(({ userReducer }) => userReducer);
   useEffect(() => {
     if (userData.id) {
@@ -26,7 +35,7 @@ const ModalLogin = ({ visible, setVisible }) => {
         },
         {
           name: 'password',
-          errors: ['Email hoặc mật khẩu không đúng!'],
+          errors: [MSG.VALIDATE_LOGIN_INVALID],
         },
       ]);
     }
@@ -82,9 +91,9 @@ const ModalLogin = ({ visible, setVisible }) => {
             </Button>
           </Form.Item>
         </S.FormCustom>
-        <Link to='/forgot'>Quên mật khẩu?</Link>
+        <Link to={PATH.FORGOT}>Quên mật khẩu?</Link>
         <p>
-          Chưa có tài khoản? <Link to='/register'>Đăng ký</Link>
+          Chưa có tài khoản? <Link to={PATH.REGISTER}>Đăng ký</Link>
         </p>
       </div>
     </S.ModalLoginCustom>

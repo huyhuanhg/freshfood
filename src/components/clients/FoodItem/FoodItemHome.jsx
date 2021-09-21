@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 import * as S from './style';
 
 import foodLoading from '../../../assets/images/food_logo.png';
-import { ROOT_PATH } from '../../../contants';
+import { PATH, ROOT_PATH } from '../../../contants';
 import { getFoodDetailAction, toggleLikeAction, updateCartAction } from '../../../redux/actions';
 import handleStopPropagation from '../../../utils/common';
 
@@ -15,7 +15,7 @@ const MetaTitle = ({ name, store, slug }) => {
   return (
     <div>
       <S.FoodTitle>{name}</S.FoodTitle>
-      <S.FoodStoreWrap to={`/stores/${slug}`} onClick={(e) => e.stopPropagation()}>
+      <S.FoodStoreWrap to={PATH.STORE_DETAIL(slug)} onClick={(e) => e.stopPropagation()}>
         <S.StoreName>{store}</S.StoreName>
       </S.FoodStoreWrap>
     </div>

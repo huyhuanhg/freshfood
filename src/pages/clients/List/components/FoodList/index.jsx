@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { MdRemoveShoppingCart } from 'react-icons/all';
 import PropTypes from 'prop-types';
 
+import { PATH, TITLE } from '../../../../../contants';
 import * as S from '../../style';
 
 import { FoodItemHome } from '../../../../../components/clients/FoodItem';
@@ -42,7 +43,8 @@ const FoodList = ({ setShowLogin }) => {
 
   useEffect(() => {
     const { pathname, search } = history.location;
-    const group = pathname === '/promotions' ? 'promotion' : pathname === '/favorite' && 'liked';
+    document.title = TITLE(pathname);
+    const group = pathname === PATH.PROMOTION ? 'promotion' : pathname === PATH.FAVORITE && 'liked';
     const { origin } = window.location;
     const url = new URL(`${origin}/${pathname}${search}`);
     const searchKey = url.searchParams.get('search');
@@ -54,7 +56,7 @@ const FoodList = ({ setShowLogin }) => {
       tags: [],
       group,
     };
-    if (pathname === '/foods') {
+    if (pathname === PATH.FOOD) {
       foodRequest = {
         ...foodRequest,
         search: searchKey,
@@ -67,7 +69,7 @@ const FoodList = ({ setShowLogin }) => {
 
   useEffect(() => {
     const { pathname } = history.location;
-    if (pathname !== '/favorite') {
+    if (pathname !== PATH.FAVORITE) {
       if (request) {
         dispatch(getFoodListAction(request));
       }
@@ -76,7 +78,7 @@ const FoodList = ({ setShowLogin }) => {
 
   useEffect(() => {
     const { pathname } = history.location;
-    if (pathname === '/favorite') {
+    if (pathname === PATH.FAVORITE) {
       if (userInfo.data.id) {
         dispatch(getFoodListAction({
           ...request,
@@ -147,7 +149,7 @@ const FoodList = ({ setShowLogin }) => {
       />
       <S.AffixIndex offsetTop={61.188}>
         <FilterStyle>
-          {history.location.pathname === '/favorite'
+          {history.location.pathname === PATH.FAVORITE
             ?
             <h3
               className='d-flex vertical-center fw-b'

@@ -20,6 +20,23 @@ const initialState = {
     update: {
       load: false,
       error: null,
+      email: {
+        success: false,
+        load: false,
+        error: null,
+      },
+      phone: {
+        success: false,
+        load: false,
+      },
+      fullName: {
+        load: false,
+        error: null,
+      },
+      password: {
+        load: false,
+        error: null,
+      },
     },
     checkEmail: {
       success: false,
@@ -275,10 +292,15 @@ const userReducer = createReducer(initialState, {
   [REQUEST(USER_ACTION.CHANGE_FULL_NAME)]: (state) => {
     return {
       ...state,
-      userInfo: {
-        ...state.userInfo,
-        loadChangeFullName: true,
-        changeFullNameSuccess: false,
+      responseAction: {
+        ...state.responseAction,
+        update: {
+          ...state.responseAction.update,
+          fullName: {
+            load: true,
+            success: false,
+          },
+        },
       },
     };
   },
@@ -289,29 +311,48 @@ const userReducer = createReducer(initialState, {
       userInfo: {
         ...state.userInfo,
         data,
-        loadChangeFullName: false,
-        changeFullNameSuccess: true,
+      },
+      responseAction: {
+        ...state.responseAction,
+        update: {
+          ...state.responseAction.update,
+          fullName: {
+            load: false,
+            success: true,
+          },
+        },
       },
     };
   },
   [FAILURE(USER_ACTION.CHANGE_FULL_NAME)]: (state) => {
     return {
       ...state,
-      userInfo: {
-        ...state.userInfo,
-        loadChangeFullName: false,
-        changeFullNameSuccess: false,
+      responseAction: {
+        ...state.responseAction,
+        update: {
+          ...state.responseAction.update,
+          fullName: {
+            load: false,
+            success: false,
+          },
+        },
       },
     };
   },
+
   [REQUEST(USER_ACTION.CHANGE_EMAIL)]: (state) => {
     return {
       ...state,
-      userInfo: {
-        ...state.userInfo,
-        loadChangeEmail: true,
-        errorChangeEmail: null,
-        changeEmailSuccess: false,
+      responseAction: {
+        ...state.responseAction,
+        update: {
+          ...state.responseAction.update,
+          email: {
+            load: true,
+            success: false,
+            error: null,
+          },
+        },
       },
     };
   },
@@ -322,9 +363,17 @@ const userReducer = createReducer(initialState, {
       userInfo: {
         ...state.userInfo,
         data,
-        loadChangeEmail: false,
-        errorChangeEmail: null,
-        changeEmailSuccess: true,
+      },
+      responseAction: {
+        ...state.responseAction,
+        update: {
+          ...state.responseAction.update,
+          email: {
+            load: false,
+            success: true,
+            error: null,
+          },
+        },
       },
     };
   },
@@ -332,21 +381,32 @@ const userReducer = createReducer(initialState, {
     const { error } = action.payload;
     return {
       ...state,
-      userInfo: {
-        ...state.userInfo,
-        loadChangeEmail: false,
-        changeEmailSuccess: false,
-        errorChangeEmail: error,
+      responseAction: {
+        ...state.responseAction,
+        update: {
+          ...state.responseAction.update,
+          email: {
+            load: false,
+            success: false,
+            error,
+          },
+        },
       },
     };
   },
+
   [REQUEST(USER_ACTION.CHANGE_NUMBER_PHONE)]: (state) => {
     return {
       ...state,
-      userInfo: {
-        ...state.userInfo,
-        loadChangeNumberPhone: true,
-        changePhoneSuccess: false,
+      responseAction: {
+        ...state.responseAction,
+        update: {
+          ...state.responseAction.update,
+          phone: {
+            load: true,
+            success: false,
+          },
+        },
       },
     };
   },
@@ -357,28 +417,47 @@ const userReducer = createReducer(initialState, {
       userInfo: {
         ...state.userInfo,
         data,
-        loadChangeNumberPhone: false,
-        changePhoneSuccess: true,
+      },
+      responseAction: {
+        ...state.responseAction,
+        update: {
+          ...state.responseAction.update,
+          phone: {
+            load: false,
+            success: true,
+          },
+        },
       },
     };
   },
   [FAILURE(USER_ACTION.CHANGE_NUMBER_PHONE)]: (state) => {
     return {
       ...state,
-      userInfo: {
-        ...state.userInfo,
-        loadChangeNumberPhone: false,
-        changePhoneSuccess: false,
+      responseAction: {
+        ...state.responseAction,
+        update: {
+          ...state.responseAction.update,
+          phone: {
+            load: false,
+            success: false,
+          },
+        },
       },
     };
   },
+
   [REQUEST(USER_ACTION.CHANGE_PASSWORD)]: (state) => {
     return {
       ...state,
-      userInfo: {
-        ...state.userInfo,
-        loadChangePassword: true,
-        errorChangePassword: null,
+      responseAction: {
+        ...state.responseAction,
+        update: {
+          ...state.responseAction.update,
+          password: {
+            load: true,
+            error: null,
+          },
+        },
       },
     };
   },
@@ -389,7 +468,16 @@ const userReducer = createReducer(initialState, {
       userInfo: {
         ...state.userInfo,
         data,
-        loadChangePassword: false,
+      },
+      responseAction: {
+        ...state.responseAction,
+        update: {
+          ...state.responseAction.update,
+          password: {
+            load: false,
+            error: null,
+          },
+        },
       },
     };
   },
@@ -397,13 +485,19 @@ const userReducer = createReducer(initialState, {
     const { error } = action.payload;
     return {
       ...state,
-      userInfo: {
-        ...state.userInfo,
-        loadChangePassword: false,
-        errorChangePassword: error,
+      responseAction: {
+        ...state.responseAction,
+        update: {
+          ...state.responseAction.update,
+          password: {
+            load: false,
+            error,
+          },
+        },
       },
     };
   },
+
   [REQUEST(USER_ACTION.UPDATE_USER)]: (state) => {
     return {
       ...state,

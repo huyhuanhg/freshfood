@@ -9,7 +9,7 @@ import {
 } from 'react-icons/all';
 import camelCaseKeys from 'camelcase-keys';
 
-import { SERVER_CLIENT_API_URL } from '../../../../../contants';
+import { PATH, SERVER_CLIENT_API_URL } from '../../../../../contants';
 import * as S from './style';
 
 const SectionListed = () => {
@@ -71,7 +71,7 @@ const SectionListed = () => {
         <div className='list'>
           <Row justify='center'>
             <Col span={6}>
-              <S.IntroduceLink to={'/stores'} color={'#ff85c0'}>
+              <S.IntroduceLink to={PATH.STORE} color={'#ff85c0'}>
                 <figure>
                   <BiStore />
                   <figcaption>
@@ -83,7 +83,7 @@ const SectionListed = () => {
               </S.IntroduceLink>
             </Col>
             <Col span={6}>
-              <S.IntroduceLink to={'/foods'} color={'#ffd666'}>
+              <S.IntroduceLink to={PATH.FOOD} color={'#ffd666'}>
                 <figure>
                   <IoFastFoodOutline />
                   <figcaption>
@@ -95,7 +95,7 @@ const SectionListed = () => {
               </S.IntroduceLink>
             </Col>
             <Col span={6}>
-              <S.IntroduceLink to={'/promotions'} color={'#85a5ff'}>
+              <S.IntroduceLink to={PATH.PROMOTION} color={'#85a5ff'}>
                 <figure>
                   <FiPercent />
                   <figcaption>
@@ -107,7 +107,7 @@ const SectionListed = () => {
               </S.IntroduceLink>
             </Col>
             <Col span={6}>
-              <S.IntroduceLink to={'/crowded'} color={'#5cdbd3'}>
+              <S.IntroduceLink to={PATH.CROWDED} color={'#5cdbd3'}>
                 <figure>
                   <GiSpellBook />
                   <figcaption>

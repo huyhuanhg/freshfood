@@ -4,7 +4,7 @@ import { getRatesAction } from '../../../../redux/actions';
 import { useDispatch, useSelector } from 'react-redux';
 import { AiFillStar, GiRank3, MdDescription, TiLocationArrow } from 'react-icons/all';
 import { useEffect } from 'react';
-import { ROOT_PATH } from '../../../../contants';
+import { PAGE_TITLE, ROOT_PATH } from '../../../../contants';
 import { Link } from 'react-router-dom';
 import moment from 'moment';
 
@@ -23,6 +23,7 @@ const HistoryRating = () => {
   const { accessToken } = JSON.parse(localStorage.userInfo);
 
   useEffect(() => {
+    document.title = PAGE_TITLE.RATES;
     if (userId) {
       dispatch(getRatesAction({
         accessToken,

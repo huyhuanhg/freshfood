@@ -9,6 +9,7 @@ import StoreItem from '../../../../../components/clients/StoreItem';
 import history from '../../../../../utils/history';
 import { getStoresAction } from '../../../../../redux/actions';
 import { Filter as FilterStyle } from '../../../../../styles';
+import { PATH, TITLE } from '../../../../../contants';
 
 const StoreList = () => {
   const { Option } = Select;
@@ -31,18 +32,19 @@ const StoreList = () => {
 
   useEffect(() => {
     const { pathname, search } = history.location;
+    document.title = TITLE(pathname);
     const { origin } = window.location;
     const url = new URL(`${origin}/${pathname}${search}`);
     const searchKey = url.searchParams.get('search');
     let foodRequest = {
       ...request,
       group: null,
-      sort: pathname === '/crowded' ? 'total_order' : 'created_at',
+      sort: pathname === PATH.CROWDED ? 'total_order' : 'created_at',
       sortType: -1,
       page: 1,
       category: 0,
     };
-    if (pathname === '/stores') {
+    if (pathname === PATH.STORE) {
       foodRequest = {
         ...foodRequest,
         search: searchKey,

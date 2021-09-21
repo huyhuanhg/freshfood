@@ -3,10 +3,11 @@ import { put, takeEvery } from 'redux-saga/effects';
 import axios from 'axios';
 import camelCaseKeys from 'camelcase-keys';
 import { REQUEST, SUCCESS, FAILURE, USER_ACTION } from '../constants';
-import { SERVER_CLIENT_API_URL } from '../../contants';
+import { PATH, SERVER_CLIENT_API_URL } from '../../contants';
 
 import history from '../../utils/history';
 import toSnakeCase from '../../utils/toSnakeCase';
+import { MSG, MSG_ERROR, MSG_SUCCESS } from '../../contants/message.contant';
 
 function* loginSaga({ payload: { data } }) {
   try {
@@ -24,14 +25,12 @@ function* loginSaga({ payload: { data } }) {
       },
     });
 
-    yield notification.success({
-      message: 'Đăng nhập thành công!',
-    });
+    notification.success({ message: MSG_SUCCESS(MSG.LOGIN) });
   } catch (e) {
     yield put({
       type: FAILURE(USER_ACTION.LOGIN),
       payload: {
-        error: 'Email hoặc mật khẩu không đúng!',
+        error: MSG.VALIDATE_LOGIN_INVALID,
       },
     });
   }
@@ -95,14 +94,10 @@ function* registerSaga({ payload: { data } }) {
   try {
     yield axios.post(`${SERVER_CLIENT_API_URL}/register`, toSnakeCase(data));
     yield put({ type: SUCCESS(USER_ACTION.REGISTER) });
-    yield notification.success({
-      message: 'Đăng ký thành công!',
-    });
-    yield history.push('/login');
+    notification.success({ message: MSG_SUCCESS(MSG.REGISTER) });
+    history.push(PATH.LOGIN);
   } catch (e) {
-    yield notification.error({
-      message: 'Đăng ký thất bại!',
-    });
+    notification.error({ message: MSG_ERROR(MSG.REGISTER) });
     yield put({
       type: FAILURE(USER_ACTION.REGISTER),
     });
@@ -142,8 +137,8 @@ function* logoutSaga({ payload: { data } }) {
       Authorization: `Bearer ${data}`,
     },
   });
-  yield localStorage.removeItem('userInfo');
-  yield history.push('/login');
+  localStorage.removeItem('userInfo');
+  history.push(PATH.LOGIN);
 }
 
 
@@ -163,9 +158,7 @@ function* changeAvatarSaga({ payload: { accessToken, data } }) {
         data: responseData,
       },
     });
-    yield notification.success({
-      message: 'Đổi ảnh đại diện thành công!',
-    });
+    notification.success({ message: MSG_SUCCESS(MSG.UPDATE_AVATAR) });
   } catch (e) {
     yield put({
       type: FAILURE(USER_ACTION.CHANGE_AVATAR),
@@ -173,6 +166,7 @@ function* changeAvatarSaga({ payload: { accessToken, data } }) {
         error: e.message,
       },
     });
+    notification.error({ message: MSG_ERROR(MSG.UPDATE_AVATAR) });
   }
 }
 
@@ -192,9 +186,7 @@ function* changeFullNameSaga({ payload: { accessToken, data } }) {
         data: camelCaseKeys(responseData),
       },
     });
-    yield notification.success({
-      message: 'Đổi họ tên thành công!',
-    });
+    notification.success({ message: MSG_SUCCESS(MSG.UPDATE_FULL_NAME) });
   } catch (e) {
     yield put({
       type: FAILURE(USER_ACTION.CHANGE_FULL_NAME),
@@ -202,6 +194,7 @@ function* changeFullNameSaga({ payload: { accessToken, data } }) {
         error: e.message,
       },
     });
+    notification.error({ message: MSG_ERROR(MSG.UPDATE_FULL_NAME) });
   }
 }
 
@@ -221,16 +214,15 @@ function* changeEmailSaga({ payload: { accessToken, data } }) {
         data: camelCaseKeys(responseData),
       },
     });
-    yield notification.success({
-      message: 'Đổi email thành công!',
-    });
+    notification.success({ message: MSG_SUCCESS(MSG.UPDATE_EMAIL) });
   } catch (e) {
     yield put({
       type: FAILURE(USER_ACTION.CHANGE_EMAIL),
       payload: {
-        error: 'Email dẫ tồn tại!',
+        error: MSG.VALIDATE_EMAIL_EXIST,
       },
     });
+    notification.error({ message: MSG_ERROR(MSG.UPDATE_EMAIL) });
   }
 }
 
@@ -250,9 +242,7 @@ function* changeNumberPhoneSaga({ payload: { accessToken, data } }) {
         data: camelCaseKeys(responseData),
       },
     });
-    yield notification.success({
-      message: 'Đổi số điện thoại thành công!',
-    });
+    notification.success({ message: MSG_SUCCESS(MSG.UPDATE_NUMBER_PHONE) });
   } catch (e) {
     yield put({
       type: FAILURE(USER_ACTION.CHANGE_NUMBER_PHONE),
@@ -260,6 +250,7 @@ function* changeNumberPhoneSaga({ payload: { accessToken, data } }) {
         error: e.message,
       },
     });
+    notification.error({ message: MSG_ERROR(MSG.UPDATE_NUMBER_PHONE) });
   }
 }
 
@@ -279,10 +270,8 @@ function* changePasswordSaga({ payload: { accessToken, data } }) {
         data: camelCaseKeys(responseData),
       },
     });
-    yield notification.success({
-      message: 'Đổi mật khẩu thành công!',
-    });
-    yield history.push('/profile/user-info');
+    notification.success({ message: MSG_SUCCESS(MSG.CHANGE_PASSWORD) });
+    history.push(PATH.SUP_PROFILE(PATH.PROFILE_INFO));
   } catch (e) {
     const data = camelCaseKeys(e.response.data);
     yield put({
@@ -291,6 +280,7 @@ function* changePasswordSaga({ payload: { accessToken, data } }) {
         error: { ...data },
       },
     });
+    notification.error({ message: MSG_ERROR(MSG.CHANGE_PASSWORD) });
   }
 }
 
@@ -310,10 +300,8 @@ function* updateUserSaga({ payload: { accessToken, data } }) {
         data: camelCaseKeys(responseData),
       },
     });
-    yield notification.success({
-      message: 'Cập nhật thành công!',
-    });
-    yield history.push('/profile/user-info');
+    notification.success({ message: MSG_SUCCESS(MSG.UPDATE_USER) });
+    history.push(PATH.SUP_PROFILE(PATH.PROFILE_INFO));
   } catch (e) {
     const data = camelCaseKeys(e.response.data);
     yield put({
@@ -322,6 +310,7 @@ function* updateUserSaga({ payload: { accessToken, data } }) {
         error: { ...data },
       },
     });
+    notification.error({ message: MSG_ERROR(MSG.UPDATE_USER) });
   }
 }
 
