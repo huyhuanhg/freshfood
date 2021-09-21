@@ -126,6 +126,10 @@ export const SearchWrap = styled.div`
     width: 22%;
     padding: 0;
   }
+
+  & .ant-select-selector {
+    border: 0!important;
+  }
 `;
 
 export const FormGroup = styled.div`

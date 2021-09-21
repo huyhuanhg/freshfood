@@ -91,7 +91,7 @@ export const FoodItemHome = (
 ) => {
   const { Meta } = Card;
   const dispatch = useDispatch();
-  const { userInfo } = useSelector(({ userReducer }) => userReducer);
+  const { userInfo: { data: UserData } } = useSelector(({ userReducer }) => userReducer);
   return (
     <S.CardItem
       hoverable
@@ -132,7 +132,7 @@ export const FoodItemHome = (
             <S.AddCard
               onClick={(e) => {
                 handleStopPropagation(e);
-                if (!userInfo.data.id) {
+                if (!UserData.id) {
                   setShowLogin(true);
                 } else {
                   const userToken = localStorage.userInfo;

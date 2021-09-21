@@ -13,7 +13,7 @@ import { SERVER_CLIENT_API_URL } from '../../../../../contants';
 import * as S from './style';
 
 const SectionListed = () => {
-  const [totalList, setTotalList] = useState({
+  const [{ totalFoods, totalPromotions, totalStores, totalUsers }, setTotalList] = useState({
     totalUsers: '--',
     totalStores: '--',
     totalFoods: '--',
@@ -40,7 +40,7 @@ const SectionListed = () => {
   return (
     <S.Introduce ref={section}>
       <div>
-        <Row justify="space-around">
+        <Row justify='space-around'>
           <Col span={10}>
             <h2>
               <span>FreshFood</span> - Thực phẩm online
@@ -68,14 +68,14 @@ const SectionListed = () => {
             </ul>
           </Col>
         </Row>
-        <div className="list">
-          <Row justify="center">
+        <div className='list'>
+          <Row justify='center'>
             <Col span={6}>
               <S.IntroduceLink to={'/stores'} color={'#ff85c0'}>
                 <figure>
                   <BiStore />
                   <figcaption>
-                    <p>{totalList.totalStores}</p>
+                    <p>{totalStores}</p>
                     <p>Cửa hàng</p>
                   </figcaption>
                 </figure>
@@ -87,7 +87,7 @@ const SectionListed = () => {
                 <figure>
                   <IoFastFoodOutline />
                   <figcaption>
-                    <p>{totalList.totalFoods}</p>
+                    <p>{totalFoods}</p>
                     <p>Món ăn</p>
                   </figcaption>
                 </figure>
@@ -99,7 +99,7 @@ const SectionListed = () => {
                 <figure>
                   <FiPercent />
                   <figcaption>
-                    <p>{totalList.totalPromotions}</p>
+                    <p>{totalPromotions}</p>
                     <p>Khuyến mãi</p>
                   </figcaption>
                 </figure>
@@ -111,7 +111,7 @@ const SectionListed = () => {
                 <figure>
                   <GiSpellBook />
                   <figcaption>
-                    <p>{totalList.totalUsers}</p>
+                    <p>{totalUsers}</p>
                     <p>Người tiêu dùng</p>
                   </figcaption>
                 </figure>

@@ -368,34 +368,21 @@ export const DeleteAllBtn = styled(Button)`
   }
 `;
 export const CartHeader = styled.div`
-  margin-top: -50px;
-  margin-bottom: 2rem;
-  background-image: linear-gradient(30deg, #b7eb8f, #69c0ff);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 10px;
 
-  & .header-cart {
-    position: relative;
+  & a {
     display: flex;
-    justify-content: center;
     align-items: center;
-    padding: 40px;
-    font-size: 300%;
+    color: ${(props) => props.theme.btnPrimary};
+    font-size: 14px;
+  }
+
+  & h4 {
+    font-size: 20px;
     font-weight: 400;
-    color: #fff;
-
-    & span.back {
-      position: absolute;
-      right: 40px;
-      top: 30px;
-      display: flex;
-      align-items: center;
-      font-size: 14px;
-      cursor: pointer;
-      transition: .3s;
-      color: ${(props) => props.theme.btnPrimary};
-
-      &:hover {
-        color: #1d64ad;
-      }
-    }
+    text-transform: uppercase;
   }
 `;

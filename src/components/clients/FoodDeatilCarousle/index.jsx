@@ -44,20 +44,20 @@ const FoodDetailCarousel = function({ foodList, index, setIndex, setFoodId }) {
   }, [index]);
 
   const renderFoodCarouselItem = () => {
-    return foodList.map((foodItem) => {
+    return foodList.map(({ discount, foodConsume, foodDescription, foodImage, foodName, id }) => {
       return (
-        <Style.CarouselItem key={foodItem.id}>
+        <Style.CarouselItem key={id}>
           <div>
-            <img src={`${ROOT_PATH}${foodItem.foodImage}`} alt={foodItem.foodName} />
+            <img src={`${ROOT_PATH}${foodImage}`} alt={foodName} />
             <div className='info'>
               <Row>
                 <Col span={20}>
-                  <div className='imgbox-food-name'>{foodItem.foodName}</div>
-                  <div className='imgbox-desc'>{foodItem.foodDescription}</div>
+                  <div className='imgbox-food-name'>{foodName}</div>
+                  <div className='imgbox-desc'>{foodDescription}</div>
                   <div className='imgbox-total'>
                     Đã được đặt
                     <span className='txt-bold'>
-                      &nbsp;{foodItem.foodConsume}&nbsp;
+                      &nbsp;{foodConsume}&nbsp;
                     </span>
                     lần
                   </div>
@@ -65,7 +65,7 @@ const FoodDetailCarousel = function({ foodList, index, setIndex, setFoodId }) {
                 <Col span={4} style={{ alignSelf: 'center' }}>
                   <div className='imgbox-current-price'>
                     <NumberFormat
-                      value={foodItem.discount}
+                      value={discount}
                       displayType={'text'}
                       thousandSeparator
                       suffix={'đ'}

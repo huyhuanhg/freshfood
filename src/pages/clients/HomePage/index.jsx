@@ -29,7 +29,10 @@ function HomePage({ setShowLogin }) {
 
   const dispatch = useDispatch();
 
-  const { foodPromotions, foodList } = useSelector(({ foodReducer }) => foodReducer);
+  const {
+    foodPromotions: { data: promotionData, likeLoaded },
+    foodList,
+  } = useSelector(({ foodReducer }) => foodReducer);
   const { userInfo } = useSelector(({ userReducer }) => userReducer);
   const { Link: AnchorLink } = Anchor;
 
@@ -51,8 +54,8 @@ function HomePage({ setShowLogin }) {
         type = 'food';
       }
 
-      if (!foodPromotions.likeLoaded && foodPromotions.data.length > 0) {
-        foodIds = foodPromotions.data.map((foodItem) => {
+      if (!likeLoaded && promotionData.length > 0) {
+        foodIds = promotionData.map((foodItem) => {
           return foodItem.id;
         });
         type = 'promotion';
@@ -137,7 +140,7 @@ function HomePage({ setShowLogin }) {
         </div>
       </HomeS.Invite>
 
-      <HomeS.Section style={{ background: '#f3f3f3' }}>
+      <HomeS.Section style={{ background: '#f3f3f3' }} id={'food_list'}>
         <HomeS.SectionContainer className='mt-0'>
           <SectionFoodList render={renderFood} />
         </HomeS.SectionContainer>

@@ -1,24 +1,70 @@
-import { Button, Col, DatePicker, Form, Input, Row, Select, Space } from 'antd';
+import { Button, Col, DatePicker, Form, Input, Row, Select, Space, Spin } from 'antd';
 import moment from 'moment';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 
 import * as S from '../style';
 import history from '../../../../utils/history';
-import { getAddressAction, getDistrictsAction, getWardsAction } from '../../../../redux/actions';
+import {
+  checkEmailExistsAction,
+  getAddressAction,
+  getDistrictsAction,
+  getWardsAction,
+  updateUserAction,
+} from '../../../../redux/actions';
+import { shortAddress } from '../../../../utils/address';
 
 const EditProfile = () => {
+  const userToken = localStorage.userInfo;
   const dispatch = useDispatch();
   const [userForm] = Form.useForm();
-  const { userInfo } = useSelector(({ userReducer }) => userReducer);
-  const { provinces, districts, wards } = useSelector(({ addressReducer }) => addressReducer);
+  const {
+    userInfo: {
+      data: {
+        address: userAddress,
+        birthday,
+        description,
+        districtCode,
+        email,
+        firstName,
+        gender,
+        lastName,
+        phone,
+        provinceCode,
+        wardCode,
+      },
+    }, responseAction: { checkEmail, update: { load: updateLoad } },
+  } = useSelector(({ userReducer }) => userReducer);
+  const {
+    provinces: { data: provinces },
+    districts: { data: districts, load: districtLoad },
+    wards: { data: wards },
+  } = useSelector(({ addressReducer }) => addressReducer);
+
   useEffect(() => {
     dispatch(getAddressAction({
-      provinceCode: userInfo.data.provinceCode,
-      districtCode: userInfo.data.districtCode,
+      provinceCode: provinceCode,
+      districtCode: districtCode,
     }));
   }, []);
 
+  useEffect(() => {
+    if (checkEmail.error) {
+      userForm.setFields([{
+        name: 'email',
+        errors: [checkEmail.error],
+      }]);
+    }
+  }, [checkEmail]);
+
+  const checkEmailExits = () => {
+    const email = userForm.getFieldValue('email');
+    if (email !== email) {
+      dispatch(checkEmailExistsAction({
+        data: { email },
+      }));
+    }
+  };
   const renderAddressInfo = (typeList) => {
     return typeList.map((typeListItem) => {
       return (
@@ -47,19 +93,33 @@ const EditProfile = () => {
           labelCol={{ span: 8 }}
           wrapperCol={{ span: 12 }}
           initialValues={{
-            firstName: userInfo.data.firstName,
-            lastName: userInfo.data.lastName,
-            email: userInfo.data.email,
-            phone: userInfo.data.phone,
-            gender: userInfo.data.gender,
-            birthday: moment(userInfo.data.birthday),
-            description: userInfo.data.description,
+            firstName: firstName,
+            lastName: lastName,
+            email: email,
+            phone: phone,
+            gender: gender,
+            birthday: moment(birthday),
+            description: description,
             address: {
-              province: userInfo.data.provinceCode,
-              district: userInfo.data.districtCode,
-              ward: userInfo.data.wardCode,
-              street: (userInfo.data.address.split('-').length === 4 ? userInfo.data.address.split('-')[0].trim() : null),
+              province: provinceCode,
+              district: districtCode,
+              ward: wardCode,
+              street: (userAddress?.split('-').length === 4 ? userAddress?.split('-')[0].trim() : null),
             },
+          }}
+          onFinish={(value) => {
+            const { accessToken } = JSON.parse(userToken);
+            dispatch(updateUserAction({
+              accessToken,
+              data: {
+                ...value,
+                provinceCode: value.address.province,
+                districtCode: value.address.district,
+                wardCode: value.address.ward,
+                address: shortAddress(value.address, provinces, districts, wards),
+                birthday: value.birthday.format('YYYY-MM-DD'),
+              },
+            }));
           }}
           autoComplete='off'
         >
@@ -81,14 +141,26 @@ const EditProfile = () => {
               <Input placeholder='Tên' />
             </Form.Item>
           </Form.Item>
-
-          <Form.Item
-            label='Email'
-            name='email'
-            rules={[{ required: true, message: 'Please input your password!' }]}
-          >
-            <Input placeholder='Email' />
-          </Form.Item>
+          <div style={{ position: 'relative' }}>
+            <Form.Item
+              label='Email'
+              name='email'
+              rules={[{ required: true, message: 'Please input your password!' }]}
+              onBlur={checkEmailExits}
+            >
+              <Input placeholder='Email' />
+            </Form.Item>
+            {checkEmail.load &&
+            <Spin
+              style={{
+                position: 'absolute',
+                top: '50%',
+                left: '85%',
+                transform: 'translateY(-50%)',
+              }}
+            />
+            }
+          </div>
           <Form.Item
             label='Số điện thoại'
             name='phone'
@@ -124,7 +196,7 @@ const EditProfile = () => {
                         });
                       }}
                     >
-                      {renderAddressInfo(provinces.data)}
+                      {renderAddressInfo(provinces)}
                     </Select>
                   </Form.Item>
                 </Col>
@@ -137,7 +209,7 @@ const EditProfile = () => {
                     <Select
                       placeholder='--Quận/Huyện--'
                       style={{ width: '100%' }}
-                      disabled={districts.load}
+                      disabled={districtLoad}
                       onChange={(value) => {
                         dispatch(getWardsAction({
                           districtCode: value,
@@ -149,7 +221,7 @@ const EditProfile = () => {
                         });
                       }}
                     >
-                      {renderAddressInfo(districts.data)}
+                      {renderAddressInfo(districts)}
                     </Select>
                   </Form.Item>
                 </Col>
@@ -164,9 +236,9 @@ const EditProfile = () => {
                     <Select
                       placeholder='--Phường/Xã--'
                       style={{ width: '100%' }}
-                      disabled={wards.data.length === 0}
+                      disabled={wards.length === 0}
                     >
-                      {renderAddressInfo(wards.data)}
+                      {renderAddressInfo(wards)}
                     </Select>
                   </Form.Item>
                 </Col>
@@ -247,6 +319,7 @@ const EditProfile = () => {
           <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
             <Space>
               <Button
+                disabled={updateLoad}
                 style={{
                   background: '#3380d8',
                   color: 'white',
@@ -256,6 +329,7 @@ const EditProfile = () => {
                 Cập nhập
               </Button>
               <Button onClick={() => history.push('/profile/user-info')}>Hủy</Button>
+              {updateLoad && <Spin />}
             </Space>
           </Form.Item>
         </Form>

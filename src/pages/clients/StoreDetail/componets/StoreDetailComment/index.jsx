@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { Button } from 'antd';
 import PropTypes from 'prop-types';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { getCommentsAction } from '../../../../../redux/actions';
 import { ROOT_PATH } from '../../../../../contants';
 import moment from 'moment';
@@ -20,16 +20,56 @@ const StoreDetailComment = (
   },
 ) => {
   const dispatch = useDispatch();
-  const { commentList } = useSelector(({ commentReducer }) => commentReducer);
+  const {
+    commentList: {
+      currentPage,
+      data: commentData,
+      lastPage,
+      load,
+      total,
+    },
+  } = useSelector(({ commentReducer }) => commentReducer);
   const storeId = slug.slice(slug.lastIndexOf('.') + 1);
+  const [loadMore, setLoadMore] = useState(false);
   moment.locale('vi');
 
+  const loadMoreComment = () => {
+    if (window.innerHeight + document.documentElement.scrollTop + 300 >= document.documentElement.scrollHeight) {
+      if (!loadMore) {
+        setLoadMore(true);
+      }
+    }
+  };
   useEffect(() => {
     dispatch(getCommentsAction({ storeId }));
+    window.addEventListener('scroll', loadMoreComment);
+
+    return () => {
+      window.removeEventListener('scroll', loadMoreComment);
+    };
   }, []);
 
+  useEffect(() => {
+    if (currentPage === lastPage && loadMore) {
+      window.removeEventListener('scroll', loadMoreComment);
+    } else {
+      setLoadMore(false);
+    }
+  }, [currentPage]);
+  useEffect(() => {
+    if (loadMore && currentPage < lastPage) {
+      dispatch(getCommentsAction({
+        storeId,
+        page: currentPage + 1,
+      }));
+    }
+    if (loadMore && currentPage === lastPage) {
+      window.removeEventListener('scroll', loadMoreComment);
+    }
+  }, [loadMore]);
+
   const renderComment = () => {
-    return commentList.data.map((commentItem) => {
+    return commentData.map((commentItem) => {
       return (
         <S.CommentWrap key={commentItem.id}>
           <S.CommentHeader>
@@ -56,27 +96,15 @@ const StoreDetailComment = (
                 {commentItem.pictures.map((picture) => {
                   return (
                     <Col key={picture} span={6}>
-                      <div style={{
-                        width: '225px',
-                        height: '225px',
-                        overflow: 'hidden',
-                        border: '1px solid #f6f6f6',
-                        borderRadius: 4,
-                      }}>
-                        <Image
-                          style={{
-                            width: '225px',
-                            height: '225px',
-                            objectFit: 'cover',
-                            verticalAlign: 'middle',
-                          }}
+                      <StoreDetailStyle.PictureWrap>
+                        <StoreDetailStyle.PictureItem
                           src={`${ROOT_PATH}${picture}`}
                           alt={picture}
                           preview={{
                             mask: <div><EyeOutlined /> Xem ảnh</div>,
                           }}
                         />
-                      </div>
+                      </StoreDetailStyle.PictureWrap>
                     </Col>
                   );
                 })}
@@ -90,7 +118,7 @@ const StoreDetailComment = (
   };
   return (
     <div>
-      {commentList.data.length > 0
+      {total > 0
         ?
         <div>
           <Affix offsetTop={59.188 + 54}>
@@ -116,20 +144,6 @@ const StoreDetailComment = (
           </Affix>
           <div>
             {renderComment()}
-            {commentList.currentPage < commentList.lastPage &&
-            <div className='d-flex vertical-center horizontal-center mt-3r'>
-              <Button
-                onClick={() =>
-                  dispatch(getCommentsAction({
-                    storeId,
-                    page: commentList.currentPage + 1,
-                  }))
-                }
-              >
-                Xem thêm
-              </Button>
-            </div>
-            }
           </div>
         </div>
         :
@@ -154,7 +168,7 @@ const StoreDetailComment = (
           </div>
         </div>
       }
-      {commentList.load && (
+      {load && (
         <div className='d-flex horizontal-center vertical-center' style={{ width: '100%' }}>
           <Spin />
         </div>

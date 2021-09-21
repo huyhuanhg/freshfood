@@ -27,29 +27,43 @@ const CartPage = () => {
   const [orderForm] = Form.useForm();
   const dispatch = useDispatch();
 
-  const { cartList, total, totalMoney } = useSelector(({ cartReducer }) => cartReducer);
-  const { userInfo } = useSelector(({ userReducer }) => userReducer);
-  const { provinces, districts, wards } = useSelector(({ addressReducer }) => addressReducer);
+  const {
+    cartList: { data: cartList, load: loadCarts },
+    total,
+    totalMoney,
+  } = useSelector(({ cartReducer }) => cartReducer);
+  const {
+    userInfo: {
+      data: { address: userAddress, districtCode, firstName, id: userId, lastName, phone, provinceCode, wardCode },
+      error: userError,
+      load: userLoad,
+    },
+  } = useSelector(({ userReducer }) => userReducer);
+  const {
+    provinces: { data: provinces },
+    districts: { data: districts, load: districtLoad },
+    wards: { data: wards },
+  } = useSelector(({ addressReducer }) => addressReducer);
 
-  document.title = `${TITLE.CART} | ${userInfo.data.firstName} ${userInfo.data.lastName}`;
+  document.title = `${TITLE.CART} | ${firstName} ${lastName}`;
 
   const [redirect, setRedirect] = useState(false);
   const userToken = localStorage.userInfo;
 
   useEffect(() => {
-    if (!userToken || userInfo.error) {
+    if (!userToken || userError) {
       setRedirect(true);
     }
-    if (userInfo.data.id) {
-      const { provinceCode, districtCode, wardCode } = userInfo.data;
+    if (userId) {
 
       orderForm.setFieldsValue({
-        fullName: `${userInfo.data.firstName} ${userInfo.data.lastName}`,
-        phone: userInfo.data.phone,
+        fullName: `${firstName} ${lastName}`,
+        phone: phone,
         address: {
           province: provinceCode,
           district: districtCode,
           ward: wardCode,
+          street: (userAddress?.split('-').length === 4 ? userAddress?.split('-')[0].trim() : null),
         },
       });
       dispatch(
@@ -64,14 +78,14 @@ const CartPage = () => {
         districtCode,
       }));
     }
-  }, [userInfo]);
+  }, [userId]);
 
   const handleOrder = (value) => {
     dispatch(createOrderAction({
       accessToken: JSON.parse(userToken).accessToken,
       data: {
         ...value,
-        address: shortAddress(value.address, provinces.data, districts.data, wards.data),
+        address: shortAddress(value.address, provinces, districts, wards),
       },
     }));
   };
@@ -84,24 +98,35 @@ const CartPage = () => {
     });
   };
   const renderCart = () => {
-    return cartList.data.map((cartItem) => {
+    return cartList.map(({
+      discount,
+      foodImage,
+      foodName,
+      id: cartId,
+      load,
+      pivot,
+      price,
+      storeId,
+      storeName,
+      storeNotMark,
+    }) => {
       return (
-        <li key={cartItem.id} style={{ position: 'relative' }}>
+        <li key={cartId} style={{ position: 'relative' }}>
           {
-            cartItem.load &&
+            load &&
             <div className='p-absolute' style={{ top: '50%', left: '50%' }}>
               <Spin />
             </div>
           }
           <div className='img'>
-            <Link to={`/stores/${cartItem.storeNotMark}.${cartItem.storeId}`} style={{}}>
-              <img src={`${ROOT_PATH}${cartItem.foodImage}`} alt='' />
+            <Link to={`/stores/${storeNotMark}.${storeId}`} style={{}}>
+              <img src={`${ROOT_PATH}${foodImage}`} alt='' />
             </Link>
             <button onClick={() => {
               dispatch(destroyCartsAction({
                 data: {
                   accessToken: JSON.parse(userToken).accessToken,
-                  food: cartItem.id,
+                  food: cartId,
                 },
               }));
             }}>
@@ -111,11 +136,11 @@ const CartPage = () => {
           <S.CartInfo>
             <div className='food-info'>
               <div className='food-name'>
-                <Link to={`/stores/${cartItem.storeNotMark}.${cartItem.storeId}`}>{cartItem.foodName}</Link>
+                <Link to={`/stores/${storeNotMark}.${storeId}`}>{foodName}</Link>
               </div>
               <div className='store-name'>
-                <Link to={`/stores/${cartItem.storeNotMark}.${cartItem.storeId}`}>
-                  {cartItem.storeName}
+                <Link to={`/stores/${storeNotMark}.${storeId}`}>
+                  {storeName}
                 </Link>
               </div>
             </div>
@@ -124,13 +149,13 @@ const CartPage = () => {
                 <div
                   className='minus'
                   style={
-                    cartItem.pivot.quantity === 1 ? { pointerEvents: 'none' } : {}
+                    pivot.quantity === 1 ? { pointerEvents: 'none' } : {}
                   }
                   onClick={() => {
                     dispatch(updateCartAction({
                       data: {
                         accessToken: JSON.parse(userToken).accessToken,
-                        food: cartItem.id,
+                        food: cartId,
                         action: -1,
                       },
                     }));
@@ -138,14 +163,14 @@ const CartPage = () => {
                 >
                   <HiMinus />
                 </div>
-                <div className='quantity'>{cartItem.pivot.quantity}</div>
+                <div className='quantity'>{pivot.quantity}</div>
                 <div
                   className='plus'
                   onClick={() => {
                     dispatch(updateCartAction({
                       data: {
                         accessToken: JSON.parse(userToken).accessToken,
-                        food: cartItem.id,
+                        food: cartId,
                       },
                     }));
                   }}
@@ -158,8 +183,8 @@ const CartPage = () => {
                 <strike>
                   <NumberFormat
                     value={
-                      cartItem.discount < cartItem.price &&
-                      cartItem.price * cartItem.pivot.quantity
+                      discount < price &&
+                      price * pivot.quantity
                     }
                     displayType={'text'}
                     thousandSeparator
@@ -167,7 +192,7 @@ const CartPage = () => {
                   />
                 </strike>
                 <NumberFormat
-                  value={cartItem.discount * cartItem.pivot.quantity}
+                  value={discount * pivot.quantity}
                   displayType={'text'}
                   thousandSeparator
                   suffix={'đ'}
@@ -182,7 +207,7 @@ const CartPage = () => {
   if (redirect) {
     return <Redirect to='/' />;
   } else {
-    if (userInfo.load) {
+    if (userLoad) {
       return (
         <Spin
           size={'large'}
@@ -197,20 +222,10 @@ const CartPage = () => {
     } else {
       return (
         <ClientStyle.Section>
-          <S.CartHeader>
-            <ClientStyle.Container>
-              <div className='header-cart'>
-                Giỏ hàng
-                <span className='back' onClick={() => history.goBack()}>
-                  <FcPrevious /> Quay lại
-                </span>
-              </div>
-            </ClientStyle.Container>
-          </S.CartHeader>
           <ClientStyle.Container>
             <S.CartWrap>
               {
-                cartList.load ?
+                loadCarts ?
                   <div
                     className='d-flex horizontal-center vertical-center'
                     style={{
@@ -235,6 +250,13 @@ const CartPage = () => {
                       )
                       :
                       <Row gutter={16}>
+                        <Col span={15}>
+                          <S.CartHeader>
+                            <Link to='/stores'><FcPrevious />Tiếp tục mua sắm</Link>
+                            <h4>Giỏ hàng của bạn</h4>
+                          </S.CartHeader>
+                        </Col>
+                        <Col span={9} />
                         <Col span={15}>
                           <S.CartContent>
                             <S.CartList>{renderCart()}</S.CartList>
@@ -301,7 +323,7 @@ const CartPage = () => {
                                               });
                                             }}
                                           >
-                                            {renderAddressInfo(provinces.data)}
+                                            {renderAddressInfo(provinces)}
                                           </Select>
                                         </Form.Item>
                                       </Col>
@@ -314,7 +336,7 @@ const CartPage = () => {
                                           <Select
                                             placeholder='--Quận/Huyện--'
                                             style={{ width: '100%' }}
-                                            disabled={districts.load}
+                                            disabled={districtLoad}
                                             onChange={(value) => {
                                               dispatch(getWardsAction({
                                                 districtCode: value,
@@ -326,7 +348,7 @@ const CartPage = () => {
                                               });
                                             }}
                                           >
-                                            {renderAddressInfo(districts.data)}
+                                            {renderAddressInfo(districts)}
                                           </Select>
                                         </Form.Item>
                                       </Col>
@@ -341,9 +363,9 @@ const CartPage = () => {
                                           <Select
                                             placeholder='--Phường/Xã--'
                                             style={{ width: '100%' }}
-                                            disabled={wards.data.length === 0}
+                                            disabled={wards.length === 0}
                                           >
-                                            {renderAddressInfo(wards.data)}
+                                            {renderAddressInfo(wards)}
                                           </Select>
                                         </Form.Item>
                                       </Col>

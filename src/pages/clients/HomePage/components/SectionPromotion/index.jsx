@@ -4,15 +4,15 @@ import PropTypes from 'prop-types';
 import * as HomeS from '../../styles';
 
 const SectionPromotion = ({ render, anchor: AnchorLink }) => {
-  const { foodPromotions } = useSelector(({ foodReducer }) => foodReducer);
+  const { foodPromotions: { data: promotionData } } = useSelector(({ foodReducer }) => foodReducer);
   return (
     <HomeS.Section>
       <HomeS.SectionTitle>Khuyến mãi</HomeS.SectionTitle>
       <HomeS.SectionContainer>
-        {render(foodPromotions.data)}
+        {render(promotionData)}
         <div className='d-flex vertical-center horizontal-center mt-3r'>
           <Anchor affix={false} className='d-inline-block w-40'>
-            <AnchorLink href='#test' title={
+            <AnchorLink href='#food_list' title={
               <HomeS.ButtonCustom>Xem tất cả</HomeS.ButtonCustom>
             } />
           </Anchor>

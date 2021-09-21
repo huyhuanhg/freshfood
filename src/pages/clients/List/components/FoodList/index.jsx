@@ -17,7 +17,7 @@ const FoodList = ({ setShowLogin }) => {
   const dispatch = useDispatch();
   const [showFoodDetail, setShowFoodDetail] = useState(false);
   const { foodList } = useSelector(({ foodReducer }) => foodReducer);
-  const { tagList } = useSelector(({ tagReducer }) => tagReducer);
+  const { tagList: { data: tagData } } = useSelector(({ tagReducer }) => tagReducer);
   const { userInfo } = useSelector(({ userReducer }) => userReducer);
   const [filterActive, setFieldActive] = useState('created_at');
   const [sortPriceType, setSortPriceType] = useState('');
@@ -98,7 +98,7 @@ const FoodList = ({ setShowLogin }) => {
   };
 
   const renderTagList = () => {
-    return tagList.data.map(({ id, tagActive, tagName }) => {
+    return tagData.map(({ id, tagActive, tagName }) => {
       if (tagActive === 1) {
         return {
           value: id,

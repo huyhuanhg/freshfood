@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import moment from 'moment';
 import { BsCardImage } from 'react-icons/all';
 import { CommentOutlined, EyeOutlined } from '@ant-design/icons';
-import { Button, Col, Collapse, Image, Row } from 'antd';
+import { Button, Col, Collapse, Image, Row, Spin } from 'antd';
 
 import { getCommentsAction } from '../../../../redux/actions';
 import * as S from '../style';
@@ -13,13 +13,20 @@ import { ROOT_PATH } from '../../../../contants';
 const HistoryComment = () => {
   moment.locale('vi');
   const dispatch = useDispatch();
-  const { userInfo } = useSelector(({ userReducer }) => userReducer);
-  const { commentList } = useSelector(({ commentReducer }) => commentReducer);
-  console.log(commentList);
+  const { userInfo: { data: { id: userId } } } = useSelector(({ userReducer }) => userReducer);
+  const {
+    commentList: {
+      currentPage,
+      data: commentData,
+      lastPage,
+      load: commentLoad,
+      total,
+    },
+  } = useSelector(({ commentReducer }) => commentReducer);
   useEffect(() => {
-    if (userInfo.data.id) {
+    if (userId) {
       dispatch(getCommentsAction({
-        userId: userInfo.data.id,
+        userId: userId,
       }));
     }
   }, []);
@@ -27,20 +34,29 @@ const HistoryComment = () => {
     return (
       <Collapse expandIconPosition='right'>
         {
-          commentList.data.map((commentItem) => {
+          commentData.map(({
+            content,
+            createdAt,
+            id: commentId,
+            pictures,
+            storeId,
+            storeImage,
+            storeName,
+            storeNotMark,
+          }) => {
             return (
               <Collapse.Panel
-                key={commentItem.id}
+                key={commentId}
                 header={
                   <Row gutter={20}>
                     <Col span={10}>
                       <S.StoreTitle>
                         <img
-                          src={`${ROOT_PATH}${commentItem.storeImage}`}
-                          alt={commentItem.storeName}
+                          src={`${ROOT_PATH}${storeImage}`}
+                          alt={storeName}
                         />
-                        <Link to={`/stores/${commentItem.storeNotMark}.${commentItem.storeId}`}>
-                          {commentItem.storeName}
+                        <Link to={`/stores/${storeNotMark}.${storeId}`}>
+                          {storeName}
                         </Link>
                       </S.StoreTitle>
                     </Col>
@@ -49,25 +65,25 @@ const HistoryComment = () => {
                       span={10}
                       style={{ justifyContent: 'space-around' }}
                     >
-                      <S.CommentTitleContent>{commentItem.content}</S.CommentTitleContent>
+                      <S.CommentTitleContent>{content}</S.CommentTitleContent>
                       <div>
                         {
-                          commentItem.pictures.length > 0 &&
-                          <span>{commentItem.pictures.length}<BsCardImage /></span>
+                          pictures.length > 0 &&
+                          <span>{pictures.length}<BsCardImage /></span>
                         }
                       </div>
                     </Col>
                     <Col span={4} style={{ display: 'flex', alignItems: 'center' }}>
-                      {moment(commentItem.createdAt).fromNow()}
+                      {moment(createdAt).fromNow()}
                     </Col>
                   </Row>
                 }
               >
-                <p style={{ marginBottom: 10 }}>{commentItem.content}</p>
-                {commentItem.pictures.length > 0 &&
+                <p style={{ marginBottom: 10 }}>{content}</p>
+                {pictures.length > 0 &&
                 <Row gutter={10}>
                   <Image.PreviewGroup>
-                    {commentItem.pictures.map((picture) => {
+                    {pictures.map((picture) => {
                       return (
                         <Col key={picture} span={6}>
                           <div style={{
@@ -105,36 +121,50 @@ const HistoryComment = () => {
     );
   };
   return (
-
     <div>
       {
-        commentList.total === 0 ?
-          <S.ProfileEmpty>
+        total === 0 ?
+          <S.ProfileEmpty minHeight={500}>
             <div>
               <CommentOutlined />
+              <p>Bạn chưa có bình luận nào</p>
             </div>
-            <div>Bạn chưa có bình luận nào</div>
           </S.ProfileEmpty>
           :
           <div style={{ paddingBottom: 15 }}>
             <S.TitleContent>
               Bình luận của bạn
             </S.TitleContent>
-            {renderComments()}
-            {commentList.currentPage < commentList.lastPage &&
-            <div className='d-flex vertical-center horizontal-center mt-3r'>
-              <Button
-                onClick={() =>
-                  dispatch(getCommentsAction({
-                    userId: userInfo.data.id,
-                    page: commentList.currentPage + 1,
-                  }))
-                }
-              >
-                Xem thêm
-              </Button>
+            <div style={{ minHeight: 430 }}>
+              {renderComments()}
+              {
+                commentLoad &&
+                <div
+                  style={{
+                    position: 'absolute',
+                    left: '50%',
+                    marginTop: '10px',
+                    transform: 'translateX(-50%)',
+                  }}
+                >
+                  <Spin />
+                </div>
+              }
+              {currentPage < lastPage &&
+              <div className='d-flex vertical-center horizontal-center mt-3r'>
+                <Button
+                  onClick={() =>
+                    dispatch(getCommentsAction({
+                      userId: userId,
+                      page: currentPage + 1,
+                    }))
+                  }
+                >
+                  Xem thêm
+                </Button>
+              </div>
+              }
             </div>
-            }
           </div>
       }
     </div>

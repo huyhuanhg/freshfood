@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 import { Affix, Badge, Button, Dropdown, Form, Input, Menu, Select, Space } from 'antd';
 import {
-  AiFillSkype,
+  AiFillSkype, BsFillBookmarkFill,
   FaFacebookF,
   FaHistory,
   FiActivity,
@@ -34,13 +34,23 @@ function Header({ setShowModalLogin }) {
   const dispatch = useDispatch();
   const [searchForm] = Form.useForm();
   const [searchType, setSearchType] = useState('stores');
-  const { userInfo } = useSelector(({ userReducer }) => userReducer);
+  const {
+    userInfo: {
+      data: {
+        avatar,
+        firstName,
+        id : userId,
+        lastName,
+        phone,
+      },
+    },
+  } = useSelector(({ userReducer }) => userReducer);
   const { total: totalCart } = useSelector(({ cartReducer }) => cartReducer);
   const handleLogout = () => {
-    const userInfo = JSON.parse(localStorage.getItem('userInfo'));
+    const { accessToken } = JSON.parse(localStorage.getItem('userInfo'));
     dispatch(
       logoutAction({
-        data: userInfo.accessToken,
+        data: accessToken,
       }),
     );
   };
@@ -73,7 +83,7 @@ function Header({ setShowModalLogin }) {
   }, [history.location.pathname, history.location.search]);
   const userMenu = (
     <Menu style={{ width: '250px', display: 'fixed' }}>
-      {userInfo.data.id ? (
+      {userId ? (
         <div>
           <Menu.Item
             key='1'
@@ -85,17 +95,17 @@ function Header({ setShowModalLogin }) {
             <Space>
               <HeaderStyle.UserAvatar
                 size='large'
-                src={userInfo.data.avatar && `${ROOT_PATH}${userInfo.data.avatar}`}
+                src={avatar && `${ROOT_PATH}${avatar}`}
               >
-                {!userInfo.data.avatar && (
+                {!avatar && (
                   <span style={{ fontSize: '2rem' }}>
-                    {userInfo.data.lastName[0].toUpperCase()}
+                    {lastName[0].toUpperCase()}
                   </span>
                 )}
               </HeaderStyle.UserAvatar>
               <div style={{ marginLeft: '1rem' }}>
-                <div>{`${userInfo.data.firstName} ${userInfo.data.lastName}`}</div>
-                <small style={{ color: '#ccc' }}>{userInfo.data.phone}</small>
+                <div>{`${firstName} ${lastName}`}</div>
+                <small style={{ color: '#ccc' }}>{phone}</small>
               </div>
             </Space>
           </Menu.Item>
@@ -111,6 +121,16 @@ function Header({ setShowModalLogin }) {
             Lịch sử giao dịch
           </Menu.Item>
           <Menu.Divider />
+          <Menu.Item
+            key='3'
+            style={{ padding: '1rem 2rem' }}
+            icon={<BsFillBookmarkFill />}
+            onClick={() => {
+              history.push('/profile/history-bookmark');
+            }}
+          >
+            Bộ sưu tập
+          </Menu.Item>
           <Menu.Item
             key='3'
             style={{ padding: '1rem 2rem' }}
@@ -237,7 +257,7 @@ function Header({ setShowModalLogin }) {
               <Badge count={totalCart} style={{ right: '5px' }}>
                 <HeaderStyle.Btn
                   onClick={() => {
-                    if (userInfo.data.id) {
+                    if (userId) {
                       history.push('/cart');
                     } else {
                       setShowModalLogin(true);
@@ -264,16 +284,16 @@ function Header({ setShowModalLogin }) {
                     e.stopPropagation();
                   }}
                 >
-                  {userInfo.data.id ? (
+                  {userId ? (
                     <HeaderStyle.UserAvatar
                       size='large'
                       src={
-                        userInfo.data.avatar && `${ROOT_PATH}${userInfo.data.avatar}`
+                        avatar && `${ROOT_PATH}${avatar}`
                       }
                     >
-                      {!userInfo.data.avatar && (
+                      {!avatar && (
                         <span style={{ fontSize: '2rem' }}>
-                          {userInfo.data.lastName[0].toUpperCase()}
+                          {lastName[0].toUpperCase()}
                         </span>
                       )}
                     </HeaderStyle.UserAvatar>

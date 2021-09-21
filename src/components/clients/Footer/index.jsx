@@ -12,7 +12,7 @@ import * as FooterStyle from './style';
 
 function Footer() {
   return (
-    <>
+    <div>
       <FooterStyle.FooterWrap>
         <div>
           <Row gutter={50}>
@@ -41,8 +41,8 @@ function Footer() {
                 <h4>Subscribe Newsletter</h4>
                 <p>Subscribe Email and Get new Updates and Notification.</p>
                 <form>
-                  <input type="text" placeholder="Enter Your Email Address" />
-                  <button type="submit">
+                  <input type='text' placeholder='Enter Your Email Address' />
+                  <button type='submit'>
                     <GrLinkNext />
                   </button>
                 </form>
@@ -73,7 +73,7 @@ function Footer() {
       <FooterStyle.Copyright>
         <span>FreshFood </span>- Copyright 2021. Design by <span> Huy Huấn</span>
       </FooterStyle.Copyright>
-    </>
+    </div>
   );
 }
 

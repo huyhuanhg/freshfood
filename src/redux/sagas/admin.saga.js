@@ -7,9 +7,8 @@ import { SERVER_ADMIN_API_URL } from '../../contants';
 
 import history from '../../utils/history';
 
-function* loginAdminSaga(action) {
+function* loginAdminSaga({ payload: { data } }) {
   try {
-    const { data } = action.payload;
     let result = yield axios.post(`${SERVER_ADMIN_API_URL}/login`, data);
     yield (result = camelCaseKeys(result.data, { deep: true }));
     yield (localStorage.adminInfo = JSON.stringify({
@@ -39,9 +38,8 @@ function* loginAdminSaga(action) {
   }
 }
 
-function* refreshAdminSaga(action) {
+function* refreshAdminSaga({ payload: { data } }) {
   try {
-    const { data } = action.payload;
     let result = yield axios({
       method: 'post',
       url: `${SERVER_ADMIN_API_URL}/refresh`,
@@ -99,16 +97,15 @@ function* refreshAdminSaga(action) {
 //     }
 // }
 //
-function* getAdminInfoSaga(action) {
+function* getAdminInfoSaga({ payload: { data } }) {
   try {
-    const { data } = action.payload;
-    const result = yield axios.get(`${SERVER_ADMIN_API_URL}/user-profile`, {
+    const { data: responseData } = yield axios.get(`${SERVER_ADMIN_API_URL}/user-profile`, {
       headers: { Authorization: `Bearer ${data}` },
     });
     yield put({
       type: SUCCESS(ADMIN_ACTION.GET_ADMIN_INFO),
       payload: {
-        data: camelCaseKeys(result.data, { deep: true }),
+        data: camelCaseKeys(responseData, { deep: true }),
       },
     });
   } catch (e) {

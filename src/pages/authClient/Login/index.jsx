@@ -13,7 +13,7 @@ function LoginPage() {
   document.title = TITLE.LOGIN;
 
   const dispatch = useDispatch();
-  const { responseAction } = useSelector(({ userReducer }) => userReducer);
+  const { responseAction: { login: { error: responseError, load: LoginLoad } } } = useSelector(({ userReducer }) => userReducer);
 
   const [valid, setValid] = useState({
     valid: {
@@ -36,16 +36,16 @@ function LoginPage() {
     password: false,
   });
   useEffect(() => {
-    if (responseAction.login.error) {
+    if (responseError) {
       setValid({
         ...valid,
         message: {
           ...valid.message,
-          password: responseAction.login.error,
+          password: responseError,
         },
       });
     }
-  }, [responseAction.login.error]);
+  }, [responseError]);
 
   const validateRule = (name, value, erors) => {
     let msg = '';
@@ -172,9 +172,9 @@ function LoginPage() {
         </AuthStyle.FormControlWrap>
         <AuthStyle.InvalidMsg>{valid.message.password}</AuthStyle.InvalidMsg>
       </AuthStyle.FormGroup>
-      <AuthStyle.BtnSubmit htmlType="submit" disabled={responseAction.login.load}>
+      <AuthStyle.BtnSubmit htmlType="submit" disabled={LoginLoad}>
         Đăng nhập
-        <AuthStyle.SubmitLoading size="middle" show={responseAction.login.load} />
+        <AuthStyle.SubmitLoading size="middle" show={LoginLoad} />
       </AuthStyle.BtnSubmit>
       <div
         style={{

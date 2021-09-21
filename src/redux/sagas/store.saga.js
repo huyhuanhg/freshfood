@@ -5,48 +5,38 @@ import { REQUEST, SUCCESS, FAILURE, STORE_ACTION } from '../constants';
 import { SERVER_CLIENT_API_URL } from '../../contants';
 import toSnakeCase from '../../utils/toSnakeCase';
 
-function* getStoreListSaga(action) {
+function* getStoreListSaga({ payload: { category, group, limit, page, search, sort, sortType, user } }) {
   try {
-    const category = action.payload?.category;
-    const group = action.payload?.group;
-    const sort = action.payload?.sort;
-    const sortType = action.payload?.sortType;
-    const user = action.payload?.user;
-    const page = action.payload?.page;
-    const search = action.payload?.search;
-    const limit = action.payload?.limit;
-
     const params = {
-      ...category && { category },
-      ...group && { group },
-      ...sort && { sort, sortType },
-      ...user && { user },
-      ...page && { page },
-      ...search && { search },
-      ...limit && { limit },
-    };
-    const result = yield axios({
-      method: 'GET',
-      url: `${SERVER_CLIENT_API_URL}/stores`,
-      params: toSnakeCase(params),
-    });
+        ...category && { category },
+        ...group && { group },
+        ...sort && { sort, sortType },
+        ...user && { user },
+        ...page && { page },
+        ...search && { search },
+        ...limit && { limit },
+      },
+      { data } = yield axios({
+        method: 'GET',
+        url: `${SERVER_CLIENT_API_URL}/stores`,
+        params: toSnakeCase(params),
+      });
     yield put({
       type: SUCCESS(STORE_ACTION.GET_STORE_LIST),
       payload: {
-        data: camelCaseKeys(result.data, { deep: true }),
+        data: camelCaseKeys(data, { deep: true }),
       },
     });
   } catch (e) {
-    yield put({ type: FAILURE(FOOD_ACTION.GET_FOOD_LIST_INITIAL), payload: e.message });
+    yield put({ type: FAILURE(STORE_ACTION.GET_STORE_LIST), payload: e.message });
   }
 }
 
-function* getStoreDetailSaga(action) {
+function* getStoreDetailSaga({ payload: { slug, user } }) {
   try {
-    const { user, slug } = action.payload;
     const storeId = slug.slice(slug.lastIndexOf('.') + 1);
     if (/^\d+$/.test(storeId)) {
-      const result = yield axios({
+      const { data } = yield axios({
         method: 'GET',
         url: `${SERVER_CLIENT_API_URL}/stores/${storeId}`,
         params: {
@@ -56,7 +46,7 @@ function* getStoreDetailSaga(action) {
       yield put({
         type: SUCCESS(STORE_ACTION.GET_STORE_DETAIL),
         payload: {
-          data: camelCaseKeys(result.data, { deep: true }),
+          data: camelCaseKeys(data, { deep: true }),
         },
       });
     } else {
@@ -73,10 +63,9 @@ function* getStoreDetailSaga(action) {
   }
 }
 
-function* getStorePicturesSaga(action) {
+function* getStorePicturesSaga({ payload: { params, storeId } }) {
   try {
-    const { params, storeId } = action.payload;
-    const result = yield axios({
+    const { data } = yield axios({
       method: 'GET',
       url: `${SERVER_CLIENT_API_URL}/stores/${storeId}/pictures`,
       params,
@@ -84,7 +73,7 @@ function* getStorePicturesSaga(action) {
     yield put({
       type: SUCCESS(STORE_ACTION.GET_STORE_PICTURES),
       payload: {
-        data: camelCaseKeys(result.data, { deep: true }),
+        data: camelCaseKeys(data, { deep: true }),
       },
     });
   } catch (e) {

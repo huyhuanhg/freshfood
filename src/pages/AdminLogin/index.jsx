@@ -12,7 +12,7 @@ import * as AppStyle from '../../styles';
 
 function AdminLoginPage() {
   const dispatch = useDispatch();
-  const { responseAction } = useSelector(({ adminReducer }) => adminReducer);
+  const { responseAction: { login: loginRespons } } = useSelector(({ adminReducer }) => adminReducer);
   document.title = 'Foodbooking | Đăng nhập';
 
   const onLogin = (value) => {
@@ -25,7 +25,7 @@ function AdminLoginPage() {
   const [loginForm] = Form.useForm();
 
   useEffect(() => {
-    if (responseAction.login.error) {
+    if (loginRespons.error) {
       loginForm.setFields([
         {
           name: 'email',
@@ -33,11 +33,11 @@ function AdminLoginPage() {
         },
         {
           name: 'password',
-          errors: [responseAction.login.error],
+          errors: [loginRespons.error],
         },
       ]);
     }
-  }, [responseAction.login]);
+  }, [loginRespons]);
 
   return (
     <Style.LoginWrap>
@@ -78,9 +78,9 @@ function AdminLoginPage() {
           <Form.Item wrapperCol={{ offset: 0, span: 24 }}>
             <Style.ButtonSubmit
               htmlType="submit"
-              loading={responseAction.login.load}
+              loading={loginRespons.load}
             >
-              {!responseAction.login.load && 'Đăng nhập'}
+              {!loginRespons.load && 'Đăng nhập'}
             </Style.ButtonSubmit>
           </Form.Item>
         </Form>

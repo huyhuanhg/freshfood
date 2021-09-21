@@ -125,8 +125,8 @@ const storeReducer = createReducer(initialState, {
   [SUCCESS(STORE_ACTION.GET_STORE_PICTURES)]: (state, action) => {
     const { data, currentPage, lastPage, total } = action.payload.data;
     let newPictures = [...data];
-    if (data.currentPage > state.pictures.currentPage) {
-      newPictures = [...state.storeList.data, ...newPictures];
+    if (currentPage > state.pictures.currentPage) {
+      newPictures = [...state.pictures.data, ...newPictures];
     }
     return {
       ...state,

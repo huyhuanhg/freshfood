@@ -12,8 +12,8 @@ import { getFoodListAction } from '../../../../../redux/actions';
 const SectionFoodList = ({ render }) => {
   const { Option } = Select;
   const dispatch = useDispatch();
-  const { foodList } = useSelector(({ foodReducer }) => foodReducer);
-  const { tagList } = useSelector(({ tagReducer }) => tagReducer);
+  const { foodList: { currentPage, data: foodData, lastPage, load: foodLoad, total } } = useSelector(({ foodReducer }) => foodReducer);
+  const { tagList: { data: tagData } } = useSelector(({ tagReducer }) => tagReducer);
 
   const [menuActive, setMenuActive] = useState('created_at');
   const [sortPrice, setSortPrice] = useState('');
@@ -72,7 +72,7 @@ const SectionFoodList = ({ render }) => {
   };
 
   const renderTagListMenu = (tagsActive) => {
-    return tagList.data.map(({ id, tagActive, tagName }) => {
+    return tagData.map(({ id, tagActive, tagName }) => {
       if (tagActive === 1) {
         let icon = null;
         const isActive = tagsActive.indexOf(`${id}`) > -1;
@@ -174,7 +174,7 @@ const SectionFoodList = ({ render }) => {
           </FilterStyle>
         </HomeS.AffixIndex>
         <div className='p-relative pt-2r'>
-          {foodList.total === 0
+          {total === 0
             ?
             <div
               className='d-flex vertical-center horizontal-center t-center fw-b'
@@ -194,10 +194,10 @@ const SectionFoodList = ({ render }) => {
               </div>
             </div>
             :
-            render(foodList.data, 6)
+            render(foodData, 6)
           }
           {
-            foodList.load &&
+            foodLoad &&
             <Spin
               size='large'
               className='p-absolute'
@@ -208,7 +208,7 @@ const SectionFoodList = ({ render }) => {
               }}
             />
           }
-          {foodList.currentPage < foodList.lastPage &&
+          {currentPage < lastPage &&
           <div className='d-flex vertical-center horizontal-center mt-3r'>
             <Button
               onClick={() => setRequest({

@@ -5,37 +5,27 @@ import { REQUEST, SUCCESS, FOOD_ACTION } from '../constants';
 import { SERVER_CLIENT_API_URL } from '../../contants';
 import toSnakeCase from '../../utils/toSnakeCase';
 
-function* getFoodListSaga(action) {
+function* getFoodListSaga({ payload: { group, limit, page, search, sort, sortType, store, tags, user } }) {
   try {
-    const store = action.payload?.store;
-    const tags = action.payload?.tags;
-    const group = action.payload?.group;
-    const sort = action.payload?.sort;
-    const sortType = action.payload?.sortType;
-    const user = action.payload?.user;
-    const page = action.payload?.page;
-    const search = action.payload?.search;
-    const limit = action.payload?.limit;
-
     const params = {
-      ...store && { store },
-      ...tags && { tags },
-      ...group && { group },
-      ...sort && { sort, sortType },
-      ...user && { user },
-      ...page && { page },
-      ...search && { search },
-      ...limit && { limit },
-    };
-    const result = yield axios({
-      method: 'GET',
-      url: `${SERVER_CLIENT_API_URL}/foods`,
-      params: toSnakeCase(params),
-    });
+        ...store && { store },
+        ...tags && { tags },
+        ...group && { group },
+        ...sort && { sort, sortType },
+        ...user && { user },
+        ...page && { page },
+        ...search && { search },
+        ...limit && { limit },
+      },
+      { data } = yield axios({
+        method: 'GET',
+        url: `${SERVER_CLIENT_API_URL}/foods`,
+        params: toSnakeCase(params),
+      });
     yield put({
       type: SUCCESS(FOOD_ACTION.GET_FOOD_LIST),
       payload: {
-        data: camelCaseKeys(result.data, { deep: true }),
+        data: camelCaseKeys(data, { deep: true }),
       },
     });
   } catch (e) {
@@ -46,18 +36,18 @@ function* getFoodListSaga(action) {
 
 function* getFoodPromotionSaga() {
   try {
-    const result = yield axios({
+    const { data } = yield axios({
       method: 'GET',
       url: `${SERVER_CLIENT_API_URL}/foods`,
       params: toSnakeCase({
         group: 'promotion',
-        limit: 12
+        limit: 12,
       }),
     });
     yield put({
       type: SUCCESS(FOOD_ACTION.GET_FOOD_PROMOTIONS),
       payload: {
-        data: camelCaseKeys(result.data, { deep: true }),
+        data: camelCaseKeys(data, { deep: true }),
       },
     });
   } catch (e) {

@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { Table } from 'antd';
 
 export const ProfileWrap = styled.div`
@@ -60,18 +60,28 @@ export const ProfileContent = styled.div`
   min-height: 378.031px;
 `;
 export const ProfileEmpty = styled.div`
-  padding-top: 5rem;
-  display: flex;
-  flex-direction: column;
+  position: relative;
 
+  ${({ minHeight }) => minHeight && css`
+    min-height: ${minHeight}px;
+  `}
   & > div {
-    align-self: center;
-    padding: 10px;
-    font-size: 16px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transform: translate(-50%, -50%);
 
     & > svg, & > span > svg {
       color: #aaa;
-      font-size: 400%;
+      font-size: 500%;
+      margin-bottom: 10px;
+    }
+
+    & > p {
+      font-size: 20px;
     }
   }
 `;
@@ -264,5 +274,210 @@ export const UserProfile = styled.div`
 
   & .user-profile-title {
     text-align: right;
+  }
+`;
+const contentStore = css`
+  & > p {
+    display: flex;
+    align-items: center;
+    margin: 0 0 -6px -10px;
+    font-size: 14px;
+
+    & > span.icon {
+      flex-basis: 15px;
+
+      & > svg {
+        color: #444;
+      }
+    }
+
+    & > p {
+      margin: 0;
+      flex-basis: calc(100% - 40px);
+      overflow: hidden;
+
+      & > span {
+        width: 100%;
+        display: inline-block;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+      }
+    }
+  }
+`;
+export const RateItem = styled.div`
+  ${({ isBookmark }) => isBookmark && css`
+    position: relative;
+
+    & > small {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      color: #aaa;
+      font-size: 13px;
+    }
+  `}
+
+  padding: 5px;
+  border: 1px solid #f0f0f0;
+  margin-bottom: 15px;
+  transition: .3s;
+
+  &:hover {
+    box-shadow: 0 10px 30px .2px #ddd;
+  }
+
+  & .store-image {
+    float: left;
+    width: 168.75px;
+    height: 105.75px;
+    overflow: hidden;
+    margin-right: 5px;
+
+    & > div {
+      width: 100%;
+      height: 100%;
+      background-image: url("${({ imagePath }) => imagePath}");
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+  }
+
+  & .store-info {
+    float: left;
+    padding-left: 10px;
+    width: ${({ isBookmark }) => isBookmark ? 'calc(100% - 173.75px)' : 'calc(100% - 342.5px)'};
+    min-height: 105.75px;
+
+    ${({ isBookmark }) => isBookmark && css`
+      ${contentStore}
+    `}
+    & > .store-info-name {
+      ${({ isBookmark }) => isBookmark && css`
+        width: calc(100% - 168.75px);
+      `}
+      & > a {
+        display: inline-block;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        width: 100%;
+        font-weight: bold;
+        font-size: 16px;
+        color: #777;
+        transition: .3s;
+
+        &:hover {
+          color: ${({ theme }) => theme.btnPrimary};
+        }
+      }
+
+      & > div {
+        margin-top: -6px;
+
+        & > small {
+          color: #aaa;
+          font-size: 12px;
+        }
+      }
+    }
+
+    & > .store-info-address {
+      ${contentStore}
+      & > p {
+        font-size: 14px;
+      }
+    }
+
+    & > .store-info-description {
+      & > p {
+        font-size: 12px !important;
+        color: #666;
+      }
+
+      ${({ isBookmark }) => isBookmark && css`
+        ${contentStore}
+      `}
+      ${({ isBookmark }) => !isBookmark && css`
+        display: flex;
+        margin-left: -10px;
+
+        & > svg {
+          margin-top: 4px;
+        }
+
+        & > p {
+          position: relative;
+          margin-left: 5px !important;
+          margin-right: -1em;
+          margin-bottom: 0;
+          padding-right: 1em;
+          height: 40px;
+          width: calc(100% - 27px) !important;
+          overflow: hidden;
+          line-height: 1.6em;
+          text-align: justify;
+
+          &:before {
+            box-sizing: border-box;
+            content: "...";
+            position: absolute;
+            right: 2px;
+            bottom: 0;
+          }
+
+          &:after {
+            box-sizing: border-box;
+            position: absolute;
+            right: 0;
+            margin-top: 0.4em;
+            height: 2.5em;
+            width: 1em;
+            content: "";
+            background: #fff;
+          }
+        }
+      `}
+    }
+  }
+
+  & .rate-data-user {
+    float: left;
+    width: 168.75px;
+    min-height: 105.75px;
+    text-align: center;
+    padding: 15px 0;
+
+    & p {
+      margin: 0;
+      font-size: 16px;
+      color: #aaa;
+
+      & + span {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 20px;
+        font-weight: bold;
+        color: ${({ theme }) => theme.btnPrimary};
+
+        & > svg {
+          color: ${({ theme }) => theme.star};
+        }
+      }
+    }
+
+    & small {
+      color: #aaa;
+      font-size: 13px;
+    }
+  }
+
+  &:after {
+    content: '';
+    display: block;
+    clear: both;
   }
 `;

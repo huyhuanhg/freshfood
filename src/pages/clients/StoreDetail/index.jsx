@@ -36,7 +36,13 @@ import { createRateAction, getStoreDetailAction } from '../../../redux/actions';
 
 const StoreDetail = ({ setShowLogin, match }) => {
   const dispatch = useDispatch();
-  const { storeDetail } = useSelector(({ storeReducer }) => storeReducer);
+  const {
+    storeDetail: {
+      data: storeDetail,
+      error: storeDetailError,
+      load: storeDetailLoad,
+    },
+  } = useSelector(({ storeReducer }) => storeReducer);
 
   const { userInfo } = useSelector(({ userReducer }) => userReducer);
 
@@ -50,7 +56,7 @@ const StoreDetail = ({ setShowLogin, match }) => {
 
   const [defaultActiveMenu, setDefaultActiveMenu] = useState('food');
 
-  document.title = storeDetail.data.storeName || TITLE.STORE_DETAIL;
+  document.title = storeDetail.storeName || TITLE.STORE_DETAIL;
 
   const userToken = localStorage.userInfo;
 
@@ -80,12 +86,11 @@ const StoreDetail = ({ setShowLogin, match }) => {
   }, [userInfo]);
 
   useEffect(() => {
-    let open = null;
-    if (storeDetail.data.openTime && storeDetail.data.closeTime) {
-      const openTime = moment(storeDetail.data.openTime, 'H:m');
-      const closeTime = moment(storeDetail.data.closeTime, 'H:m');
+    if (storeDetail.openTime && storeDetail.closeTime) {
+      const openTime = moment(storeDetail.openTime, 'H:m');
+      const closeTime = moment(storeDetail.closeTime, 'H:m');
       const now = moment(moment().format('H:m'), 'H:m');
-      open = now > openTime && now < closeTime;
+      const open = now > openTime && now < closeTime;
       setIsOpen(open);
     }
   }, [storeDetail]);
@@ -96,7 +101,7 @@ const StoreDetail = ({ setShowLogin, match }) => {
       return true;
     }
   };
-  if (!!storeDetail.error && !storeDetail.load) {
+  if (!!storeDetailError && !storeDetailLoad) {
     return <Redirect to='/stores' />;
   }
   return (
@@ -109,9 +114,9 @@ const StoreDetail = ({ setShowLogin, match }) => {
                 <StoreDetailStyle.ImageWrap>
                   <StoreDetailStyle.StoreImg
                     src={
-                      storeDetail.load
+                      storeDetailLoad
                         ? loadAvatarStore
-                        : `${ROOT_PATH}${storeDetail.data.storeImage}`
+                        : `${ROOT_PATH}${storeDetail.storeImage}`
                     }
                     alt=''
                   />
@@ -121,26 +126,26 @@ const StoreDetail = ({ setShowLogin, match }) => {
             <Col span={14}>
               <StoreDetailStyle.MainInformation>
                 <StoreDetailStyle.ResCommon>
-                  {storeDetail.load && (
-                    <Skeleton loading={storeDetail.load} active />
+                  {storeDetailLoad && (
+                    <Skeleton loading={storeDetailLoad} active />
                   )}
-                  <Skeleton loading={storeDetail.load} title={false} active>
+                  <Skeleton loading={storeDetailLoad} title={false} active>
                     <StoreDetailStyle.MainInfoTitle>
                       <StoreDetailStyle.StoreName>
-                        {storeDetail.data.storeName}
+                        {storeDetail.storeName}
                       </StoreDetailStyle.StoreName>
                       <StoreDetailStyle.StoreCategory>
-                        <small>{storeDetail.data.storeCateName}</small>
+                        <small>{storeDetail.storeCateName}</small>
                       </StoreDetailStyle.StoreCategory>
                     </StoreDetailStyle.MainInfoTitle>
 
                     <StoreDetailStyle.ResSummaryPoint>
                       <StoreDetailStyle.MicroPoints>
                         <StoreDetailStyle.MicroReviewCount>
-                          {storeDetail.data.avgRate === '0'
+                          {storeDetail.avgRate === '0'
                             ? '--'
-                            : storeDetail.data.avgRate}
-                          {storeDetail.data.avgRate !== '0' && <AiFillStar />}
+                            : storeDetail.avgRate}
+                          {storeDetail.avgRate !== '0' && <AiFillStar />}
                         </StoreDetailStyle.MicroReviewCount>
                         <StoreDetailStyle.MicroReviewText>
                           Trung bình
@@ -148,7 +153,7 @@ const StoreDetail = ({ setShowLogin, match }) => {
                       </StoreDetailStyle.MicroPoints>
                       <StoreDetailStyle.MicroPoints>
                         <StoreDetailStyle.MicroReviewCount>
-                          {storeDetail.data.totalComment}
+                          {storeDetail.totalComment}
                         </StoreDetailStyle.MicroReviewCount>
                         <StoreDetailStyle.MicroReviewText>
                           Bình luận
@@ -156,7 +161,7 @@ const StoreDetail = ({ setShowLogin, match }) => {
                       </StoreDetailStyle.MicroPoints>
                       <StoreDetailStyle.MicroPoints>
                         <StoreDetailStyle.MicroReviewCount>
-                          {storeDetail.data.totalFood}
+                          {storeDetail.totalFood}
                         </StoreDetailStyle.MicroReviewCount>
                         <StoreDetailStyle.MicroReviewText>
                           Món ăn
@@ -164,7 +169,7 @@ const StoreDetail = ({ setShowLogin, match }) => {
                       </StoreDetailStyle.MicroPoints>
                       <StoreDetailStyle.MicroPoints>
                         <StoreDetailStyle.MicroReviewCount>
-                          {storeDetail.data.totalRating}
+                          {storeDetail.totalRating}
                         </StoreDetailStyle.MicroReviewCount>
                         <StoreDetailStyle.MicroReviewText>
                           Lượt đánh giá
@@ -173,15 +178,15 @@ const StoreDetail = ({ setShowLogin, match }) => {
                       <StoreDetailStyle.YourRate>
                         <div>
                           <Rate
-                            disabled={!!storeDetail.data.userRate || !userInfo.data.id}
-                            defaultValue={storeDetail.data.userRate}
+                            disabled={!!storeDetail.userRate || !userInfo.data.id}
+                            defaultValue={storeDetail.userRate}
                             onChange={(value) => {
                               if (checkLogin()) {
                                 const { accessToken } = JSON.parse(userToken);
                                 dispatch(createRateAction({
                                   accessToken,
                                   data: {
-                                    storeId: storeDetail.data.id,
+                                    storeId: storeDetail.id,
                                     rate: value,
                                   },
                                 }));
@@ -190,10 +195,10 @@ const StoreDetail = ({ setShowLogin, match }) => {
                           />
                         </div>
                         <StoreDetailStyle.YourRateCount>
-                          {!storeDetail.data.userRate
+                          {!storeDetail.userRate
                             ? '--'
-                            : storeDetail.data.userRate}
-                          {!!storeDetail.data.userRate && <AiFillStar />}
+                            : storeDetail.userRate}
+                          {!!storeDetail.userRate && <AiFillStar />}
                         </StoreDetailStyle.YourRateCount>
                         <StoreDetailStyle.YourRateText>
                           Đánh giá của bạn
@@ -203,7 +208,7 @@ const StoreDetail = ({ setShowLogin, match }) => {
                     <div>
                       <StoreDetailStyle.StoreAddress>
                         <TiLocationArrow />
-                        <span>{storeDetail.data.storeAddress}</span>
+                        <span>{storeDetail.storeAddress}</span>
                       </StoreDetailStyle.StoreAddress>
                       <StoreDetailStyle.StoreTime>
                         <BiTime />
@@ -223,15 +228,15 @@ const StoreDetail = ({ setShowLogin, match }) => {
                         )}
                         {isOpen !== null && (
                           <span>
-                            &nbsp;{storeDetail.data.openTime} -{' '}
-                            {storeDetail.data.closeTime}
+                            &nbsp;{storeDetail.openTime} -{' '}
+                            {storeDetail.closeTime}
                           </span>
                         )}
                       </StoreDetailStyle.StoreTime>
 
                       <StoreDetailStyle.StoreTime>
                         <MdDescription />
-                        <span>{storeDetail.data.storeDescription}</span>
+                        <span>{storeDetail.storeDescription}</span>
                       </StoreDetailStyle.StoreTime>
                     </div>
                   </Skeleton>
@@ -259,7 +264,7 @@ const StoreDetail = ({ setShowLogin, match }) => {
                     onClick={() => {
                       setDefaultActiveMenu('food');
                       history.push(
-                        `/stores/${storeDetail.data.storeNotMark}.${storeDetail.data.id}`,
+                        `/stores/${storeDetail.storeNotMark}.${storeDetail.id}`,
                       );
                     }}
                   >
@@ -271,7 +276,7 @@ const StoreDetail = ({ setShowLogin, match }) => {
                     onClick={() => {
                       setDefaultActiveMenu('promotion');
                       history.push(
-                        `/stores/${storeDetail.data.storeNotMark}.${storeDetail.data.id}/promotion`,
+                        `/stores/${storeDetail.storeNotMark}.${storeDetail.id}/promotion`,
                       );
                     }}
                   >
@@ -283,7 +288,7 @@ const StoreDetail = ({ setShowLogin, match }) => {
                     onClick={() => {
                       setDefaultActiveMenu('comment');
                       history.push(
-                        `/stores/${storeDetail.data.storeNotMark}.${storeDetail.data.id}/comment`,
+                        `/stores/${storeDetail.storeNotMark}.${storeDetail.id}/comment`,
                       );
                     }}
                   >
@@ -295,7 +300,7 @@ const StoreDetail = ({ setShowLogin, match }) => {
                     onClick={() => {
                       setDefaultActiveMenu('picture');
                       history.push(
-                        `/stores/${storeDetail.data.storeNotMark}.${storeDetail.data.id}/picture`,
+                        `/stores/${storeDetail.storeNotMark}.${storeDetail.id}/picture`,
                       );
                     }}
                   >
@@ -309,12 +314,12 @@ const StoreDetail = ({ setShowLogin, match }) => {
                 isShow={isShowAction.status}
                 setShow={setIsShowAction}
                 isComment={isShowAction.isComment}
-                storeId={storeDetail.data.id}
+                storeId={storeDetail.id}
                 slug={match.params.slug}
-                avgRate={storeDetail.data.avgRate}
-                image={storeDetail.data.storeImage}
-                address={storeDetail.data.storeAddress}
-                storeName={storeDetail.data.storeName}
+                avgRate={storeDetail.avgRate}
+                image={storeDetail.storeImage}
+                address={storeDetail.storeAddress}
+                storeName={storeDetail.storeName}
               />
               <Affix offsetTop={61.188}>
                 <StoreDetailStyle.StoreToolbar>

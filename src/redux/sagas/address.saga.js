@@ -5,12 +5,9 @@ import { SERVER_CLIENT_API_URL } from '../../contants';
 import camelCaseKeys from 'camelcase-keys';
 import { compactAddress } from '../../utils/address.js';
 
-function* getAddressSaga(action) {
+function* getAddressSaga({ payload: { districtCode, provinceCode } }) {
   try {
-    const provinceCode = action.payload?.provinceCode;
-    const districtCode = action.payload?.districtCode;
-
-    const result = yield axios({
+    const { data } = yield axios({
       method: 'GET',
       url: `${SERVER_CLIENT_API_URL}/address`,
       params: {
@@ -22,9 +19,9 @@ function* getAddressSaga(action) {
       type: SUCCESS(ADDRESS_ACTION.GET_ADDRESS),
       payload: {
         data: camelCaseKeys({
-          wards: compactAddress(result.data.wards),
-          districts: compactAddress(result.data.districts),
-          provinces: compactAddress(result.data.provinces),
+          wards: compactAddress(data.wards),
+          districts: compactAddress(data.districts),
+          provinces: compactAddress(data.provinces),
         }, { deep: true }),
       },
     });
@@ -36,11 +33,9 @@ function* getAddressSaga(action) {
   }
 }
 
-function* getDistrictsSaga(action) {
+function* getDistrictsSaga({ payload: { provinceCode } }) {
   try {
-    const provinceCode = action.payload.provinceCode;
-
-    const result = yield axios({
+    const { data } = yield axios({
       method: 'GET',
       url: `${SERVER_CLIENT_API_URL}/districts`,
       params: {
@@ -50,7 +45,7 @@ function* getDistrictsSaga(action) {
     yield put({
       type: SUCCESS(ADDRESS_ACTION.GET_DISTRICTS),
       payload: {
-        data: camelCaseKeys(compactAddress(result.data), { deep: true }),
+        data: camelCaseKeys(compactAddress(data), { deep: true }),
       },
     });
   } catch (e) {
@@ -61,11 +56,9 @@ function* getDistrictsSaga(action) {
   }
 }
 
-function* getWardsSaga(action) {
+function* getWardsSaga({ payload: { districtCode } }) {
   try {
-    const districtCode = action.payload.districtCode;
-
-    const result = yield axios({
+    const { data } = yield axios({
       method: 'GET',
       url: `${SERVER_CLIENT_API_URL}/wards`,
       params: {
@@ -75,7 +68,7 @@ function* getWardsSaga(action) {
     yield put({
       type: SUCCESS(ADDRESS_ACTION.GET_WARDS),
       payload: {
-        data: camelCaseKeys(compactAddress(result.data), { deep: true }),
+        data: camelCaseKeys(compactAddress(data), { deep: true }),
       },
     });
   } catch (e) {

@@ -13,9 +13,18 @@ import { Filter as FilterStyle } from '../../../../../styles';
 const StoreList = () => {
   const { Option } = Select;
   const dispatch = useDispatch();
-  const { categories } = useSelector(({ categoryReducer }) => categoryReducer);
-  const { storeList } = useSelector(({ storeReducer }) => storeReducer);
+  const { categories: { data: categories } } = useSelector(({ categoryReducer }) => categoryReducer);
+  const {
+    storeList: {
+      currentPage,
+      data: storeData,
+      lastPage,
+      load,
+      total,
+    },
+  } = useSelector(({ storeReducer }) => storeReducer);
   const { userInfo } = useSelector(({ userReducer }) => userReducer);
+
   const [menuActive, setMenuActive] = useState('created_at');
   const [request, setRequest] = useState(null);
   const [sortAvgType, setSortAvgType] = useState(0);
@@ -61,7 +70,7 @@ const StoreList = () => {
   }, [userInfo, request]);
 
   const renderStore = (span = 4) => {
-    return storeList.data.map((store) => {
+    return storeData.map((store) => {
       return (
         <Col span={span} key={store.id}>
           <StoreItem {...store} />
@@ -70,7 +79,7 @@ const StoreList = () => {
     });
   };
   const renderCategories = () => {
-    return categories.data.map(({ categoryActive, id, storeCateName }) => {
+    return categories.map(({ categoryActive, id, storeCateName }) => {
       if (categoryActive === 1) {
         return <Option value={id} key={id}>{storeCateName}</Option>;
       }
@@ -167,7 +176,7 @@ const StoreList = () => {
         </FilterStyle>
       </S.AffixIndex>
       <div className='p-relative pt-2r' style={{ minHeight: '500px' }}>
-        {storeList.total === 0
+        {total === 0
           ?
           <div
             className='d-flex vertical-center horizontal-center fw-b t-center'
@@ -195,7 +204,7 @@ const StoreList = () => {
 
         }
         {
-          storeList.load &&
+          load &&
           <Spin
             size='large'
             className='p-absolute'
@@ -206,7 +215,7 @@ const StoreList = () => {
             }}
           />
         }
-        {storeList.currentPage < storeList.lastPage &&
+        {currentPage < lastPage &&
         <div className='d-flex vertical-center horizontal-center mt-3r'>
           <Button
             onClick={() => setRequest({

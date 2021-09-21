@@ -7,10 +7,9 @@ import toSnakeCase from '../../utils/toSnakeCase';
 import history from '../../utils/history';
 import { notification } from 'antd';
 
-function* createOrderSaga(action) {
+function* createOrderSaga({ payload: { accessToken, data } }) {
   try {
-    const { data, accessToken } = action.payload;
-    const result = yield axios({
+    const { data: responseData } = yield axios({
       method: 'POST',
       url: `${SERVER_CLIENT_API_URL}/order`,
       headers: {
@@ -21,7 +20,7 @@ function* createOrderSaga(action) {
     yield put({
       type: SUCCESS(ORDER_ACTION.CREATE_ORDER),
       payload: {
-        data: camelCaseKeys(result.data),
+        data: camelCaseKeys(responseData),
       },
     });
     yield history.push('/profile/order');
@@ -36,10 +35,9 @@ function* createOrderSaga(action) {
   }
 }
 
-function* getListOrdersSaga(action) {
+function* getListOrdersSaga({ payload: { accessToken, params } }) {
   try {
-    const { params, accessToken } = action.payload;
-    const result = yield axios({
+    const { data } = yield axios({
       method: 'GET',
       url: `${SERVER_CLIENT_API_URL}/order`,
       headers: {
@@ -50,7 +48,7 @@ function* getListOrdersSaga(action) {
     yield put({
       type: SUCCESS(ORDER_ACTION.GET_ORDER_LIST),
       payload: {
-        data: camelCaseKeys(result.data, { deep: true }),
+        data: camelCaseKeys(data, { deep: true }),
       },
     });
   } catch (e) {

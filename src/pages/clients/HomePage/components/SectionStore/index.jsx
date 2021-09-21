@@ -9,7 +9,7 @@ import { getStoresAction } from '../../../../../redux/actions';
 
 const SectionStore = () => {
   const dispatch = useDispatch();
-  const { storeList } = useSelector(({ storeReducer }) => storeReducer);
+  const { storeList: { data: storData } } = useSelector(({ storeReducer }) => storeReducer);
 
   useEffect(() => {
     dispatch(getStoresAction({ limit: 12 }));
@@ -17,7 +17,7 @@ const SectionStore = () => {
   const renderStore = (span = 4) => {
     return (
       <Row gutter={[16, 16]}>
-        {storeList.data.map((store) => {
+        {storData.map((store) => {
           return (
             <Col span={span} key={store.id}>
               <StoreItem {...store} />

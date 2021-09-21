@@ -6,25 +6,25 @@ import camelCaseKeys from 'camelcase-keys';
 import toSnakeCase from '../../utils/toSnakeCase';
 import history from '../../utils/history';
 
-function* getCommentsSaga(action) {
+function* getCommentsSaga({ payload }) {
   try {
-    const storeId = action.payload?.storeId;
-    const userId = action.payload?.userId;
-    const page = action.payload?.page;
-    const params = {
-      ...storeId && { store: storeId },
-      ...userId && { userId },
-      ...page && { page },
-    };
-    const result = yield axios({
-      method: 'GET',
-      url: `${SERVER_CLIENT_API_URL}/comment`,
-      params: toSnakeCase(params),
-    });
+    const storeId = payload?.storeId,
+      userId = payload?.userId,
+      page = payload?.page,
+      params = {
+        ...storeId && { store: storeId },
+        ...userId && { userId },
+        ...page && { page },
+      },
+      { data } = yield axios({
+        method: 'GET',
+        url: `${SERVER_CLIENT_API_URL}/comment`,
+        params: toSnakeCase(params),
+      });
     yield put({
       type: SUCCESS(COMMENT_ACTION.GET_COMMENT_LIST),
       payload: {
-        data: camelCaseKeys(result.data, { deep: true }),
+        data: camelCaseKeys(data, { deep: true }),
       },
     });
   } catch (e) {
@@ -35,24 +35,24 @@ function* getCommentsSaga(action) {
   }
 }
 
-function* createCommentSaga(action) {
+function* createCommentSaga({ payload }) {
   try {
-    const { slug, description, paths, accessToken, firstName, lastName, userAvatar } = action.payload;
-    const storeId = slug.slice(slug.lastIndexOf('.') + 1);
-    const data = { storeId, paths, content: description };
-    const result = yield axios({
-      method: 'POST',
-      url: `${SERVER_CLIENT_API_URL}/comment`,
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-      data: toSnakeCase(data),
-    });
+    const { slug, description, paths, accessToken, firstName, lastName, userAvatar } = payload,
+      storeId = slug.slice(slug.lastIndexOf('.') + 1),
+      data = { storeId, paths, content: description },
+      { data: dataResponse } = yield axios({
+        method: 'POST',
+        url: `${SERVER_CLIENT_API_URL}/comment`,
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+        data: toSnakeCase(data),
+      });
     yield put({
       type: SUCCESS(COMMENT_ACTION.CREATE_COMMENT),
       payload: {
         data: {
-          ...camelCaseKeys(result.data, { deep: true }),
+          ...camelCaseKeys(dataResponse, { deep: true }),
           firstName,
           lastName,
           userAvatar,

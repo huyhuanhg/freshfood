@@ -23,7 +23,10 @@ function RegisterPage() {
 
   const dispatch = useDispatch();
 
-  const { register } = useSelector(({ userReducer }) => userReducer.responseAction);
+  const {
+    register: { load: loadRegister },
+    checkEmail: { error: checkEmailError, load: checkEmailLoad, success: checkEmailSuccess },
+  } = useSelector(({ userReducer }) => userReducer.responseAction);
 
   const [readySubmit, setReadySubmit] = useState(false);
 
@@ -71,7 +74,7 @@ function RegisterPage() {
   });
 
   useEffect(() => {
-    if (register.email.error) {
+    if (checkEmailError) {
       setValid({
         valid: {
           ...valid.valid,
@@ -79,11 +82,11 @@ function RegisterPage() {
         },
         message: {
           ...valid.message,
-          email: register.email.error,
+          email: checkEmailError,
         },
       });
     }
-  }, [register.email.error]);
+  }, [checkEmailError]);
 
   useEffect(() => {
     const fields = valid.valid;
@@ -364,8 +367,8 @@ function RegisterPage() {
             onBlur={handleBlur}
             onChange={handleChangeField}
           />
-          {(register.email.load && <RegisterStyle.ControlLoading size='middle' />) ||
-          (register.email.success && (
+          {(checkEmailLoad && <RegisterStyle.ControlLoading size='middle' />) ||
+          (checkEmailSuccess && (
             <RegisterStyle.IconCheck icon={CheckOutlined} />
           ))}
         </AuthStyle.FormControlWrap>
@@ -449,11 +452,11 @@ function RegisterPage() {
       </RegisterStyle.CheckboxWrap>
       <AuthStyle.BtnSubmit
         htmlType='submit'
-        disabled={register.load}
+        disabled={loadRegister}
         style={{ marginTop: '2rem' }}
       >
         Đăng ký
-        <AuthStyle.SubmitLoading size='middle' show={register.load} />
+        <AuthStyle.SubmitLoading size='middle' show={loadRegister} />
       </AuthStyle.BtnSubmit>
       <div
         style={{

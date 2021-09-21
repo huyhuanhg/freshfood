@@ -5,10 +5,9 @@ import { SERVER_CLIENT_API_URL } from '../../contants';
 import camelCaseKeys from 'camelcase-keys';
 import toSnakeCase from '../../utils/toSnakeCase';
 
-function* getLikesSaga(action) {
+function* getLikesSaga({ payload: { accessToken, data, type } }) {
   try {
-    const { data, accessToken, type } = action.payload;
-    const result = yield axios({
+    const { data: responseData } = yield axios({
       method: 'GET',
       url: `${SERVER_CLIENT_API_URL}/like`,
       headers: {
@@ -19,7 +18,7 @@ function* getLikesSaga(action) {
     yield put({
       type: SUCCESS(LIKE_ACTION.GET_LIKE_LIST),
       payload: {
-        data: camelCaseKeys(result.data),
+        data: camelCaseKeys(responseData),
         type,
       },
     });
@@ -31,9 +30,8 @@ function* getLikesSaga(action) {
   }
 }
 
-function* toogleLikeSaga(action) {
+function* toogleLikeSaga({ payload: { accessToken, data } }) {
   try {
-    const { data, accessToken } = action.payload;
     yield axios({
       method: 'POST',
       url: `${SERVER_CLIENT_API_URL}/like`,

@@ -6,11 +6,11 @@ import { SERVER_CLIENT_API_URL } from '../../contants';
 
 function* getCategoryListSaga() {
   try {
-    const result = yield axios.get(`${SERVER_CLIENT_API_URL}/categories`);
+    const { data } = yield axios.get(`${SERVER_CLIENT_API_URL}/categories`);
     yield put({
       type: SUCCESS(CATEGORY_ACTION.GET_CATEGORY_LIST),
       payload: {
-        data: camelCaseKeys(result.data, { deep: true }),
+        data: camelCaseKeys(data, { deep: true }),
       },
     });
   } catch (e) {
@@ -21,14 +21,14 @@ function* getCategoryListSaga() {
   }
 }
 
-function* createCategorySaga(action) {
+function* createCategorySaga({ payload }) {
   try {
-    const { data } = action.payload;
-    const result = yield axios.post(`${SERVER_CLIENT_API_URL}/categories`, data);
+    const { data } = payload,
+      { data: response } = yield axios.post(`${SERVER_CLIENT_API_URL}/categories`, data);
     yield put({
       type: SUCCESS(CATEGORY_ACTION.CREATE_CATEGORY),
       payload: {
-        data: camelCaseKeys(result.data, { deep: true }),
+        data: camelCaseKeys(response, { deep: true }),
       },
     });
   } catch (e) {
@@ -39,17 +39,17 @@ function* createCategorySaga(action) {
   }
 }
 
-function* editCategorySaga(action) {
+function* editCategorySaga({ payload }) {
   try {
-    const { id, data } = action.payload;
-    const result = yield axios.patch(
-      `${SERVER_CLIENT_API_URL}/categories/${id}`,
-      data
-    );
+    const { id, data } = payload,
+      { data: dataResponse } = yield axios.patch(
+        `${SERVER_CLIENT_API_URL}/categories/${id}`,
+        data,
+      );
     yield put({
       type: SUCCESS(CATEGORY_ACTION.EDIT_CATEGORY),
       payload: {
-        data: camelCaseKeys(result.data, { deep: true }),
+        data: camelCaseKeys(dataResponse, { deep: true }),
       },
     });
   } catch (e) {
@@ -60,9 +60,9 @@ function* editCategorySaga(action) {
   }
 }
 
-function* deleteCategorySaga(action) {
+function* deleteCategorySaga({ payload }) {
   try {
-    const { id } = action.payload;
+    const { id } = payload;
     yield axios.delete(`${SERVER_CLIENT_API_URL}/categories/${id}`);
     yield put({
       type: SUCCESS(CATEGORY_ACTION.DELETE_CATEGORY),

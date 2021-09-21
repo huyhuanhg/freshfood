@@ -14,9 +14,17 @@ import * as StoreDetailStyle from '../../style';
 
 const StoreDetailFood = ({ showFoodDetail, setShowLogin, setShowFoodDetail, slug }) => {
   const dispatch = useDispatch();
-  const { foodList } = useSelector(({ foodReducer }) => foodReducer);
-  const { tagList } = useSelector(({ tagReducer }) => tagReducer);
-  const { userInfo } = useSelector(({ userReducer }) => userReducer);
+  const {
+    foodList: {
+      currentPage,
+      data: foodData,
+      lastPage,
+      load: foodLoad,
+      total,
+    },
+  } = useSelector(({ foodReducer }) => foodReducer);
+  const { tagList: { data: tagList } } = useSelector(({ tagReducer }) => tagReducer);
+  const { userInfo: { data: { id: userId } } } = useSelector(({ userReducer }) => userReducer);
   const [foodId, setFoodId] = useState(null);
   const [filterFood, setFilterFood] = useState(null);
   const [foodIndex, setFoodIndex] = useState(0);
@@ -62,7 +70,7 @@ const StoreDetailFood = ({ showFoodDetail, setShowLogin, setShowFoodDetail, slug
     );
   };
   const renderTagList = () => {
-    return tagList.data.map(({ id, tagActive, tagName }) => {
+    return tagList.map(({ id, tagActive, tagName }) => {
       if (tagActive === 1) {
         return {
           value: id,
@@ -72,7 +80,7 @@ const StoreDetailFood = ({ showFoodDetail, setShowLogin, setShowFoodDetail, slug
     });
   };
   const renderFoodList = (span = 6) => {
-    return foodList.data.map((food, index) => {
+    return foodData.map((food, index) => {
       return (
         <Col span={span} key={food.id}>
           <FoodStore
@@ -94,7 +102,7 @@ const StoreDetailFood = ({ showFoodDetail, setShowLogin, setShowFoodDetail, slug
           <StoreDetailStyle.StoreFilterTitle>
             {history.location.pathname.match('/promotion') ? 'Khuyến mãi' : 'Đặt món'}
           </StoreDetailStyle.StoreFilterTitle>
-          {foodList.total > 0 &&
+          {total > 0 &&
           <ul className='d-flex vertical-center m-0 pr-2r'>
             <li>
               <Select
@@ -143,7 +151,7 @@ const StoreDetailFood = ({ showFoodDetail, setShowLogin, setShowFoodDetail, slug
       </Affix>
       <StoreDetailStyle.StoreContent>
         <Row>
-          {foodList.total === 0
+          {total === 0
             ?
             <Col
               className='d-flex horizontal-center vertical-center t-center fw-b'
@@ -164,9 +172,9 @@ const StoreDetailFood = ({ showFoodDetail, setShowLogin, setShowFoodDetail, slug
               </div>
             </Col>
             :
-            renderFoodList(12, foodList.load)
+            renderFoodList(12, foodLoad)
           }
-          {foodList.load && (
+          {foodLoad && (
             <div className='d-flex horizontal-center vertical-center' style={{ width: '100%' }}>
               <Spin />
             </div>
@@ -176,7 +184,7 @@ const StoreDetailFood = ({ showFoodDetail, setShowLogin, setShowFoodDetail, slug
             footer={
               <button
                 onClick={() => {
-                  if (!userInfo.data.id) {
+                  if (!userId) {
                     setShowFoodDetail(false);
                     setShowLogin(true);
                   } else {
@@ -199,19 +207,19 @@ const StoreDetailFood = ({ showFoodDetail, setShowLogin, setShowFoodDetail, slug
             onCancel={() => setShowFoodDetail(false)}
           >
             <FoodDetailCarousel
-              foodList={foodList.data}
+              foodList={foodData}
               index={foodIndex}
               setIndex={setFoodIndex}
               setFoodId={setFoodId}
             />
           </StoreDetailStyle.ModalCustom>
         </Row>
-        {foodList.currentPage < foodList.lastPage &&
+        {currentPage < lastPage &&
         <div className='d-flex horizontal-center vertical-center mt-3r'>
           <StoreDetailStyle.ViewOther
             onClick={() => setFilterFood({
               ...filterFood,
-              page: foodList.currentPage + 1,
+              page: currentPage + 1,
             })}
           >
             Xem thêm

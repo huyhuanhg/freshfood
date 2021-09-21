@@ -18,7 +18,7 @@ const AdminLayout = ({ exact, path, component: Component }) => {
 
   const adminToken = localStorage.adminInfo;
   useEffect(() => {
-    if (adminInfo.data.error) {
+    if (adminInfo.error) {
       setRedirect(true);
     }
   }, [adminInfo]);

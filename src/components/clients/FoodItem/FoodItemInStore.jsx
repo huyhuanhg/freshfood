@@ -27,7 +27,7 @@ export const FoodStore = (
   },
 ) => {
   const dispatch = useDispatch();
-  const { userInfo } = useSelector(({ userReducer }) => userReducer);
+  const { userInfo: { data: userData } } = useSelector(({ userReducer }) => userReducer);
   return (
     <S.FoodStore
       onClick={() => {
@@ -69,7 +69,7 @@ export const FoodStore = (
               className='btn-adding'
               onClick={(e) => {
                 handleStopPropagation(e);
-                if (!userInfo.data.id) {
+                if (!userData.id) {
                   setShowLogin(true);
                 } else {
                   const userToken = localStorage.userInfo;

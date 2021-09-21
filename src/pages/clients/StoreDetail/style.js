@@ -1,5 +1,5 @@
 import styled, { css } from 'styled-components';
-import { Modal } from 'antd';
+import { Modal, Image } from 'antd';
 
 export const MicroHeader = styled.div`
   position: relative;
@@ -274,4 +274,18 @@ export const ModalCustom = styled(Modal)`
       text-transform: none;
     }
   }
+`;
+export const PictureWrap = styled.div`
+  width: 225px;
+  height: 225px;
+  overflow: hidden;
+  border: 1px solid #f6f6f6;
+  border-radius: 4px;
+`;
+
+export const PictureItem = styled(Image)`
+  width: 225px;
+  height: 225px;
+  object-fit: cover;
+  vertical-align: middle;
 `;

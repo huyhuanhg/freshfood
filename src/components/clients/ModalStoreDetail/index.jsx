@@ -38,8 +38,8 @@ const ModalStoreDetail = (
   if (userToken) {
     accessToken = JSON.parse(userToken)?.accessToken;
   }
-  const { bookmarkDetail } = useSelector(({ bookmarkReducer }) => bookmarkReducer);
-  const { userInfo } = useSelector(({ userReducer }) => userReducer);
+  const { bookmarkDetail: { data, load: loadBookmark } } = useSelector(({ bookmarkReducer }) => bookmarkReducer);
+  const { userInfo: { data: { avatar, firstName, lastName } } } = useSelector(({ userReducer }) => userReducer);
   // list nhận ảnh nhận về
   const [fileList, setFileList] = useState([]);
   // //list ảnh form
@@ -149,7 +149,7 @@ const ModalStoreDetail = (
   };
   const handleSubmit = (value) => {
     if (!isComment) {
-      if (bookmarkDetail.data.description) {
+      if (data.description) {
         dispatch(updateBookmarkAction({
           accessToken,
           data: {
@@ -172,9 +172,9 @@ const ModalStoreDetail = (
         accessToken,
         slug,
         paths: fileList.map((file) => file.path),
-        lastName: userInfo.data.lastName,
-        firstName: userInfo.data.firstName,
-        userAvatar: userInfo.data.avatar,
+        lastName,
+        firstName,
+        userAvatar: avatar,
       };
       dispatch(createCommentAction(data));
       setFormImages([]);
@@ -185,9 +185,9 @@ const ModalStoreDetail = (
   };
   useEffect(() => {
     if (!isComment) {
-      actionForm.setFieldsValue({ description: bookmarkDetail.data.description });
+      actionForm.setFieldsValue({ description: data.description });
     }
-  }, [bookmarkDetail.data]);
+  }, [data]);
   return (
     <S.ModalCustom
       title={isComment ? 'Viết bình luận' : 'Lưu vào Bookmarks'}
@@ -247,7 +247,7 @@ const ModalStoreDetail = (
                 <S.TextAreaBox
                   full={isComment}
                   placeholder={isComment ? 'Viết bình luận của bạn...' : 'Thêm mô tả...'}
-                  disabled={bookmarkDetail.load}
+                  disabled={loadBookmark}
                 />
               </Form.Item>
               {
@@ -278,9 +278,9 @@ const ModalStoreDetail = (
             </div>
             <S.SubmitButton
               htmlType='submit'
-              disabled={!isComment && bookmarkDetail.load}
+              disabled={!isComment && loadBookmark}
             >
-              {isComment ? 'Viết bình luận' : bookmarkDetail.data.description ? '+ Sửa bộ sưư tập' : '+ Lưu vào bộ sưu tập'}
+              {isComment ? 'Viết bình luận' : data.description ? '+ Sửa bộ sưư tập' : '+ Lưu vào bộ sưu tập'}
             </S.SubmitButton>
           </S.FormCustom>
         </Col>

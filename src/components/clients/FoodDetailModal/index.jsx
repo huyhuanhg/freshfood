@@ -12,8 +12,19 @@ import * as S from './style';
 
 const FoodDetailModal = function({ show, setShow, setShowLogin }) {
   const dispatch = useDispatch();
-  const { foodDetail } = useSelector(({ foodReducer }) => foodReducer);
-  const { userInfo } = useSelector(({ userReducer }) => userReducer);
+  const {
+    foodDetail: {
+      data: {
+        discount,
+        foodConsume,
+        foodDescription,
+        foodImage,
+        foodName,
+        id: foodId,
+      },
+    },
+  } = useSelector(({ foodReducer }) => foodReducer);
+  const { userInfo: { data: userData } } = useSelector(({ userReducer }) => userReducer);
 
   return (
     <S.ModalCustom
@@ -21,7 +32,7 @@ const FoodDetailModal = function({ show, setShow, setShowLogin }) {
       footer={
         <button
           onClick={() => {
-            if (!userInfo.data.id) {
+            if (!userData.id) {
               setShow(false);
               setShowLogin(true);
             } else {
@@ -29,7 +40,7 @@ const FoodDetailModal = function({ show, setShow, setShowLogin }) {
               dispatch(updateCartAction({
                 data: {
                   accessToken: JSON.parse(userToken).accessToken,
-                  food: foodDetail.data.id,
+                  food: foodId,
                   isDisplayMessage: true,
                 },
               }));
@@ -47,16 +58,16 @@ const FoodDetailModal = function({ show, setShow, setShowLogin }) {
     >
       <S.FoodItem>
         <div>
-          <img src={`${ROOT_PATH}${foodDetail.data.foodImage}`}  alt={foodDetail.data.foodName}/>
+          <img src={`${ROOT_PATH}${foodImage}`} alt={foodName} />
           <div className='info'>
             <Row>
               <Col span={20}>
-                <div className='imgbox-food-name'>{foodDetail.data.foodName}</div>
-                <div className='imgbox-desc'>{foodDetail.data.foodDescription}</div>
+                <div className='imgbox-food-name'>{foodName}</div>
+                <div className='imgbox-desc'>{foodDescription}</div>
                 <div className='imgbox-total'>
                   Đã được đặt
                   <span className='txt-bold'>
-                    &nbsp;{foodDetail.data.foodConsume}&nbsp;
+                    &nbsp;{foodConsume}&nbsp;
                   </span>
                   lần
                 </div>
@@ -64,7 +75,7 @@ const FoodDetailModal = function({ show, setShow, setShowLogin }) {
               <Col span={4} style={{ alignSelf: 'center' }}>
                 <div className='imgbox-current-price'>
                   <NumberFormat
-                    value={foodDetail.data.discount}
+                    value={discount}
                     displayType={'text'}
                     thousandSeparator
                     suffix={'đ'}

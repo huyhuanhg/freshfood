@@ -16,11 +16,15 @@ const initialState = {
     register: {
       load: false,
       error: null,
-      email: {
-        success: false,
-        load: false,
-        error: null,
-      },
+    },
+    update: {
+      load: false,
+      error: null,
+    },
+    checkEmail: {
+      success: false,
+      load: false,
+      error: null,
     },
   },
 };
@@ -75,13 +79,10 @@ const userReducer = createReducer(initialState, {
       ...state,
       responseAction: {
         ...state.responseAction,
-        register: {
-          ...state.responseAction.register,
-          email: {
-            load: true,
-            success: false,
-            error: null,
-          },
+        checkEmail: {
+          load: true,
+          success: false,
+          error: null,
         },
       },
     };
@@ -91,13 +92,10 @@ const userReducer = createReducer(initialState, {
       ...state,
       responseAction: {
         ...state.responseAction,
-        register: {
-          ...state.responseAction.register,
-          email: {
-            load: false,
-            error: null,
-            success: true,
-          },
+        checkEmail: {
+          load: false,
+          success: true,
+          error: null,
         },
       },
     };
@@ -109,13 +107,10 @@ const userReducer = createReducer(initialState, {
         ...state,
         responseAction: {
           ...state.responseAction,
-          register: {
-            ...state.responseAction.register,
-            email: {
-              load: false,
-              success: false,
-              error,
-            },
+          checkEmail: {
+            load: false,
+            success: false,
+            error,
           },
         },
       };
@@ -124,13 +119,10 @@ const userReducer = createReducer(initialState, {
       ...state,
       responseAction: {
         ...state.responseAction,
-        register: {
-          ...state.responseAction.register,
-          email: {
-            load: false,
-            success: false,
-            error: null,
-          },
+        checkEmail: {
+          load: false,
+          success: false,
+          error: null,
         },
       },
     };
@@ -409,6 +401,51 @@ const userReducer = createReducer(initialState, {
         ...state.userInfo,
         loadChangePassword: false,
         errorChangePassword: error,
+      },
+    };
+  },
+  [REQUEST(USER_ACTION.UPDATE_USER)]: (state) => {
+    return {
+      ...state,
+      responseAction: {
+        ...state.responseAction,
+        update: {
+          ...state.responseAction.update,
+          load: true,
+          error: null,
+        },
+      },
+    };
+  },
+  [SUCCESS(USER_ACTION.UPDATE_USER)]: (state, action) => {
+    const { data } = action.payload;
+    return {
+      ...state,
+      userInfo: {
+        ...state.userInfo,
+        data,
+      },
+      responseAction: {
+        ...state.responseAction,
+        update: {
+          ...state.responseAction.update,
+          load: false,
+          error: null,
+        },
+      },
+    };
+  },
+  [FAILURE(USER_ACTION.UPDATE_USER)]: (state, action) => {
+    const { error } = action.payload;
+    return {
+      ...state,
+      responseAction: {
+        ...state.responseAction,
+        update: {
+          ...state.responseAction.update,
+          load: false,
+          error,
+        },
       },
     };
   },

@@ -14,7 +14,14 @@ import { ROOT_PATH } from '../../../../contants';
 const HistoryOrder = () => {
   const dispatch = useDispatch();
   const { accessToken } = JSON.parse(localStorage.userInfo);
-  const { orderList } = useSelector(({ orderReducer }) => orderReducer);
+  const {
+    orderList: {
+      currentPage,
+      data: orderData,
+      load: orderLoad,
+      total,
+    },
+  } = useSelector(({ orderReducer }) => orderReducer);
   useEffect(() => {
     dispatch(getordersAction({
       accessToken,
@@ -152,7 +159,7 @@ const HistoryOrder = () => {
     },
   ];
   const renderOrderList = () => {
-    return orderList.data.map((orderItem) => {
+    return orderData.map((orderItem) => {
       return {
         key: orderItem.id,
         orderName: orderItem.orderName,
@@ -169,12 +176,12 @@ const HistoryOrder = () => {
   return (
     <div>
       {
-        orderList.total === 0 ?
-          <S.ProfileEmpty>
+        total === 0 ?
+          <S.ProfileEmpty minHeight={378.016}>
             <div>
               <MdRemoveShoppingCart />
+              <p>Lịch sử giao dịch trống</p>
             </div>
-            <div>Lịch sử giao dịch trống</div>
           </S.ProfileEmpty>
           :
           <div style={{ paddingBottom: 15 }}>
@@ -182,7 +189,7 @@ const HistoryOrder = () => {
               Đơn hàng đã đặt
             </S.TitleContent>
             <S.TableCustom
-              loading={orderList.load}
+              loading={orderLoad}
               columns={columns}
               expandable={{
                 expandedRowRender: openDetail,
@@ -197,8 +204,8 @@ const HistoryOrder = () => {
               <Pagination
                 hideOnSinglePage={true}
                 showLessItems={true}
-                current={orderList.currentPage}
-                total={orderList.total}
+                current={currentPage}
+                total={total}
                 pageSize={10}
                 onChange={(current) => {
                   dispatch(getordersAction({

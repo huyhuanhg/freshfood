@@ -4,7 +4,7 @@ import { Redirect, Route, Switch } from 'react-router-dom';
 import { Affix, Col, Menu, Row, Spin } from 'antd';
 import {
   AiFillEdit,
-  AiOutlinePoweroff,
+  AiOutlinePoweroff, BsFillBookmarkFill,
   BsPencilSquare,
   FaComment,
   FaHistory,
@@ -25,6 +25,7 @@ import HistoryOrder from './HistoryOrder';
 import HistoryRating from './HistoryRating';
 import ChangePassword from './ChangePassword';
 import HistoryComment from './HistoryComment';
+import Bookmarks from './Bookmarks';
 import EditProfile from './EditProfile';
 
 import history from '../../../utils/history';
@@ -174,6 +175,13 @@ const UserProfile = ({ match }) => {
                           onTitleClick={handleSubMenuClick}
                         >
                           <Menu.Item
+                            key='history-bookmark'
+                            icon={<BsFillBookmarkFill className='custom-icon-profile' />}
+                            onClick={handleMenuItemClick}
+                          >
+                            Bộ sưu tập
+                          </Menu.Item>
+                          <Menu.Item
                             key='history-comment'
                             icon={<FaComment className='custom-icon-profile' />}
                             onClick={handleMenuItemClick}
@@ -234,6 +242,9 @@ const UserProfile = ({ match }) => {
                       </Route>
                       <Route exact path='/profile/history-comment'>
                         <HistoryComment />
+                      </Route>
+                      <Route exact path='/profile/history-bookmark'>
+                        <Bookmarks />
                       </Route>
                       <Route exact path='/profile/history-rating'>
                         <HistoryRating />

@@ -6,10 +6,9 @@ import camelCaseKeys from 'camelcase-keys';
 import toSnakeCase from '../../utils/toSnakeCase';
 import { notification } from 'antd';
 
-function* getBookmarkDetailSaga(action) {
+function* getBookmarkDetailSaga({ payload: { accessToken, data } }) {
   try {
-    const { data, accessToken } = action.payload;
-    const result = yield axios({
+    const { data: responseData } = yield axios({
       method: 'GET',
       url: `${SERVER_CLIENT_API_URL}/bookmark/${data.storeId}`,
       headers: {
@@ -19,7 +18,7 @@ function* getBookmarkDetailSaga(action) {
     yield put({
       type: SUCCESS(BOOKMARK_ACTION.GET_BOOKMARK_DETAIL),
       payload: {
-        data: camelCaseKeys(result.data),
+        data: camelCaseKeys(responseData),
       },
     });
   } catch (e) {
@@ -30,9 +29,8 @@ function* getBookmarkDetailSaga(action) {
   }
 }
 
-function* updateBookmarkSaga(action) {
+function* updateBookmarkSaga({ payload: { accessToken, data } }) {
   try {
-    const { data, accessToken } = action.payload;
     yield axios({
       method: 'PATCH',
       url: `${SERVER_CLIENT_API_URL}/bookmark`,
@@ -57,9 +55,9 @@ function* updateBookmarkSaga(action) {
     });
   }
 }
-function* createBookmarkSaga(action) {
+
+function* createBookmarkSaga({ payload: { accessToken, data } }) {
   try {
-    const { data, accessToken } = action.payload;
     yield axios({
       method: 'POST',
       url: `${SERVER_CLIENT_API_URL}/bookmark`,
@@ -82,8 +80,35 @@ function* createBookmarkSaga(action) {
   }
 }
 
+function* getBookmarksSaga({ payload: { accessToken, page } }) {
+  try {
+    const { data } = yield axios({
+      method: 'GET',
+      url: `${SERVER_CLIENT_API_URL}/bookmark`,
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+      params: {
+        ...page && { page },
+      },
+    });
+    yield put({
+      type: SUCCESS(BOOKMARK_ACTION.GET_BOOKMARK_LIST),
+      payload: {
+        data: camelCaseKeys(data, { deep: true }),
+      },
+    });
+  } catch (e) {
+    yield put({
+      type: FAILURE(BOOKMARK_ACTION.GET_BOOKMARK_LIST),
+      payload: { error: e.message },
+    });
+  }
+}
+
 export default function* bookmarkSaga() {
   yield takeEvery(REQUEST(BOOKMARK_ACTION.GET_BOOKMARK_DETAIL), getBookmarkDetailSaga);
   yield takeEvery(REQUEST(BOOKMARK_ACTION.UPDATE_BOOKMARK), updateBookmarkSaga);
   yield takeEvery(REQUEST(BOOKMARK_ACTION.CREATE_BOOKMARK), createBookmarkSaga);
+  yield takeEvery(REQUEST(BOOKMARK_ACTION.GET_BOOKMARK_LIST), getBookmarksSaga);
 }

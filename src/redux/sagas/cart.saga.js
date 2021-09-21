@@ -7,10 +7,9 @@ import { Button, message } from 'antd';
 import NumberFormat from 'react-number-format';
 import history from '../../utils/history';
 
-function* getCartListSaga(action) {
+function* getCartListSaga({ payload: { data: { accessToken } } }) {
   try {
-    const { accessToken } = action.payload.data;
-    const result = yield axios({
+    const { data } = yield axios({
       method: 'GET',
       url: `${SERVER_CLIENT_API_URL}/carts`,
       headers: {
@@ -20,7 +19,7 @@ function* getCartListSaga(action) {
     yield put({
       type: SUCCESS(CART_ACTION.GET_CART_LIST),
       payload: {
-        data: camelCaseKeys(result.data, { deep: true }),
+        data: camelCaseKeys(data, { deep: true }),
       },
     });
   } catch (e) {
@@ -31,22 +30,20 @@ function* getCartListSaga(action) {
   }
 }
 
-function* updateCartSaga({ payload }) {
-  const { accessToken, food, isDisplayMessage } = payload.data;
+function* updateCartSaga({ payload: { data: { accessToken, action, food, isDisplayMessage } } }) {
   try {
-    const action = payload.data?.action;
-    const result = yield axios({
-      method: 'POST',
-      url: `${SERVER_CLIENT_API_URL}/carts`,
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-      data: {
-        food,
-        ...action && { action },
-      },
-    });
-    const data = camelCaseKeys(result.data, { deep: true });
+    const { data: responseData } = yield axios({
+        method: 'POST',
+        url: `${SERVER_CLIENT_API_URL}/carts`,
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+        data: {
+          food,
+          ...action && { action },
+        },
+      }),
+      data = camelCaseKeys(responseData, { deep: true });
     yield put({
       type: SUCCESS(CART_ACTION.UPDATE_CART),
       payload: {
@@ -114,11 +111,9 @@ function* updateCartSaga({ payload }) {
   }
 }
 
-function* deleteCartSaga(action) {
-  const food = action.payload.data?.food;
+function* deleteCartSaga({ payload: { data: { accessToken, food } } }) {
   try {
-    const { accessToken } = action.payload.data;
-    const result = yield axios({
+    const { data } = yield axios({
       method: 'DELETE',
       url: `${SERVER_CLIENT_API_URL}/carts`,
       headers: {
@@ -131,13 +126,13 @@ function* deleteCartSaga(action) {
     yield put({
       type: SUCCESS(CART_ACTION.DESTROY_CART),
       payload: {
-        data: camelCaseKeys({ ...result.data, ...food && { foodId: food } }, { deep: true }),
+        data: camelCaseKeys({ ...data, ...food && { foodId: food } }, { deep: true }),
       },
     });
   } catch (e) {
     yield put({
       type: FAILURE(CART_ACTION.DESTROY_CART),
-      payload: { error: e.message, data: food  },
+      payload: { error: e.message, data: food },
     });
   }
 }

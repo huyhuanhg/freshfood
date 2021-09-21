@@ -5,10 +5,9 @@ import { SERVER_CLIENT_API_URL } from '../../contants';
 import camelCaseKeys from 'camelcase-keys';
 import toSnakeCase from '../../utils/toSnakeCase';
 
-function* createRateSaga(action) {
+function* createRateSaga({ payload: { accessToken, data } }) {
   try {
-    const { data, accessToken } = action.payload;
-    const result = yield axios({
+    const { data: responserData } = yield axios({
       method: 'POST',
       url: `${SERVER_CLIENT_API_URL}/rate`,
       headers: {
@@ -16,11 +15,10 @@ function* createRateSaga(action) {
       },
       data: toSnakeCase(data),
     });
-    console.log(result);
     yield put({
       type: SUCCESS(RATE_ACTION.CREATE_RATE),
       payload: {
-        data: camelCaseKeys({ avgRate: result.data, rate: data.rate }),
+        data: camelCaseKeys({ avgRate: responserData, rate: data.rate }),
       },
     });
   } catch (e) {
@@ -32,6 +30,34 @@ function* createRateSaga(action) {
   }
 }
 
+function* getRatesSaga({ payload: { accessToken, page } }) {
+  try {
+    const { data } = yield axios({
+      method: 'GET',
+      url: `${SERVER_CLIENT_API_URL}/rate`,
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+      params: {
+        ...page && { page },
+      },
+    });
+    yield put({
+      type: SUCCESS(RATE_ACTION.GET_RATE_LIST),
+      payload: {
+        data: camelCaseKeys(data, { deep: true }),
+      },
+    });
+  } catch (e) {
+    console.log(e.message);
+    yield put({
+      type: FAILURE(RATE_ACTION.GET_RATE_LIST),
+      payload: { error: e.message },
+    });
+  }
+}
+
 export default function* rateSaga() {
   yield takeEvery(REQUEST(RATE_ACTION.CREATE_RATE), createRateSaga);
+  yield takeEvery(REQUEST(RATE_ACTION.GET_RATE_LIST), getRatesSaga);
 }

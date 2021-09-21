@@ -10,11 +10,11 @@ import bgLogin from '../../assets/images/bg-login.png';
 import foodLogo from '../../assets/images/food_logo.png';
 
 function FullLayout({ exact, path, component: Component }) {
-  const { userInfo } = useSelector(({ userReducer }) => userReducer);
-  if (userInfo.data.id) {
+  const { userInfo: { data: userData, loadUser } } = useSelector(({ userReducer }) => userReducer);
+  if (userData.id) {
     return <Redirect to='/' />;
   } else {
-    if (userInfo.load) {
+    if (loadUser) {
       return (
         <Spin
           size={'large'}

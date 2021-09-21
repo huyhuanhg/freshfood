@@ -12,13 +12,13 @@ import * as S from './style';
 const ModalLogin = ({ visible, setVisible }) => {
   const [form] = Form.useForm();
   const dispatch = useDispatch();
-  const { responseAction } = useSelector(({ userReducer }) => userReducer);
-  const { userInfo } = useSelector(({ userReducer }) => userReducer);
+  const { responseAction: { login: { errorLogin, loadLogin } } } = useSelector(({ userReducer }) => userReducer);
+  const { userInfo: { data: userData } } = useSelector(({ userReducer }) => userReducer);
   useEffect(() => {
-    if (userInfo.data.id) {
+    if (userData.id) {
       setVisible(false);
     }
-    if (responseAction.login.error) {
+    if (errorLogin) {
       form.setFields([
         {
           name: 'email',
@@ -30,7 +30,7 @@ const ModalLogin = ({ visible, setVisible }) => {
         },
       ]);
     }
-  }, [userInfo.data, responseAction.login.error]);
+  }, [userData, errorLogin]);
   const handleLogin = (value) => {
     dispatch(
       loginAction({
@@ -75,10 +75,10 @@ const ModalLogin = ({ visible, setVisible }) => {
             <Button
               type='primary'
               htmlType='submit'
-              disabled={responseAction.login.load}
+              disabled={loadLogin}
             >
               Đăng nhập
-              <S.SubmitLoading size='middle' show={responseAction.login.load} />
+              <S.SubmitLoading size='middle' show={loadLogin} />
             </Button>
           </Form.Item>
         </S.FormCustom>

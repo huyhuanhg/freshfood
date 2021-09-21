@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Affix, Col, Image, Row, Spin } from 'antd';
 import { EyeOutlined } from '@ant-design/icons';
@@ -12,40 +12,61 @@ import { getStorePicturesAction } from '../../../../../redux/actions';
 const StoreDetailPicture = ({ slug }) => {
   const storeId = slug.slice(slug.lastIndexOf('.') + 1);
   const dispatch = useDispatch();
-  const { pictures } = useSelector(({ storeReducer }) => storeReducer);
+  const { pictures: { currentPage, data, lastPage, load } } = useSelector(({ storeReducer }) => storeReducer);
+  const [loadMore, setLoadMore] = useState(false);
 
+  const loadMorePicture = () => {
+    if (window.innerHeight + document.documentElement.scrollTop + 300 >= document.documentElement.scrollHeight) {
+      if (!loadMore) {
+        setLoadMore(true);
+      }
+    }
+  };
   useEffect(() => {
     dispatch(getStorePicturesAction({ storeId }));
+    window.addEventListener('scroll', loadMorePicture);
+
+    return () => {
+      window.removeEventListener('scroll', loadMorePicture);
+    };
   }, []);
+  useEffect(() => {
+    if (currentPage === lastPage && loadMore) {
+      window.removeEventListener('scroll', loadMorePicture);
+    } else {
+      setLoadMore(false);
+    }
+  }, [currentPage]);
+  useEffect(() => {
+    if (loadMore && currentPage < lastPage) {
+      dispatch(getStorePicturesAction({
+        storeId,
+        params: {
+          page: currentPage + 1,
+        },
+      }));
+    }
+    if (loadMore && currentPage === lastPage) {
+      window.removeEventListener('scroll', loadMorePicture);
+    }
+  }, [loadMore]);
 
   const rederPictures = () => {
     return (
-      <Row gutter={10}>
+      <Row gutter={[15, 10]}>
         <Image.PreviewGroup>
-          {pictures.data.map(({ picturePath }) => {
+          {data.map(({ picturePath }) => {
             return (
               <Col key={picturePath} span={6}>
-                <div style={{
-                  width: '225px',
-                  height: '225px',
-                  overflow: 'hidden',
-                  border: '1px solid #f6f6f6',
-                  borderRadius: 4,
-                }}>
-                  <Image
-                    style={{
-                      width: '225px',
-                      height: '225px',
-                      objectFit: 'cover',
-                      verticalAlign: 'middle',
-                    }}
+                <StoreDetailStyle.PictureWrap>
+                  <StoreDetailStyle.PictureItem
                     src={`${ROOT_PATH}${picturePath}`}
                     alt={picturePath}
                     preview={{
                       mask: <div><EyeOutlined /> Xem ảnh</div>,
                     }}
                   />
-                </div>
+                </StoreDetailStyle.PictureWrap>
               </Col>
             );
           })}
@@ -62,10 +83,10 @@ const StoreDetailPicture = ({ slug }) => {
           </StoreDetailStyle.StoreFilterTitle>
         </FilterStyle>
       </Affix>
-      <div className='pt-2r'>
+      <div className='pt-2r' id='list'>
         {rederPictures()}
-        {pictures.load && (
-          <div className='d-flex horizontal-center vertical-center' style={{ width: '100%' }}>
+        {load && (
+          <div className='d-flex horizontal-center vertical-center mt-3r' style={{ width: '100%' }}>
             <Spin />
           </div>
         )}

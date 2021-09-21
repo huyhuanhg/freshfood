@@ -8,9 +8,8 @@ import { SERVER_CLIENT_API_URL } from '../../contants';
 import history from '../../utils/history';
 import toSnakeCase from '../../utils/toSnakeCase';
 
-function* loginSaga(action) {
+function* loginSaga({ payload: { data } }) {
   try {
-    const { data } = action.payload;
     let result = yield axios.post(`${SERVER_CLIENT_API_URL}/login`, data);
     yield (result = camelCaseKeys(result.data, { deep: true }));
     yield (localStorage.userInfo = JSON.stringify({
@@ -38,9 +37,8 @@ function* loginSaga(action) {
   }
 }
 
-function* refreshSaga(action) {
+function* refreshSaga({ payload: { data } }) {
   try {
-    const { data } = action.payload;
     let result = yield axios({
       method: 'post',
       url: `${SERVER_CLIENT_API_URL}/refresh`,
@@ -69,27 +67,32 @@ function* refreshSaga(action) {
   }
 }
 
-function* checkEmailExistsSaga(action) {
+function* checkEmailExistsSaga({ payload: { data } }) {
   try {
-    const { data } = action.payload;
     yield axios.post(`${SERVER_CLIENT_API_URL}/email-exist`, data);
     yield put({
       type: SUCCESS(USER_ACTION.CHECK_EMAIL_EXISTS),
     });
   } catch (error) {
+    let payload = {
+      status: error.response.status,
+    };
+    if (error.response.status === 403) {
+      const { message } = error.response.data;
+      payload = {
+        ...payload,
+        error: message,
+      };
+    }
     yield put({
       type: FAILURE(USER_ACTION.CHECK_EMAIL_EXISTS),
-      payload: {
-        status: error.response.status,
-        ...(error.response.status === 403 && { error: 'Email đã tồn tại!' }),
-      },
+      payload,
     });
   }
 }
 
-function* registerSaga(action) {
+function* registerSaga({ payload: { data } }) {
   try {
-    const { data } = action.payload;
     yield axios.post(`${SERVER_CLIENT_API_URL}/register`, toSnakeCase(data));
     yield put({ type: SUCCESS(USER_ACTION.REGISTER) });
     yield notification.success({
@@ -106,10 +109,9 @@ function* registerSaga(action) {
   }
 }
 
-function* getInfoSaga(action) {
+function* getInfoSaga({ payload: { data } }) {
   try {
-    const { data } = action.payload;
-    const result = yield axios({
+    const { data: responseData } = yield axios({
       method: 'get',
       url: `${SERVER_CLIENT_API_URL}/user-profile`,
       headers: {
@@ -119,7 +121,7 @@ function* getInfoSaga(action) {
     yield put({
       type: SUCCESS(USER_ACTION.GET_USER_INFO),
       payload: {
-        data: camelCaseKeys(result.data, { deep: true }),
+        data: camelCaseKeys(responseData, { deep: true }),
       },
     });
   } catch (e) {
@@ -132,8 +134,7 @@ function* getInfoSaga(action) {
   }
 }
 
-function* logoutSaga(action) {
-  const { data } = action.payload;
+function* logoutSaga({ payload: { data } }) {
   yield axios({
     method: 'post',
     url: `${SERVER_CLIENT_API_URL}/logout`,
@@ -146,12 +147,11 @@ function* logoutSaga(action) {
 }
 
 
-function* changeAvatarSaga(action) {
+function* changeAvatarSaga({ payload: { accessToken, data } }) {
   try {
-    const { data, accessToken } = action.payload;
     const formData = new FormData();
     formData.set('image', data.image);
-    const result = yield axios.post(`${SERVER_CLIENT_API_URL}/user-avatar`, formData, {
+    const { data: responseData } = yield axios.post(`${SERVER_CLIENT_API_URL}/user-avatar`, formData, {
       headers: {
         Authorization: `Bearer ${accessToken}`,
         'Content-Type': 'multipart/form-data',
@@ -160,7 +160,7 @@ function* changeAvatarSaga(action) {
     yield put({
       type: SUCCESS(USER_ACTION.CHANGE_AVATAR),
       payload: {
-        data: result.data,
+        data: responseData,
       },
     });
     yield notification.success({
@@ -176,10 +176,9 @@ function* changeAvatarSaga(action) {
   }
 }
 
-function* changeFullNameSaga(action) {
+function* changeFullNameSaga({ payload: { accessToken, data } }) {
   try {
-    const { data, accessToken } = action.payload;
-    const result = yield axios.patch(
+    const { data: responseData } = yield axios.patch(
       `${SERVER_CLIENT_API_URL}/user-full-name`,
       toSnakeCase(data),
       {
@@ -190,7 +189,7 @@ function* changeFullNameSaga(action) {
     yield put({
       type: SUCCESS(USER_ACTION.CHANGE_FULL_NAME),
       payload: {
-        data: camelCaseKeys(result.data),
+        data: camelCaseKeys(responseData),
       },
     });
     yield notification.success({
@@ -206,10 +205,9 @@ function* changeFullNameSaga(action) {
   }
 }
 
-function* changeEmailSaga(action) {
+function* changeEmailSaga({ payload: { accessToken, data } }) {
   try {
-    const { data, accessToken } = action.payload;
-    const result = yield axios.patch(
+    const { data: responseData } = yield axios.patch(
       `${SERVER_CLIENT_API_URL}/user-email`,
       data,
       {
@@ -220,7 +218,7 @@ function* changeEmailSaga(action) {
     yield put({
       type: SUCCESS(USER_ACTION.CHANGE_EMAIL),
       payload: {
-        data: camelCaseKeys(result.data),
+        data: camelCaseKeys(responseData),
       },
     });
     yield notification.success({
@@ -236,10 +234,9 @@ function* changeEmailSaga(action) {
   }
 }
 
-function* changeNumberPhoneSaga(action) {
+function* changeNumberPhoneSaga({ payload: { accessToken, data } }) {
   try {
-    const { data, accessToken } = action.payload;
-    const result = yield axios.patch(
+    const { data: responseData } = yield axios.patch(
       `${SERVER_CLIENT_API_URL}/user-phone`,
       data,
       {
@@ -250,7 +247,7 @@ function* changeNumberPhoneSaga(action) {
     yield put({
       type: SUCCESS(USER_ACTION.CHANGE_NUMBER_PHONE),
       payload: {
-        data: camelCaseKeys(result.data),
+        data: camelCaseKeys(responseData),
       },
     });
     yield notification.success({
@@ -266,10 +263,9 @@ function* changeNumberPhoneSaga(action) {
   }
 }
 
-function* changePasswordSaga(action) {
+function* changePasswordSaga({ payload: { accessToken, data } }) {
   try {
-    const { data, accessToken } = action.payload;
-    const result = yield axios.patch(
+    const { data: responseData } = yield axios.patch(
       `${SERVER_CLIENT_API_URL}/user-change-password`,
       toSnakeCase(data),
       {
@@ -280,7 +276,7 @@ function* changePasswordSaga(action) {
     yield put({
       type: SUCCESS(USER_ACTION.CHANGE_PASSWORD),
       payload: {
-        data: camelCaseKeys(result.data),
+        data: camelCaseKeys(responseData),
       },
     });
     yield notification.success({
@@ -298,10 +294,9 @@ function* changePasswordSaga(action) {
   }
 }
 
-function* updateUserSaga(action) {
+function* updateUserSaga({ payload: { accessToken, data } }) {
   try {
-    const { data, accessToken } = action.payload;
-    const result = yield axios.patch(
+    const { data: responseData } = yield axios.patch(
       `${SERVER_CLIENT_API_URL}/user`,
       toSnakeCase(data),
       {
@@ -312,7 +307,7 @@ function* updateUserSaga(action) {
     yield put({
       type: SUCCESS(USER_ACTION.UPDATE_USER),
       payload: {
-        data: camelCaseKeys(result.data),
+        data: camelCaseKeys(responseData),
       },
     });
     yield notification.success({
