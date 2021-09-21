@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import * as HomeS from '../../styles';
 import StoreItem from '../../../../../components/clients/StoreItem';
 import { getStoresAction } from '../../../../../redux/actions';
+import { PATH } from '../../../../../contants';
 
 const SectionStore = () => {
   const dispatch = useDispatch();
@@ -33,7 +34,7 @@ const SectionStore = () => {
       <HomeS.SectionContainer>
         {renderStore()}
         <div className='d-flex vertical-center horizontal-center mt-3r'>
-          <Link to='/stores' className='d-inline-block w-40'>
+          <Link to={PATH.STORE} className='d-inline-block w-40'>
             <HomeS.ButtonCustom>Xem tất cả</HomeS.ButtonCustom>
           </Link>
         </div>

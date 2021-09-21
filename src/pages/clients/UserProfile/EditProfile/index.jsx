@@ -13,6 +13,7 @@ import {
   updateUserAction,
 } from '../../../../redux/actions';
 import { shortAddress } from '../../../../utils/address';
+import { PAGE_TITLE } from '../../../../contants';
 
 const EditProfile = () => {
   const userToken = localStorage.userInfo;
@@ -25,7 +26,7 @@ const EditProfile = () => {
         birthday,
         description,
         districtCode,
-        email,
+        email: currentEmail,
         firstName,
         gender,
         lastName,
@@ -42,6 +43,7 @@ const EditProfile = () => {
   } = useSelector(({ addressReducer }) => addressReducer);
 
   useEffect(() => {
+    document.title = PAGE_TITLE.USER_UPDATE;
     dispatch(getAddressAction({
       provinceCode: provinceCode,
       districtCode: districtCode,
@@ -59,7 +61,7 @@ const EditProfile = () => {
 
   const checkEmailExits = () => {
     const email = userForm.getFieldValue('email');
-    if (email !== email) {
+    if (email !== currentEmail) {
       dispatch(checkEmailExistsAction({
         data: { email },
       }));
@@ -95,10 +97,10 @@ const EditProfile = () => {
           initialValues={{
             firstName: firstName,
             lastName: lastName,
-            email: email,
+            email: currentEmail,
             phone: phone,
             gender: gender,
-            birthday: moment(birthday),
+            birthday: birthday && moment(birthday),
             description: description,
             address: {
               province: provinceCode,
@@ -128,14 +130,14 @@ const EditProfile = () => {
           >
             <Form.Item
               name='firstName'
-              rules={[{ required: true, message: 'Please input your username!' }]}
+              rules={[{ required: true, message: 'Vui lòng nhập họ!' }]}
               style={{ display: 'inline-block', width: 'calc(50% - 4px)' }}
             >
               <Input placeholder='Họ' />
             </Form.Item>
             <Form.Item
               name='lastName'
-              rules={[{ required: true, message: 'Please input your username!' }]}
+              rules={[{ required: true, message: 'Vui lòng nhập tên!' }]}
               style={{ display: 'inline-block', width: 'calc(50% - 4px)', margin: '0 0 0 8px' }}
             >
               <Input placeholder='Tên' />
@@ -145,7 +147,15 @@ const EditProfile = () => {
             <Form.Item
               label='Email'
               name='email'
-              rules={[{ required: true, message: 'Please input your password!' }]}
+              rules={[
+                { required: true, message: 'Vui lòng nhập email' },
+                {
+                  pattern: new RegExp(
+                    '^(([^<>()[\\]\\\\.,;:\\s@"]+(\\.[^<>()[\\]\\\\.,;:\\s@"]+)*)|(".+"))@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$',
+                  ),
+                  message: 'Định dạng email không đúng!',
+                },
+              ]}
               onBlur={checkEmailExits}
             >
               <Input placeholder='Email' />
@@ -164,14 +174,19 @@ const EditProfile = () => {
           <Form.Item
             label='Số điện thoại'
             name='phone'
-            rules={[{ required: true, message: 'Please input your password!' }]}
+            rules={[
+              { required: true, message: 'Vui lòng nhập số điện thoại' },
+              {
+                pattern: new RegExp('^(0|\\+84)[3|5|7|8|9][\\d+]{8}$'),
+                message: 'Định dạng không hợp lệ (0... / +84...)',
+              },
+            ]}
           >
             <Input placeholder='Số điện thoại' />
           </Form.Item>
           <Form.Item
             label='Địa chỉ'
             name='address'
-            rules={[{ required: true, message: 'Please input your password!' }]}
             style={{ marginBottom: 0 }}
           >
             <Input.Group>
@@ -179,7 +194,7 @@ const EditProfile = () => {
                 <Col span={12}>
                   <Form.Item
                     name={['address', 'province']}
-                    // rules={[{ required: true, message: 'Province is required' }]}
+                    rules={[{ required: true, message: 'Chọn Tỉnh / Thành phố!' }]}
                   >
                     <Select
                       placeholder='--Tỉnh--'
@@ -204,7 +219,7 @@ const EditProfile = () => {
                 <Col span={12}>
                   <Form.Item
                     name={['address', 'district']}
-                    // rules={[{ required: true, message: 'Province is required' }]}
+                    rules={[{ required: true, message: 'Chọn Quận / Huyện!' }]}
                   >
                     <Select
                       placeholder='--Quận/Huyện--'
@@ -231,7 +246,7 @@ const EditProfile = () => {
                 <Col span={12}>
                   <Form.Item
                     name={['address', 'ward']}
-                    // rules={[{ required: true, message: 'Province is required' }]}
+                    rules={[{ required: true, message: 'Chọn Xã / Phường!' }]}
                   >
                     <Select
                       placeholder='--Phường/Xã--'
@@ -246,7 +261,7 @@ const EditProfile = () => {
                 <Col span={12}>
                   <Form.Item
                     name={['address', 'street']}
-                    rules={[{ required: true, message: 'Street is required' }]}
+                    rules={[{ required: true, message: 'Chọn Đường / Thôn!' }]}
                   >
                     <Input placeholder='Đường / Thôn xóm' />
                   </Form.Item>
@@ -258,7 +273,7 @@ const EditProfile = () => {
           <Form.Item
             label='Giới tính'
             name='gender'
-            rules={[{ required: true, message: 'Please input your password!' }]}
+            rules={[{ required: true, message: 'Vui lòng chọn giới tính!' }]}
           >
             <Select>
               <Select.Option value={1}>Nam</Select.Option>
@@ -269,10 +284,28 @@ const EditProfile = () => {
           <Form.Item
             label='Ngày sinh'
             name='birthday'
-            rules={[{ required: true, message: 'Please input your password!' }]}
+            rules={[
+              () => ({
+                validator(_, value) {
+                  if (moment().valueOf() > moment(value).valueOf()) {
+                    return Promise.resolve();
+                  }
+                  if (!value) {
+                    return Promise.reject('Vui lòng chọn ngày sinh!');
+                  }
+                  return Promise.reject('Ngày sinh không hợp lệ!');
+                },
+              }),
+            ]}
           >
             <DatePicker
               format={(value) => value.format('DD/MM/YYYY')}
+              onClick={() => {
+                const birthday = userForm.getFieldValue('birthday');
+                if (!birthday) {
+                  userForm.setFieldsValue({ birthday: moment('01/01/1970', 'DD/MM/YYYY') });
+                }
+              }}
               defaultValue={moment('01/01/2015', 'DD/MM/YYYY')}
               locale={{
                 'lang': {

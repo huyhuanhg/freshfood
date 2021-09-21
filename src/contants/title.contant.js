@@ -1,13 +1,43 @@
-export const TITLE = {
-  LOGIN: 'Đăng nhập',
-  REGISTER: 'Đăng ký',
-  HOME: 'Foodbooking | Trang chủ',
-  STORE_LIST: 'Danh sách cửa hàng',
-  FOOD_LIST: 'Danh sách món ăn',
-  PROMOTIONS: 'Danh sách khuyến mãi',
-  CROWDED_LIST: 'Cửa hàng ưa chuộng',
-  FAVORITES_LIST: 'Món ăn yêu thích',
+import { PATH } from './path.contant';
+
+export const PAGE_TITLE = {
+  [PATH.LOGIN]: 'Đăng nhập',
+  [PATH.REGISTER]: 'Đăng ký',
+  [PATH.HOME]: 'Trang chủ',
+
+  [PATH.STORE]: 'Cửa hàng',
+  [PATH.CROWDED]: 'Đông khách',
+  [PATH.FOOD]: 'Món ăn',
+  [PATH.PROMOTION]: 'Khuyến mãi',
+  [PATH.FAVORITE]: 'Món ăn đã thích',
+
+
+  [PATH.CART]: 'Giỏ hàng',
+
+  [PATH.PROFILE]: 'Quản lý tài khoản',
+
   STORE_DETAIL: 'Thông tin cửa hàng',
-  CART: 'Giỏ hàng',
-  USER_PROFILE: 'Quản lý tài khoản',
+  ORDERS: 'Lịch sử giao dịch',
+  BOOKMARKS: 'Bộ sưu tập',
+  COMMENTS: 'Lịch sử bình luận',
+  RATES: 'Lịch sử đánh giá',
+  USER_INFO: 'Thông tin tài khoản',
+  CHANGE_PASSWORD: 'Đổi mật khẩu',
+  USER_UPDATE: 'Cập nhật tài khoản',
+};
+const PREFIX = (title, custom = 'FreshFood') => {
+  return `${custom} | ${title}`;
+};
+export const TITLE = (title, suffix = false, isDefault = true, prefix = true) => {
+  if (isDefault) {
+    title = PAGE_TITLE[title];
+  }
+  if (prefix) {
+    if (suffix) {
+      title = PREFIX(suffix, title);
+    } else {
+      title = PREFIX(title);
+    }
+  }
+  return title;
 };

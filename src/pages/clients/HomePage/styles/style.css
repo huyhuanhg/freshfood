@@ -122,3 +122,11 @@
 .ant-anchor-ink {
   display: none !important;
 }
+
+.ant-message {
+  top: 70px !important;
+}
+
+.add-cart-message {
+  margin-top: -8px;
+}

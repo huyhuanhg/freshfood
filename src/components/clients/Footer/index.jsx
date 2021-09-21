@@ -25,13 +25,13 @@ function Footer() {
                 </p>
                 <div>
                   <div className='facebook'>
-                    <FaFacebookF />
+                    <a href='https://www.facebook.com/danlangvan/'><FaFacebookF /></a>
                   </div>
                   <div className='google'>
-                    <GrGooglePlus />
+                    <a href='https://www.google.com.vn/'><GrGooglePlus /></a>
                   </div>
                   <div className='skype'>
-                    <AiFillSkype />
+                    <a href='https://www.skype.com/'><AiFillSkype /></a>
                   </div>
                 </div>
               </FooterStyle.AboutFooter>
@@ -53,16 +53,22 @@ function Footer() {
                 <h4>Get in Touch</h4>
                 <ul>
                   <li>
-                    <PhoneOutlined />
-                    +84 935 906 860
+                    <a href='tel:0935906860'>
+                      <PhoneOutlined />
+                      +84 935 906 860
+                    </a>
                   </li>
                   <li>
-                    <MailOutlined />
-                    huyhuanhg@gmail.com
+                    <a href='mailto:huyhuanhg@gmail.com'>
+                      <MailOutlined />
+                      huyhuanhg@gmail.com
+                    </a>
                   </li>
                   <li>
-                    <RiMapPin2Fill />
-                    K5/22 Nam Cao - Hoa Khanh Nam
+                    <a>
+                      <RiMapPin2Fill />
+                      K5/22 Nam Cao - Hoa Khanh Nam
+                    </a>
                   </li>
                 </ul>
               </FooterStyle.GetInTouch>

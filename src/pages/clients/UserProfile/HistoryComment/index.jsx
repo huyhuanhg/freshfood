@@ -8,7 +8,7 @@ import { Button, Col, Collapse, Image, Row, Spin } from 'antd';
 
 import { getCommentsAction } from '../../../../redux/actions';
 import * as S from '../style';
-import { ROOT_PATH } from '../../../../contants';
+import { PAGE_TITLE, ROOT_PATH } from '../../../../contants';
 
 const HistoryComment = () => {
   moment.locale('vi');
@@ -24,6 +24,7 @@ const HistoryComment = () => {
     },
   } = useSelector(({ commentReducer }) => commentReducer);
   useEffect(() => {
+    document.title = PAGE_TITLE.COMMENTS;
     if (userId) {
       dispatch(getCommentsAction({
         userId: userId,

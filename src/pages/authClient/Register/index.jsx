@@ -14,12 +14,12 @@ import {
 import * as AuthStyle from '../style';
 import * as RegisterStyle from './style';
 
-import { TITLE } from '../../../contants';
+import { TITLE, PATH } from '../../../contants';
 
 import { checkEmailExistsAction, registerAction } from '../../../redux/actions';
 
 function RegisterPage() {
-  document.title = TITLE.REGISTER;
+  document.title = TITLE(PATH.REGISTER);
 
   const dispatch = useDispatch();
 

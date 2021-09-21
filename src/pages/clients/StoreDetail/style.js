@@ -188,26 +188,30 @@ export const StoreToolbar = styled.div`
     background: #fff;
 
     & > li {
-      display: flex;
       flex-basis: 25%;
-      justify-content: center;
-      align-items: center;
-      padding: 15px 0;
-      border-right: #f0f0f0 1px solid;
-      border-bottom: none;
-      font-size: 14px;
-      text-align: center;
-      font-weight: 700;
-      color: ${(props) => props.theme.priceBlue};
 
-      & > svg {
-        margin-right: 5px;
+      & > a {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 15px 0;
+        border-right: #f0f0f0 1px solid;
+        border-bottom: none;
+        font-size: 14px;
+        text-align: center;
+        font-weight: 700;
+        color: ${(props) => props.theme.priceBlue};
+        transition: .3s;
+
+        & > svg {
+          margin-right: 5px;
+        }
+
+        &:hover {
+          background: #f7f7f7;
+        }
       }
 
-      &:hover {
-        background: #f7f7f7;
-        cursor: pointer;
-      }
     }
   }
 `;

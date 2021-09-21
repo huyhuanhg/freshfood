@@ -27,7 +27,7 @@ import StoreDetailFood from './componets/StoreDetailFood';
 import loadAvatarStore from '../../../assets/images/loadStore.png';
 import * as ClientStyle from '../styles';
 import * as StoreDetailStyle from './style';
-import { ROOT_PATH, TITLE } from '../../../contants';
+import { DYNAMIC, PAGE_TITLE, PATH, ROOT_PATH } from '../../../contants';
 import history from '../../../utils/history';
 import StoreDetailComment from './componets/StoreDetailComment';
 import StoreDetailPicture from './componets/StoreDetailPicture';
@@ -54,14 +54,14 @@ const StoreDetail = ({ setShowLogin, match }) => {
     isComment: true,
   });
 
-  const [defaultActiveMenu, setDefaultActiveMenu] = useState('food');
+  const [defaultActiveMenu, setDefaultActiveMenu] = useState(PATH.STORE_MENU_FOOD);
 
-  document.title = storeDetail.storeName || TITLE.STORE_DETAIL;
+  document.title = storeDetail.storeName || PAGE_TITLE.STORE_DETAIL;
 
   const userToken = localStorage.userInfo;
 
   useEffect(() => {
-    const pathArr = history.location.pathname.replace('/stores/', '').split('/');
+    const pathArr = history.location.pathname.replace(`${PATH.STORE}/`, '').split('/');
     const content = pathArr[1];
     if (pathArr.length > 1 && content !== '') {
       setDefaultActiveMenu(content);
@@ -102,7 +102,7 @@ const StoreDetail = ({ setShowLogin, match }) => {
     }
   };
   if (!!storeDetailError && !storeDetailLoad) {
-    return <Redirect to='/stores' />;
+    return <Redirect to={PATH.STORE} />;
   }
   return (
     <ClientStyle.Section style={{ backgroundColor: '#eee' }}>
@@ -259,49 +259,42 @@ const StoreDetail = ({ setShowLogin, match }) => {
                   mode='inline'
                 >
                   <Menu.Item
-                    key='food'
+                    key={PATH.STORE_MENU_FOOD}
                     icon={<MdNavigateNext className='custom-icon-position' />}
                     onClick={() => {
-                      setDefaultActiveMenu('food');
-                      history.push(
-                        `/stores/${storeDetail.storeNotMark}.${storeDetail.id}`,
-                      );
+                      setDefaultActiveMenu(PATH.STORE_MENU_FOOD);
+                      history.push(PATH.STORE_DETAIL(`${storeDetail.storeNotMark}.${storeDetail.id}`));
                     }}
                   >
                     Món ăn
                   </Menu.Item>
                   <Menu.Item
-                    key='promotion'
+                    key={PATH.STORE_MENU_PROMOTION}
                     icon={<MdNavigateNext className='custom-icon-position' />}
-                    onClick={() => {
-                      setDefaultActiveMenu('promotion');
-                      history.push(
-                        `/stores/${storeDetail.storeNotMark}.${storeDetail.id}/promotion`,
-                      );
+                    onClick={({ key }) => {
+                      console.log(key);
+                      setDefaultActiveMenu(PATH.STORE_MENU_COMMENT);
+                      history.push(PATH.STORE_DETAIL(`${storeDetail.storeNotMark}.${storeDetail.id}`, PATH.STORE_MENU_PROMOTION));
                     }}
                   >
                     Khuyến mãi
                   </Menu.Item>
                   <Menu.Item
-                    key='comment'
+                    key={PATH.STORE_MENU_COMMENT}
                     icon={<MdNavigateNext className='custom-icon-position' />}
                     onClick={() => {
-                      setDefaultActiveMenu('comment');
-                      history.push(
-                        `/stores/${storeDetail.storeNotMark}.${storeDetail.id}/comment`,
-                      );
+                      setDefaultActiveMenu(PATH.STORE_MENU_COMMENT);
+                      history.push(PATH.STORE_DETAIL(`${storeDetail.storeNotMark}.${storeDetail.id}`, PATH.STORE_MENU_COMMENT));
                     }}
                   >
                     Bình luận
                   </Menu.Item>
                   <Menu.Item
-                    key='picture'
+                    key={PATH.STORE_MENU_PICTURE}
                     icon={<MdNavigateNext className='custom-icon-position' />}
                     onClick={() => {
-                      setDefaultActiveMenu('picture');
-                      history.push(
-                        `/stores/${storeDetail.storeNotMark}.${storeDetail.id}/picture`,
-                      );
+                      setDefaultActiveMenu(PATH.STORE_MENU_PICTURE);
+                      history.push(PATH.STORE_DETAIL(`${storeDetail.storeNotMark}.${storeDetail.id}`, PATH.STORE_MENU_PICTURE));
                     }}
                   >
                     Hình ảnh
@@ -325,30 +318,36 @@ const StoreDetail = ({ setShowLogin, match }) => {
                 <StoreDetailStyle.StoreToolbar>
                   <ul>
                     <li>
-                      <FaPhoneAlt /> Gọi điện thoại
-                    </li>
-                    <li onClick={() => {
-                      if (checkLogin()) {
-                        setIsShowAction({ status: true, isComment: true });
-                      }
-                    }}>
-                      <FaCommentDots /> Bình luận
-                    </li>
-                    <li onClick={() => {
-                      if (checkLogin()) {
-                        setIsShowAction({ status: true, isComment: false });
-                      }
-                    }}>
-                      <BsFillBookmarkFill /> Lưu bộ sưu tập
+                      <a href={`tel:${storeDetail.phoneContact}`}><FaPhoneAlt /> Gọi điện thoại</a>
                     </li>
                     <li>
-                      <FaShareAlt /> Chia sẻ
+                      <a onClick={() => {
+                        if (checkLogin()) {
+                          setIsShowAction({ status: true, isComment: true });
+                        }
+                      }}
+                      >
+                        <FaCommentDots /> Bình luận
+                      </a>
+                    </li>
+                    <li>
+                      <a onClick={() => {
+                        if (checkLogin()) {
+                          setIsShowAction({ status: true, isComment: false });
+                        }
+                      }}
+                      >
+                        <BsFillBookmarkFill /> Lưu bộ sưu tập
+                      </a>
+                    </li>
+                    <li>
+                      <a><FaShareAlt /> Chia sẻ</a>
                     </li>
                   </ul>
                 </StoreDetailStyle.StoreToolbar>
               </Affix>
               <Switch>
-                <Route exact path='/stores/:slug'>
+                <Route exact path={DYNAMIC(PATH.STORE, ['slug'])}>
                   <StoreDetailFood
                     showFoodDetail={showFoodDetail}
                     setShowLogin={setShowLogin}
@@ -357,7 +356,7 @@ const StoreDetail = ({ setShowLogin, match }) => {
 
                   />
                 </Route>
-                <Route exact path='/stores/:slug/comment'>
+                <Route exact path={DYNAMIC(PATH.STORE, ['slug'], PATH.STORE_MENU_COMMENT)}>
                   <StoreDetailComment
                     slug={match.params.slug}
                     checkLogin={checkLogin}
@@ -365,7 +364,7 @@ const StoreDetail = ({ setShowLogin, match }) => {
                     setShowComment={setIsShowAction}
                   />
                 </Route>
-                <Route exact path='/stores/:slug/promotion'>
+                <Route exact path={DYNAMIC(PATH.STORE, ['slug'], PATH.STORE_MENU_PROMOTION)}>
                   <StoreDetailFood
                     showFoodDetail={showFoodDetail}
                     setShowFoodDetail={setShowFoodDetail}
@@ -373,12 +372,12 @@ const StoreDetail = ({ setShowLogin, match }) => {
                     slug={match.params.slug}
                   />
                 </Route>
-                <Route exact path='/stores/:slug/picture'>
+                <Route exact path={DYNAMIC(PATH.STORE, ['slug'], PATH.STORE_MENU_PICTURE)}>
                   <StoreDetailPicture slug={match.params.slug} />
                 </Route>
                 <Route
                   render={() => {
-                    return <Redirect to='/stores' />;
+                    return <Redirect to={PATH.STORE} />;
                   }}
                 />
               </Switch>

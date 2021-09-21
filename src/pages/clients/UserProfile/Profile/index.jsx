@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Button, Col, Form, Input, Row, Space } from 'antd';
+import { Button, Col, Form, Input, Row, Space, Spin } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { EditOutlined } from '@ant-design/icons';
 
@@ -7,11 +7,15 @@ import * as S from '../style';
 
 import history from '../../../../utils/history';
 import { changeFullNameAction, changeNumberPhoneAction, changeEmailAction } from '../../../../redux/actions';
+import { PAGE_TITLE } from '../../../../contants';
 
 const Profile = () => {
   const userToken = localStorage.userInfo;
   const dispatch = useDispatch();
-  const { userInfo } = useSelector(({ userReducer }) => userReducer);
+  const {
+    userInfo,
+    responseAction: { update: { email, phone, fullName } },
+  } = useSelector(({ userReducer }) => userReducer);
   const [emailForm] = Form.useForm();
   const [updateInfo, setUpdateInfo] = useState({
     fullName: false,
@@ -20,25 +24,26 @@ const Profile = () => {
   });
 
   useEffect(() => {
+    document.title = PAGE_TITLE.USER_INFO;
     if (
-      userInfo.changePhoneSuccess ||
-      userInfo.changeEmailSuccess ||
-      userInfo.changeFullNameSuccess
+      email.success ||
+      phone.success ||
+      fullName.success
     ) {
       let updateInfoState = { ...updateInfo };
-      if (userInfo.changePhoneSuccess) {
+      if (phone.success) {
         updateInfoState = {
           ...updateInfoState,
           phone: false,
         };
       }
-      if (userInfo.changeEmailSuccess) {
+      if (email.success) {
         updateInfoState = {
           ...updateInfoState,
           email: false,
         };
       }
-      if (userInfo.changeFullNameSuccess) {
+      if (fullName.success) {
         updateInfoState = {
           ...updateInfoState,
           fullName: false,
@@ -46,18 +51,18 @@ const Profile = () => {
       }
       setUpdateInfo(updateInfoState);
     }
-  }, [userInfo]);
+  }, [email, phone, fullName]);
 
   useEffect(() => {
-    if (userInfo.errorChangeEmail) {
+    if (email.error) {
       emailForm.setFields([
         {
           name: 'email',
-          errors: [userInfo.errorChangeEmail],
+          errors: [email.error],
         },
       ]);
     }
-  }, [userInfo]);
+  }, [email]);
 
   return (
     <div style={{ paddingBottom: 15 }}>
@@ -115,14 +120,14 @@ const Profile = () => {
                     <Form.Item
                       name='firstName'
                       style={{ width: 100 }}
-                      rules={[{ required: true, message: ' ' }]}
+                      rules={[{ required: true, message: 'Nhập họ' }]}
                     >
                       <Input placeholder='Họ' />
                     </Form.Item>
                     <Form.Item
                       name='lastName'
                       style={{ width: 100 }}
-                      rules={[{ required: true, message: ' ' }]}
+                      rules={[{ required: true, message: 'Nhập tên' }]}
                     >
                       <Input
                         placeholder='Tên'
@@ -131,7 +136,7 @@ const Profile = () => {
                     <Form.Item shouldUpdate>
                       <Space>
                         <Button
-                          disabled={userInfo.loadChangeFullName}
+                          disabled={fullName.load}
                           htmlType='submit'
                           style={{
                             background: '#3380d8',
@@ -144,6 +149,7 @@ const Profile = () => {
                           ...updateInfo,
                           fullName: false,
                         })}>Hủy</Button>
+                        {fullName.load && <Spin />}
                       </Space>
                     </Form.Item>
                   </Form>
@@ -187,14 +193,22 @@ const Profile = () => {
                     <Form.Item
                       name='email'
                       style={{ width: 218 }}
-                      rules={[{ required: true, message: 'Vui lòng nhập email' }]}
+                      rules={[
+                        { required: true, message: 'Vui lòng nhập email' },
+                        {
+                          pattern: new RegExp(
+                            '^(([^<>()[\\]\\\\.,;:\\s@"]+(\\.[^<>()[\\]\\\\.,;:\\s@"]+)*)|(".+"))@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$',
+                          ),
+                          message: 'Định dạng email không đúng!',
+                        },
+                      ]}
                     >
                       <Input placeholder='Email' />
                     </Form.Item>
                     <Form.Item shouldUpdate>
                       <Space>
                         <Button
-                          disabled={userInfo.loadChangeEmail}
+                          disabled={email.load}
                           htmlType='submit'
                           style={{
                             background: '#3380d8',
@@ -207,6 +221,7 @@ const Profile = () => {
                           ...updateInfo,
                           email: false,
                         })}>Hủy</Button>
+                        {email.load && <Spin />}
                       </Space>
                     </Form.Item>
                   </Form>
@@ -249,14 +264,20 @@ const Profile = () => {
                     <Form.Item
                       name='phone'
                       style={{ width: 218 }}
-                      rules={[{ required: true, message: 'Vui lòng nhập số điện thoại' }]}
+                      rules={[
+                        { required: true, message: 'Vui lòng nhập số điện thoại' },
+                        {
+                          pattern: new RegExp('^(0|\\+84)[3|5|7|8|9][\\d+]{8}$'),
+                          message: 'Định dạng không hợp lệ (0... / +84...)',
+                        },
+                      ]}
                     >
                       <Input placeholder='Số điện thoại' />
                     </Form.Item>
                     <Form.Item shouldUpdate>
                       <Space>
                         <Button
-                          disabled={userInfo.loadChangeNumberPhone}
+                          disabled={phone.load}
                           htmlType='submit'
                           style={{
                             background: '#3380d8',
@@ -269,6 +290,7 @@ const Profile = () => {
                           ...updateInfo,
                           phone: false,
                         })}>Hủy</Button>
+                        {phone.load && <Spin />}
                       </Space>
                     </Form.Item>
                   </Form>
@@ -293,8 +315,8 @@ const Profile = () => {
               </span>
             </div>
             <div className='user-content'>
-              <span>
-                {userInfo.data.birthday}
+              <span className={!userInfo.data.birthday && 'empty'}>
+                {userInfo.data.birthday ? userInfo.data.birthday : 'Chưa rõ'}
               </span>
             </div>
             <div className='user-content'>

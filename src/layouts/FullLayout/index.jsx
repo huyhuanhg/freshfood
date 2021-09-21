@@ -39,7 +39,7 @@ function FullLayout({ exact, path, component: Component }) {
                   <LayoutStyle.LogoWrap>
                     <Link to='/'>
                       <LayoutStyle.LogoImg src={foodLogo} />
-                      <h1>FoodBooking</h1>
+                      <h1>FreshFood</h1>
                     </Link>
                   </LayoutStyle.LogoWrap>
                   <LayoutStyle.FormWrap>

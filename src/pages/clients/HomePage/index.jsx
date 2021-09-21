@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 
 import * as HomeS from './styles';
-import { TITLE } from '../../../contants';
+import { TITLE, PATH } from '../../../contants';
 
 import history from '../../../utils/history';
 
@@ -25,7 +25,7 @@ import SectionFoodList from './components/SectionFoodList';
 import { getFoodPromotionAction, getLikesAction } from '../../../redux/actions';
 
 function HomePage({ setShowLogin }) {
-  document.title = TITLE.HOME;
+  document.title = TITLE(PATH.HOME);
 
   const dispatch = useDispatch();
 
@@ -107,7 +107,7 @@ function HomePage({ setShowLogin }) {
             <br />
             Không ngại SARS-CoV-2
           </HomeS.SloganDescription>
-          <HomeS.SloganBtn onClick={() => history.push('/stores')}>
+          <HomeS.SloganBtn onClick={() => history.push(PATH.STORE)}>
             Mua sắm ngay
           </HomeS.SloganBtn>
         </HomeS.Slogan>
@@ -132,7 +132,7 @@ function HomePage({ setShowLogin }) {
               <p className='invite'>
                 Đừng ngần ngại <b>FreshFood</b> sẽ cùng bạn vượt qua khó khăn
               </p>
-              <Link to='/'>
+              <Link to={PATH.HOME}>
                 <HomeS.BtnInvite>Đăng ký bán hàng</HomeS.BtnInvite>
               </Link>
             </Col>
