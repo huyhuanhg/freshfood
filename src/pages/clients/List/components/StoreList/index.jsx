@@ -74,7 +74,7 @@ const StoreList = () => {
   const renderStore = (span = 4) => {
     return storeData.map((store) => {
       return (
-        <Col span={span} key={store.id}>
+        <Col xs={12} sm={8} lg={span} md={8} key={store.id}>
           <StoreItem {...store} />
         </Col>
       );
@@ -89,50 +89,48 @@ const StoreList = () => {
   };
   return (
     <div>
-      <S.AffixIndex offsetTop={61.188}>
+      <S.AffixIndex offsetTop={88.375} className='store-list'>
         <FilterStyle>
-          <Menu
-            mode='horizontal'
-            selectedKeys={[menuActive]}
-            style={{
-              flexBasis: '50%',
-            }}
-          >
-            <Menu.Item
-              key='created_at'
-              onClick={({ key }) => {
-                setMenuActive(key);
-                setSortAvgType(0);
-                setRequest({
-                  ...request,
-                  group: null,
-                  sort: key,
-                  sortType: -1,
-                  page: 1,
-                });
-              }}
+          <S.PrefixFilter>
+            <Menu
+              mode='horizontal'
+              selectedKeys={[menuActive]}
             >
-              Mới nhất
-            </Menu.Item>
-            <Menu.Item
-              key='bookmark'
-              onClick={({ key }) => {
-                setMenuActive(key);
-                setRequest({
-                  ...request,
-                  group: key,
-                  page: 1,
-                });
-              }}
-            >
-              Đã lưu
-            </Menu.Item>
-          </Menu>
-          <ul className='d-flex vertical-center m-0 pr-2r'>
-            <li>
+              <Menu.Item
+                key='created_at'
+                onClick={({ key }) => {
+                  setMenuActive(key);
+                  setSortAvgType(0);
+                  setRequest({
+                    ...request,
+                    group: null,
+                    sort: key,
+                    sortType: -1,
+                    page: 1,
+                  });
+                }}
+              >
+                Mới nhất
+              </Menu.Item>
+              <Menu.Item
+                key='bookmark'
+                onClick={({ key }) => {
+                  setMenuActive(key);
+                  setRequest({
+                    ...request,
+                    group: key,
+                    page: 1,
+                  });
+                }}
+              >
+                Đã lưu
+              </Menu.Item>
+            </Menu>
+          </S.PrefixFilter>
+          <S.SuffixFilter>
+            <li className='category-filter'>
               <Select
                 value={request?.category}
-                style={{ width: 160, margin: '0 5px' }}
                 getPopupContainer={(trigger) => trigger.parentNode}
                 onChange={(value) => {
                   setRequest({
@@ -149,10 +147,10 @@ const StoreList = () => {
                 {renderCategories()}
               </Select>
             </li>
-            <li>
+            <li className='sort-by'>
               <Select
                 value={sortAvgType}
-                style={{ width: 160 }}
+                style={{ margin: '0 5px' }}
                 getPopupContainer={(trigger) => trigger.parentNode}
                 onChange={(value) => {
                   if (menuActive === 'created_at') {
@@ -174,7 +172,7 @@ const StoreList = () => {
                 <Option value='-1'>Đánh giá giảm dần</Option>
               </Select>
             </li>
-          </ul>
+          </S.SuffixFilter>
         </FilterStyle>
       </S.AffixIndex>
       <div className='p-relative pt-2r' style={{ minHeight: '500px' }}>

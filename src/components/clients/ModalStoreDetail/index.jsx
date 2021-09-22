@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Row, Col, Form, Upload } from 'antd';
+import { Row, Col, Form, Upload, notification } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import { AiFillStar } from 'react-icons/all';
-import camelcaseKeys from 'camelcase-keys';
 import axios from 'axios';
+import camelcaseKeys from 'camelcase-keys';
 
 import * as S from './style';
 import {
@@ -62,11 +62,17 @@ const ModalStoreDetail = (
           },
         },
       );
-      setLoad(false);
+      await setLoad(false);
       const resData = await res.data.map((dataItem) => camelcaseKeys(dataItem));
       await setFileList([...fileList, ...resData]);
     } catch (err) {
-      console.log(err.message);
+      const { data } = err.response;
+      let message = '';
+      for (const feild in data) {
+        message = data[feild][0];
+        break;
+      }
+      notification.error({ message, duration: 1000 });
     }
   };
   const removeImage = async (file) => {

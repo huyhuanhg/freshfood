@@ -2,20 +2,20 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
-import { Affix, Badge, Button, Dropdown, Form, Input, Menu, Select, Space } from 'antd';
+import { Affix, Badge, Dropdown, Form, Input, Menu, Select, Space } from 'antd';
 import {
   AiFillSkype, BsFillBookmarkFill,
   FaFacebookF,
   FaHistory,
   FiActivity,
-  GrGooglePlus,
+  GrGooglePlus, IoFastFoodOutline,
   RiMapPin2Fill,
 } from 'react-icons/all';
 
 import {
   LogoutOutlined,
   MailOutlined,
-  PhoneOutlined, SearchOutlined,
+  PhoneOutlined, SearchOutlined, ShopOutlined,
   ShoppingCartOutlined,
   UserOutlined,
 } from '@ant-design/icons';
@@ -68,7 +68,7 @@ function Header({ setShowModalLogin }) {
     const pathname = history.location.pathname;
     if (pathname === PATH.FOOD || pathname === PATH.STORE) {
       let field = {
-        searchType: pathname.slice(1),
+        searchType: pathname,
       };
       if (!history.location.search) {
         field = {
@@ -82,7 +82,7 @@ function Header({ setShowModalLogin }) {
     }
   }, [history.location.pathname, history.location.search]);
   const userMenu = (
-    <Menu style={{ width: '250px', display: 'fixed', top: 22 }}>
+    <HeaderStyle.UserMenu>
       {userId ? (
         <div>
           <Menu.Item
@@ -161,11 +161,11 @@ function Header({ setShowModalLogin }) {
           </Menu.Item>
         </>
       )}
-    </Menu>
+    </HeaderStyle.UserMenu>
   );
 
   return (
-    <>
+    <div>
       <HeaderStyle.TopBar>
         <div>
           <ul>
@@ -205,7 +205,7 @@ function Header({ setShowModalLogin }) {
       <Affix offsetTop={0}>
         <HeaderStyle.Header>
           <HeaderStyle.MenuWrap>
-            <HeaderStyle.Logo to='/'>FreshFood</HeaderStyle.Logo>
+            <HeaderStyle.Logo to={PATH.HOME}>FreshFood</HeaderStyle.Logo>
 
             <HeaderStyle.SearchWrap>
               <Form
@@ -225,18 +225,11 @@ function Header({ setShowModalLogin }) {
                     placeholder={`Tìm kiếm ${searchType === PATH.STORE ? 'cửa hàng' : 'món ăn'}`}
                     style={{ background: 'unset' }}
                     suffix={
-                      <Button
+                      <HeaderStyle.SearchBtn
                         htmlType='submit'
-                        style={{
-                          background: 'unset',
-                          border: 0,
-                          fontSize: '150%',
-                          color: '#ccc',
-                          padding: 0,
-                        }}
                       >
-                        <SearchOutlined />
-                      </Button>}
+                        <SearchOutlined /> <span>Tìm kiếm</span>
+                      </HeaderStyle.SearchBtn>}
                     addonBefore={
                       <Form.Item
                         name='searchType'
@@ -249,21 +242,26 @@ function Header({ setShowModalLogin }) {
                             setSearchType(value);
                           }}
                         >
-                          <Option value={PATH.STORE}>Cửa hàng</Option>
-                          <Option value={PATH.FOOD}>Món ăn</Option>
+                          <Option value={PATH.STORE}>
+                            <ShopOutlined className='search-icon'/>
+                            <span className='search-text'>Cửa hàng</span>
+                          </Option>
+                          <Option value={PATH.FOOD}>
+                            <IoFastFoodOutline className='search-icon' />
+                            <span className='search-text'>Món ăn</span>
+                          </Option>
                         </HeaderStyle.SearchType>
                       </Form.Item>
                     }
                   />
                 </Form.Item>
-                <Button htmlType='submit' style={{ display: 'none' }} />
               </Form>
             </HeaderStyle.SearchWrap>
-            <Space className='p-relative'>
+            <Space className='p-relative' size='large'>
               <Badge count={totalCart} style={{ right: '5px' }}>
-                <HeaderStyle.Btn
+                <HeaderStyle.CartBtn
                   onClick={() => {
-                    if (userId) {
+                    if (userId && history.location.pathname !== PATH.CART) {
                       history.push(PATH.CART);
                     } else {
                       setShowModalLogin(true);
@@ -272,8 +270,8 @@ function Header({ setShowModalLogin }) {
                   disabled={history.location.pathname === PATH.CART}
                 >
                   <ShoppingCartOutlined />
-                  Giỏ hàng
-                </HeaderStyle.Btn>
+                  <span>Cart</span>
+                </HeaderStyle.CartBtn>
               </Badge>
               <Dropdown
                 overlay={userMenu}
@@ -312,7 +310,7 @@ function Header({ setShowModalLogin }) {
           </HeaderStyle.MenuWrap>
         </HeaderStyle.Header>
       </Affix>
-    </>
+    </div>
   );
 }
 

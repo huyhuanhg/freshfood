@@ -249,14 +249,14 @@ const CartPage = () => {
                       )
                       :
                       <Row gutter={16}>
-                        <Col span={15}>
+                        <Col lg={15} md={24} sm={24} xs={24}>
                           <S.CartHeader>
                             <Link to={PATH.STORE}><FcPrevious />Tiếp tục mua sắm</Link>
                             <h4>Giỏ hàng của bạn</h4>
                           </S.CartHeader>
                         </Col>
-                        <Col span={9} />
-                        <Col span={15}>
+                        <Col lg={9} md={0} sm={0} xs={0} />
+                        <Col  lg={15} md={24} sm={24} xs={24}>
                           <S.CartContent>
                             <S.CartList>{renderCart()}</S.CartList>
                             <S.TotalProvisional>
@@ -283,8 +283,8 @@ const CartPage = () => {
                             </S.DeleteAllBtn>
                           </S.CartContent>
                         </Col>
-                        <Col span={9}>
-                          <Affix offsetTop={75.2}>
+                        <Col lg={9} md={24} sm={24} xs={24}>
+                          <Affix offsetTop={100} className='form-order'>
                             <S.CartOrder>
                               <h4>Thông tin khách hàng</h4>
                               <Form

@@ -41,17 +41,17 @@ const SectionListed = () => {
     <S.Introduce ref={section}>
       <div>
         <Row justify='space-around'>
-          <Col span={10}>
+          <Col lg={10} md={12} xs={24} className='listed-header'>
             <h2>
               <span>FreshFood</span> - Thực phẩm online
             </h2>
-            <p>
+            <p className='note-store'>
               Trong diễn biến dịch bệnh SARS-CoV-2 đang ngày càng phức tạp,
               FreshFood đang phấn đấu từng ngày để chung sức đánh tan dịch bệnh, hỗ
               trợ và phục vụ khách hàng cùng vượt qua thời điểm khó khăn.
             </p>
           </Col>
-          <Col span={10}>
+          <Col lg={10} md={12} xs={24} className='listed-header'>
             <ul>
               <li>
                 <GiCheckMark /> Giao hàng tận nơi
@@ -76,7 +76,7 @@ const SectionListed = () => {
                   <BiStore />
                   <figcaption>
                     <p>{totalStores}</p>
-                    <p>Cửa hàng</p>
+                    <p className='list-name'>Cửa hàng</p>
                   </figcaption>
                 </figure>
                 <span />
@@ -88,7 +88,7 @@ const SectionListed = () => {
                   <IoFastFoodOutline />
                   <figcaption>
                     <p>{totalFoods}</p>
-                    <p>Món ăn</p>
+                    <p className='list-name'>Món ăn</p>
                   </figcaption>
                 </figure>
                 <span />
@@ -100,7 +100,7 @@ const SectionListed = () => {
                   <FiPercent />
                   <figcaption>
                     <p>{totalPromotions}</p>
-                    <p>Khuyến mãi</p>
+                    <p className='list-name'>Khuyến mãi</p>
                   </figcaption>
                 </figure>
                 <span />
@@ -112,7 +112,7 @@ const SectionListed = () => {
                   <GiSpellBook />
                   <figcaption>
                     <p>{totalUsers}</p>
-                    <p>Người tiêu dùng</p>
+                    <p className='list-name'>Người tiêu dùng</p>
                   </figcaption>
                 </figure>
                 <span />

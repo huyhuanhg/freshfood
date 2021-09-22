@@ -12,7 +12,15 @@ import { getFoodListAction } from '../../../../../redux/actions';
 const SectionFoodList = ({ render }) => {
   const { Option } = Select;
   const dispatch = useDispatch();
-  const { foodList: { currentPage, data: foodData, lastPage, load: foodLoad, total } } = useSelector(({ foodReducer }) => foodReducer);
+  const {
+    foodList: {
+      currentPage,
+      data: foodData,
+      lastPage,
+      load: foodLoad,
+      total,
+    },
+  } = useSelector(({ foodReducer }) => foodReducer);
   const { tagList: { data: tagData } } = useSelector(({ tagReducer }) => tagReducer);
 
   const [menuActive, setMenuActive] = useState('created_at');
@@ -94,8 +102,8 @@ const SectionFoodList = ({ render }) => {
   };
   return (
     <Row gutter={20}>
-      <Col span={4}>
-        <Affix offsetTop={61.188}>
+      <Col span={4} className='filter-food-by-tags'>
+        <Affix offsetTop={88.375}>
           <Menu
             theme='light'
             style={{ background: '#fff', height: 'auto' }}
@@ -117,8 +125,8 @@ const SectionFoodList = ({ render }) => {
           </Menu>
         </Affix>
       </Col>
-      <Col span={20}>
-        <HomeS.AffixIndex offsetTop={61.188}>
+      <Col lg={20} md={20} sm={24}>
+        <HomeS.AffixIndex offsetTop={88.375}>
           <FilterStyle>
             <Menu
               mode='horizontal'
@@ -144,11 +152,11 @@ const SectionFoodList = ({ render }) => {
                 Bán chạy
               </Menu.Item>
             </Menu>
-            <ul className='m-0 d-flex vertical-center pr-2r'>
+            <S.SuffixFilter className='suffix-filter'>
               <li>
                 <Select
                   value={sortPrice}
-                  style={{ width: 120, margin: '0 5px' }}
+                  style={{ margin: '0 5px' }}
                   getPopupContainer={(trigger) => trigger.parentNode}
                   onChange={(value) => {
                     setSortPrice(value);
@@ -170,7 +178,7 @@ const SectionFoodList = ({ render }) => {
                   <Option value='-1'>Giá giảm dần</Option>
                 </Select>
               </li>
-            </ul>
+            </S.SuffixFilter>
           </FilterStyle>
         </HomeS.AffixIndex>
         <div className='p-relative pt-2r'>

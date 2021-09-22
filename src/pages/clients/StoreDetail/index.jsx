@@ -109,21 +109,16 @@ const StoreDetail = ({ setShowLogin, match }) => {
       <ClientStyle.Container>
         <StoreDetailStyle.MicroHeader>
           <Row>
-            <Col span={10} style={{ overflow: 'hidden' }}>
+            <Col lg={10} md={10} sm={24} xs={24} style={{ overflow: 'hidden' }}>
               <StoreDetailStyle.MainImg>
-                <StoreDetailStyle.ImageWrap>
-                  <StoreDetailStyle.StoreImg
-                    src={
-                      storeDetailLoad
-                        ? loadAvatarStore
-                        : `${ROOT_PATH}${storeDetail.storeImage}`
-                    }
-                    alt=''
-                  />
-                </StoreDetailStyle.ImageWrap>
+                <StoreDetailStyle.ImageWrap src={
+                  storeDetailLoad
+                    ? loadAvatarStore
+                    : `${ROOT_PATH}${storeDetail.storeImage}`
+                } />
               </StoreDetailStyle.MainImg>
             </Col>
-            <Col span={14}>
+            <Col lg={14} md={14} sm={24} xs={24}>
               <StoreDetailStyle.MainInformation>
                 <StoreDetailStyle.ResCommon>
                   {storeDetailLoad && (
@@ -212,26 +207,27 @@ const StoreDetail = ({ setShowLogin, match }) => {
                       </StoreDetailStyle.StoreAddress>
                       <StoreDetailStyle.StoreTime>
                         <BiTime />
-
-                        {isOpen === null ? (
-                          <span className='itsopen' title=''>
-                            Luôn mở cửa
-                          </span>
-                        ) : isOpen ? (
-                          <span className='itsopen' title=''>
-                            Đang mở cửa
-                          </span>
-                        ) : (
-                          <span className='itsclosed' title=''>
-                            Chưa mở cửa
-                          </span>
-                        )}
-                        {isOpen !== null && (
-                          <span>
-                            &nbsp;{storeDetail.openTime} -{' '}
-                            {storeDetail.closeTime}
-                          </span>
-                        )}
+                        <span>
+                          {isOpen === null ? (
+                            <span className='its-open' title=''>
+                              Luôn mở cửa
+                            </span>
+                          ) : isOpen ? (
+                            <span className='its-open' title=''>
+                              Đang mở cửa
+                            </span>
+                          ) : (
+                            <span className='its-closed' title=''>
+                              Chưa mở cửa
+                            </span>
+                          )}
+                          {isOpen !== null && (
+                            <span>
+                              &nbsp;{storeDetail.openTime} -{' '}
+                              {storeDetail.closeTime}
+                            </span>
+                          )}
+                        </span>
                       </StoreDetailStyle.StoreTime>
 
                       <StoreDetailStyle.StoreTime>
@@ -247,8 +243,8 @@ const StoreDetail = ({ setShowLogin, match }) => {
         </StoreDetailStyle.MicroHeader>
         <StoreDetailStyle.MicroMainMenu>
           <Row gutter={20}>
-            <Col span={4}>
-              <Affix offsetTop={61.188}>
+            <Col lg={4} md={4} sm={0} xs={0}>
+              <Affix offsetTop={89}>
                 <Menu
                   theme='light'
                   style={{
@@ -302,7 +298,7 @@ const StoreDetail = ({ setShowLogin, match }) => {
                 </Menu>
               </Affix>
             </Col>
-            <Col span={20} style={{ minHeight: '300px' }}>
+            <Col lg={20} md={20} sm={24} xs={24} style={{ minHeight: '300px' }}>
               <ModalStoreDetail
                 isShow={isShowAction.status}
                 setShow={setIsShowAction}
@@ -314,7 +310,7 @@ const StoreDetail = ({ setShowLogin, match }) => {
                 address={storeDetail.storeAddress}
                 storeName={storeDetail.storeName}
               />
-              <Affix offsetTop={61.188}>
+              <Affix offsetTop={88.375}>
                 <StoreDetailStyle.StoreToolbar>
                   <ul>
                     <li>

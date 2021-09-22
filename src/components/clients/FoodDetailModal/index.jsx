@@ -28,7 +28,6 @@ const FoodDetailModal = function({ show, setShow, setShowLogin }) {
 
   return (
     <S.ModalCustom
-      closable={false}
       footer={
         <button
           onClick={() => {
@@ -61,7 +60,7 @@ const FoodDetailModal = function({ show, setShow, setShowLogin }) {
           <img src={`${ROOT_PATH}${foodImage}`} alt={foodName} />
           <div className='info'>
             <Row>
-              <Col span={20}>
+              <Col lg={20} md={20} sm={20} xs={18}>
                 <div className='imgbox-food-name'>{foodName}</div>
                 <div className='imgbox-desc'>{foodDescription}</div>
                 <div className='imgbox-total'>
@@ -72,7 +71,7 @@ const FoodDetailModal = function({ show, setShow, setShowLogin }) {
                   lần
                 </div>
               </Col>
-              <Col span={4} style={{ alignSelf: 'center' }}>
+              <Col lg={5} md={5} sm={5} xs={6} style={{ alignSelf: 'center' }}>
                 <div className='imgbox-current-price'>
                   <NumberFormat
                     value={discount}

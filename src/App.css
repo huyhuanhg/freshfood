@@ -6,6 +6,26 @@ html, body {
   font-size: .8rem;
 }
 
+@media screen and (max-width: 767px) {
+  html, body {
+    overflow-x: hidden;
+  }
+}
+
+.search-icon {
+  display: none !important;
+}
+
+@media screen and (max-width: 479px) {
+  .search-icon {
+    display: inline-block !important;
+  }
+
+  .search-text {
+    display: none!important;
+  }
+}
+
 ul, ol {
   list-style: none;
 }

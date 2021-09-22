@@ -20,7 +20,7 @@ const SectionStore = () => {
       <Row gutter={[16, 16]}>
         {storData.map((store) => {
           return (
-            <Col span={span} key={store.id}>
+            <Col lg={span} md={6} sm={6} xs={12} key={store.id}>
               <StoreItem {...store} />
             </Col>
           );

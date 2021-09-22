@@ -75,7 +75,7 @@ function HomePage({ setShowLogin }) {
       <Row gutter={[16, 16]}>
         {foodList.map((food) => {
           return (
-            <Col span={span} key={food.id}>
+            <Col lg={span} md={6} sm={6} xs={12} key={food.id}>
               <FoodItemHome
                 {...food}
                 setShowDetail={setShowFoodDetail}
@@ -122,7 +122,7 @@ function HomePage({ setShowLogin }) {
       <HomeS.Invite>
         <div>
           <Row justify='center'>
-            <Col span={12}>
+            <Col lg={12} xs={24} md={24}>
               <h2>
                 <b>Bạn</b> là người <b>kinh doanh</b>?
               </h2>

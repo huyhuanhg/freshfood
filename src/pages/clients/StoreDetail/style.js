@@ -9,21 +9,21 @@ export const MicroHeader = styled.div`
 `;
 export const MainImg = styled.div`
   position: relative;
-  float: left;
 `;
 export const ImageWrap = styled.div`
+  background-image: url(${({ src }) => src});
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
   position: relative;
+  width: 100%;
   height: 275px;
   overflow: hidden;
-`;
-export const StoreImg = styled.img`
-  width: 488px;
-  height: unset;
 `;
 export const MainInformation = styled.div`
   float: left;
   margin-left: 25px;
-  width: 635px;
+  width: 100%;
 `;
 export const ResCommon = styled.div`
   position: relative;
@@ -33,6 +33,10 @@ export const ResCommon = styled.div`
   margin-top: 0;
   overflow: hidden;
   font-size: 14px;
+  @media screen and (max-width: 767px) {
+    height: auto;
+    padding-bottom: 15px;
+  }
 `;
 export const MainInfoTitle = styled.div`
   float: left;
@@ -66,29 +70,35 @@ export const StoreCategory = styled.div`
 const InfoRow = css`
   display: flex;
   align-items: center;
-  width: 100%;
+  width: 90%;
   max-height: 35px;
+  line-height: 35px;
   overflow: hidden;
-  text-overflow: ellipsis;
   clear: both;
 
   & > svg {
     float: left;
+    flex-basis: 3%;
     margin-right: 6px;
     padding-top: 1px;
     font-size: 13px;
   }
 
   & > span {
+    display: inline-block;
+    flex-basis: 97%;
+    white-space: nowrap;
     font-size: 14px;
+    text-overflow: ellipsis;
+    overflow: hidden;
   }
 
-  & > span.itsopen {
+  & span.its-open {
     color: ${(props) => props.theme.rootColor};
     font-weight: 700;
   }
 
-  & > span.itsclosed {
+  & span.its-closed {
     color: #989898;
     font-weight: 700;
   }
@@ -103,6 +113,9 @@ export const ResSummaryPoint = styled.div`
   margin-top: 5px;
   overflow: hidden;
   clear: both;
+  @media screen and (max-width: 479px) {
+    margin-left: -8px;
+  }
 `;
 export const MicroPoints = styled.div`
   float: left;
@@ -113,6 +126,16 @@ export const MicroPoints = styled.div`
   font-weight: 700;
   color: ${(props) => props.theme.rootColor};
   text-shadow: 0 1px 1px #fff;
+  @media screen and (max-width: 1199px) {
+    width: 90px;
+  }
+  @media screen and (max-width: 575px) {
+    width: 105px;
+  }
+  @media screen and (max-width: 479px) {
+    width: 80px;
+    margin-bottom: 5px;
+  }
 `;
 export const MicroReviewCount = styled.div`
   float: left;
@@ -134,6 +157,9 @@ export const MicroReviewText = styled.div`
   font-size: 12px;
   color: #777;
   text-align: center;
+  @media screen and (max-width: 479px) {
+    font-size: 11px;
+  }
 `;
 export const YourRate = styled.div`
   float: right;
@@ -144,6 +170,16 @@ export const YourRate = styled.div`
   font-size: 20px;
   font-weight: 700;
   text-shadow: 0 1px 1px #fff;
+  @media screen and (max-width: 991px) {
+    display: none;
+  }
+  @media screen and (max-width: 767px) {
+    display: block;
+    margin-right: 25px;
+  }
+  @media screen and (max-width: 575px) {
+    display: none;
+  }
 `;
 export const YourRateCount = styled.div`
   float: left;
@@ -170,6 +206,14 @@ export const MicroMainMenu = styled.div`
 
   & .ant-affix {
     z-index: 5;
+  }
+
+  & .list-of-store-detail {
+    & .ant-affix {
+      @media screen and (max-width: 767px) {
+        top: 116.781px !important;
+      }
+    }
   }
 `;
 export const StoreToolbar = styled.div`
@@ -214,6 +258,10 @@ export const StoreToolbar = styled.div`
 
     }
   }
+
+  @media screen and (max-width: 767px) {
+    display: none;
+  }
 `;
 export const StoreContent = styled.div`
   margin-bottom: 15px;
@@ -231,6 +279,26 @@ export const StoreFilterTitle = styled.div`
   font-weight: 600;
   overflow: hidden;
   color: #333;
+`;
+export const StoreFilterSuffix = styled.ul`
+  display: flex;
+  align-items: center;
+  flex-basis: 70%;
+  margin: 0;
+  padding: 0 2% 0 0;
+
+  & > li:first-child {
+    flex-basis: 80%;
+  }
+
+  & > li:last-child {
+    flex-basis: 20%;
+    margin-left: 5px;
+  }
+
+  & > li > .ant-select {
+    width: 100%;
+  }
 `;
 export const ViewOther = styled.div`
   display: block;

@@ -130,7 +130,7 @@ const FoodList = ({ setShowLogin }) => {
   const renderFoodList = (span = 4) => {
     return foodList.data.map((food) => {
       return (
-        <Col span={span} key={food.id}>
+        <Col xs={12} sm={8} lg={span} md={8} key={food.id}>
           <FoodItemHome
             {...food}
             setShowDetail={setShowFoodDetail}
@@ -147,50 +147,40 @@ const FoodList = ({ setShowLogin }) => {
         setShow={setShowFoodDetail}
         setShowLogin={setShowLogin}
       />
-      <S.AffixIndex offsetTop={61.188}>
+      <S.AffixIndex offsetTop={88.375} className='filter-food'>
         <FilterStyle>
           {history.location.pathname === PATH.FAVORITE
             ?
-            <h3
-              className='d-flex vertical-center fw-b'
-              style={{
-                flexBasis: '50%',
-                height: 46,
-                margin: '0 20px',
-                fontSize: 16,
-              }}
-            >
+            <S.TitleList className='d-flex vertical-center fw-b'>
               Món ăn đã thích
-            </h3>
+            </S.TitleList>
             :
-            <Menu
-              mode='horizontal'
-              selectedKeys={[filterActive]}
-              style={{
-                flexBasis: '50%',
-              }}
-            >
-              <Menu.Item key='created_at' onClick={({ key }) => {
-                handleChangeMenuFilter(key);
-              }}>
-                Mới nhất
-              </Menu.Item>
-              <Menu.Item key='food_consume' onClick={({ key }) => {
-                handleChangeMenuFilter(key);
-              }}>
-                Bán chạy
-              </Menu.Item>
-            </Menu>
+            <S.PrefixFilter>
+              <Menu
+                mode='horizontal'
+                selectedKeys={[filterActive]}
+              >
+                <Menu.Item key='created_at' onClick={({ key }) => {
+                  handleChangeMenuFilter(key);
+                }}>
+                  Mới nhất
+                </Menu.Item>
+                <Menu.Item key='food_consume' onClick={({ key }) => {
+                  handleChangeMenuFilter(key);
+                }}>
+                  Bán chạy
+                </Menu.Item>
+              </Menu>
+            </S.PrefixFilter>
           }
-          <ul className='d-flex vertical-center m-0 pr-2r'>
-            <li>
+          <S.SuffixFilter>
+            <li className='category-filter'>
               <Select
                 value={request?.tags}
                 mode='multiple'
                 showArrow
                 placeholder='Chọn danh mục'
                 tagRender={tagRender}
-                style={{ width: '370px' }}
                 options={renderTagList()}
                 maxTagCount={3}
                 getPopupContainer={(trigger) => trigger.parentNode}
@@ -203,10 +193,10 @@ const FoodList = ({ setShowLogin }) => {
                 }}
               />
             </li>
-            <li>
+            <li className='sort-by'>
               <Select
                 value={sortPriceType}
-                style={{ width: 120, margin: '0 5px' }}
+                style={{ margin: '0 5px' }}
                 getPopupContainer={(trigger) => trigger.parentNode}
                 onChange={(value) => {
                   setSortPriceType(value);
@@ -226,7 +216,7 @@ const FoodList = ({ setShowLogin }) => {
                 <Option value='-1'>Giá giảm dần</Option>
               </Select>
             </li>
-          </ul>
+          </S.SuffixFilter>
         </FilterStyle>
       </S.AffixIndex>
       <div className='p-relative pt-2r' style={{ minHeight: '500px' }}>

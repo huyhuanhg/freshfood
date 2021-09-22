@@ -27,6 +27,18 @@ export const CartWrap = styled.div`
   & .ant-affix {
     z-index: 5;
   }
+
+  @media screen and (max-width: 991px) {
+    & .form-order {
+      position: relative;
+
+      & .ant-affix {
+        position: absolute !important;
+        top: 0 !important;
+        left: 0 !important;
+      }
+    }
+  }
 `;
 export const CartEmpty = styled.div`
   display: flex;
@@ -147,10 +159,26 @@ export const CartList = styled.ul`
       }
     }
   }
+
+  @media screen and (max-width: 767px) {
+    & > li {
+      padding: 10px;
+    }
+  }
+  @media screen and (max-width: 575px) {
+    & .img {
+      margin-right: 10px;
+    }
+  }
+  @media screen and (max-width: 479px) {
+    & li > div.img {
+      min-width: 75px;
+    }
+  }
 `;
 export const CartInfo = styled.div`
   display: flex;
-  width: 84%;
+  width: calc(100% - 16% - 15px);
 
   & > div.food-info {
     flex-basis: 80%;
@@ -279,6 +307,28 @@ export const CartInfo = styled.div`
       }
     }
   }
+
+  @media screen and (max-width: 479px) {
+    width: calc(100% - 91px);
+    margin-top: -10px;
+    & > div.food-info {
+      & > div.food-name {
+        font-size: 16px;
+      }
+    }
+
+    & div.choose-quantity {
+      position: absolute;
+      bottom: -75%;
+      left: 0;
+    }
+
+    & .price-info > span {
+      position: absolute;
+      top: 0;
+      right: 20px;
+    }
+  }
 `;
 export const TotalProvisional = styled.div`
   display: block;
@@ -310,6 +360,10 @@ export const CartOrder = styled.div`
     font-size: 14px;
     text-transform: uppercase;
     color: #333;
+  }
+
+  @media screen and (max-width: 991px) {
+    margin-top: 24px;
   }
 `;
 export const OrderTotal = styled.div`

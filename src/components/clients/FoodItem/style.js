@@ -1,5 +1,5 @@
 import styled, { css, keyframes } from 'styled-components';
-import { Button, Card, Skeleton } from 'antd';
+import { Button, Card, Skeleton, Space } from 'antd';
 import { Link } from 'react-router-dom';
 import { AiOutlineHeart, FcLike } from 'react-icons/all';
 
@@ -11,6 +11,9 @@ export const CardImage = styled.div`
   background-position: center;
   background-repeat: no-repeat;
   transition: 0.3s ease;
+  @media screen and (max-width: 767px) {
+    height: 160px;
+  }
 `;
 export const AddCard = styled(Button)`
   position: absolute;
@@ -23,15 +26,30 @@ export const AddCard = styled(Button)`
       transform: scale(1.2);
     }
   }
+
+  @media screen and (max-width: 767px) {
+    top: 10px;
+    right: 3px;
+    padding: 0 10px;
+  }
 `;
 export const AfterPrice = styled.span`
   color: ${(props) => props.theme.price};
   font-size: 1.5rem;
+  @media screen and (max-width: 767px) {
+    font-size: 14px;
+  }
 `;
 export const CardItem = styled(Card)`
   max-height: 347px;
   border-radius: 4px;
   overflow: hidden;
+  @media screen and (max-width: 767px) {
+    height: 250px;
+    & .ant-card-body {
+      padding: 10px 5px 0 !important;
+    }
+  }
 `;
 export const FoodTitle = styled.h3`
   margin-bottom: 0;
@@ -39,6 +57,10 @@ export const FoodTitle = styled.h3`
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
+  @media screen and (max-width: 767px) {
+    font-size: 16px;
+    max-width: 75%;
+  }
 `;
 export const FoodStoreWrap = styled(Link)`
   display: block;
@@ -47,11 +69,18 @@ export const FoodStoreWrap = styled(Link)`
   white-space: nowrap;
   text-overflow: ellipsis;
   color: #aaa;
+  @media screen and (max-width: 767px) {
+    font-size: 14px;
+    margin-top: -5px;
+  }
 `;
 export const Price = styled.span`
   color: #888;
   text-decoration: line-through;
   font-size: 1.2rem;
+  @media screen and (max-width: 767px) {
+    font-size: 12px;
+  }
 `;
 export const StoreName = styled.small`
   color: #aaa;
@@ -70,6 +99,9 @@ export const FoodStore = styled.div`
   box-sizing: border-box;
   overflow: hidden;
   cursor: pointer;
+  @media screen and (max-width: 479px) {
+    margin: 0 5px 0 5px;
+  }
 `;
 export const FoodStoreAvatar = styled.div`
   float: left;
@@ -93,9 +125,12 @@ export const FoodStoreAvatar = styled.div`
 export const FoodStoreItemRight = styled.div`
   float: left;
   max-width: 80%;
-  width: 80%;
+  width: calc(100% - 76px);
   margin-left: 16px;
   line-height: 2em;
+  @media screen and (max-width: 479px) {
+    margin-left: 5px;
+  }
 `;
 export const FoodStoreTitle = styled.div`
   max-width: 75%;
@@ -169,6 +204,20 @@ export const FoodStorePrice = styled.div`
       }
     }
   }
+
+  @media screen and (max-width: 479px) {
+    & .price-discount {
+      font-size: 13px;
+    }
+
+    & .price {
+      font-size: 14px;
+    }
+
+    & .btn-adding {
+      margin-left: 5px;
+    }
+  }
 `;
 export const SkeletonCustom = styled(Skeleton)`
   & h3 {
@@ -214,4 +263,20 @@ export const Like = styled(FcLike)`
 `;
 export const UnLike = styled(AiOutlineHeart)`
   ${likeStyle}
+`;
+export const PriceBox = styled(Space)`
+  position: relative;
+  width: 100%;
+  margin-top: -5px;
+`;
+export const LikeBtn = styled.div`
+  position: absolute;
+  top: 0;
+  right: 10px;
+  font-size: 150%;
+
+  @media screen and (max-width: 767px) {
+    top: -2px;
+    right: 0;
+  }
 `;

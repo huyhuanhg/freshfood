@@ -21,8 +21,8 @@ const ClientList = ({ setShowLogin }) => {
     <ClientStyle.Section style={{ backgroundColor: '#f3f3f3' }}>
       <ClientStyle.Container>
         <Row gutter={20}>
-          <Col span={4}>
-            <Affix offsetTop={61.188}>
+          <Col lg={4} md={4} sm={0} xs={0}>
+            <Affix offsetTop={88.375}>
               <Menu
                 theme='light'
                 style={{
@@ -80,7 +80,7 @@ const ClientList = ({ setShowLogin }) => {
               </Menu>
             </Affix>
           </Col>
-          <Col span={20}>
+          <Col ld={20} md={20} sm={24} xs={24} className='list-content'>
             <Switch>
               <Route exact path={PATH.STORE} component={StoreList} />
               <Route

@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { ShoppingCartOutlined } from '@ant-design/icons';
-import { Card, Skeleton, Space } from 'antd';
+import { Card, Skeleton } from 'antd';
 import NumberFormat from 'react-number-format';
 
 import PropTypes from 'prop-types';
@@ -25,7 +25,7 @@ const MetaTitle = ({ name, store, slug }) => {
 const MetaDescription = ({ id, price, discount, isLike }) => {
   const dispatch = useDispatch();
   return (
-    <Space style={{ position: 'relative', width: '100%' }}>
+    <S.PriceBox>
       <p>
         <S.AfterPrice>
           <NumberFormat
@@ -48,13 +48,7 @@ const MetaDescription = ({ id, price, discount, isLike }) => {
           }
         </S.Price>
       </p>
-      <div
-        className='p-absolute'
-        style={{
-          fontSize: '150%',
-          top: 0,
-          right: 10,
-        }}
+      <S.LikeBtn
         onClick={
           (e) => {
             const { accessToken } = JSON.parse(localStorage.userInfo);
@@ -68,9 +62,9 @@ const MetaDescription = ({ id, price, discount, isLike }) => {
           }
         }>
         {isLike ? <S.Like /> : <S.UnLike />}
-      </div>
+      </S.LikeBtn>
 
-    </Space>
+    </S.PriceBox>
   );
 };
 export const FoodItemHome = (

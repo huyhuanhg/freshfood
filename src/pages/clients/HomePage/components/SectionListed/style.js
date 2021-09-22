@@ -14,7 +14,7 @@ export const Introduce = styled.section`
   & > div {
     position: relative;
     margin: 0 auto;
-    padding: 50px 0 80px;
+    padding: 50px 20px 80px;
     max-width: 1430px;
     color: #fff;
     font-size: 16px;
@@ -47,6 +47,75 @@ export const Introduce = styled.section`
       min-width: 800px;
       bottom: 0;
       transform: translate(-50%, 50%);
+    }
+  }
+
+  @media screen and (max-width: 767px) {
+    & > div {
+      padding: 20px 20px 50px;
+
+      & .ant-col.listed-header {
+
+        & > h2 {
+          margin: 0;
+          font-size: 150%;
+
+          & + p.note-store {
+            display: none;
+          }
+        }
+
+        & > ul {
+          padding-left: 10px;
+
+          & > li {
+            padding: 4px;
+          }
+        }
+      }
+
+      & > .list {
+        width: 80%;
+        min-width: auto !important;
+        transform: translateX(-50%);
+      }
+    }
+  }
+  @media screen and (max-width: 575px) {
+    & > div {
+      padding: 20px 20px 0;
+      margin-bottom: 150px;
+
+      & .ant-col.listed-header {
+
+        & > h2 {
+          font-size: 140%;
+          text-align: center;
+
+        }
+
+
+        & > ul {
+          padding-left: 40px;
+
+          & > li {
+            padding: 4px;
+          }
+        }
+      }
+
+      & > .list {
+        width: 100%;
+        top: 100%;
+        min-width: 100%;
+
+      }
+    }
+
+  }
+  @media screen and (max-width: 479px) {
+    & > div {
+      margin: 0;
     }
   }
 `;
@@ -114,6 +183,57 @@ export const IntroduceLink = styled(Link)`
       & + span {
         transition: 0.4s;
         top: calc(90% + 20px);
+      }
+    }
+  }
+
+  @media screen and (max-width: 767px) {
+    & > figure {
+      padding: 10px 10px 0 10px;
+      margin: 0;
+      width: 100%;
+      min-width: auto;
+      height: auto;
+
+      & > figcaption {
+        & > p:first-child {
+          font-size: 150%;
+        }
+
+        & > p:last-child {
+          font-size: 90%;
+          margin: 0 -10px 1em -10px;
+        }
+      }
+    }
+  }
+  @media screen and (max-width: 479px) {
+    & > figure {
+      padding: 10px 10px 20px 10px;
+      width: 100%;
+      min-width: auto;
+      height: auto;
+
+      & > svg {
+        font-size: 150%;
+      }
+
+      & > figcaption {
+        & > p:first-child {
+          font-size: 125%;
+        }
+
+        & > p.list-name {
+          display: none;
+        }
+      }
+
+      & + span {
+        top: 100%;
+        left: 50%;
+        width: 20px;
+        height: 20px;
+        transform: translate(-50%, -50%);
       }
     }
   }

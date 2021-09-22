@@ -130,3 +130,7 @@
 .add-cart-message {
   margin-top: -8px;
 }
+
+.ant-modal-wrap {
+  overflow: hidden !important;
+}

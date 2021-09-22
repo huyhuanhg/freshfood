@@ -120,8 +120,8 @@ const StoreDetailComment = (
     <div>
       {total > 0
         ?
-        <div>
-          <Affix offsetTop={59.188 + 54}>
+        <div className='list-of-store-detail'>
+          <Affix offsetTop={88.375 + 54}>
             <FilterStyle>
               <StoreDetailStyle.StoreFilterTitle>
                 Bình luận cửa hàng

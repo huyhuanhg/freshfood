@@ -75,8 +75,8 @@ const StoreDetailPicture = ({ slug }) => {
     );
   };
   return (
-    <div>
-      <Affix offsetTop={20}>
+    <div className='list-of-store-detail'>
+      <Affix offsetTop={88.375 + 54}>
         <FilterStyle>
           <StoreDetailStyle.StoreFilterTitle>
             Hình ảnh cửa hàng

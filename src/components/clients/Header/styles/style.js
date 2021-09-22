@@ -1,13 +1,15 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { Link } from 'react-router-dom';
 import { SearchOutlined } from '@ant-design/icons';
-import { Avatar, Button, Select } from 'antd';
+import { Avatar, Menu, Select } from 'antd';
 
 export const TopBar = styled.div`
   padding: 7px;
-
   background-color: ${(props) => props.theme.supColor1};
   font-size: 14px;
+  @media screen and (max-width: 921px) {
+    font-size: 12px;
+  }
 
   & > div {
     display: flex;
@@ -91,15 +93,26 @@ export const TopBar = styled.div`
       }
     }
   }
+
+  @media screen and (max-width: 767px) {
+    display: none;
+  }
 `;
 export const Header = styled.header`
   z-index: 99;
 
   width: 100%;
 
-  background-color: ${(props) => props.theme.bg};
+  background-color: #fff;
   box-shadow: 0 2px 8px 0 rgb(99 99 99 / 20%);
+
+  @media screen and (max-width: 767px) {
+    position: relative;
+  }
+
+
 `;
+
 export const MenuWrap = styled.div`
   display: flex;
   align-items: center;
@@ -108,12 +121,22 @@ export const MenuWrap = styled.div`
   max-width: 1140px;
 
   margin: auto;
-  padding: 0.75rem 0;
+  padding: 1.5rem 0;
+  @media screen and (max-width: 767px) {
+    padding: 0.5rem 1.75rem;
+  }
+  @media screen and (max-width: 479px) {
+    padding: 0.5rem 1rem;
+    & > .ant-space.ant-space-horizontal.ant-space-align-center {
+      gap: 12px;
+    }
+  }
 `;
+
 export const Logo = styled(Link)`
   font-family: "Poppins", sans-serif !important;
   text-transform: uppercase;
-  font-size: 2rem;
+  font-size: 2.5rem;
   font-weight: 900;
   color: ${(props) => props.theme.rootColor};
 
@@ -122,29 +145,111 @@ export const Logo = styled(Link)`
   }
 `;
 export const SearchWrap = styled.div`
-  flex-basis: 50%;
+  flex-basis: 60%;
+  border: 2px solid ${(props) => props.theme.rootColor};
+  border-radius: 6px;
+  overflow: hidden;
 
   & .ant-input-group-addon {
-    width: 22%;
+    width: 15%;
     padding: 0;
+    border: 0;
+    border-right: 1px solid #ccc;
+
+    & .ant-select-selection-item {
+      color: #777 !important;
+    }
   }
 
   & .ant-select-selector {
     border: 0 !important;
+    font-size: 13px;
+  }
+
+  & .ant-input-affix-wrapper {
+    border: 0 !important;
+    padding: 0;
+
+    & .ant-input {
+      padding: 4px 11px;
+      font-size: 16px;
+    }
+  }
+
+  @media screen and (max-width: 767px) {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100vw;
+    background: #f0f0f0;
+    padding: 8px;
+    border: 0;
+    border-radius: 0;
+    & > form {
+      width: 87%;
+      margin: 0 6.5%;
+      border: 1px solid ${(props) => props.theme.rootColor};
+      border-radius: 6px;
+      overflow: hidden;
+
+      & .ant-input-group-addon {
+        width: 20%;
+
+        & .ant-select-selection-item {
+          color: #777 !important;
+        }
+      }
+    }
+  }
+  @media screen and (max-width: 575px) {
+    & > form {
+      width: 95%;
+      margin: 0 2.5%;
+
+      & .ant-input-group-addon {
+        width: 23%;
+      }
+    }
+  }
+  @media screen and (max-width: 479px) {
+    & .ant-input-group-addon {
+      width: 15% !important;
+    }
   }
 `;
+export const SearchBtn = styled.button`
+  background-image: linear-gradient(to right, #6adcb3, #29d197, #6adcb3);
+  background-size: 200%;
+  border: 0;
+  font-size: 20px;
+  font-weight: bold;
+  color: #fff;
+  padding: 4px 16px 4px 11px;
+  height: auto;
+  cursor: pointer;
+  transition: 0.3s;
 
+  &:hover {
+    background-position: right !important;
+  }
+
+  @media screen and (max-width: 767px) {
+    font-size: 18px;
+  }
+  @media screen and (max-width: 575px) {
+    & > span:last-child {
+      display: none;
+    }
+  }
+`;
 export const FormGroup = styled.div`
   position: relative;
 `;
 export const InputSearch = styled.input`
   padding: 1rem;
-
   width: 100%;
-
   border-radius: 5px;
   border: none;
-
   font-size: 150%;
   outline: none;
   background: #fff;
@@ -159,16 +264,36 @@ export const IconSearch = styled(SearchOutlined)`
   color: #777;
   transform: translateY(-50%);
 `;
-export const Btn = styled(Button)`
-  &[disabled] {
+export const CartBtn = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border: 1px solid #ccc;
+  color: #777;
+  border-radius: 4px;
+  height: 45px;
+  width: 45px;
+  text-align: center;
+  cursor: pointer;
+  transition: .3s;
+
+  ${(props) => props.disabled && css`
     cursor: default !important;
     color: #777;
     background-color: #ddd;
+  `}
+  & > span:first-child {
+    font-size: 20px;
+  }
+
+  & > span:last-child {
+    font-size: 10px;
   }
 
   &:hover {
-    border-color: ${(props) => props.theme.rootColor};
-    color: ${(props) => props.theme.rootColor};
+    color: #444;
+    border: 1px solid #aaa;
+
   }
 `;
 export const UserAvatar = styled(Avatar)`
@@ -183,5 +308,27 @@ export const SearchType = styled(Select)`
 
   & .ant-select-selection-item {
     color: black !important;
+  }
+
+  & .search-icon {
+    display: none;
+  }
+
+  @media screen and (max-width: 479px) {
+    & .search-icon {
+      display: inline-block !important;
+    }
+
+    & .search-text {
+      display: none;
+    }
+  }
+`;
+export const UserMenu = styled(Menu)`
+  top: 35px;
+  width: 250px;
+  @media screen and (max-width: 767px) {
+    top: 25px;
+    right: -23px;
   }
 `;

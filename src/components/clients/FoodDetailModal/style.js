@@ -59,6 +59,10 @@ export const FoodItem = styled.div`
 
 `;
 export const ModalCustom = styled(Modal)`
+  & .ant-modal-close {
+    display: none;
+  }
+
   & .ant-modal-body {
     padding: 0 !important;
   }
@@ -73,7 +77,7 @@ export const ModalCustom = styled(Modal)`
       display: inline-block;
       padding: 4px 10px;
       width: 50%;
-      border: 1px solid ${(props)=>props.theme.price};
+      border: 1px solid ${(props) => props.theme.price};
       border-radius: 3px;
       white-space: nowrap;
       font-size: 16px;
@@ -82,7 +86,7 @@ export const ModalCustom = styled(Modal)`
       text-transform: none;
       line-height: 1.5;
       color: #fff;
-      background-color: ${(props)=>props.theme.price};
+      background-color: ${(props) => props.theme.price};
       cursor: pointer;
       vertical-align: middle;
       -webkit-appearance: button;
@@ -90,6 +94,29 @@ export const ModalCustom = styled(Modal)`
       overflow: visible;
       transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
       border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    }
+  }
+
+  @media screen and (max-width: 479px) {
+    top: 50px;
+    overflow: hidden;
+    & .ant-modal-close {
+      position: absolute;
+      right: 10px;
+      top: 10px;
+
+      display: block;
+      color: #444;
+
+      & .ant-modal-close-x {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #ccc;
+        border-radius: 50%;
+        width: 30px !important;
+        height: 30px !important;
+      }
     }
   }
 `;

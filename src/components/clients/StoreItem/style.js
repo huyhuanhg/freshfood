@@ -22,6 +22,9 @@ export const StoreInfo = styled.div`
   box-sizing: border-box;
   line-height: 1.4em;
   overflow: hidden;
+  @media screen and (min-width: 767px) {
+    padding-bottom: 0;
+  }
 `;
 export const StoreNameInfo = styled.div`
   display: block;
@@ -49,6 +52,12 @@ export const StoreCommentWrap = styled(Meta)`
   clear: both;
   border-top: #f6f6f6 1px solid;
   overflow: hidden;
+  @media screen and (min-width: 767px) {
+    padding: 0;
+    & .ant-card-meta-avatar {
+      padding-right: 0 !important;
+    }
+  }
 `;
 export const StoreComment = styled.div`
   position: relative;
@@ -79,6 +88,18 @@ export const StoreComment = styled.div`
     position: absolute;
     right: 2px;
     bottom: 0;
+  }
+
+  @media screen and (max-width: 767px) {
+    font-size: 10px;
+    height: 25px;
+    width: 100% !important;
+    &:before {
+      bottom: -5px;
+    }
+    &:after {
+      margin-top: 0.5em;
+    }
   }
 `;
 export const StoreCommentName = styled.b`

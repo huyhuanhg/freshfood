@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const FooterWrap = styled.footer`
-  padding: 0;
+  padding: 0 20px;
   background-attachment: fixed;
   background-position: 0 400px;
   background-repeat: no-repeat;
@@ -13,6 +13,12 @@ export const FooterWrap = styled.footer`
     max-width: 1140px;
     padding: 50px 0;
     margin: 0 auto;
+    @media screen and (max-width: 767px) {
+      padding: 15px;
+      & .ant-col.ant-col-8 {
+        padding: 0;
+      }
+    }
   }
 
   & h4 {
@@ -20,6 +26,10 @@ export const FooterWrap = styled.footer`
     font-size: 130%;
     font-weight: bold;
     color: ${(props) => props.theme.gray};
+  }
+
+  @media screen and (max-width: 575px) {
+    display: none;
   }
 `;
 export const AboutFooter = styled.footer`

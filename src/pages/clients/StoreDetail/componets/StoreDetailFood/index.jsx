@@ -83,7 +83,7 @@ const StoreDetailFood = ({ showFoodDetail, setShowLogin, setShowFoodDetail, slug
   const renderFoodList = (span = 6) => {
     return foodData.map((food, index) => {
       return (
-        <Col span={span} key={food.id}>
+        <Col lg={span} md={24} sm={24} xs={24} key={food.id}>
           <FoodStore
             {...food}
             handleClick={setShowFoodDetail}
@@ -97,14 +97,14 @@ const StoreDetailFood = ({ showFoodDetail, setShowLogin, setShowFoodDetail, slug
     });
   };
   return (
-    <div>
-      <Affix offsetTop={59.188 + 54}>
+    <div className='list-of-store-detail'>
+      <Affix offsetTop={88.375 + 54}>
         <FilterStyle>
           <StoreDetailStyle.StoreFilterTitle>
             {history.location.pathname.match(PATH.STORE_MENU_PROMOTION) ? 'Khuyến mãi' : 'Đặt món'}
           </StoreDetailStyle.StoreFilterTitle>
           {total > 0 &&
-          <ul className='d-flex vertical-center m-0 pr-2r'>
+          <StoreDetailStyle.StoreFilterSuffix>
             <li>
               <Select
                 value={filterFood?.tags}
@@ -112,7 +112,6 @@ const StoreDetailFood = ({ showFoodDetail, setShowLogin, setShowFoodDetail, slug
                 showArrow
                 placeholder='Chọn danh mục'
                 tagRender={tagRender}
-                style={{ width: '370px' }}
                 options={renderTagList()}
                 maxTagCount={3}
                 getPopupContainer={(trigger) => trigger.parentNode}
@@ -128,7 +127,6 @@ const StoreDetailFood = ({ showFoodDetail, setShowLogin, setShowFoodDetail, slug
             <li>
               <Select
                 defaultValue=''
-                style={{ width: 160 }}
                 getPopupContainer={(trigger) => trigger.parentNode}
                 onChange={(value) => {
                   setFilterFood({
@@ -146,7 +144,7 @@ const StoreDetailFood = ({ showFoodDetail, setShowLogin, setShowFoodDetail, slug
                 <Select.Option value='-1'>Giá giảm dần</Select.Option>
               </Select>
             </li>
-          </ul>
+          </StoreDetailStyle.StoreFilterSuffix>
           }
         </FilterStyle>
       </Affix>
