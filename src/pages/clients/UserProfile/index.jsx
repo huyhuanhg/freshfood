@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
-import { Affix, Col, Menu, Row, Spin } from 'antd';
+import { Affix, Col, Menu, message, Row, Spin } from 'antd';
 import {
   AiFillEdit,
   AiOutlinePoweroff, BsFillBookmarkFill,
@@ -30,6 +30,7 @@ import EditProfile from './EditProfile';
 
 import history from '../../../utils/history';
 import { changeAvatarAction, logoutAction } from '../../../redux/actions';
+import { MSG } from '../../../contants/message.contant';
 
 const UserProfile = ({ match }) => {
   const { SubMenu } = Menu;
@@ -127,20 +128,39 @@ const UserProfile = ({ match }) => {
                     <S.ProfileSidebar>
                       <S.ProfileAvatarWrap>
                         <label htmlFor='avatar'>
-                          <img src={`${ROOT_PATH}${userInfo.data.avatar}`} alt='' />
+                          {
+                            userInfo.data.avatar ?
+                              <img src={`${ROOT_PATH}${userInfo.data.avatar}`} alt='' />
+                              :
+                              <div
+                                className='no-avatar'>{userInfo.data.lastName && userInfo.data.lastName[0].toUpperCase()}</div>
+                          }
+
                           <AiFillEdit />
                           <input
                             type='file'
                             id='avatar'
                             hidden
+                            accept='image/*'
                             onChange={(e) => {
-                              const { accessToken } = JSON.parse(userToken);
-                              dispatch(changeAvatarAction({
-                                accessToken,
-                                data: {
-                                  image: e.target.files[0],
-                                },
-                              }));
+                              let msgErr = '';
+                              if (!e.target.files[0].type.match('image/')) {
+                                msgErr = MSG.VALIDATE_NOT_IMAGE;
+                              }
+                              if (e.target.files[0].size > 2048 * 1000) {
+                                msgErr = MSG.VALIDATE_IMAGE_SIZE;
+                              }
+                              if (!msgErr) {
+                                const { accessToken } = JSON.parse(userToken);
+                                dispatch(changeAvatarAction({
+                                  accessToken,
+                                  data: {
+                                    image: e.target.files[0],
+                                  },
+                                }));
+                              } else {
+                                message.error(msgErr);
+                              }
                             }}
                           />
                         </label>

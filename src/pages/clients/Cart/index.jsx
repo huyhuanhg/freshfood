@@ -41,9 +41,9 @@ const CartPage = () => {
     },
   } = useSelector(({ userReducer }) => userReducer);
   const {
-    provinces: { data: provinces },
-    districts: { data: districts, load: districtLoad },
-    wards: { data: wards },
+    provinces: { data: provinceList },
+    districts: { data: districtList, load: districtLoad },
+    wards: { data: wardList },
   } = useSelector(({ addressReducer }) => addressReducer);
   document.title = TITLE(PATH.CART, userId && `${firstName} ${lastName}`);
   const [redirect, setRedirect] = useState(false);
@@ -84,7 +84,7 @@ const CartPage = () => {
       accessToken: JSON.parse(userToken).accessToken,
       data: {
         ...value,
-        address: shortAddress(value.address, provinces, districts, wards),
+        address: shortAddress(value.address, provinceList, districtList, wardList),
       },
     }));
   };
@@ -337,7 +337,7 @@ const CartPage = () => {
                                               });
                                             }}
                                           >
-                                            {renderAddressInfo(provinces)}
+                                            {renderAddressInfo(provinceList)}
                                           </Select>
                                         </Form.Item>
                                       </Col>
@@ -362,7 +362,7 @@ const CartPage = () => {
                                               });
                                             }}
                                           >
-                                            {renderAddressInfo(districts)}
+                                            {renderAddressInfo(districtList)}
                                           </Select>
                                         </Form.Item>
                                       </Col>
@@ -377,9 +377,9 @@ const CartPage = () => {
                                           <Select
                                             placeholder='--Phường/Xã--'
                                             style={{ width: '100%' }}
-                                            disabled={wards.length === 0}
+                                            disabled={wardList.length === 0}
                                           >
-                                            {renderAddressInfo(wards)}
+                                            {renderAddressInfo(wardList)}
                                           </Select>
                                         </Form.Item>
                                       </Col>

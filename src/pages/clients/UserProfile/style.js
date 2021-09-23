@@ -28,6 +28,23 @@ export const ProfileAvatarWrap = styled.div`
     cursor: pointer;
   }
 
+  & div.no-avatar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    float: none;
+    margin: 0 auto;
+    width: 126px;
+    height: 126px;
+    border-radius: 50% !important;
+    max-width: 100%;
+    cursor: pointer;
+    font-size: 400%;
+    color: ${(props) => props.theme.rootColor};
+    border: 1px solid ${(props) => props.theme.rootColor};
+    background: #f6ffed;
+  }
+
   & img:hover + svg {
     opacity: 1;
   }

@@ -15,5 +15,7 @@ export const MSG = {
   CHANGE_PASSWORD: 'Đổi mật khẩu',
   ORDER: 'Đặt hàng',
   VALIDATE_LOGIN_INVALID: 'Email hoặc mật khẩu không đúng!',
-  VALIDATE_EMAIL_EXIST: 'Email dẫ tồn tại!'
+  VALIDATE_EMAIL_EXIST: 'Email dẫ tồn tại!',
+  VALIDATE_NOT_IMAGE: 'Định dạng file phải là ảnh!',
+  VALIDATE_IMAGE_SIZE: 'Dung lượng ảnh tối đa 2Mb!',
 };

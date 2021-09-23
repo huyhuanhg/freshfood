@@ -79,7 +79,7 @@ const FoodList = ({ setShowLogin }) => {
   useEffect(() => {
     const { pathname } = history.location;
     if (pathname === PATH.FAVORITE) {
-      if (userInfo.data.id) {
+      if (userInfo.data.id && request?.group === 'liked') {
         dispatch(getFoodListAction({
           ...request,
           user: userInfo.data.id,

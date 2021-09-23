@@ -27,12 +27,16 @@ const removeAddressDescription = (addressString) => {
     .replace('X.', '').trim();
 };
 export const compactAddress = (addressList) => {
-  return addressList.map((addressItem) => {
-    return {
-      ...addressItem,
-      name: compact(addressItem.name),
-    };
-  });
+  if (addressList) {
+    return addressList.map((addressItem) => {
+      return {
+        ...addressItem,
+        name: compact(addressItem.name),
+      };
+    });
+  } else {
+    return [];
+  }
 };
 
 export const shortAddress = (address, provinces, districts, wards) => {

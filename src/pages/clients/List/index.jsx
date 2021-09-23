@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Affix, Col, Menu, Row } from 'antd';
-import { MdNavigateNext } from 'react-icons/all';
+import { AiOutlineHeart, FiPercent, GrGroup, IoFastFoodOutline, MdNavigateNext } from 'react-icons/all';
 import { Route, Switch } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
@@ -11,9 +11,12 @@ import StoreList from './components/StoreList';
 import FoodList from './components/FoodList';
 
 import * as ClientStyle from '../styles';
+import * as S from './style';
+import { ShopOutlined } from '@ant-design/icons';
 
 const ClientList = ({ setShowLogin }) => {
   const [menuActive, setMenuActive] = useState('foods');
+  const [mobileActive, setMobileActive] = useState(false);
   useEffect(() => {
     setMenuActive(history.location.pathname);
   }, [history.location.pathname]);
@@ -21,63 +24,77 @@ const ClientList = ({ setShowLogin }) => {
     <ClientStyle.Section style={{ backgroundColor: '#f3f3f3' }}>
       <ClientStyle.Container>
         <Row gutter={20}>
-          <Col lg={4} md={4} sm={0} xs={0}>
+          <Col lg={4} md={4}>
             <Affix offsetTop={88.375}>
-              <Menu
+              <S.ListMenu
+                id='menu_list_page'
                 theme='light'
-                style={{
-                  background: '#fff',
-                  height: 'auto',
-                }}
                 selectedKeys={[menuActive]}
                 mode='inline'
+                mobileActive={mobileActive}
               >
                 <Menu.Item
                   key='/stores'
                   icon={<MdNavigateNext className='custom-icon-position' />}
                   onClick={() => {
+                    setMobileActive(false);
                     history.push(PATH.STORE);
                   }}
                 >
-                  Ở đâu
+                  <ShopOutlined className='mobile-icon' />
+                  <span className='menu-title'>Ở đâu</span>
                 </Menu.Item>
                 <Menu.Item
                   key='/foods'
                   icon={<MdNavigateNext className='custom-icon-position' />}
                   onClick={() => {
+                    setMobileActive(false);
                     history.push(PATH.FOOD);
                   }}
                 >
-                  Ăn gì
+                  <IoFastFoodOutline className='mobile-icon' />
+                  <span className='menu-title'>Ăn gì</span>
                 </Menu.Item>
                 <Menu.Item
                   key='/promotions'
                   icon={<MdNavigateNext className='custom-icon-position' />}
                   onClick={() => {
+                    setMobileActive(false);
                     history.push(PATH.PROMOTION);
                   }}
                 >
-                  Khuyến mãi
+                  <FiPercent className='mobile-icon' />
+                  <span className='menu-title'>Khuyến mãi</span>
                 </Menu.Item>
                 <Menu.Item
                   key='/crowded'
                   icon={<MdNavigateNext className='custom-icon-position' />}
                   onClick={() => {
+                    setMobileActive(false);
                     history.push(PATH.CROWDED);
                   }}
                 >
-                  Đông khách
+                  <GrGroup className='mobile-icon' />
+                  <span className='menu-title'>Đông khách</span>
                 </Menu.Item>
                 <Menu.Item
                   key='/favorite'
                   icon={<MdNavigateNext className='custom-icon-position' />}
                   onClick={() => {
+                    setMobileActive(false);
                     history.push(PATH.FAVORITE);
                   }}
                 >
-                  Yêu thích
+                  <AiOutlineHeart className='mobile-icon' />
+                  <span className='menu-title'>Yêu thích</span>
                 </Menu.Item>
-              </Menu>
+                <span
+                  className='mobile-override'
+                  onClick={() => {
+                    setMobileActive(!mobileActive);
+                  }}
+                />
+              </S.ListMenu>
             </Affix>
           </Col>
           <Col ld={20} md={20} sm={24} xs={24} className='list-content'>

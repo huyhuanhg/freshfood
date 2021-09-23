@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Row, Col, Form, Upload, notification } from 'antd';
+import { Row, Col, Form, Upload, notification, message } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import { AiFillStar } from 'react-icons/all';
 import axios from 'axios';
@@ -17,6 +17,7 @@ import {
 
 import { ROOT_PATH, SERVER_CLIENT_API_URL } from '../../../contants';
 import loadAvatarStore from '../../../assets/images/loadStore.png';
+import { MSG } from '../../../contants/message.contant';
 
 const ModalStoreDetail = (
   {
@@ -47,32 +48,43 @@ const ModalStoreDetail = (
   const [load, setLoad] = useState(false);
 
   const uploadImages = async (data) => {
+    let isStart = true;
     const imagesData = new FormData();
     data.forEach((image, index) => {
+      if (image.originFileObj.size > 2048 * 1000) {
+        message.error(MSG.VALIDATE_IMAGE_SIZE);
+        isStart = false;
+      }
+      if (!image.originFileObj.type.match('image/')) {
+        message.error(MSG.VALIDATE_NOT_IMAGE);
+        isStart = false;
+      }
       imagesData.append(`images[${index}]`, image.originFileObj);
     });
-    try {
-      const res = await axios.post(
-        `${SERVER_CLIENT_API_URL}/comment-pictures`,
-        imagesData,
-        {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-            Authorization: `Bearer ${accessToken}`,
+    if (isStart) {
+      setLoad(true);
+      try {
+        const res = await axios.post(
+          `${SERVER_CLIENT_API_URL}/comment-pictures`,
+          imagesData,
+          {
+            headers: {
+              'Content-Type': 'multipart/form-data',
+              Authorization: `Bearer ${accessToken}`,
+            },
           },
-        },
-      );
-      await setLoad(false);
-      const resData = await res.data.map((dataItem) => camelcaseKeys(dataItem));
-      await setFileList([...fileList, ...resData]);
-    } catch (err) {
-      const { data } = err.response;
-      let message = '';
-      for (const feild in data) {
-        message = data[feild][0];
-        break;
+        );
+        await setLoad(false);
+        const resData = await res.data.map((dataItem) => camelcaseKeys(dataItem));
+        await setFileList([...fileList, ...resData]);
+      } catch ({ response: { data: dataError } }) {
+        let message = '';
+        for (const feild in dataError) {
+          message = dataError[feild][0];
+          break;
+        }
+        notification.error({ message });
       }
-      notification.error({ message, duration: 1000 });
     }
   };
   const removeImage = async (file) => {
@@ -118,7 +130,6 @@ const ModalStoreDetail = (
       console.log(err.message);
     }
   };
-
   useEffect(() => {
     // gọi api upload ảnh
     const uploadedCount = fileList.length;
@@ -127,7 +138,6 @@ const ModalStoreDetail = (
       const data = formImages.filter((image, imageIndex) => imageIndex >= uploadedCount);
       if (!load) {
         uploadImages(data);
-        setLoad(true);
       }
     }
   }, [formImages]);

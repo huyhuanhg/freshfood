@@ -305,8 +305,8 @@ const Profile = () => {
               }
             </div>
             <div className='user-content'>
-              <span>
-                {userInfo.data.address}
+              <span className={!userInfo.data.address && 'empty'}>
+                {userInfo.data.address ? userInfo.data.address : 'Chưa rõ'}
               </span>
             </div>
             <div className='user-content'>
@@ -320,8 +320,8 @@ const Profile = () => {
               </span>
             </div>
             <div className='user-content'>
-              <span>
-                {userInfo.data.description}
+              <span className={!userInfo.data.description && 'empty'}>
+                {userInfo.data.description ? userInfo.data.description : 'Chưa có mô tả'}
               </span>
             </div>
           </Col>
