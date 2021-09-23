@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Affix, Col, Menu, Row } from 'antd';
-import { AiOutlineHeart, FiPercent, GrGroup, IoFastFoodOutline, MdNavigateNext } from 'react-icons/all';
+import { AiOutlineHeart, BiStoreAlt, FiPercent, GrGroup, IoFastFoodOutline, MdNavigateNext } from 'react-icons/all';
 import { Route, Switch } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
@@ -12,7 +12,6 @@ import FoodList from './components/FoodList';
 
 import * as ClientStyle from '../styles';
 import * as S from './style';
-import { ShopOutlined } from '@ant-design/icons';
 
 const ClientList = ({ setShowLogin }) => {
   const [menuActive, setMenuActive] = useState('foods');
@@ -41,7 +40,7 @@ const ClientList = ({ setShowLogin }) => {
                     history.push(PATH.STORE);
                   }}
                 >
-                  <ShopOutlined className='mobile-icon' />
+                  <BiStoreAlt className='mobile-icon' />
                   <span className='menu-title'>Ở đâu</span>
                 </Menu.Item>
                 <Menu.Item
