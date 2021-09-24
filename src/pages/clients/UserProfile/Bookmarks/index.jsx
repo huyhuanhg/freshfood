@@ -32,7 +32,7 @@ const Bookmarks = () => {
   }, []);
   const renderBookmarkList = () => {
     return bookmarkData.map(({
-      id: bookmarkId,
+      storeId,
       storeCateName,
       storeImage,
       storeName,
@@ -43,15 +43,15 @@ const Bookmarks = () => {
       createdAt,
     }) => {
       return (
-        <S.RateItem key={bookmarkId} imagePath={`${ROOT_PATH}${storeImage}`} isBookmark>
-          <Link to={`/stores/${storeNotMark}.${bookmarkId}`}>
+        <S.RateItem key={storeId} imagePath={`${ROOT_PATH}${storeImage}`} isBookmark>
+          <Link to={`/stores/${storeNotMark}.${storeId}`}>
             <div className='store-image'>
               <div />
             </div>
           </Link>
           <div className='store-info'>
             <div className='store-info-name'>
-              <Link to={`/stores/${storeNotMark}.${bookmarkId}`}>{storeName}</Link>
+              <Link to={`/stores/${storeNotMark}.${storeId}`}>{storeName}</Link>
               <div><small>{storeCateName}</small></div>
             </div>
             <div className='store-info-address'>

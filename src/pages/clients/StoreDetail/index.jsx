@@ -114,7 +114,9 @@ const StoreDetail = ({ setShowLogin, match }) => {
                 <StoreDetailStyle.ImageWrap src={
                   storeDetailLoad
                     ? loadAvatarStore
-                    : `${ROOT_PATH}${storeDetail.storeImage}`
+                    : (storeDetail.storeImage
+                      ? `${ROOT_PATH}${storeDetail.storeImage}`
+                      : loadAvatarStore)
                 } />
               </StoreDetailStyle.MainImg>
             </Col>
