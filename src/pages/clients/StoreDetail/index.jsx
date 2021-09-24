@@ -267,7 +267,7 @@ const StoreDetail = ({ setShowLogin, match }) => {
                   <Menu.Item
                     key={PATH.STORE_MENU_PROMOTION}
                     icon={<MdNavigateNext className='custom-icon-position' />}
-                    onClick={({ key }) => {
+                    onClick={() => {
                       setDefaultActiveMenu(PATH.STORE_MENU_PROMOTION);
                       history.push(PATH.STORE_DETAIL(`${storeDetail.storeNotMark}.${storeDetail.id}`, PATH.STORE_MENU_PROMOTION));
                     }}
