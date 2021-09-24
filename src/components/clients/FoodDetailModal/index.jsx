@@ -61,9 +61,9 @@ const FoodDetailModal = function({ show, setShow, setShowLogin }) {
           <div className='info'>
             <Row>
               <Col lg={20} md={20} sm={20} xs={18}>
-                <div className='imgbox-food-name'>{foodName}</div>
-                <div className='imgbox-desc'>{foodDescription}</div>
-                <div className='imgbox-total'>
+                <div className='img-box-food-name'>{foodName}</div>
+                <div className='img-box-desc'>{foodDescription}</div>
+                <div className='img-box-total'>
                   Đã được đặt
                   <span className='txt-bold'>
                     &nbsp;{foodConsume}&nbsp;
@@ -71,8 +71,8 @@ const FoodDetailModal = function({ show, setShow, setShowLogin }) {
                   lần
                 </div>
               </Col>
-              <Col lg={5} md={5} sm={5} xs={6} style={{ alignSelf: 'center' }}>
-                <div className='imgbox-current-price'>
+              <Col lg={4} md={4} sm={4} xs={6} style={{ alignSelf: 'center' }}>
+                <div className='img-box-current-price'>
                   <NumberFormat
                     value={discount}
                     displayType={'text'}

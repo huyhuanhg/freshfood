@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { ShoppingCartOutlined } from '@ant-design/icons';
-import { Card, Skeleton } from 'antd';
+import { Card, message, Skeleton } from 'antd';
 import NumberFormat from 'react-number-format';
 
 import PropTypes from 'prop-types';
@@ -15,14 +15,14 @@ const MetaTitle = ({ name, store, slug }) => {
   return (
     <div>
       <S.FoodTitle>{name}</S.FoodTitle>
-      <S.FoodStoreWrap to={PATH.STORE_DETAIL(slug)} onClick={(e) => e.stopPropagation()}>
+      <S.FoodStoreWrap to={PATH.STORE_DETAIL(slug)} onClick={(e) => handleStopPropagation(e)}>
         <S.StoreName>{store}</S.StoreName>
       </S.FoodStoreWrap>
     </div>
   );
 };
 
-const MetaDescription = ({ id, price, discount, isLike }) => {
+const MetaDescription = ({ id, price, discount, isLike, userId }) => {
   const dispatch = useDispatch();
   return (
     <S.PriceBox>
@@ -51,14 +51,19 @@ const MetaDescription = ({ id, price, discount, isLike }) => {
       <S.LikeBtn
         onClick={
           (e) => {
-            const { accessToken } = JSON.parse(localStorage.userInfo);
-            dispatch(toggleLikeAction({
-              accessToken,
-              data: {
-                foodId: id,
-              },
-            }));
-            e.stopPropagation();
+            handleStopPropagation(e);
+            const userToken = localStorage.userInfo;
+            if (userToken && userId) {
+              const { accessToken } = JSON.parse(userToken);
+              dispatch(toggleLikeAction({
+                accessToken,
+                data: {
+                  foodId: id,
+                },
+              }));
+            } else {
+              message.error('Bạn chưa đăng nhập!');
+            }
           }
         }>
         {isLike ? <S.Like /> : <S.UnLike />}
@@ -85,7 +90,7 @@ export const FoodItemHome = (
 ) => {
   const { Meta } = Card;
   const dispatch = useDispatch();
-  const { userInfo: { data: UserData } } = useSelector(({ userReducer }) => userReducer);
+  const { userInfo: { data: userData } } = useSelector(({ userReducer }) => userReducer);
   return (
     <S.CardItem
       hoverable
@@ -120,13 +125,14 @@ export const FoodItemHome = (
               price={price}
               discount={discount}
               isLike={like}
+              userId={userData.id}
             />
           }
           avatar={
             <S.AddCard
               onClick={(e) => {
                 handleStopPropagation(e);
-                if (!UserData.id) {
+                if (!userData.id) {
                   setShowLogin(true);
                 } else {
                   const userToken = localStorage.userInfo;
@@ -161,6 +167,7 @@ MetaDescription.propTypes = {
   isLike: PropTypes.bool,
   price: PropTypes.number,
   discount: PropTypes.number,
+  userId: PropTypes.number,
 };
 
 FoodItemHome.propTypes = {

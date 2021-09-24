@@ -72,10 +72,24 @@ const Bookmarks = () => {
       {
         total === 0 ?
           <S.ProfileEmpty minHeight={500}>
-            <div>
-              <BsFillBookmarkFill />
-              <p>Bộ sưu tập của bạn trống</p>
-            </div>
+            {
+              !bookmarkLoad ?
+                <div>
+                  <BsFillBookmarkFill />
+                  <p>Bộ sưu tập của bạn trống</p>
+                </div>
+                :
+                <div
+                  style={{
+                    position: 'absolute',
+                    left: '50%',
+                    marginTop: '10px',
+                    transform: 'translateX(-50%)',
+                  }}
+                >
+                  <Spin />
+                </div>
+            }
           </S.ProfileEmpty>
           :
           <div style={{ paddingBottom: 15 }}>

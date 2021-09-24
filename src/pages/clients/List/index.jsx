@@ -103,20 +103,19 @@ const ClientList = ({ setShowLogin }) => {
                 exact
                 path={PATH.FOOD}
                 setShowLogin={setShowLogin}
-                component={FoodList}
+                render={() => <FoodList setShowLogin={setShowLogin} />}
               />
               <Route
                 exact
                 path={PATH.PROMOTION}
-                setShowLogin={setShowLogin}
-                component={FoodList}
+                render={() => <FoodList setShowLogin={setShowLogin} />}
               />
               <Route
                 exact
                 path={PATH.CROWDED}
                 component={StoreList}
               />
-              <Route exact path={PATH.FAVORITE} component={FoodList} />
+              <Route exact path={PATH.FAVORITE} render={() => <FoodList setShowLogin={setShowLogin} />} />
             </Switch>
           </Col>
         </Row>

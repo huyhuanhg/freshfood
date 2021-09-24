@@ -22,7 +22,6 @@ const FoodList = ({ setShowLogin }) => {
   const { userInfo } = useSelector(({ userReducer }) => userReducer);
   const [filterActive, setFieldActive] = useState('created_at');
   const [sortPriceType, setSortPriceType] = useState('');
-
   const [request, setRequest] = useState(null);
 
   useEffect(() => {
@@ -85,6 +84,10 @@ const FoodList = ({ setShowLogin }) => {
           user: userInfo.data.id,
         }));
       }
+      const userToken = localStorage.userInfo;
+      if (!userToken || userInfo.error) {
+        history.push(PATH.FOOD);
+      }
     }
   }, [userInfo, request]);
 
@@ -134,12 +137,13 @@ const FoodList = ({ setShowLogin }) => {
           <FoodItemHome
             {...food}
             setShowDetail={setShowFoodDetail}
-            setShowLogin={setShowFoodDetail}
+            setShowLogin={setShowLogin}
           />
         </Col>
       );
     });
   };
+
   return (
     <div>
       <FoodDetailModal

@@ -30,17 +30,17 @@ export const FoodItem = styled.div`
       background-color: rgba(0, 0, 0, 0.6);
       color: #fff;
 
-      & div.imgbox-food-name {
+      & div.img-box-food-name {
         margin-bottom: 3px;
         font-size: 16px;
         font-weight: bold;
       }
 
-      & div.imgbox-desc {
+      & div.img-box-desc {
         font-weight: 300;
       }
 
-      & div.imgbox-total {
+      & div.img-box-total {
         font-size: 11px;
         color: #ccc;
 
@@ -49,7 +49,7 @@ export const FoodItem = styled.div`
         }
       }
 
-      & div.imgbox-current-price {
+      & div.img-box-current-price {
         text-align: right;
         font-size: 16px;
         font-weight: bold;

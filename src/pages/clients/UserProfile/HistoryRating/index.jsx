@@ -79,10 +79,25 @@ const HistoryRating = () => {
       {
         total === 0 ?
           <S.ProfileEmpty minHeight={500}>
-            <div>
-              <GiRank3 />
-              <p>Bạn chưa đánh giá cửa hàng nào</p>
-            </div>
+            {
+              !rateLoad ?
+                <div>
+                  <GiRank3 />
+                  <p>Bạn chưa đánh giá cửa hàng nào</p>
+                </div>
+                :
+                <div
+                  style={{
+                    position: 'absolute',
+                    left: '50%',
+                    marginTop: '10px',
+                    transform: 'translateX(-50%)',
+                  }}
+                >
+                  <Spin />
+                </div>
+            }
+
           </S.ProfileEmpty>
           :
           <div style={{ paddingBottom: 15 }}>

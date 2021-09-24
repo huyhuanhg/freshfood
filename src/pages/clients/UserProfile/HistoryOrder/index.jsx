@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { MdRemoveShoppingCart } from 'react-icons/all';
 import { PlusCircleTwoTone, MinusCircleTwoTone } from '@ant-design/icons';
-import { Collapse, Pagination, Tag } from 'antd';
+import { Collapse, Pagination, Spin, Tag } from 'antd';
 import NumberFormat from 'react-number-format';
 import moment from 'moment';
 import { Link } from 'react-router-dom';
@@ -10,6 +10,7 @@ import { Link } from 'react-router-dom';
 import * as S from '../style';
 import { getordersAction } from '../../../../redux/actions';
 import { PAGE_TITLE, ROOT_PATH } from '../../../../contants';
+import { ORDER_STATUS } from '../../../../contants/orderStatus.contant';
 
 const HistoryOrder = () => {
   const dispatch = useDispatch();
@@ -29,8 +30,8 @@ const HistoryOrder = () => {
     }));
   }, []);
   const getStatus = (status) => (
-    <Tag color={status === 0 ? 'geekblue' : 'green'} key={status}>
-      {status === 0 ? ('Chờ xử lý').toUpperCase() : ('Đang giao hàng').toUpperCase()}
+    <Tag color={ORDER_STATUS(status).color} key={status}>
+      {ORDER_STATUS(status).content.toUpperCase()}
     </Tag>
   );
   const moneyFormat = (money) => {
@@ -179,10 +180,25 @@ const HistoryOrder = () => {
       {
         total === 0 ?
           <S.ProfileEmpty minHeight={378.016}>
-            <div>
-              <MdRemoveShoppingCart />
-              <p>Lịch sử giao dịch trống</p>
-            </div>
+            {
+              !orderLoad ?
+                <div>
+                  <MdRemoveShoppingCart />
+                  <p>Lịch sử giao dịch trống</p>
+                </div>
+                :
+                <div
+                  style={{
+                    position: 'absolute',
+                    left: '50%',
+                    marginTop: '10px',
+                    transform: 'translateX(-50%)',
+                  }}
+                >
+                  <Spin />
+                </div>
+            }
+
           </S.ProfileEmpty>
           :
           <div style={{ paddingBottom: 15 }}>
