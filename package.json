@@ -1,6 +1,5 @@
 {
   "name": "freshfood",
-  "homepage": "git@github.com:huyhuanhg/freshfood.git",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -51,8 +50,7 @@
     "test": "craco test",
     "eject": "craco eject",
     "eslint": "eslint \"src/**/*.{jsx,js}\" --fix ",
-    "format": "prettier --write \"src/**/*.{jsx,js}\"",
-    "deploy": "gh-pages -d build"
+    "format": "prettier --write \"src/**/*.{jsx,js}\""
   },
   "eslintConfig": {
     "extends": [
@@ -78,7 +76,6 @@
     "eslint-auto-fix": "^1.0.3",
     "eslint-plugin-react": "^7.25.1",
     "eslint-plugin-react-hooks": "^4.2.0",
-    "gh-pages": "^3.2.3",
     "husky": "^7.0.2",
     "lint-staged": "^11.1.2"
   }
