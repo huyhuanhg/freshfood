@@ -22,7 +22,6 @@ function* createRateSaga({ payload: { accessToken, data } }) {
       },
     });
   } catch (e) {
-    console.log(e.message);
     yield put({
       type: FAILURE(RATE_ACTION.CREATE_RATE),
       payload: { error: e.message },
@@ -49,7 +48,6 @@ function* getRatesSaga({ payload: { accessToken, page } }) {
       },
     });
   } catch (e) {
-    console.log(e.message);
     yield put({
       type: FAILURE(RATE_ACTION.GET_RATE_LIST),
       payload: { error: e.message },

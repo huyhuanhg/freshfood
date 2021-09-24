@@ -38,6 +38,7 @@ const store = configureStore({
     rateReducer
   },
   middleware: [...getDefaultMiddleware({ thunk: false }), sagaMiddleware],
+  devTools: false,
 });
 
 sagaMiddleware.run(rootSaga);

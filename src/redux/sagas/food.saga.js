@@ -1,7 +1,7 @@
 import { put, takeEvery } from 'redux-saga/effects';
 import axios from 'axios';
 import camelCaseKeys from 'camelcase-keys';
-import { REQUEST, SUCCESS, FOOD_ACTION } from '../constants';
+import { REQUEST, SUCCESS, FOOD_ACTION, FAILURE } from '../constants';
 import { SERVER_CLIENT_API_URL } from '../../contants';
 import toSnakeCase from '../../utils/toSnakeCase';
 
@@ -29,8 +29,7 @@ function* getFoodListSaga({ payload: { group, limit, page, search, sort, sortTyp
       },
     });
   } catch (e) {
-    console.log(e.message);
-    // yield put({ type: FAILURE(FOOD_ACTION.GET_FOOD_LIST_INITIAL), payload: e.message });
+    yield put({ type: FAILURE(FOOD_ACTION.GET_FOOD_LIST), payload: { error: e.message } });
   }
 }
 

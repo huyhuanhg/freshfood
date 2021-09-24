@@ -268,7 +268,6 @@ const StoreDetail = ({ setShowLogin, match }) => {
                     key={PATH.STORE_MENU_PROMOTION}
                     icon={<MdNavigateNext className='custom-icon-position' />}
                     onClick={({ key }) => {
-                      console.log(key);
                       setDefaultActiveMenu(PATH.STORE_MENU_PROMOTION);
                       history.push(PATH.STORE_DETAIL(`${storeDetail.storeNotMark}.${storeDetail.id}`, PATH.STORE_MENU_PROMOTION));
                     }}

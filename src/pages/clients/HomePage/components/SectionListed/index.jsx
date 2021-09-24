@@ -30,7 +30,7 @@ const SectionListed = () => {
           ...totalData,
         });
       })
-      .catch((error) => console.log('error', error));
+      .catch((error) => console.log(error.response));
   };
 
   useEffect(() => {
