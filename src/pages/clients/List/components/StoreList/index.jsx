@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 import { MdRemoveShoppingCart } from 'react-icons/all';
-import { Button, Col, Menu, Row, Select, Spin } from 'antd';
+import { Button, Col, Menu, message, Row, Select, Spin } from 'antd';
 
 import * as S from '../../style';
 
@@ -115,12 +115,16 @@ const StoreList = () => {
               <Menu.Item
                 key='bookmark'
                 onClick={({ key }) => {
-                  setMenuActive(key);
-                  setRequest({
-                    ...request,
-                    group: key,
-                    page: 1,
-                  });
+                  if (userInfo.data.id) {
+                    setMenuActive(key);
+                    setRequest({
+                      ...request,
+                      group: key,
+                      page: 1,
+                    });
+                  } else {
+                    message.error('Vui lòng đăng nhập!');
+                  }
                 }}
               >
                 Đã lưu
