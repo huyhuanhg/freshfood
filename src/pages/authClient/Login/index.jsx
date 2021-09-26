@@ -8,10 +8,11 @@ import * as AuthStyle from '../style';
 import { TITLE, PATH } from '../../../contants';
 
 import { loginAction } from '../../../redux/actions';
+import { Form, Input } from 'antd';
 
 function LoginPage() {
   document.title = TITLE(PATH.LOGIN);
-
+  const [loginForm] = Form.useForm();
   const dispatch = useDispatch();
   const {
     responseAction: {
@@ -22,21 +23,6 @@ function LoginPage() {
     },
   } = useSelector(({ userReducer }) => userReducer);
 
-  const [valid, setValid] = useState({
-    valid: {
-      email: false,
-      password: false,
-    },
-    message: {
-      email: '',
-      password: '',
-    },
-  });
-
-  const [field, setField] = useState({
-    email: '',
-    password: '',
-  });
 
   const [fieldFocus, setFieldFocus] = useState({
     email: false,
@@ -44,141 +30,69 @@ function LoginPage() {
   });
   useEffect(() => {
     if (responseError) {
-      setValid({
-        ...valid,
-        message: {
-          ...valid.message,
-          password: responseError,
-        },
-      });
+      loginForm.setFields([
+        { name: 'email', errors: [' '] },
+        { name: 'password', errors: [responseError] },
+      ]);
     }
   }, [responseError]);
 
-  const validateRule = (name, value, erors) => {
-    let msg = '';
-    if (name === 'email') {
-      const regex =
-        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-      if (!regex.test(value)) {
-        msg = 'Định dạng email không đúng!';
-      }
-      if (value === '') {
-        msg = 'Vui lòng nhập email!';
-      }
-    } else if (name === 'password') {
-      if (value === '') {
-        msg = 'Vui lòng nhập mật khẩu!';
-      } else if (value.length < 6) {
-        msg = 'Mật khẩu tối thiểu 6 kí tự!';
-      }
-    }
-    return {
-      valid: {
-        ...erors.valid,
-        [name]: !msg,
-      },
-      message: {
-        ...erors.message,
-        [name]: msg,
-      },
-    };
-  };
-  const handleValid = () => {
-    let invalid = { ...valid };
-    for (const rule in field) {
-      invalid = validateRule(rule, field[rule], invalid);
-    }
-    setValid(invalid);
-  };
   const handleFocus = (e) => {
     setFieldFocus({
       ...fieldFocus,
-      [e.target.name]: true,
-    });
-    setValid({
-      ...valid,
-      message: {
-        ...valid.message,
-        [e.target.name]: '',
-      },
+      [e.target.id]: true,
     });
   };
   const handleBlur = (e) => {
-    setFieldFocus({
-      ...fieldFocus,
-      [e.target.name]: !!field[e.target.name],
-    });
-    const invalid = validateRule(e.target.name, e.target.value, { ...valid });
-    setValid(invalid);
-  };
-
-  const handleChangeField = (e) => {
-    setField({
-      ...field,
-      [e.target.name]: e.target.value,
-    });
-  };
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    handleValid();
-    if (valid.valid.email && valid.valid.password) {
-      dispatch(
-        loginAction({
-          data: field,
-        }),
-      );
+    if (!e.target.value) {
+      setFieldFocus({
+        ...fieldFocus,
+        [e.target.id]: false,
+      });
     }
   };
+  const handleSubmit = (value) => {
+    dispatch(loginAction({ data: { ...value } }));
+  };
   return (
-    <form style={{ width: 360 }} onSubmit={handleSubmit}>
+    <Form
+      layout='vertical'
+      style={{ width: 360 }}
+      form={loginForm}
+      onFinish={handleSubmit}
+    >
       <AuthStyle.FormTitle>Đăng Nhập</AuthStyle.FormTitle>
-      <AuthStyle.FormGroup focus={fieldFocus.email} error={!!valid.message.email}>
-        <AuthStyle.IconWrap focus={fieldFocus.email} error={!!valid.message.email}>
-          <MailOutlined />
-        </AuthStyle.IconWrap>
-        <AuthStyle.FormControlWrap>
-          <AuthStyle.TitleFormControl htmlFor='email' focus={fieldFocus.email}>
-            Email
-          </AuthStyle.TitleFormControl>
-          <AuthStyle.FormControl
-            id='email'
-            type='text'
-            name='email'
-            value={field.email}
-            autoComplete='off'
-            onFocus={handleFocus}
-            onBlur={handleBlur}
-            onChange={handleChangeField}
-          />
-        </AuthStyle.FormControlWrap>
-        <AuthStyle.InvalidMsg>{valid.message.email}</AuthStyle.InvalidMsg>
-      </AuthStyle.FormGroup>
-      <AuthStyle.FormGroup
-        focus={fieldFocus.password}
-        error={!!valid.message.password}
+      <AuthStyle.FormGroupx
+        name='email'
+        label='Email'
+        focus={fieldFocus.email}
+        onFocus={handleFocus}
+        onBlur={handleBlur}
+        rules={[
+          { required: true, message: 'Vui lòng nhập email' },
+          {
+            pattern: new RegExp(
+              '^(([^<>()[\\]\\\\.,;:\\s@"]+(\\.[^<>()[\\]\\\\.,;:\\s@"]+)*)|(".+"))@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$',
+            ),
+            message: 'Định dạng email không đúng!',
+          },
+        ]}
       >
-        <AuthStyle.IconWrap
-          focus={fieldFocus.password}
-          error={!!valid.message.password}
-        >
-          <LockOutlined />
-        </AuthStyle.IconWrap>
-        <AuthStyle.FormControlWrap>
-          <AuthStyle.TitleFormControl htmlFor='password' focus={fieldFocus.password}>
-            Mật khẩu
-          </AuthStyle.TitleFormControl>
-          <AuthStyle.FormControl
-            id='password'
-            type='password'
-            name='password'
-            value={field.password}
-            onFocus={handleFocus}
-            onBlur={handleBlur}
-            onChange={handleChangeField}
-          />
-        </AuthStyle.FormControlWrap>
-        <AuthStyle.InvalidMsg>{valid.message.password}</AuthStyle.InvalidMsg>
-      </AuthStyle.FormGroup>
+        <Input prefix={<MailOutlined />} />
+      </AuthStyle.FormGroupx>
+      <AuthStyle.FormGroupx
+        name='password'
+        focus={fieldFocus.password}
+        onFocus={handleFocus}
+        onBlur={handleBlur}
+        label='Mật khẩu'
+        rules={[
+          { required: true, message: 'Vui lòng nhập mật khẩu!' },
+          { min: 6, message: 'Mật khẩu tối thiệu 6 ký tự!' },
+        ]}
+      >
+        <Input.Password prefix={<LockOutlined />} />
+      </AuthStyle.FormGroupx>
       <AuthStyle.BtnSubmit htmlType='submit' disabled={LoginLoad}>
         Đăng nhập
         <AuthStyle.SubmitLoading size='middle' show={LoginLoad} />
@@ -194,7 +108,7 @@ function LoginPage() {
         </p>
         <Link to={'/forgot'}>Quên mật khẩu</Link>
       </div>
-    </form>
+    </Form>
   );
 }
 

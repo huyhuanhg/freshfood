@@ -33,7 +33,7 @@ function FullLayout({ exact, path, component: Component }) {
           path={path}
           render={(routeProps) => {
             return (
-              <>
+              <div>
                 <LayoutStyle.BackGround src={bgLogin} />
                 <LayoutStyle.Container>
                   <LayoutStyle.LogoWrap>
@@ -46,7 +46,7 @@ function FullLayout({ exact, path, component: Component }) {
                     <Component {...routeProps} />
                   </LayoutStyle.FormWrap>
                 </LayoutStyle.Container>
-              </>
+              </div>
             );
           }}
         />

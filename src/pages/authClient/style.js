@@ -1,5 +1,6 @@
 import styled, { css } from 'styled-components';
-import { Spin } from 'antd';
+import { Form, Spin } from 'antd';
+
 
 export const FormTitle = styled.h2`
   margin: 15px 0;
@@ -124,4 +125,143 @@ export const SubmitLoading = styled(Spin)`
   top: 50%;
   display: ${({ show }) => (show ? 'block' : 'none')};
   transform: translate(-50%, -50%);
+`;
+export const FormGroupx = styled(Form.Item)`
+  position: relative;
+
+  &.ant-row.ant-form-item {
+    margin-bottom: 30px !important;
+
+    & input {
+      font-size: 1.2rem;
+      font-weight: bold;
+      color: #555;
+    }
+
+    & .ant-col.ant-form-item-label {
+      position: absolute;
+      left: 35px;
+      top: ${({ focus }) => focus ? '0' : '50%'};
+      z-index: 100;
+      padding: 0;
+      transform: translateY(-50%);
+      transition: .3s;
+
+      & > label {
+        font-size: 20px;
+        color: #999;
+        font-weight: bold;
+
+        &:before {
+          display: none;
+        }
+      }
+    }
+
+    & .ant-col.ant-form-item-control {
+      & .ant-input-affix-wrapper {
+        border: 0;
+        box-shadow: none !important;
+        border-bottom: 2px solid #d9d9d9;
+
+        &:before {
+          right: 50%;
+        }
+
+        &:after {
+          left: 50%;
+        }
+
+        &:before,
+        &:after {
+          position: absolute;
+          bottom: -2px;
+          height: 2px;
+          content: "";
+          transition: 0.4s;
+          visibility: unset;
+        }
+
+        &:hover {
+          border-color: #d9d9d9;
+        }
+
+        & .ant-input-prefix {
+          height: 45px;
+          color: #d9d9d9;
+          -webkit-transition: 0.3s;
+          transition: 0.3s;
+          font-size: 20px;
+        }
+
+        &.ant-input-affix-wrapper-focused {
+          &:before {
+            width: 50%;
+            background-color: #38d39f !important;
+          }
+
+          &:after {
+            width: 50%;
+            background-color: #38d39f !important;
+          }
+          & .ant-input-prefix {
+            color: #38d39f !important;
+          }
+        }
+      }
+
+      & .ant-form-item-explain {
+        position: absolute !important;
+        left: 0 !important;
+        bottom: -25px !important;
+        margin: 0 !important;
+        width: 100% !important;
+        font-size: 14px !important;
+        color: #ff3e3e !important;
+        font-weight: bold !important;
+        text-align: left !important;
+      }
+    }
+
+    &.ant-form-item-has-error {
+      & .ant-col.ant-form-item-control {
+        & .ant-input-affix-wrapper {
+          &:before {
+            width: 50%;
+            background-color: #ff7878;
+          }
+
+          &:after {
+            width: 50%;
+            background-color: #ff7878;
+          }
+        }
+        & .ant-input-prefix {
+          color: #ff7878;
+        }
+      }
+    }
+    &.ant-form-item-has-success {
+       & .ant-col.ant-form-item-control {
+         & .ant-input-affix-wrapper {
+           &:before {
+             width: 50%;
+             background-color: #38d39f;
+           }
+
+           &:after {
+             width: 50%;
+             background-color: #38d39f;
+           }
+         }
+         & .ant-input-prefix {
+           color: #38d39f;
+         }
+       }
+     }
+  }
+
+
+
+
 `;

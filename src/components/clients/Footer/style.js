@@ -1,10 +1,9 @@
 import styled from 'styled-components';
 
 export const FooterWrap = styled.footer`
+  position: relative;
+  z-index: 100;
   padding: 0 20px;
-  background-attachment: fixed;
-  background-position: 0 400px;
-  background-repeat: no-repeat;
   background-color: ${(props) => props.theme.bg};
   color: ${(props) => props.theme.gray};
   font-size: 130%;
@@ -140,6 +139,7 @@ export const GetInTouch = styled.div`
 `;
 export const Copyright = styled.div`
   position: relative;
+  z-index: 100;
   padding: 10px 0;
   background-color: ${(props) => props.theme.supColor1};
   text-align: center;
