@@ -103,7 +103,7 @@ const CartPage = () => {
       foodName,
       id: cartId,
       load,
-      pivot,
+      pivot: { quantity },
       price,
       storeId,
       storeName,
@@ -148,30 +148,37 @@ const CartPage = () => {
                 <div
                   className='minus'
                   style={
-                    pivot.quantity === 1 ? { pointerEvents: 'none' } : {}
+                    quantity === 1 || load ? { pointerEvents: 'none' } : {}
                   }
                   onClick={() => {
-                    dispatch(updateCartAction({
-                      data: {
-                        accessToken: JSON.parse(userToken).accessToken,
-                        food: cartId,
-                        action: -1,
-                      },
-                    }));
+                    if (quantity > 1 && !load) {
+                      dispatch(updateCartAction({
+                        data: {
+                          accessToken: JSON.parse(userToken).accessToken,
+                          food: cartId,
+                          action: -1,
+                        },
+                      }));
+                    }
                   }}
                 >
                   <HiMinus />
                 </div>
-                <div className='quantity'>{pivot.quantity}</div>
+                <div className='quantity'>{quantity}</div>
                 <div
                   className='plus'
+                  style={
+                    load ? { pointerEvents: 'none' } : {}
+                  }
                   onClick={() => {
-                    dispatch(updateCartAction({
-                      data: {
-                        accessToken: JSON.parse(userToken).accessToken,
-                        food: cartId,
-                      },
-                    }));
+                    if (!load) {
+                      dispatch(updateCartAction({
+                        data: {
+                          accessToken: JSON.parse(userToken).accessToken,
+                          food: cartId,
+                        },
+                      }));
+                    }
                   }}
                 >
                   <HiPlusSm />
@@ -183,7 +190,7 @@ const CartPage = () => {
                   <NumberFormat
                     value={
                       discount < price &&
-                      price * pivot.quantity
+                      price * quantity
                     }
                     displayType={'text'}
                     thousandSeparator
@@ -191,7 +198,7 @@ const CartPage = () => {
                   />
                 </strike>
                 <NumberFormat
-                  value={discount * pivot.quantity}
+                  value={discount * quantity}
                   displayType={'text'}
                   thousandSeparator
                   suffix={'đ'}
@@ -236,7 +243,6 @@ const CartPage = () => {
                   </div>
                   :
                   <div>
-
                     {total === 0 ?
                       (
                         <S.CartEmpty>
@@ -256,7 +262,7 @@ const CartPage = () => {
                           </S.CartHeader>
                         </Col>
                         <Col lg={9} md={0} sm={0} xs={0} />
-                        <Col  lg={15} md={24} sm={24} xs={24}>
+                        <Col lg={15} md={24} sm={24} xs={24}>
                           <S.CartContent>
                             <S.CartList>{renderCart()}</S.CartList>
                             <S.TotalProvisional>

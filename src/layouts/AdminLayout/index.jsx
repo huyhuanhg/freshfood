@@ -1,7 +1,6 @@
 import { Route, Redirect } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { Spin } from 'antd';
 import PropTypes from 'prop-types';
 
 import Header from '../../components/admins/Header';
@@ -9,6 +8,7 @@ import Sidebar from '../../components/admins/Sidebar';
 import Footer from '../../components/admins/Footer';
 
 import * as StyleLayout from './style';
+import { LoadingMiddle } from '../../styles/LoadingMiddle';
 
 const AdminLayout = ({ exact, path, component: Component }) => {
   const [collapsed, setCollapsed] = useState(true);
@@ -28,15 +28,7 @@ const AdminLayout = ({ exact, path, component: Component }) => {
   } else {
     if (adminInfo.load) {
       return (
-        <Spin
-          size={'large'}
-          style={{
-            position: 'fixed',
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%, -50%)',
-          }}
-        />
+        <LoadingMiddle size={'large'}/>
       );
     } else {
       return (

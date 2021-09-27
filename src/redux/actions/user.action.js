@@ -1,5 +1,5 @@
 import { createAction } from '@reduxjs/toolkit';
-import { REQUEST, USER_ACTION } from '../constants';
+import { REQUEST, RESET, USER_ACTION } from '../constants';
 
 export const loginAction = createAction(REQUEST(USER_ACTION.LOGIN));
 export const logoutAction = createAction(REQUEST(USER_ACTION.LOGOUT));
@@ -12,5 +12,6 @@ export const changePasswordAction = createAction(REQUEST(USER_ACTION.CHANGE_PASS
 export const changeEmailAction = createAction(REQUEST(USER_ACTION.CHANGE_EMAIL));
 export const changeNumberPhoneAction = createAction(REQUEST(USER_ACTION.CHANGE_NUMBER_PHONE));
 export const changeFullNameAction = createAction(REQUEST(USER_ACTION.CHANGE_FULL_NAME));
-export const resetErrorPasswordAction = createAction(USER_ACTION.RESET_ERROR_PASSWORD);
 export const updateUserAction = createAction(REQUEST(USER_ACTION.UPDATE_USER));
+export const resetErrorPasswordAction = createAction(RESET(USER_ACTION.ERROR_PASSWORD));
+export const resetCheckEmailAction = createAction(RESET(USER_ACTION.CHECK_EMAIL_EXISTS));

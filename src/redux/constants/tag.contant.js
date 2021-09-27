@@ -1,3 +1,3 @@
 export const TAG_ACTION = {
-  //TODO
+  GET_TAG_LIST: 'GET_TAG_LIST',
 };

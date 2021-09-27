@@ -1,68 +1,32 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+
 import { useDispatch, useSelector } from 'react-redux';
-import { Col, Row } from 'antd';
+import { Checkbox, Form, Input, Select, Spin } from 'antd';
+
 import {
-  CheckOutlined,
   LockOutlined,
   MailOutlined,
   ManOutlined,
   PhoneOutlined,
   UserOutlined,
 } from '@ant-design/icons';
-
 import * as AuthStyle from '../style';
 import * as RegisterStyle from './style';
-
 import { TITLE, PATH } from '../../../contants';
+import { checkEmailExistsAction, resetCheckEmailAction, registerAction } from '../../../redux/actions';
 
-import { checkEmailExistsAction, registerAction } from '../../../redux/actions';
 
 function RegisterPage() {
   document.title = TITLE(PATH.REGISTER);
+  const [registerForm] = Form.useForm();
+  const [dataRequest, setDataRequest] = useState(null);
 
   const dispatch = useDispatch();
-
   const {
     register: { load: loadRegister },
     checkEmail: { error: checkEmailError, load: checkEmailLoad, success: checkEmailSuccess },
   } = useSelector(({ userReducer }) => userReducer.responseAction);
-
-  const [readySubmit, setReadySubmit] = useState(false);
-
-  const [valid, setValid] = useState({
-    valid: {
-      email: false,
-      password: false,
-      firstName: false,
-      lastName: false,
-      phone: false,
-      gender: false,
-      confirmPassword: false,
-      agree: false,
-    },
-    message: {
-      email: '',
-      password: '',
-      firstName: '',
-      lastName: '',
-      phone: '',
-      confirmPassword: '',
-      gender: '',
-      agree: '',
-    },
-  });
-
-  const [field, setField] = useState({
-    firstName: '',
-    lastName: '',
-    email: '',
-    phone: '',
-    password: '',
-    gender: 'false',
-    confirmPassword: '',
-    agree: false,
-  });
 
   const [fieldFocus, setFieldFocus] = useState({
     email: false,
@@ -73,387 +37,214 @@ function RegisterPage() {
     confirmPassword: false,
   });
 
-  useEffect(() => {
-    if (checkEmailError) {
-      setValid({
-        valid: {
-          ...valid.valid,
-          email: false,
-        },
-        message: {
-          ...valid.message,
-          email: checkEmailError,
-        },
-      });
-    }
-  }, [checkEmailError]);
-
-  useEffect(() => {
-    const fields = valid.valid;
-    let ready = true;
-    for (const field in fields) {
-      if (!fields[field]) {
-        ready = false;
-        break;
-      }
-    }
-    setReadySubmit(ready);
-  }, [valid.valid]);
-
-  const validateRule = (name, value, errors) => {
-    let msg = '';
-    if (name === 'email') {
-      const regex =
-        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\]])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-      if (!regex.test(value)) {
-        msg = 'Định dạng email không đúng!';
-      }
-      if (value === '') {
-        msg = 'Vui lòng nhập email!';
-      }
-    }
-    if (name === 'password') {
-      if (value === '') {
-        msg = 'Vui lòng nhập mật khẩu!';
-      } else if (value.length < 6) {
-        msg = 'Mật khẩu tối thiểu 6 kí tự!';
-      }
-    }
-    if (name === 'firstName' || name === 'lastName') {
-      if (value === '') {
-        msg = 'Vui lòng nhập họ tên!';
-      }
-    }
-    if (name === 'phone') {
-      const regex = /^(0|\+84)[3|5|7|8|9][\d+]{8}$/;
-      if (!regex.test(value)) {
-        msg = 'Định dạng không hợp lệ (0... / +84...)';
-      }
-      if (value === '') {
-        msg = 'Vui lòng nhập số điện thoại!';
-      }
-    }
-    if (name === 'confirmPassword') {
-      if (value === '') {
-        msg = 'Vui lòng xác nhận mật khẩu!';
-      }
-      if (value !== field.password) {
-        msg = 'Nhập lại mật khẩu không đúng!';
-      }
-    }
-    if (name === 'gender') {
-      if (value === 'false') {
-        msg = 'invalid';
-      }
-    }
-    if (name === 'agree') {
-      if (!value) {
-        msg = 'invalid';
-      }
-    }
-    return {
-      valid: {
-        ...errors.valid,
-        [name]: !msg,
-      },
-      message: {
-        ...errors.message,
-        [name]: msg,
-      },
-    };
-  };
-  const handleValid = () => {
-    let invalid = { ...valid };
-    for (const rule in field) {
-      invalid = validateRule(rule, field[rule], invalid);
-    }
-    setValid(invalid);
-  };
   const handleFocus = (e) => {
     setFieldFocus({
       ...fieldFocus,
-      [e.target.name]: true,
-    });
-    setValid({
-      ...valid,
-      message: {
-        ...valid.message,
-        [e.target.name]: '',
-      },
+      [e.target.id]: true,
     });
   };
   const handleBlur = (e) => {
-    setFieldFocus({
-      ...fieldFocus,
-      [e.target.name]: !!field[e.target.name],
-    });
-    const invalid = validateRule(e.target.name, e.target.value, { ...valid });
-    setValid(invalid);
-    if (e.target.name === 'email') {
-      dispatch(
-        checkEmailExistsAction({
-          data: {
-            email: field.email,
-          },
-        }),
-      );
+    if (!e.target.value) {
+      setFieldFocus({
+        ...fieldFocus,
+        [e.target.id]: false,
+      });
+    } else {
+      if (e.target.id === 'email') {
+        const regex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        if (regex.test(e.target.value)) {
+          dispatch(checkEmailExistsAction({
+            data: { email: e.target.value },
+          }));
+        }
+      }
     }
   };
+  const handleSubmit = (value) => {
+    setDataRequest({ ...value });
+  };
+  useEffect(() => {
+    dispatch(resetCheckEmailAction());
+  }, []);
 
-  const handleChangeField = (e) => {
-    setField({
-      ...field,
-      [e.target.name]:
-        e.target.type === 'checkbox' ? e.target.checked : e.target.value,
-    });
-  };
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    handleValid();
-    if (readySubmit) {
-      dispatch(
-        registerAction({
-          data: field,
-        }),
-      );
+  useEffect(() => {
+    if (checkEmailSuccess && dataRequest) {
+      dispatch(registerAction({ data: { ...dataRequest } }));
     }
-  };
+  }, [dataRequest, checkEmailSuccess]);
+
+  useEffect(() => {
+    if (checkEmailError) {
+      registerForm.setFields([{
+        name: 'email',
+        errors: [checkEmailError],
+      }]);
+    } else {
+      registerForm.setFields([{
+        name: 'email',
+        errors: null,
+      }]);
+    }
+  }, [checkEmailError]);
+
   return (
-    <form style={{ width: 450 }} onSubmit={handleSubmit}>
+    <Form
+      layout='vertical'
+      form={registerForm}
+      style={{ width: 450 }}
+      onFinish={handleSubmit}
+    >
       <AuthStyle.FormTitle>Đăng Ký</AuthStyle.FormTitle>
-      <Row gutter={10} style={{ position: 'relative' }}>
-        <Col span={12}>
-          <AuthStyle.FormGroup
-            grid
-            focus={fieldFocus.firstName}
-            error={!!valid.message.firstName || !!valid.message.lastName}
-          >
-            <AuthStyle.IconWrap
-              focus={fieldFocus.firstName}
-              error={!!valid.message.firstName || !!valid.message.lastName}
-            >
-              <RegisterStyle.IconCustom icon={UserOutlined} />
-            </AuthStyle.IconWrap>
-            <AuthStyle.FormControlWrap>
-              <AuthStyle.TitleFormControl
-                htmlFor='firstName'
-                focus={fieldFocus.firstName}
-              >
-                Họ
-              </AuthStyle.TitleFormControl>
-              <AuthStyle.FormControl
-                id='firstName'
-                type='text'
-                name='firstName'
-                value={field.firstName}
-                autoComplete='off'
-                onFocus={handleFocus}
-                onBlur={handleBlur}
-                onChange={handleChangeField}
-              />
-            </AuthStyle.FormControlWrap>
-          </AuthStyle.FormGroup>
-        </Col>
-        <Col span={12}>
-          <AuthStyle.FormGroup
-            focus={fieldFocus.lastName}
-            error={!!valid.message.firstName || !!valid.message.lastName}
-          >
-            <div />
-            <AuthStyle.FormControlWrap>
-              <AuthStyle.TitleFormControl
-                htmlFor='lastName'
-                focus={fieldFocus.lastName}
-              >
-                Tên
-              </AuthStyle.TitleFormControl>
-              <AuthStyle.FormControl
-                id='lastName'
-                type='text'
-                name='lastName'
-                value={field.lastName}
-                autoComplete='off'
-                onFocus={handleFocus}
-                onBlur={handleBlur}
-                onChange={handleChangeField}
-                style={{ width: '100%' }}
-              />
-            </AuthStyle.FormControlWrap>
-          </AuthStyle.FormGroup>
-        </Col>
-        <AuthStyle.InvalidMsg centerGrid>
-          {valid.message.firstName || valid.message.lastName}
-        </AuthStyle.InvalidMsg>
-      </Row>
-
-      <Row gutter={10} style={{ position: 'relative' }}>
-        <Col span={15}>
-          <AuthStyle.FormGroup
-            focus={fieldFocus.phone}
-            error={!!valid.message.phone}
-            grid
-          >
-            <AuthStyle.IconWrap
-              focus={fieldFocus.phone}
-              error={!!valid.message.phone}
-            >
-              <RegisterStyle.IconCustom icon={PhoneOutlined} />
-            </AuthStyle.IconWrap>
-            <AuthStyle.FormControlWrap>
-              <AuthStyle.TitleFormControl htmlFor='phone' focus={fieldFocus.phone}>
-                Số điện thoại
-              </AuthStyle.TitleFormControl>
-              <AuthStyle.FormControl
-                id='phone'
-                type='text'
-                name='phone'
-                value={field.phone}
-                autoComplete='off'
-                onFocus={handleFocus}
-                onBlur={handleBlur}
-                onChange={handleChangeField}
-              />
-            </AuthStyle.FormControlWrap>
-          </AuthStyle.FormGroup>
-        </Col>
-        <Col span={9}>
-          <AuthStyle.FormGroup error={!!valid.message.gender}>
-            <AuthStyle.IconWrap error={!!valid.message.gender}>
-              <RegisterStyle.IconCustom icon={ManOutlined} />
-            </AuthStyle.IconWrap>
-            <AuthStyle.FormControlWrap>
-              <RegisterStyle.SelectCustom
-                id='gender'
-                name='gender'
-                defaultValue={field.gender}
-                onChange={(e) => {
-                  setField({
-                    ...field,
-                    gender: e.target.value,
-                  });
-                  const invalid = validateRule('gender', e.target.value, {
-                    ...valid,
-                  });
-                  setValid(invalid);
-                }}
-              >
-                <option value='false' disabled hidden>
-                  Giới tính
-                </option>
-                <option value={1}>Nam</option>
-                <option value={0}>Nữ</option>
-              </RegisterStyle.SelectCustom>
-            </AuthStyle.FormControlWrap>
-          </AuthStyle.FormGroup>
-        </Col>
-        <AuthStyle.InvalidMsg leftGrid>{valid.message.phone}</AuthStyle.InvalidMsg>
-      </Row>
-
-      <AuthStyle.FormGroup focus={fieldFocus.email} error={!!valid.message.email}>
-        <AuthStyle.IconWrap focus={fieldFocus.email} error={!!valid.message.email}>
-          <RegisterStyle.IconCustom icon={MailOutlined} />
-        </AuthStyle.IconWrap>
-        <AuthStyle.FormControlWrap>
-          <AuthStyle.TitleFormControl htmlFor='email' focus={fieldFocus.email}>
-            Email
-          </AuthStyle.TitleFormControl>
-          <AuthStyle.FormControl
-            id='email'
-            type='text'
-            name='email'
-            value={field.email}
-            autoComplete='off'
-            onFocus={handleFocus}
-            onBlur={handleBlur}
-            onChange={handleChangeField}
-          />
-          {(checkEmailLoad && <RegisterStyle.ControlLoading size='middle' />) ||
-          (checkEmailSuccess && (
-            <RegisterStyle.IconCheck icon={CheckOutlined} />
-          ))}
-        </AuthStyle.FormControlWrap>
-        <AuthStyle.InvalidMsg>{valid.message.email}</AuthStyle.InvalidMsg>
-      </AuthStyle.FormGroup>
-
-      <AuthStyle.FormGroup
-        focus={fieldFocus.password}
-        error={!!valid.message.password}
-      >
-        <AuthStyle.IconWrap
-          focus={fieldFocus.password}
-          error={!!valid.message.password}
-        >
-          <RegisterStyle.IconCustom icon={LockOutlined} />
-        </AuthStyle.IconWrap>
-        <AuthStyle.FormControlWrap>
-          <AuthStyle.TitleFormControl htmlFor='password' focus={fieldFocus.password}>
-            Mật khẩu
-          </AuthStyle.TitleFormControl>
-          <AuthStyle.FormControl
-            id='password'
-            type='password'
-            name='password'
-            value={field.password}
-            onFocus={handleFocus}
-            onBlur={handleBlur}
-            onChange={handleChangeField}
-          />
-        </AuthStyle.FormControlWrap>
-        <AuthStyle.InvalidMsg>{valid.message.password}</AuthStyle.InvalidMsg>
-      </AuthStyle.FormGroup>
-
-      <AuthStyle.FormGroup
-        focus={fieldFocus.confirmPassword}
-        error={!!valid.message.confirmPassword}
-      >
-        <AuthStyle.IconWrap
-          focus={fieldFocus.confirmPassword}
-          error={!!valid.message.confirmPassword}
-        >
-          <RegisterStyle.IconCustom icon={LockOutlined} />
-        </AuthStyle.IconWrap>
-        <AuthStyle.FormControlWrap>
-          <AuthStyle.TitleFormControl
-            htmlFor='confirmPassword'
-            focus={fieldFocus.confirmPassword}
-          >
-            Nhập lại mật khẩu
-          </AuthStyle.TitleFormControl>
-          <AuthStyle.FormControl
-            id='confirmPassword'
-            type='password'
-            name='confirmPassword'
-            value={field.confirmPassword}
-            onFocus={handleFocus}
-            onBlur={handleBlur}
-            onChange={handleChangeField}
-          />
-        </AuthStyle.FormControlWrap>
-        <AuthStyle.InvalidMsg>{valid.message.confirmPassword}</AuthStyle.InvalidMsg>
-      </AuthStyle.FormGroup>
-      <RegisterStyle.CheckboxWrap>
-        <RegisterStyle.CheckboxCustom
-          name='agree'
-          value={field.agree}
-          error={!!valid.message.agree}
-          onClick={(e) => {
-            setField({
-              ...field,
-              agree: e.target.checked,
-            });
-            const invalid = validateRule('agree', e.target.checked, {
-              ...valid,
-            });
-            setValid(invalid);
+      <Form.Item noStyle>
+        <AuthStyle.FormGroup
+          name='firstName'
+          label='Họ'
+          focus={fieldFocus.firstName}
+          onFocus={handleFocus}
+          onBlur={handleBlur}
+          rules={[
+            { required: true, message: 'Nhập họ!' },
+          ]}
+          style={{
+            display: 'inline-block',
+            width: '49.5%',
           }}
         >
-          Đồng ý với điều khoản của chúng tôi?
-        </RegisterStyle.CheckboxCustom>
-      </RegisterStyle.CheckboxWrap>
+          <Input prefix={<UserOutlined />} />
+        </AuthStyle.FormGroup>
+        <AuthStyle.FormGroup
+          name='lastName'
+          label='Tên'
+          focus={fieldFocus.lastName}
+          onFocus={handleFocus}
+          onBlur={handleBlur}
+          rules={[
+            { required: true, message: 'Nhập tên!' },
+          ]}
+          style={{
+            display: 'inline-block',
+            width: '49.5%',
+            marginLeft: '1%',
+          }}
+        >
+          <Input prefix={' '} />
+        </AuthStyle.FormGroup>
+      </Form.Item>
+      <Form.Item noStyle>
+        <AuthStyle.FormGroup
+          name='phone'
+          label='Số điện thoại'
+          focus={fieldFocus.phone}
+          onFocus={handleFocus}
+          onBlur={handleBlur}
+          rules={[
+            { required: true, message: 'Vui lòng nhập số điện thoại' },
+            {
+              pattern: new RegExp('^(0|\\+84)[3|5|7|8|9][\\d+]{8}$'),
+              message: 'Định dạng không hợp lệ (0... / +84...)',
+            },
+          ]}
+          style={{
+            display: 'inline-block',
+            width: '65%',
+          }}
+        >
+          <Input prefix={<PhoneOutlined />} />
+        </AuthStyle.FormGroup>
+        <AuthStyle.Gender>
+          <AuthStyle.FormGroup
+            label='Giới tính'
+            name='gender'
+            focus={fieldFocus.gender}
+            rules={[
+              { required: true, message: 'Chọn giới tính!' },
+            ]}
+            className='select-gender'
+          >
+            <Select
+              onChange={() => {
+                setFieldFocus({ ...fieldFocus, gender: true });
+              }}
+            >
+              <Select.Option value={1}>Nam</Select.Option>
+              <Select.Option value={0}>Nữ</Select.Option>
+            </Select>
+          </AuthStyle.FormGroup>
+          <ManOutlined className='prefix-icon' />
+        </AuthStyle.Gender>
+      </Form.Item>
+      <AuthStyle.FormGroup
+        name='email'
+        label='Email'
+        focus={fieldFocus.email}
+        onFocus={handleFocus}
+        onBlur={handleBlur}
+        rules={[
+          { required: true, message: 'Vui lòng nhập email' },
+          {
+            pattern: new RegExp(
+              '^(([^<>()[\\]\\\\.,;:\\s@"]+(\\.[^<>()[\\]\\\\.,;:\\s@"]+)*)|(".+"))@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$',
+            ),
+            message: 'Định dạng email không đúng!',
+          },
+        ]}
+      >
+        <Input
+          prefix={<MailOutlined />}
+          suffix={checkEmailLoad ? <Spin /> : (checkEmailSuccess && <RegisterStyle.EmailSuccess />)}
+        />
+      </AuthStyle.FormGroup>
+      <AuthStyle.FormGroup
+        name='password'
+        focus={fieldFocus.password}
+        onFocus={handleFocus}
+        onBlur={handleBlur}
+        label='Mật khẩu'
+        rules={[
+          { required: true, message: 'Vui lòng nhập mật khẩu!' },
+          { min: 6, message: 'Mật khẩu tối thiệu 6 ký tự!' },
+        ]}
+      >
+        <Input.Password prefix={<LockOutlined />} />
+      </AuthStyle.FormGroup>
+      <AuthStyle.FormGroup
+        name='confirmPassword'
+        focus={fieldFocus.confirmPassword}
+        onFocus={handleFocus}
+        onBlur={handleBlur}
+        label='Nhập lại mật khẩu'
+        rules={[
+          { required: true, message: 'Vui lòng xác nhận mật khẩu!' },
+          { min: 6, message: 'Mật khẩu tối thiểu 6 ký tự!' },
+          ({ getFieldValue }) => ({
+            validator(_, value) {
+              if (!value || value.length < 6 || getFieldValue('password') === value) {
+                return Promise.resolve();
+              }
+              return Promise.reject(new Error('Nhập lại mật khẩu không khớp!'));
+            },
+          }),
+        ]}
+      >
+        <Input.Password prefix={<LockOutlined />} />
+      </AuthStyle.FormGroup>
+      <AuthStyle.Agree
+        name='agree'
+        valuePropName='checked'
+        style={{ textAlign: 'left' }}
+        rules={[
+          {
+            validator: (_, value) =>
+              value ? Promise.resolve() : Promise.reject(new Error(' ')),
+          },
+        ]}
+      >
+        <Checkbox>Đồng ý với điều khoản của chúng tôi</Checkbox>
+      </AuthStyle.Agree>
       <AuthStyle.BtnSubmit
         htmlType='submit'
-        disabled={loadRegister}
         style={{ marginTop: '2rem' }}
+        disabled={loadRegister}
       >
         Đăng ký
         <AuthStyle.SubmitLoading size='middle' show={loadRegister} />
@@ -468,7 +259,7 @@ function RegisterPage() {
           <Link to={'/login'}> Đăng nhập</Link>
         </p>
       </div>
-    </form>
+    </Form>
   );
 }
 

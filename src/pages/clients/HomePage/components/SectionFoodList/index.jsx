@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react';
-import { Affix, Button, Col, Menu, Row, Select, Spin } from 'antd';
+import { Affix, Button, Col, Menu, Row, Select, Spin, Tag } from 'antd';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 
 import * as HomeS from '../../styles';
 import * as S from './style';
-import { Filter as FilterStyle } from '../../../../../styles';
+import * as RootStyle from '../../../../../styles';
 import { BiFilterAlt, BsCheck, MdRemoveShoppingCart } from 'react-icons/all';
-import { getFoodListAction } from '../../../../../redux/actions';
+import { getFoodListAction, getTagListAction } from '../../../../../redux/actions';
 
 const SectionFoodList = ({ render }) => {
   const { Option } = Select;
@@ -22,7 +22,7 @@ const SectionFoodList = ({ render }) => {
     },
   } = useSelector(({ foodReducer }) => foodReducer);
   const { tagList: { data: tagData } } = useSelector(({ tagReducer }) => tagReducer);
-
+  const [mobileFilterActive, setMobileFilterActive] = useState(false);
   const [menuActive, setMenuActive] = useState('created_at');
   const [sortPrice, setSortPrice] = useState('');
   const [request, setRequest] = useState({
@@ -34,9 +34,41 @@ const SectionFoodList = ({ render }) => {
   });
 
   useEffect(() => {
+    dispatch(getTagListAction());
+  }, []);
+
+  useEffect(() => {
     dispatch(getFoodListAction(request));
   }, [request]);
 
+  const renderTagList = () => {
+    return tagData.map(({ id, tagActive, tagName }) => {
+      if (tagActive === 1) {
+        return {
+          value: id,
+          label: tagName,
+        };
+      }
+    });
+  };
+  const tagRender = ({ label, value, closable, onClose }) => {
+    const onPreventMouseDown = (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+    };
+    return (
+      <Tag
+        color='green'
+        onMouseDown={onPreventMouseDown}
+        closable={closable}
+        onClose={onClose}
+        style={{ marginRight: 3 }}
+        value={value}
+      >
+        {label}
+      </Tag>
+    );
+  };
   const handleChaneTag = (key) => {
     let tagsActive = [...request.tags];
     if (key === '') {
@@ -127,8 +159,8 @@ const SectionFoodList = ({ render }) => {
       </Col>
       <Col lg={20} md={20} sm={24}>
         <HomeS.AffixIndex offsetTop={88.375}>
-          <FilterStyle>
-            <Menu
+          <RootStyle.Filter>
+            <RootStyle.PrefixFilter
               mode='horizontal'
               multiple={true}
               selectedKeys={[menuActive]}
@@ -151,8 +183,28 @@ const SectionFoodList = ({ render }) => {
               }}>
                 Bán chạy
               </Menu.Item>
-            </Menu>
-            <S.SuffixFilter className='suffix-filter'>
+            </RootStyle.PrefixFilter>
+            <S.MoreFilter onClick={() => setMobileFilterActive(!mobileFilterActive)} />
+            <RootStyle.SuffixFilter className='suffix-filter' active={mobileFilterActive}>
+              <li className='mobile-filter'>
+                <Select
+                  value={request?.tags}
+                  mode='multiple'
+                  showArrow
+                  placeholder='Chọn danh mục'
+                  tagRender={tagRender}
+                  options={renderTagList()}
+                  maxTagCount={3}
+                  getPopupContainer={(trigger) => trigger.parentNode}
+                  onChange={(value) => {
+                    setRequest({
+                      ...request,
+                      tags: value,
+                      page: 1,
+                    });
+                  }}
+                />
+              </li>
               <li>
                 <Select
                   value={sortPrice}
@@ -178,8 +230,8 @@ const SectionFoodList = ({ render }) => {
                   <Option value='-1'>Giá giảm dần</Option>
                 </Select>
               </li>
-            </S.SuffixFilter>
-          </FilterStyle>
+            </RootStyle.SuffixFilter>
+          </RootStyle.Filter>
         </HomeS.AffixIndex>
         <div className='p-relative pt-2r'>
           {total === 0

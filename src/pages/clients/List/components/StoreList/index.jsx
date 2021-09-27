@@ -7,7 +7,7 @@ import * as S from '../../style';
 
 import StoreItem from '../../../../../components/clients/StoreItem';
 import history from '../../../../../utils/history';
-import { getStoresAction } from '../../../../../redux/actions';
+import { getCategoryListAction, getStoresAction } from '../../../../../redux/actions';
 import { Filter as FilterStyle } from '../../../../../styles';
 import { PATH, TITLE } from '../../../../../contants';
 
@@ -29,6 +29,10 @@ const StoreList = () => {
   const [menuActive, setMenuActive] = useState('created_at');
   const [request, setRequest] = useState(null);
   const [sortAvgType, setSortAvgType] = useState(0);
+
+  useEffect(() => {
+    dispatch(getCategoryListAction());
+  }, []);
 
   useEffect(() => {
     const { pathname, search } = history.location;

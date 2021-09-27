@@ -62,7 +62,7 @@ function LoginPage() {
       onFinish={handleSubmit}
     >
       <AuthStyle.FormTitle>Đăng Nhập</AuthStyle.FormTitle>
-      <AuthStyle.FormGroupx
+      <AuthStyle.FormGroup
         name='email'
         label='Email'
         focus={fieldFocus.email}
@@ -79,8 +79,8 @@ function LoginPage() {
         ]}
       >
         <Input prefix={<MailOutlined />} />
-      </AuthStyle.FormGroupx>
-      <AuthStyle.FormGroupx
+      </AuthStyle.FormGroup>
+      <AuthStyle.FormGroup
         name='password'
         focus={fieldFocus.password}
         onFocus={handleFocus}
@@ -92,7 +92,7 @@ function LoginPage() {
         ]}
       >
         <Input.Password prefix={<LockOutlined />} />
-      </AuthStyle.FormGroupx>
+      </AuthStyle.FormGroup>
       <AuthStyle.BtnSubmit htmlType='submit' disabled={LoginLoad}>
         Đăng nhập
         <AuthStyle.SubmitLoading size='middle' show={LoginLoad} />

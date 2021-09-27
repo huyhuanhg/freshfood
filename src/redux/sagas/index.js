@@ -3,6 +3,7 @@ import { fork } from 'redux-saga/effects';
 import foodSaga from './food.saga';
 import userSaga from './user.saga';
 import categorySaga from './category.saga';
+import tagSaga from './tag.saga';
 import adminSaga from './admin.saga';
 import promotionSaga from './promotion.saga';
 import storeSaga from './store.saga';
@@ -23,6 +24,7 @@ export default function* rootSaga() {
   yield fork(storeSaga);
 
   yield fork(categorySaga);
+  yield fork(tagSaga);
   yield fork(addressSaga);
   yield fork(orderSaga);
   yield fork(likeSaga);

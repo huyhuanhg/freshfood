@@ -1,5 +1,6 @@
 import styled, { css } from 'styled-components';
-import { Button } from 'antd';
+import { Button, Menu } from 'antd';
+import { VscThreeBars } from 'react-icons/all';
 
 export const Logo = styled.div`
   height: 80px;
@@ -67,10 +68,74 @@ export const Icon = styled(Button)`
 `;
 
 export const Filter = styled.div`
+  position: relative;
   display: flex;
   justify-content: space-between;
   align-items: center;
   min-height: 41px;
   background-color: ${(props) => props.theme.bgFilter};
   width: 100%;
+  @media screen and (max-width: 767px) {
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+  }
+`;
+export const PrefixFilter = styled(Menu)`
+`;
+
+export const SuffixFilter = styled.ul`
+  margin: 0;
+
+  & > li > div {
+    min-width: 122px;
+  }
+
+  & .mobile-filter {
+    display: none;
+  }
+
+  @media screen and (max-width: 767px) {
+    height: ${({ active }) => active ? 'auto' : 0};
+    overflow: ${({ active }) => active ? 'unset' : 'hidden'};
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    background: #ececec;
+    padding: ${({ active }) => active ? '4px 11px' : 0};
+    transition: .3s;
+    & .mobile-filter {
+      display: block;
+    }
+
+    & > li > div {
+      min-width: unset;
+      width: 100%;
+
+      & .ant-select-selector {
+        max-height: 32px;
+        overflow: hidden;
+      }
+    }
+
+    & > li:first-child {
+      flex-basis: 70%;
+    }
+
+    & > li:last-child {
+      flex-basis: 30%;
+    }
+  }
+`;
+export const MoreFilterIcon = styled(VscThreeBars)`
+  position: absolute;
+  top: 11.5px;
+  right: 15px;
+  font-size: 24px;
+  color: #ccc;
+  display: none;
+  @media screen and (max-width: 767px) {
+    display: block;
+  }
 `;

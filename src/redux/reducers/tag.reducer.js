@@ -1,5 +1,5 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { SUCCESS, FOOD_ACTION } from '../constants';
+import { SUCCESS, TAG_ACTION } from '../constants';
 
 const initialState = {
   tagList: {
@@ -10,13 +10,12 @@ const initialState = {
 };
 
 const tagReducer = createReducer(initialState, {
-  [SUCCESS(FOOD_ACTION.GET_FOOD_LIST)]: (state, action) => {
-    const { tags } = action.payload.data;
+  [SUCCESS(TAG_ACTION.GET_TAG_LIST)]: (state, { payload: { data } }) => {
     return {
       ...state,
       tagList: {
         ...state.tagList,
-        data: tags,
+        data,
         load: false,
         error: null,
       },

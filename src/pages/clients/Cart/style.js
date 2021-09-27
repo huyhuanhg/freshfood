@@ -22,6 +22,7 @@ export const CartTitle = styled.div`
   }
 `;
 export const CartWrap = styled.div`
+  position: relative;
   min-height: calc(100vh - 480px);
 
   & .ant-affix {
@@ -39,11 +40,18 @@ export const CartWrap = styled.div`
       }
     }
   }
+  @media screen and (max-width: 757px) {
+    min-height: calc(100vh - 204.781px);
+  }
 `;
 export const CartEmpty = styled.div`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -60%);
+  width: 100%;
   display: flex;
   flex-direction: column;
-  padding-top: 2rem;
 
   & > div {
     align-self: center;

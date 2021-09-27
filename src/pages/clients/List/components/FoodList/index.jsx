@@ -9,7 +9,7 @@ import * as S from '../../style';
 
 import { FoodItemHome } from '../../../../../components/clients/FoodItem';
 import history from '../../../../../utils/history';
-import { getFoodListAction, getLikesAction } from '../../../../../redux/actions';
+import { getFoodListAction, getLikesAction, getTagListAction } from '../../../../../redux/actions';
 import FoodDetailModal from '../../../../../components/clients/FoodDetailModal';
 import { Filter as FilterStyle } from '../../../../../styles';
 
@@ -23,6 +23,10 @@ const FoodList = ({ setShowLogin }) => {
   const [filterActive, setFieldActive] = useState('created_at');
   const [sortPriceType, setSortPriceType] = useState('');
   const [request, setRequest] = useState(null);
+
+  useEffect(() => {
+    dispatch(getTagListAction());
+  }, []);
 
   useEffect(() => {
     if (userInfo.data.id) {

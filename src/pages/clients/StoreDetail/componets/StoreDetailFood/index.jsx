@@ -6,7 +6,7 @@ import { MdRemoveShoppingCart } from 'react-icons/all';
 
 import FoodDetailCarousel from '../../../../../components/clients/FoodDeatilCarousle';
 import { FoodStore } from '../../../../../components/clients/FoodItem';
-import { getFoodListAction, updateCartAction } from '../../../../../redux/actions';
+import { getFoodListAction, getTagListAction, updateCartAction } from '../../../../../redux/actions';
 import history from '../../../../../utils/history';
 import { Filter as FilterStyle } from '../../../../../styles';
 
@@ -30,6 +30,10 @@ const StoreDetailFood = ({ showFoodDetail, setShowLogin, setShowFoodDetail, slug
   const [filterFood, setFilterFood] = useState(null);
   const [foodIndex, setFoodIndex] = useState(0);
   const storeId = slug.slice(slug.lastIndexOf('.') + 1);
+
+  useEffect(() => {
+    dispatch(getTagListAction());
+  }, []);
 
   useEffect(() => {
     const pathname = history.location.pathname;

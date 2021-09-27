@@ -1,13 +1,13 @@
 import { Link, Redirect, Route } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
-import { Spin } from 'antd';
 import PropTypes from 'prop-types';
 
 import * as LayoutStyle from './style';
 
 import bgLogin from '../../assets/images/bg-login.png';
 import foodLogo from '../../assets/images/food_logo.png';
+import { LoadingMiddle } from '../../styles/LoadingMiddle';
 
 function FullLayout({ exact, path, component: Component }) {
   const { userInfo: { data: userData, loadUser } } = useSelector(({ userReducer }) => userReducer);
@@ -16,15 +16,7 @@ function FullLayout({ exact, path, component: Component }) {
   } else {
     if (loadUser) {
       return (
-        <Spin
-          size={'large'}
-          style={{
-            position: 'fixed',
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%, -50%)',
-          }}
-        />
+        <LoadingMiddle size={'large'}/>
       );
     } else {
       return (

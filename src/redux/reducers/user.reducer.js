@@ -1,5 +1,5 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { REQUEST, SUCCESS, FAILURE, USER_ACTION } from '../constants';
+import { REQUEST, SUCCESS, FAILURE, USER_ACTION, RESET } from '../constants';
 
 const initialState = {
   userList: [],
@@ -543,12 +543,31 @@ const userReducer = createReducer(initialState, {
       },
     };
   },
-  [USER_ACTION.RESET_ERROR_PASSWORD]: (state) => {
+  [RESET(USER_ACTION.ERROR_PASSWORD)]: (state) => {
     return {
       ...state,
-      userInfo: {
-        ...state.userInfo,
-        errorChangePassword: null,
+      responseAction: {
+        ...state.responseAction,
+        update: {
+          ...state.responseAction.update,
+          password: {
+            load: false,
+            error: null,
+          },
+        },
+      },
+    };
+  },
+  [RESET(USER_ACTION.CHECK_EMAIL_EXISTS)]: (state) => {
+    return {
+      ...state,
+      responseAction: {
+        ...state.responseAction,
+        checkEmail: {
+          success: false,
+          load: false,
+          error: null,
+        },
       },
     };
   },

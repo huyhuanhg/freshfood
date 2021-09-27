@@ -1,5 +1,5 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { SUCCESS, STORE_ACTION } from '../constants';
+import { SUCCESS, CATEGORY_ACTION } from '../constants';
 
 const initialState = {
   categories: {
@@ -10,13 +10,12 @@ const initialState = {
 };
 
 const categoryReducer = createReducer(initialState, {
-  [SUCCESS(STORE_ACTION.GET_STORE_LIST)]: (state, action) => {
-    const { categories } = action.payload.data;
+  [SUCCESS(CATEGORY_ACTION.GET_CATEGORY_LIST)]: (state, { payload: { data } }) => {
     return {
       ...state,
       categories: {
         ...state.categories,
-        data: categories,
+        data,
         load: false,
         error: null,
       },

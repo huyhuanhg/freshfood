@@ -36,9 +36,9 @@ const storeReducer = createReducer(initialState, {
     };
   },
   [SUCCESS(STORE_ACTION.GET_STORE_LIST)]: (state, action) => {
-    const { stores } = action.payload.data;
-    let newStores = [...stores.data];
-    if (stores.currentPage > state.storeList.currentPage) {
+    const { currentPage, lastPage, total, data } = action.payload.data;
+    let newStores = [...data];
+    if (currentPage > state.storeList.currentPage) {
       newStores = [...state.storeList.data, ...newStores];
     }
     return {
@@ -46,9 +46,9 @@ const storeReducer = createReducer(initialState, {
       storeList: {
         ...state.storeList,
         data: newStores,
-        currentPage: stores.currentPage,
-        lastPage: stores.lastPage,
-        total: stores.total,
+        currentPage,
+        lastPage,
+        total,
         load: false,
         error: null,
       },

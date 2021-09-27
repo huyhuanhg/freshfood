@@ -79,6 +79,7 @@ export const LogoImg = styled.img`
       z-index: 100;
       width: 100%;
       background: #fff;
+      font-size: 300%;
       box-shadow: 0 2px 8px 0 rgb(99 99 99 / 20%);
       text-align: left;
       padding-left: 20px;
@@ -92,10 +93,19 @@ export const FormWrap = styled.div`
   justify-content: flex-start;
   align-items: center;
   text-align: center;
+  padding-top: 68px;
   @media screen and (max-width: 767px) {
     flex-basis: 100%;
-    align-items: self-start;
+    align-items: center;
     justify-content: center;
-    padding-top: 100px;
+    height: 100vh;
+    overflow: hidden;
+    & > form {
+      width: calc(100% - 2rem) !important;
+      overflow: hidden;
+      position: fixed;
+      top: 50%;
+      transform: translateY(-50%);
+    }
   }
 `;

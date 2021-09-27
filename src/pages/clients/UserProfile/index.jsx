@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
-import { Affix, Col, Menu, message, Row, Spin } from 'antd';
+import { Affix, Col, Menu, message, Row } from 'antd';
 import {
   AiFillEdit,
   AiOutlinePoweroff, BsFillBookmarkFill,
@@ -31,6 +31,7 @@ import EditProfile from './EditProfile';
 import history from '../../../utils/history';
 import { changeAvatarAction, logoutAction } from '../../../redux/actions';
 import { MSG } from '../../../contants/message.contant';
+import { LoadingMiddle } from '../../../styles/LoadingMiddle';
 
 const UserProfile = ({ match }) => {
   const { SubMenu } = Menu;
@@ -107,15 +108,7 @@ const UserProfile = ({ match }) => {
   } else {
     if (userInfo.load) {
       return (
-        <Spin
-          size={'large'}
-          style={{
-            position: 'fixed',
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%, -50%)',
-          }}
-        />
+        <LoadingMiddle size={'large'} />
       );
     } else {
       return (
