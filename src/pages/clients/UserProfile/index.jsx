@@ -31,7 +31,7 @@ import EditProfile from './EditProfile';
 import history from '../../../utils/history';
 import { changeAvatarAction, logoutAction } from '../../../redux/actions';
 import { MSG } from '../../../contants/message.contant';
-import { LoadingMiddle } from '../../../styles/LoadingMiddle';
+import { LoadingMiddleStyle } from '../../../styles/LoadingMiddle.style';
 
 const UserProfile = ({ match }) => {
   const { SubMenu } = Menu;
@@ -108,7 +108,7 @@ const UserProfile = ({ match }) => {
   } else {
     if (userInfo.load) {
       return (
-        <LoadingMiddle size={'large'} />
+        <LoadingMiddleStyle size={'large'} />
       );
     } else {
       return (

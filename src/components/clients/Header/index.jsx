@@ -243,7 +243,7 @@ function Header({ setShowModalLogin }) {
                           }}
                         >
                           <Option value={PATH.STORE}>
-                            <ShopOutlined className='search-icon'/>
+                            <ShopOutlined className='search-icon' />
                             <span className='search-text'>Cửa hàng</span>
                           </Option>
                           <Option value={PATH.FOOD}>
@@ -270,7 +270,7 @@ function Header({ setShowModalLogin }) {
                   disabled={history.location.pathname === PATH.CART}
                 >
                   <ShoppingCartOutlined />
-                  <span>Cart</span>
+                  <span className='text'>Cart</span>
                 </HeaderStyle.CartBtn>
               </Badge>
               <Dropdown
