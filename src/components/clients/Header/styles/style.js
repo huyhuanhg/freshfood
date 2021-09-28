@@ -128,7 +128,7 @@ export const MenuWrap = styled.div`
   @media screen and (max-width: 479px) {
     padding: 0.5rem 1rem;
     & > .ant-space.ant-space-horizontal.ant-space-align-center {
-      gap: 12px;
+      gap: 12px !important;
     }
   }
 `;
@@ -142,6 +142,10 @@ export const Logo = styled(Link)`
 
   &:hover {
     color: ${(props) => props.theme.rootColor};
+  }
+
+  @media screen and (max-width: 479px) {
+    font-size: 1.8rem;
   }
 `;
 export const SearchWrap = styled.div`
@@ -295,12 +299,28 @@ export const CartBtn = styled.div`
     border: 1px solid #aaa;
 
   }
+
+  @media screen and (max-width: 479px) {
+    height: 35px;
+    width: 35px;
+    & .text {
+      display: none;
+    }
+  }
 `;
 export const UserAvatar = styled(Avatar)`
   background-color: rgba(15, 157, 88, 0.1);
   border-color: rgba(15, 157, 88, 0.1);
   box-shadow: 0 0 5px 0 rgb(15 157 88 / 30%);
   color: ${(props) => props.theme.rootColor};
+  @media screen and (max-width: 479px) {
+    height: 35px;
+    width: 35px;
+    line-height: 35px;
+    & .anticon.anticon-user{
+      font-size: 20px;
+    }
+  }
 `;
 
 export const SearchType = styled(Select)`

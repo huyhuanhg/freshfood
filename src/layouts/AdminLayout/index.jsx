@@ -8,7 +8,7 @@ import Sidebar from '../../components/admins/Sidebar';
 import Footer from '../../components/admins/Footer';
 
 import * as StyleLayout from './style';
-import { LoadingMiddle } from '../../styles/LoadingMiddle';
+import { LoadingMiddleStyle } from '../../styles/LoadingMiddle.style';
 
 const AdminLayout = ({ exact, path, component: Component }) => {
   const [collapsed, setCollapsed] = useState(true);
@@ -28,7 +28,7 @@ const AdminLayout = ({ exact, path, component: Component }) => {
   } else {
     if (adminInfo.load) {
       return (
-        <LoadingMiddle size={'large'}/>
+        <LoadingMiddleStyle size={'large'}/>
       );
     } else {
       return (

@@ -6,12 +6,12 @@ import PropTypes from 'prop-types';
 
 import { PATH, TITLE } from '../../../../../contants';
 import * as S from '../../style';
+import * as RootStyle from '../../../../../styles';
 
 import { FoodItemHome } from '../../../../../components/clients/FoodItem';
 import history from '../../../../../utils/history';
 import { getFoodListAction, getLikesAction, getTagListAction } from '../../../../../redux/actions';
 import FoodDetailModal from '../../../../../components/clients/FoodDetailModal';
-import { Filter as FilterStyle } from '../../../../../styles';
 
 const FoodList = ({ setShowLogin }) => {
   const { Option } = Select;
@@ -22,6 +22,8 @@ const FoodList = ({ setShowLogin }) => {
   const { userInfo } = useSelector(({ userReducer }) => userReducer);
   const [filterActive, setFieldActive] = useState('created_at');
   const [sortPriceType, setSortPriceType] = useState('');
+  const [mobileFilterActive, setMobileFilterActive] = useState(false);
+  const [dropdownSelectOpen, setDropdownSelectOpen] = useState({ tag: false, price: false });
   const [request, setRequest] = useState(null);
 
   useEffect(() => {
@@ -155,34 +157,37 @@ const FoodList = ({ setShowLogin }) => {
         setShow={setShowFoodDetail}
         setShowLogin={setShowLogin}
       />
-      <S.AffixIndex offsetTop={88.375} className='filter-food'>
-        <FilterStyle>
+      <S.AffixIndex offsetTop={88.375}>
+        <RootStyle.Filter>
           {history.location.pathname === PATH.FAVORITE
             ?
             <S.TitleList className='d-flex vertical-center fw-b'>
               Món ăn đã thích
             </S.TitleList>
             :
-            <S.PrefixFilter>
-              <Menu
-                mode='horizontal'
-                selectedKeys={[filterActive]}
-              >
-                <Menu.Item key='created_at' onClick={({ key }) => {
-                  handleChangeMenuFilter(key);
-                }}>
-                  Mới nhất
-                </Menu.Item>
-                <Menu.Item key='food_consume' onClick={({ key }) => {
-                  handleChangeMenuFilter(key);
-                }}>
-                  Bán chạy
-                </Menu.Item>
-              </Menu>
-            </S.PrefixFilter>
+            <RootStyle.PrefixFilter
+              mode='horizontal'
+              selectedKeys={[filterActive]}
+            >
+              <Menu.Item key='created_at' onClick={({ key }) => {
+                handleChangeMenuFilter(key);
+              }}>
+                Mới nhất
+              </Menu.Item>
+              <Menu.Item key='food_consume' onClick={({ key }) => {
+                handleChangeMenuFilter(key);
+              }}>
+                Bán chạy
+              </Menu.Item>
+            </RootStyle.PrefixFilter>
           }
-          <S.SuffixFilter>
-            <li className='category-filter'>
+          <RootStyle.MoreFilterIcon onClick={() => setMobileFilterActive(!mobileFilterActive)} />
+          <RootStyle.SuffixFilter
+            className='suffix-filter'
+            active={mobileFilterActive}
+            selectOpen={dropdownSelectOpen.tag || dropdownSelectOpen.price}
+          >
+            <li className='filer-by-tag'>
               <Select
                 value={request?.tags}
                 mode='multiple'
@@ -192,6 +197,9 @@ const FoodList = ({ setShowLogin }) => {
                 options={renderTagList()}
                 maxTagCount={3}
                 getPopupContainer={(trigger) => trigger.parentNode}
+                onDropdownVisibleChange={(status) => {
+                  setDropdownSelectOpen({ ...dropdownSelectOpen, tag: status });
+                }}
                 onChange={(value) => {
                   setRequest({
                     ...request,
@@ -201,11 +209,13 @@ const FoodList = ({ setShowLogin }) => {
                 }}
               />
             </li>
-            <li className='sort-by'>
+            <li className='sort-by-price'>
               <Select
                 value={sortPriceType}
-                style={{ margin: '0 5px' }}
                 getPopupContainer={(trigger) => trigger.parentNode}
+                onDropdownVisibleChange={(status) => {
+                  setDropdownSelectOpen({ ...dropdownSelectOpen, price: status });
+                }}
                 onChange={(value) => {
                   setSortPriceType(value);
                   if (filterActive !== 'liked') {
@@ -224,8 +234,8 @@ const FoodList = ({ setShowLogin }) => {
                 <Option value='-1'>Giá giảm dần</Option>
               </Select>
             </li>
-          </S.SuffixFilter>
-        </FilterStyle>
+          </RootStyle.SuffixFilter>
+        </RootStyle.Filter>
       </S.AffixIndex>
       <div className='p-relative pt-2r' style={{ minHeight: '500px' }}>
         {foodList.total === 0

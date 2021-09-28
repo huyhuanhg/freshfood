@@ -274,6 +274,11 @@ export const AffixIndex = styled(Affix)`
       top: 116.781px !important;
     }
   }
+  @media screen and (max-width: 479px) {
+    & .ant-affix {
+      top: 102.781px !important;
+    }
+  }
 `;
 export const ButtonCustom = styled(Button)`
   width: 100%;

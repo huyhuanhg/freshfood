@@ -8,7 +8,6 @@ import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import { adminLoginAction } from '../../redux/actions';
 
 import * as Style from './styles';
-import * as AppStyle from '../../styles';
 
 function AdminLoginPage() {
   const dispatch = useDispatch();
@@ -41,7 +40,6 @@ function AdminLoginPage() {
 
   return (
     <Style.LoginWrap>
-      <AppStyle.Logo />
       <Style.FormWrap>
         <Style.H3>FOODBOOKING || Quản lý Cửa Hàng</Style.H3>
         <Form onFinish={onLogin} form={loginForm}>

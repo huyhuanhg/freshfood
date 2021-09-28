@@ -7,7 +7,7 @@ import * as LayoutStyle from './style';
 
 import bgLogin from '../../assets/images/bg-login.png';
 import foodLogo from '../../assets/images/food_logo.png';
-import { LoadingMiddle } from '../../styles/LoadingMiddle';
+import { LoadingMiddleStyle } from '../../styles/LoadingMiddle.style';
 
 function FullLayout({ exact, path, component: Component }) {
   const { userInfo: { data: userData, loadUser } } = useSelector(({ userReducer }) => userReducer);
@@ -16,7 +16,7 @@ function FullLayout({ exact, path, component: Component }) {
   } else {
     if (loadUser) {
       return (
-        <LoadingMiddle size={'large'}/>
+        <LoadingMiddleStyle size={'large'}/>
       );
     } else {
       return (

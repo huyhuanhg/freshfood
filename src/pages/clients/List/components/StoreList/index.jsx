@@ -3,12 +3,12 @@ import { useEffect, useState } from 'react';
 import { MdRemoveShoppingCart } from 'react-icons/all';
 import { Button, Col, Menu, message, Row, Select, Spin } from 'antd';
 
+import * as RootStyle from '../../../../../styles';
 import * as S from '../../style';
 
 import StoreItem from '../../../../../components/clients/StoreItem';
 import history from '../../../../../utils/history';
 import { getCategoryListAction, getStoresAction } from '../../../../../redux/actions';
-import { Filter as FilterStyle } from '../../../../../styles';
 import { PATH, TITLE } from '../../../../../contants';
 
 const StoreList = () => {
@@ -29,6 +29,8 @@ const StoreList = () => {
   const [menuActive, setMenuActive] = useState('created_at');
   const [request, setRequest] = useState(null);
   const [sortAvgType, setSortAvgType] = useState(0);
+  const [mobileFilterActive, setMobileFilterActive] = useState(false);
+  const [dropdownSelectOpen, setDropdownSelectOpen] = useState({ category: false, rate: false });
 
   useEffect(() => {
     dispatch(getCategoryListAction());
@@ -93,53 +95,58 @@ const StoreList = () => {
   };
   return (
     <div>
-      <S.AffixIndex offsetTop={88.375} className='store-list'>
-        <FilterStyle>
-          <S.PrefixFilter>
-            <Menu
-              mode='horizontal'
-              selectedKeys={[menuActive]}
+      <S.AffixIndex offsetTop={88.375}>
+        <RootStyle.Filter>
+          <RootStyle.PrefixFilter
+            mode='horizontal'
+            selectedKeys={[menuActive]}
+          >
+            <Menu.Item
+              key='created_at'
+              onClick={({ key }) => {
+                setMenuActive(key);
+                setSortAvgType(0);
+                setRequest({
+                  ...request,
+                  group: null,
+                  sort: key,
+                  sortType: -1,
+                  page: 1,
+                });
+              }}
             >
-              <Menu.Item
-                key='created_at'
-                onClick={({ key }) => {
+              Mới nhất
+            </Menu.Item>
+            <Menu.Item
+              key='bookmark'
+              onClick={({ key }) => {
+                if (userInfo.data.id) {
                   setMenuActive(key);
-                  setSortAvgType(0);
                   setRequest({
                     ...request,
-                    group: null,
-                    sort: key,
-                    sortType: -1,
+                    group: key,
                     page: 1,
                   });
-                }}
-              >
-                Mới nhất
-              </Menu.Item>
-              <Menu.Item
-                key='bookmark'
-                onClick={({ key }) => {
-                  if (userInfo.data.id) {
-                    setMenuActive(key);
-                    setRequest({
-                      ...request,
-                      group: key,
-                      page: 1,
-                    });
-                  } else {
-                    message.error('Vui lòng đăng nhập!');
-                  }
-                }}
-              >
-                Đã lưu
-              </Menu.Item>
-            </Menu>
-          </S.PrefixFilter>
-          <S.SuffixFilter>
-            <li className='category-filter'>
+                } else {
+                  message.error('Vui lòng đăng nhập!');
+                }
+              }}
+            >
+              Đã lưu
+            </Menu.Item>
+          </RootStyle.PrefixFilter>
+          <RootStyle.MoreFilterIcon onClick={() => setMobileFilterActive(!mobileFilterActive)} />
+          <RootStyle.SuffixFilter
+            active={mobileFilterActive}
+            selectOpen={dropdownSelectOpen.category || dropdownSelectOpen.rate}
+          >
+            <li className='filer-by-category'>
               <Select
                 value={request?.category}
                 getPopupContainer={(trigger) => trigger.parentNode}
+                onDropdownVisibleChange={(status) => {
+                  setDropdownSelectOpen({ ...dropdownSelectOpen, category: status });
+                }}
                 onChange={(value) => {
                   setRequest({
                     ...request,
@@ -155,11 +162,13 @@ const StoreList = () => {
                 {renderCategories()}
               </Select>
             </li>
-            <li className='sort-by'>
+            <li className='sort-by-rate'>
               <Select
                 value={sortAvgType}
-                style={{ margin: '0 5px' }}
                 getPopupContainer={(trigger) => trigger.parentNode}
+                onDropdownVisibleChange={(status) => {
+                  setDropdownSelectOpen({ ...dropdownSelectOpen, rate: status });
+                }}
                 onChange={(value) => {
                   if (menuActive === 'created_at') {
                     setMenuActive(null);
@@ -180,8 +189,8 @@ const StoreList = () => {
                 <Option value='-1'>Đánh giá giảm dần</Option>
               </Select>
             </li>
-          </S.SuffixFilter>
-        </FilterStyle>
+          </RootStyle.SuffixFilter>
+        </RootStyle.Filter>
       </S.AffixIndex>
       <div className='p-relative pt-2r' style={{ minHeight: '500px' }}>
         {total === 0

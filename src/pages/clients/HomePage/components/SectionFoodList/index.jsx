@@ -23,6 +23,7 @@ const SectionFoodList = ({ render }) => {
   } = useSelector(({ foodReducer }) => foodReducer);
   const { tagList: { data: tagData } } = useSelector(({ tagReducer }) => tagReducer);
   const [mobileFilterActive, setMobileFilterActive] = useState(false);
+  const [dropdownSelectOpen, setDropdownSelectOpen] = useState({ tag: false, price: false });
   const [menuActive, setMenuActive] = useState('created_at');
   const [sortPrice, setSortPrice] = useState('');
   const [request, setRequest] = useState({
@@ -184,9 +185,13 @@ const SectionFoodList = ({ render }) => {
                 Bán chạy
               </Menu.Item>
             </RootStyle.PrefixFilter>
-            <S.MoreFilter onClick={() => setMobileFilterActive(!mobileFilterActive)} />
-            <RootStyle.SuffixFilter className='suffix-filter' active={mobileFilterActive}>
-              <li className='mobile-filter'>
+            <RootStyle.MoreFilterIcon onClick={() => setMobileFilterActive(!mobileFilterActive)} />
+            <RootStyle.SuffixFilter
+              className='suffix-filter'
+              active={mobileFilterActive}
+              selectOpen={dropdownSelectOpen.tag || dropdownSelectOpen.price}
+            >
+              <li className='mobile-filter filer-by-tag'>
                 <Select
                   value={request?.tags}
                   mode='multiple'
@@ -196,6 +201,9 @@ const SectionFoodList = ({ render }) => {
                   options={renderTagList()}
                   maxTagCount={3}
                   getPopupContainer={(trigger) => trigger.parentNode}
+                  onDropdownVisibleChange={(status) => {
+                    setDropdownSelectOpen({ ...dropdownSelectOpen, tag: status });
+                  }}
                   onChange={(value) => {
                     setRequest({
                       ...request,
@@ -205,11 +213,13 @@ const SectionFoodList = ({ render }) => {
                   }}
                 />
               </li>
-              <li>
+              <li className='sort-by-price'>
                 <Select
                   value={sortPrice}
-                  style={{ margin: '0 5px' }}
                   getPopupContainer={(trigger) => trigger.parentNode}
+                  onDropdownVisibleChange={(status) => {
+                    setDropdownSelectOpen({ ...dropdownSelectOpen, price: status });
+                  }}
                   onChange={(value) => {
                     setSortPrice(value);
                     if (menuActive === 'created_at' || menuActive === 'food_consume') {
