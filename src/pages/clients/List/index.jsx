@@ -11,7 +11,6 @@ import StoreList from './components/StoreList';
 import FoodList from './components/FoodList';
 
 import * as ClientStyle from '../styles';
-import * as S from './style';
 
 const ClientList = ({ setShowLogin }) => {
   const [menuActive, setMenuActive] = useState('foods');
@@ -26,7 +25,7 @@ const ClientList = ({ setShowLogin }) => {
       <ClientStyle.Container>
         <Row gutter={20}>
           <Col lg={4} md={4} sm={24} xs={24}>
-            <S.MenuList offsetTop={88.375}>
+            <ClientStyle.MenuList offsetTop={88.375}>
               <Menu
                 id='menu_list_page'
                 theme='light'
@@ -91,7 +90,7 @@ const ClientList = ({ setShowLogin }) => {
                   }}
                 />
               </Menu>
-            </S.MenuList>
+            </ClientStyle.MenuList>
           </Col>
           <Col ld={20} md={20} sm={24} xs={24} className='list-content'>
             <Switch>

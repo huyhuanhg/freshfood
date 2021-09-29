@@ -30,6 +30,7 @@ const ModalStoreDetail = (
     address,
     avgRate,
     storeName,
+    fromDetail,
   },
 ) => {
   const dispatch = useDispatch();
@@ -209,19 +210,23 @@ const ModalStoreDetail = (
       title={isComment ? 'Viết bình luận' : 'Lưu vào Bookmarks'}
       visible={isShow}
       onCancel={() => {
-        setShow({ isComment, status: false });
-        if (isComment && fileList.length > 0) {
-          removeImages();
+        if (!fromDetail) {
+          setShow(false);
+        } else {
+          setShow({ isComment, status: false });
+          if (isComment && fileList.length > 0) {
+            removeImages();
+          }
+          setFormImages([]);
+          setFileList([]);
+          actionForm.resetFields();
         }
-        setFormImages([]);
-        setFileList([]);
-        actionForm.resetFields();
       }}
       width={1000}
       footer={false}
     >
       <Row gutter={8}>
-        <Col span={8}>
+        <Col sm={8} xs={0}>
           <div>
             <img
               src={
@@ -250,7 +255,7 @@ const ModalStoreDetail = (
             </div>
           </div>
         </Col>
-        <Col span={16}>
+        <Col sm={16} xs={24}>
           <S.FormCustom
             onFinish={handleSubmit}
             form={actionForm}
@@ -310,6 +315,7 @@ ModalStoreDetail.propTypes = {
   isShow: PropTypes.bool.isRequired,
   setShow: PropTypes.func.isRequired,
   isComment: PropTypes.bool,
+  fromDetail: PropTypes.bool,
   slug: PropTypes.string,
   image: PropTypes.string,
   address: PropTypes.string,

@@ -1,5 +1,5 @@
 import styled, { css } from 'styled-components';
-import { Modal, Image } from 'antd';
+import { Affix, Modal } from 'antd';
 
 export const MicroHeader = styled.div`
   position: relative;
@@ -22,8 +22,14 @@ export const ImageWrap = styled.div`
 `;
 export const MainInformation = styled.div`
   float: left;
-  margin-left: 25px;
+  padding-left: 25px;
   width: 100%;
+  @media screen and (max-width: 575px) {
+    padding-left: 15px;
+  }
+  @media screen and (max-width: 479px) {
+    padding-left: 10px;
+  }
 `;
 export const ResCommon = styled.div`
   position: relative;
@@ -203,18 +209,6 @@ export const YourRateText = styled.div`
 `;
 export const MicroMainMenu = styled.div`
   margin-top: 20px;
-
-  & .ant-affix {
-    z-index: 5;
-  }
-
-  & .list-of-store-detail {
-    & .ant-affix {
-      @media screen and (max-width: 767px) {
-        top: 116.781px !important;
-      }
-    }
-  }
 `;
 export const StoreToolbar = styled.div`
   margin-bottom: 15px;
@@ -263,6 +257,11 @@ export const StoreToolbar = styled.div`
     display: none;
   }
 `;
+export const ToolbarAffix = styled(Affix)`
+  & .ant-affix {
+    z-index: 5;
+  }
+`;
 export const StoreContent = styled.div`
   margin-bottom: 15px;
   padding-top: 20px;
@@ -270,6 +269,41 @@ export const StoreContent = styled.div`
   border-radius: 2px;
   background: #fff;
   overflow: hidden;
+`;
+export const StoreFilterSuffix = styled.ul`
+  display: flex;
+  justify-content: flex-end;
+  flex-basis: 70%;
+  margin: 0;
+  padding: 0 5px 0 0;
+  align-items: center;
+
+  & > li.sort-by-price {
+    flex-basis: calc(30% - 10px);
+    margin: 0 0 0 5px;
+
+    & > div {
+      min-width: 122px;
+    }
+  }
+
+  & > li.filer-by-tag {
+    flex-basis: 70%;
+  }
+
+  & > li > div {
+    min-width: unset;
+    width: 100%;
+
+    & .ant-select-selector {
+      max-height: 32px;
+      overflow: hidden;
+    }
+  }
+
+  @media screen and (max-width: 767px) {
+    flex-basis: 100%;
+  }
 `;
 export const StoreFilterTitle = styled.div`
   margin-left: 5px;
@@ -279,25 +313,10 @@ export const StoreFilterTitle = styled.div`
   font-weight: 600;
   overflow: hidden;
   color: #333;
-`;
-export const StoreFilterSuffix = styled.ul`
-  display: flex;
-  align-items: center;
-  flex-basis: 70%;
-  margin: 0;
-  padding: 0 2% 0 0;
-
-  & > li:first-child {
-    flex-basis: 80%;
-  }
-
-  & > li:last-child {
-    flex-basis: 20%;
-    margin-left: 5px;
-  }
-
-  & > li > .ant-select {
-    width: 100%;
+  @media screen and (max-width: 767px) {
+    &.mobile-hidden {
+      display: none;
+    }
   }
 `;
 export const ViewOther = styled.div`
@@ -348,16 +367,104 @@ export const ModalCustom = styled(Modal)`
   }
 `;
 export const PictureWrap = styled.div`
-  width: 225px;
-  height: 225px;
+  float: left;
+  position: relative;
+  width: ${({ index }) => index && index > 3 ? 0 : 'calc(25% - 20px)'};
+  padding-bottom: ${({ index }) => index && index > 3 ? 0 : 'calc(25% - 20px)'};
+  margin: 10px;
   overflow: hidden;
-  border: 1px solid #f6f6f6;
-  border-radius: 4px;
+  @media screen and (max-width: 479px) {
+    width: ${({ index }) => index && index > 2 ? 0 : 'calc(100% / 3 - 20px)'};
+    padding-bottom: ${({ index }) => index && index > 2 ? 0 : 'calc(100% / 3 - 20px)'};
+  }
 `;
 
-export const PictureItem = styled(Image)`
-  width: 225px;
-  height: 225px;
-  object-fit: cover;
-  vertical-align: middle;
+export const PictureItem = styled.div`
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  padding: 0;
+
+  & .ant-image {
+    width: 100%;
+    height: 100%;
+
+    & img.ant-image-img {
+      width: 100%;
+      height: 100%;
+    }
+
+    & .ant-image-mask {
+      z-index: 2;
+    }
+  }
+`;
+export const MorePicture = styled.span`
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, .4);
+
+  &:after {
+    color: #fff;
+    font-weight: 600;
+    font-size: 2rem;
+  }
+
+  ${
+          ({ total, index }) => {
+            if (total > 4 && index === 3) {
+              return css`
+                height: 100%;
+                width: 100%;
+
+                &:after {
+                  content: '+${({ total }) => total - 4}';
+                }
+              `;
+            } else if (total > 3 && index === 2) {
+              return css`
+                @media screen and (max-width: 479px) {
+                  height: 100%;
+                  width: 100%;
+
+                  &:after {
+                    content: '+${({ total }) => total - 3}';
+                  }
+                }
+              `;
+            }
+          }
+  }
+`;
+export const DetailFilter = styled.div`
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  min-height: 41px;
+  background-color: ${({ theme }) => theme.bgFilter};
+  width: 100%;
+  flex-basis: 100%;
+`;
+export const BookmarkButtonMobile = styled.div`
+
+  position: absolute;
+  top: 10px;
+  right: 25px;
+  display: none;
+  font-size: 200%;
+  cursor: pointer;
+  color: ${({ theme }) => theme.btnPrimary};
+  @media screen and (max-width: 767px) {
+    display: block;
+  }
+  @media screen and (max-width: 479px) {
+    right: 10px;
+  }
+
 `;

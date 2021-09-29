@@ -1,5 +1,4 @@
 import {
-  Affix,
   Col,
   Menu,
   Rate,
@@ -237,6 +236,15 @@ const StoreDetail = ({ setShowLogin, match }) => {
                         <span>{storeDetail.storeDescription}</span>
                       </StoreDetailStyle.StoreTime>
                     </div>
+                    <StoreDetailStyle.BookmarkButtonMobile
+                      onClick={() => {
+                        if (checkLogin()) {
+                          setIsShowAction({ status: true, isComment: false });
+                        }
+                      }}
+                    >
+                      <BsFillBookmarkFill />
+                    </StoreDetailStyle.BookmarkButtonMobile>
                   </Skeleton>
                 </StoreDetailStyle.ResCommon>
               </StoreDetailStyle.MainInformation>
@@ -245,8 +253,8 @@ const StoreDetail = ({ setShowLogin, match }) => {
         </StoreDetailStyle.MicroHeader>
         <StoreDetailStyle.MicroMainMenu>
           <Row gutter={20}>
-            <Col lg={4} md={4} sm={0} xs={0}>
-              <Affix offsetTop={89}>
+            <Col lg={4} md={4} sm={24} xs={24}>
+              <ClientStyle.MenuList offsetTop={88.375}>
                 <Menu
                   theme='light'
                   style={{
@@ -285,6 +293,16 @@ const StoreDetail = ({ setShowLogin, match }) => {
                     }}
                   >
                     Bình luận
+                    <span
+                      style={{
+                        color: '#aaa',
+                        fontSize: 11,
+                        fontWeight: 400,
+                        marginLeft: 5,
+                      }}
+                    >
+                      {storeDetail.totalComment}
+                    </span>
                   </Menu.Item>
                   <Menu.Item
                     key={PATH.STORE_MENU_PICTURE}
@@ -297,7 +315,7 @@ const StoreDetail = ({ setShowLogin, match }) => {
                     Hình ảnh
                   </Menu.Item>
                 </Menu>
-              </Affix>
+              </ClientStyle.MenuList>
             </Col>
             <Col lg={20} md={20} sm={24} xs={24} style={{ minHeight: '300px' }}>
               <ModalStoreDetail
@@ -310,8 +328,9 @@ const StoreDetail = ({ setShowLogin, match }) => {
                 image={storeDetail.storeImage}
                 address={storeDetail.storeAddress}
                 storeName={storeDetail.storeName}
+                fromDetail={true}
               />
-              <Affix offsetTop={88.375}>
+              <StoreDetailStyle.ToolbarAffix offsetTop={88.375}>
                 <StoreDetailStyle.StoreToolbar>
                   <ul>
                     <li>
@@ -342,7 +361,7 @@ const StoreDetail = ({ setShowLogin, match }) => {
                     </li>
                   </ul>
                 </StoreDetailStyle.StoreToolbar>
-              </Affix>
+              </StoreDetailStyle.ToolbarAffix>
               <Switch>
                 <Route exact path={DYNAMIC(PATH.STORE, ['slug'])}>
                   <StoreDetailFood
@@ -359,6 +378,7 @@ const StoreDetail = ({ setShowLogin, match }) => {
                     checkLogin={checkLogin}
                     setShowLogin={setShowLogin}
                     setShowComment={setIsShowAction}
+                    userInfo={userInfo}
                   />
                 </Route>
                 <Route exact path={DYNAMIC(PATH.STORE, ['slug'], PATH.STORE_MENU_PROMOTION)}>

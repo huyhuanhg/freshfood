@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Affix, Col, Image, Row, Spin } from 'antd';
+import { Image, Spin } from 'antd';
 import { EyeOutlined } from '@ant-design/icons';
 import PropTypes from 'prop-types';
 
-import { Filter as FilterStyle } from '../../../../../styles';
 import * as StoreDetailStyle from '../../style';
+import * as ClientStyle from '../../../styles';
 import { ROOT_PATH } from '../../../../../contants';
 import { getStorePicturesAction } from '../../../../../redux/actions';
 
@@ -53,37 +53,35 @@ const StoreDetailPicture = ({ slug }) => {
 
   const rederPictures = () => {
     return (
-      <Row gutter={[15, 10]}>
-        <Image.PreviewGroup>
-          {data.map(({ picturePath }) => {
-            return (
-              <Col key={picturePath} span={6}>
-                <StoreDetailStyle.PictureWrap>
-                  <StoreDetailStyle.PictureItem
-                    src={`${ROOT_PATH}${picturePath}`}
-                    alt={picturePath}
-                    preview={{
-                      mask: <div><EyeOutlined /> Xem ảnh</div>,
-                    }}
-                  />
-                </StoreDetailStyle.PictureWrap>
-              </Col>
-            );
-          })}
-        </Image.PreviewGroup>
-      </Row>
+      <Image.PreviewGroup>
+        {data.map(({ picturePath }) => {
+          return (
+            <StoreDetailStyle.PictureWrap key={picturePath}>
+              <StoreDetailStyle.PictureItem>
+                <Image
+                  src={`${ROOT_PATH}${picturePath}`}
+                  alt={picturePath}
+                  preview={{
+                    mask: <div><EyeOutlined /> Xem ảnh</div>,
+                  }}
+                />
+              </StoreDetailStyle.PictureItem>
+            </StoreDetailStyle.PictureWrap>
+          );
+        })}
+      </Image.PreviewGroup>
     );
   };
   return (
     <div className='list-of-store-detail'>
-      <Affix offsetTop={88.375 + 54}>
-        <FilterStyle>
+      <ClientStyle.AffixFilter offsetTop={88.375 + 54}>
+        <StoreDetailStyle.DetailFilter>
           <StoreDetailStyle.StoreFilterTitle>
             Hình ảnh cửa hàng
           </StoreDetailStyle.StoreFilterTitle>
-        </FilterStyle>
-      </Affix>
-      <div className='pt-2r' id='list'>
+        </StoreDetailStyle.DetailFilter>
+      </ClientStyle.AffixFilter>
+      <div className='clearfix'>
         {rederPictures()}
         {load && (
           <div className='d-flex horizontal-center vertical-center mt-3r' style={{ width: '100%' }}>
