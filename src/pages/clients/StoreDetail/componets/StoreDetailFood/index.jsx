@@ -1,4 +1,4 @@
-import { Affix, Col, Row, Select, Spin, Tag } from 'antd';
+import { Col, Row, Select, Spin, Tag } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
@@ -8,9 +8,9 @@ import FoodDetailCarousel from '../../../../../components/clients/FoodDeatilCaro
 import { FoodStore } from '../../../../../components/clients/FoodItem';
 import { getFoodListAction, getTagListAction, updateCartAction } from '../../../../../redux/actions';
 import history from '../../../../../utils/history';
-import { Filter as FilterStyle } from '../../../../../styles';
 
 import * as StoreDetailStyle from '../../style';
+import * as ClientStyle from '../../../styles';
 import { PATH } from '../../../../../contants';
 
 const StoreDetailFood = ({ showFoodDetail, setShowLogin, setShowFoodDetail, slug }) => {
@@ -102,14 +102,14 @@ const StoreDetailFood = ({ showFoodDetail, setShowLogin, setShowFoodDetail, slug
   };
   return (
     <div className='list-of-store-detail'>
-      <Affix offsetTop={88.375 + 54}>
-        <FilterStyle>
-          <StoreDetailStyle.StoreFilterTitle>
+      <ClientStyle.AffixFilter offsetTop={88.375 + 54}>
+        <StoreDetailStyle.DetailFilter>
+          <StoreDetailStyle.StoreFilterTitle className='mobile-hidden'>
             {history.location.pathname.match(PATH.STORE_MENU_PROMOTION) ? 'Khuyến mãi' : 'Đặt món'}
           </StoreDetailStyle.StoreFilterTitle>
           {total > 0 &&
           <StoreDetailStyle.StoreFilterSuffix>
-            <li>
+            <li className='filer-by-tag'>
               <Select
                 value={filterFood?.tags}
                 mode='multiple'
@@ -128,7 +128,7 @@ const StoreDetailFood = ({ showFoodDetail, setShowLogin, setShowFoodDetail, slug
                 }}
               />
             </li>
-            <li>
+            <li className='sort-by-price'>
               <Select
                 defaultValue=''
                 getPopupContainer={(trigger) => trigger.parentNode}
@@ -150,8 +150,8 @@ const StoreDetailFood = ({ showFoodDetail, setShowLogin, setShowFoodDetail, slug
             </li>
           </StoreDetailStyle.StoreFilterSuffix>
           }
-        </FilterStyle>
-      </Affix>
+        </StoreDetailStyle.DetailFilter>
+      </ClientStyle.AffixFilter>
       <StoreDetailStyle.StoreContent>
         <Row>
           {total === 0

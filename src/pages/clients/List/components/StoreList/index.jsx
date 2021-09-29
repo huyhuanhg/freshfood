@@ -4,12 +4,13 @@ import { MdRemoveShoppingCart } from 'react-icons/all';
 import { Button, Col, Menu, message, Row, Select, Spin } from 'antd';
 
 import * as RootStyle from '../../../../../styles';
-import * as S from '../../style';
+import * as ClientStyle from '../../../styles';
 
 import StoreItem from '../../../../../components/clients/StoreItem';
 import history from '../../../../../utils/history';
 import { getCategoryListAction, getStoresAction } from '../../../../../redux/actions';
 import { PATH, TITLE } from '../../../../../contants';
+import ModalStoreDetail from '../../../../../components/clients/ModalStoreDetail';
 
 const StoreList = () => {
   const { Option } = Select;
@@ -31,6 +32,15 @@ const StoreList = () => {
   const [sortAvgType, setSortAvgType] = useState(0);
   const [mobileFilterActive, setMobileFilterActive] = useState(false);
   const [dropdownSelectOpen, setDropdownSelectOpen] = useState({ category: false, rate: false });
+  const [isShowModalBookmark, setIsShowModalBookmark] = useState(false);
+  const [storeDetail, setStoreDetail] = useState({
+    storeId: null,
+    storeName: null,
+    avgRate: null,
+    storeImage: null,
+    storeAddress: null,
+  });
+
 
   useEffect(() => {
     dispatch(getCategoryListAction());
@@ -81,7 +91,12 @@ const StoreList = () => {
     return storeData.map((store) => {
       return (
         <Col xs={12} sm={8} lg={span} md={8} key={store.id}>
-          <StoreItem {...store} />
+          <StoreItem
+            {...store}
+            isShowModalBookmark={isShowModalBookmark}
+            setIsShowModalBookmark={setIsShowModalBookmark}
+            setStoreDetail={setStoreDetail}
+          />
         </Col>
       );
     });
@@ -95,7 +110,17 @@ const StoreList = () => {
   };
   return (
     <div>
-      <S.AffixIndex offsetTop={88.375}>
+      <ModalStoreDetail
+        isShow={isShowModalBookmark}
+        setShow={setIsShowModalBookmark}
+        storeId={storeDetail.storeId}
+        avgRate={storeDetail.avgRate}
+        image={storeDetail.storeImage}
+        address={storeDetail.storeAddress}
+        storeName={storeDetail.storeName}
+        fromDetail={false}
+      />
+      <ClientStyle.AffixFilter offsetTop={88.375}>
         <RootStyle.Filter>
           <RootStyle.PrefixFilter
             mode='horizontal'
@@ -191,7 +216,7 @@ const StoreList = () => {
             </li>
           </RootStyle.SuffixFilter>
         </RootStyle.Filter>
-      </S.AffixIndex>
+      </ClientStyle.AffixFilter>
       <div className='p-relative pt-2r' style={{ minHeight: '500px' }}>
         {total === 0
           ?

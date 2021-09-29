@@ -1,8 +1,7 @@
-import { Avatar, Skeleton } from 'antd';
+import { Avatar, message, Skeleton } from 'antd';
 import {
-  AiTwotoneStar,
+  AiTwotoneStar, BsFillBookmarkFill,
   FaComment,
-  GrFormNextLink,
   IoIosPizza,
 } from 'react-icons/all';
 
@@ -14,6 +13,8 @@ import * as S from './style';
 
 import { ROOT_PATH } from '../../../contants';
 import storeLoading from '../../../assets/images/loadStore.png';
+import handleStopPropagation from '../../../utils/common';
+import { useSelector } from 'react-redux';
 
 const StoreItem = ({
   id,
@@ -26,7 +27,11 @@ const StoreItem = ({
   avgRate,
   lastComment,
   loading,
+  isShowModalBookmark,
+  setIsShowModalBookmark,
+  setStoreDetail,
 }) => {
+  const { userInfo: { data: { id: userId } } } = useSelector(({ userReducer }) => userReducer);
   return (
     <S.CardItem
       hoverable
@@ -59,7 +64,7 @@ const StoreItem = ({
             }
           />
         ) : (
-          <div style={{ minHeight: 44 }}/>
+          <div style={{ minHeight: 44 }} />
         )}
 
         <S.StoreStatistical>
@@ -78,8 +83,24 @@ const StoreItem = ({
                 <span>{avgRate}</span>
               </div>
             )}
-            <span>
-              <GrFormNextLink />
+            <span
+              onClick={(e) => {
+                handleStopPropagation(e);
+                if (userId) {
+                  setStoreDetail({
+                    storeId: id,
+                    storeName,
+                    avgRate,
+                    storeImage,
+                    storeAddress,
+                  });
+                  setIsShowModalBookmark(!isShowModalBookmark);
+                } else {
+                  message.error('Vui lòng đăng nhập!');
+                }
+              }}
+            >
+              <BsFillBookmarkFill />
             </span>
           </div>
         </S.StoreStatistical>
@@ -105,4 +126,7 @@ StoreItem.propTypes = {
   }),
   totalFood: PropTypes.number,
   loading: PropTypes.func,
+  isShowModalBookmark: PropTypes.bool,
+  setIsShowModalBookmark: PropTypes.func,
+  setStoreDetail: PropTypes.func,
 };

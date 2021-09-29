@@ -37,3 +37,35 @@ export const CommentContent = styled.div`
     margin: 0;
   }
 `;
+export const FormCommentWrap = styled.div`
+  max-height: ${({ show }) => show ? 'auto' : 0};
+  height: auto;
+  padding: ${({ show }) => show ? '5px' : 0} 10px;
+  background: #fff;
+  overflow: hidden;
+  transition: .3s ease;
+
+  & > form {
+    position: relative;
+
+    & textarea {
+      border-radius: 4px;
+      background: #f5f9fd;
+      min-height: 32px;
+      line-height: 32px;
+      padding-right: 30px;
+    }
+
+    & span.upload-picture {
+      position: absolute;
+      right: 10px;
+      bottom: 5px;
+      display: block;
+      cursor: pointer;
+
+      & svg {
+        font-size: 20px;
+      }
+    }
+  }
+`;

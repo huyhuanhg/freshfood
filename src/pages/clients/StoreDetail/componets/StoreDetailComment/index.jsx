@@ -1,6 +1,4 @@
-import * as StoreDetailStyle from '../../style';
-import * as S from './style';
-import { Affix, Avatar, Row, Col, Image, Spin } from 'antd';
+import { Avatar, Form, Image, Input, Spin, Upload } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { Button } from 'antd';
@@ -9,14 +7,18 @@ import { useEffect, useState } from 'react';
 import { getCommentsAction } from '../../../../../redux/actions';
 import { ROOT_PATH } from '../../../../../contants';
 import moment from 'moment';
-import { EyeOutlined } from '@ant-design/icons';
-import { Filter as FilterStyle } from '../../../../../styles';
+
+import * as StoreDetailStyle from '../../style';
+import * as ClientStyle from '../../../styles';
+import * as S from './style';
+import { AiOutlineCamera } from 'react-icons/all';
 
 const StoreDetailComment = (
   {
     slug,
     checkLogin,
     setShowComment,
+    userInfo,
   },
 ) => {
   const dispatch = useDispatch();
@@ -31,6 +33,8 @@ const StoreDetailComment = (
   } = useSelector(({ commentReducer }) => commentReducer);
   const storeId = slug.slice(slug.lastIndexOf('.') + 1);
   const [loadMore, setLoadMore] = useState(false);
+  const [showFormComment, setShowFormComment] = useState(false);
+  const [isFocusForm, setIsFocusForm] = useState(false);
   moment.locale('vi');
 
   const loadMoreComment = () => {
@@ -91,25 +95,29 @@ const StoreDetailComment = (
           <S.CommentContent>
             <p style={{ marginBottom: 10 }}>{commentItem.content}</p>
             {commentItem.pictures.length > 0 &&
-            <Row gutter={10}>
-              <Image.PreviewGroup>
-                {commentItem.pictures.map((picture) => {
+            <Image.PreviewGroup>
+              <div className='clearfix'>
+                {commentItem.pictures.map((picture, pictureIndex) => {
                   return (
-                    <Col key={picture} span={6}>
-                      <StoreDetailStyle.PictureWrap>
-                        <StoreDetailStyle.PictureItem
+                    <StoreDetailStyle.PictureWrap key={picture} index={pictureIndex}>
+                      <StoreDetailStyle.PictureItem>
+                        <Image
                           src={`${ROOT_PATH}${picture}`}
                           alt={picture}
                           preview={{
-                            mask: <div><EyeOutlined /> Xem ảnh</div>,
+                            mask: <span />,
                           }}
                         />
-                      </StoreDetailStyle.PictureWrap>
-                    </Col>
+                      </StoreDetailStyle.PictureItem>
+                      {
+                        ((pictureIndex === 2 && commentItem.pictures.length > 3) || (pictureIndex === 3 && commentItem.pictures.length > 4)) &&
+                        <StoreDetailStyle.MorePicture total={commentItem.pictures.length} index={pictureIndex} />
+                      }
+                    </StoreDetailStyle.PictureWrap>
                   );
                 })}
-              </Image.PreviewGroup>
-            </Row>
+              </div>
+            </Image.PreviewGroup>
             }
           </S.CommentContent>
         </S.CommentWrap>
@@ -121,8 +129,8 @@ const StoreDetailComment = (
       {total > 0
         ?
         <div className='list-of-store-detail'>
-          <Affix offsetTop={88.375 + 54}>
-            <FilterStyle>
+          <ClientStyle.AffixFilter offsetTop={88.375 + 54}>
+            <StoreDetailStyle.DetailFilter>
               <StoreDetailStyle.StoreFilterTitle>
                 Bình luận cửa hàng
               </StoreDetailStyle.StoreFilterTitle>
@@ -134,14 +142,39 @@ const StoreDetailComment = (
                 }}
                 onClick={() => {
                   if (checkLogin()) {
-                    setShowComment({ status: true, isComment: true });
+                    setShowFormComment(!showFormComment);
                   }
                 }}
               >
                 Viết Bình luận
               </Button>
-            </FilterStyle>
-          </Affix>
+            </StoreDetailStyle.DetailFilter>
+            {userInfo.data.id &&
+            <S.FormCommentWrap show={showFormComment} focus={isFocusForm}>
+              <Form>
+                <Form.Item
+                  noStyle
+                  onFocus={() => {
+                    setIsFocusForm(true);
+                  }}
+                  onBlur={() => {
+                    setIsFocusForm(false);
+                  }}
+                >
+                  <Input.TextArea
+                    showCount
+                    autoSize
+                    maxLength={1000}
+                    placeholder='Viết bình luận của bạn...'
+                  />
+                </Form.Item>
+                <Upload className='upload-picture'>
+                  <AiOutlineCamera />
+                </Upload>
+              </Form>
+            </S.FormCommentWrap>
+            }
+          </ClientStyle.AffixFilter>
           <div>
             {renderComment()}
           </div>
@@ -182,4 +215,5 @@ StoreDetailComment.propTypes = {
   slug: PropTypes.string,
   checkLogin: PropTypes.func,
   setShowComment: PropTypes.func,
+  userInfo: PropTypes.object,
 };

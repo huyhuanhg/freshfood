@@ -264,7 +264,9 @@ function Header({ setShowModalLogin }) {
                     if (userId && history.location.pathname !== PATH.CART) {
                       history.push(PATH.CART);
                     } else {
-                      setShowModalLogin(true);
+                      if (!userId) {
+                        setShowModalLogin(true);
+                      }
                     }
                   }}
                   disabled={history.location.pathname === PATH.CART}

@@ -7,6 +7,7 @@ import PropTypes from 'prop-types';
 import { PATH, TITLE } from '../../../../../contants';
 import * as S from '../../style';
 import * as RootStyle from '../../../../../styles';
+import * as ClientStyle from '../../../styles';
 
 import { FoodItemHome } from '../../../../../components/clients/FoodItem';
 import history from '../../../../../utils/history';
@@ -157,7 +158,7 @@ const FoodList = ({ setShowLogin }) => {
         setShow={setShowFoodDetail}
         setShowLogin={setShowLogin}
       />
-      <S.AffixIndex offsetTop={88.375}>
+      <ClientStyle.AffixFilter offsetTop={88.375}>
         <RootStyle.Filter>
           {history.location.pathname === PATH.FAVORITE
             ?
@@ -236,7 +237,7 @@ const FoodList = ({ setShowLogin }) => {
             </li>
           </RootStyle.SuffixFilter>
         </RootStyle.Filter>
-      </S.AffixIndex>
+      </ClientStyle.AffixFilter>
       <div className='p-relative pt-2r' style={{ minHeight: '500px' }}>
         {foodList.total === 0
           ?
