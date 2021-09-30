@@ -16,7 +16,7 @@ function FullLayout({ exact, path, component: Component }) {
   } else {
     if (loadUser) {
       return (
-        <LoadingMiddleStyle size={'large'}/>
+        <LoadingMiddleStyle size={'large'} />
       );
     } else {
       return (
@@ -52,5 +52,5 @@ export default FullLayout;
 FullLayout.propTypes = {
   exact: PropTypes.bool,
   path: PropTypes.string,
-  component: PropTypes.object,
+  component: PropTypes.func,
 };

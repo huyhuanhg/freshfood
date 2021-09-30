@@ -237,7 +237,6 @@ function Header({ setShowModalLogin }) {
                       >
                         <HeaderStyle.SearchType
                           size='large'
-                          defaultValue={PATH.STORE}
                           onChange={(value) => {
                             setSearchType(value);
                           }}

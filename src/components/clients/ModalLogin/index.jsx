@@ -12,7 +12,7 @@ import { MSG } from '../../../contants/message.contant';
 import { PATH } from '../../../contants';
 
 const ModalLogin = ({ visible, setVisible }) => {
-  const [form] = Form.useForm();
+  const [loginForm] = Form.useForm();
   const dispatch = useDispatch();
   const {
     responseAction: {
@@ -28,7 +28,7 @@ const ModalLogin = ({ visible, setVisible }) => {
       setVisible(false);
     }
     if (errorLogin) {
-      form.setFields([
+      loginForm.setFields([
         {
           name: 'email',
           errors: [' '],
@@ -56,7 +56,7 @@ const ModalLogin = ({ visible, setVisible }) => {
       <div>
         <h2>FoodBooking</h2>
         <h5>Đăng nhập để mua sắm</h5>
-        <S.FormCustom form={form} layout='vertical' onFinish={handleLogin}>
+        <S.FormCustom form={loginForm} layout='vertical' onFinish={handleLogin}>
           <Form.Item
             name='email'
             rules={[

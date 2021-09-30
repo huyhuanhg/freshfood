@@ -305,7 +305,7 @@ const Profile = () => {
               }
             </div>
             <div className='user-content'>
-              <span className={!userInfo.data.address && 'empty'}>
+              <span className={!userInfo.data.address ? 'empty' : undefined}>
                 {userInfo.data.address ? userInfo.data.address : 'Chưa rõ'}
               </span>
             </div>
@@ -315,12 +315,12 @@ const Profile = () => {
               </span>
             </div>
             <div className='user-content'>
-              <span className={!userInfo.data.birthday && 'empty'}>
+              <span className={!userInfo.data.birthday ? 'empty' : undefined}>
                 {userInfo.data.birthday ? userInfo.data.birthday : 'Chưa rõ'}
               </span>
             </div>
             <div className='user-content'>
-              <span className={!userInfo.data.description && 'empty'}>
+              <span className={!userInfo.data.description ? 'empty' : undefined}>
                 {userInfo.data.description ? userInfo.data.description : 'Chưa có mô tả'}
               </span>
             </div>

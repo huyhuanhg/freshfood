@@ -306,7 +306,6 @@ const EditProfile = () => {
                   userForm.setFieldsValue({ birthday: moment('01/01/1970', 'DD/MM/YYYY') });
                 }
               }}
-              defaultValue={moment('01/01/2015', 'DD/MM/YYYY')}
               locale={{
                 'lang': {
                   'locale': 'vi',
