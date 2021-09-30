@@ -29,11 +29,13 @@ const HistoryOrder = () => {
       accessToken,
     }));
   }, []);
-  const getStatus = (status) => (
-    <Tag color={ORDER_STATUS(status).color} key={status}>
-      {ORDER_STATUS(status).content.toUpperCase()}
-    </Tag>
-  );
+  const getStatus = (status, { key }) => {
+    return (
+      <Tag color={ORDER_STATUS(status).color} key={key}>
+        {ORDER_STATUS(status).content.toUpperCase()}
+      </Tag>
+    );
+  };
   const moneyFormat = (money) => {
     return (
       <NumberFormat

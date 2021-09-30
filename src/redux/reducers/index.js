@@ -35,9 +35,11 @@ const store = configureStore({
     bookmarkReducer,
     commentReducer,
     orderReducer,
-    rateReducer
+    rateReducer,
   },
-  middleware: [...getDefaultMiddleware({ thunk: false }), sagaMiddleware],
+  middleware: [...getDefaultMiddleware({
+    thunk: false, serializableCheck: false,
+  }), sagaMiddleware],
   // devTools: false,
 });
 

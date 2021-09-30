@@ -31,7 +31,7 @@ import history from '../../../utils/history';
 import StoreDetailComment from './componets/StoreDetailComment';
 import StoreDetailPicture from './componets/StoreDetailPicture';
 import ModalStoreDetail from '../../../components/clients/ModalStoreDetail';
-import { createRateAction, getStoreDetailAction } from '../../../redux/actions';
+import { createRateAction, getStoreDetailAction, removeAllPicturesAction } from '../../../redux/actions';
 
 const StoreDetail = ({ setShowLogin, match }) => {
   const dispatch = useDispatch();
@@ -42,6 +42,7 @@ const StoreDetail = ({ setShowLogin, match }) => {
       load: storeDetailLoad,
     },
   } = useSelector(({ storeReducer }) => storeReducer);
+  const { pictures } = useSelector(({ commentReducer }) => commentReducer);
 
   const { userInfo } = useSelector(({ userReducer }) => userReducer);
 
@@ -65,6 +66,15 @@ const StoreDetail = ({ setShowLogin, match }) => {
     if (pathArr.length > 1 && content !== '') {
       setDefaultActiveMenu(content);
     }
+    return () => {
+      if (userToken && pictures.length > 0) {
+        const { accessToken } = JSON.parse(userToken);
+        dispatch(removeAllPicturesAction({
+          accessToken,
+          data: { paths: pictures.map((picture) => picture.url.replace(ROOT_PATH, '')) },
+        }));
+      }
+    };
   }, []);
   useEffect(() => {
     const request = {

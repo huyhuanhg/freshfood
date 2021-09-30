@@ -35,5 +35,5 @@ export default ClientLayout;
 ClientLayout.propTypes = {
   exact: PropTypes.bool,
   path: PropTypes.string,
-  component: PropTypes.object,
+  component: PropTypes.func,
 };

@@ -25,5 +25,5 @@ export default SectionPromotion;
 
 SectionPromotion.propTypes = {
   render: PropTypes.func,
-  anchor: PropTypes.object,
+  anchor: PropTypes.func,
 };

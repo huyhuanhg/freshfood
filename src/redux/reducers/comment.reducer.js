@@ -1,5 +1,6 @@
 import { createReducer } from '@reduxjs/toolkit';
 import { COMMENT_ACTION, FAILURE, REQUEST, SUCCESS } from '../constants';
+import { ROOT_PATH } from '../../contants';
 
 const initialState = {
   commentList: {
@@ -10,6 +11,7 @@ const initialState = {
     lastPage: 1,
     total: 0,
   },
+  pictures: [],
 };
 
 const commentReducer = createReducer(initialState, {
@@ -28,6 +30,7 @@ const commentReducer = createReducer(initialState, {
     return {
       ...state,
       commentList: {
+        ...state.commentList,
         data: [
           {
             ...data,
@@ -37,6 +40,7 @@ const commentReducer = createReducer(initialState, {
         load: false,
         error: null,
       },
+      pictures: [],
     };
   },
   [FAILURE(COMMENT_ACTION.CREATE_COMMENT)]: (state, action) => {
@@ -87,6 +91,86 @@ const commentReducer = createReducer(initialState, {
         load: false,
         error,
       },
+    };
+  },
+
+  [REQUEST(COMMENT_ACTION.UPLOAD_PICTURE)]: (state, { payload: { data: { uid } } }) => {
+    const newPicture = {
+      uid,
+      percent: 0,
+      status: 'uploading',
+      name: '',
+      url: '',
+    };
+    return {
+      ...state,
+      pictures: [...state.pictures, newPicture],
+    };
+  },
+  [COMMENT_ACTION.UPDATE_PROGRESS_PICTURE]: (state, { payload: { uid, percent } }) => {
+    const pictures = [...state.pictures];
+    const pictureIndex = pictures.findIndex((picture) => picture.uid === uid);
+    const pictureProgress = {
+      ...state.pictures[pictureIndex],
+      percent,
+    };
+    if (pictureIndex !== -1) {
+      pictures.splice(pictureIndex, 1, pictureProgress);
+    }
+    return {
+      ...state,
+      pictures,
+    };
+  },
+  [SUCCESS(COMMENT_ACTION.UPLOAD_PICTURE)]: (state, { payload: { uid, data } }) => {
+    const pictures = [...state.pictures];
+    const pictureIndex = pictures.findIndex((picture) => picture.uid === uid);
+    const pictureSuccess = {
+      uid,
+      status: 'done',
+      name: data.fileName,
+      url: `${ROOT_PATH}${data.path}`,
+    };
+    if (pictureIndex !== -1) {
+      pictures.splice(pictureIndex, 1, pictureSuccess);
+    }
+    return {
+      ...state,
+      pictures,
+    };
+  },
+  [FAILURE(COMMENT_ACTION.UPLOAD_PICTURE)]: (state, { payload: { uid } }) => {
+    const pictures = [...state.pictures];
+    const pictureIndex = pictures.findIndex((picture) => picture.uid === uid);
+    if (pictureIndex !== -1) {
+      pictures.splice(pictureIndex, 1);
+    }
+    return {
+      ...state,
+      pictures,
+    };
+  },
+  [SUCCESS(COMMENT_ACTION.REMOVE_PICTURE)]: (state, { payload: { uid } }) => {
+    const pictures = [...state.pictures];
+    const pictureIndex = pictures.findIndex((picture) => picture.uid === uid);
+    if (pictureIndex !== -1) {
+      pictures.splice(pictureIndex, 1);
+    }
+    return {
+      ...state,
+      pictures,
+    };
+  },
+  [SUCCESS(COMMENT_ACTION.REMOVE_ALL_PICTURE)]: (state) => {
+    return {
+      ...state,
+      pictures: [],
+    };
+  },
+  [FAILURE(COMMENT_ACTION.REMOVE_ALL_PICTURE)]: (state) => {
+    return {
+      ...state,
+      pictures: [],
     };
   },
 });

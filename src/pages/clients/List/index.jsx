@@ -14,7 +14,6 @@ import * as ClientStyle from '../styles';
 
 const ClientList = ({ setShowLogin }) => {
   const [menuActive, setMenuActive] = useState('foods');
-  const [mobileActive, setMobileActive] = useState(false);
 
   useEffect(() => {
     setMenuActive(history.location.pathname);
@@ -31,13 +30,11 @@ const ClientList = ({ setShowLogin }) => {
                 theme='light'
                 selectedKeys={[menuActive]}
                 mode='inline'
-                mobileActive={mobileActive}
               >
                 <Menu.Item
                   key='/stores'
                   icon={<MdNavigateNext className='custom-icon-position' />}
                   onClick={() => {
-                    setMobileActive(false);
                     history.push(PATH.STORE);
                   }}
                 >
@@ -47,7 +44,6 @@ const ClientList = ({ setShowLogin }) => {
                   key='/foods'
                   icon={<MdNavigateNext className='custom-icon-position' />}
                   onClick={() => {
-                    setMobileActive(false);
                     history.push(PATH.FOOD);
                   }}
                 >
@@ -57,7 +53,6 @@ const ClientList = ({ setShowLogin }) => {
                   key='/promotions'
                   icon={<MdNavigateNext className='custom-icon-position' />}
                   onClick={() => {
-                    setMobileActive(false);
                     history.push(PATH.PROMOTION);
                   }}
                 >
@@ -67,7 +62,6 @@ const ClientList = ({ setShowLogin }) => {
                   key='/crowded'
                   icon={<MdNavigateNext className='custom-icon-position' />}
                   onClick={() => {
-                    setMobileActive(false);
                     history.push(PATH.CROWDED);
                   }}
                 >
@@ -77,18 +71,11 @@ const ClientList = ({ setShowLogin }) => {
                   key='/favorite'
                   icon={<MdNavigateNext className='custom-icon-position' />}
                   onClick={() => {
-                    setMobileActive(false);
                     history.push(PATH.FAVORITE);
                   }}
                 >
                   Yêu thích
                 </Menu.Item>
-                <span
-                  className='mobile-override'
-                  onClick={() => {
-                    setMobileActive(!mobileActive);
-                  }}
-                />
               </Menu>
             </ClientStyle.MenuList>
           </Col>

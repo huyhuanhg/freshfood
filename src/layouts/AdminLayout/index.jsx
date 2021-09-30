@@ -69,5 +69,5 @@ export default AdminLayout;
 AdminLayout.propTypes = {
   exact: PropTypes.bool,
   path: PropTypes.string,
-  component: PropTypes.object,
+  component: PropTypes.func,
 };

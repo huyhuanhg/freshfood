@@ -116,7 +116,7 @@ StoreItem.propTypes = {
   storeName: PropTypes.string,
   storeAddress: PropTypes.string,
   storeNotMark: PropTypes.string,
-  avgRate: PropTypes.number,
+  avgRate: PropTypes.string,
   totalComment: PropTypes.number,
   lastComment: PropTypes.shape({
     lastName: PropTypes.string,

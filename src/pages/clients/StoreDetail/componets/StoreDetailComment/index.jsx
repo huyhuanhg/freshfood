@@ -1,7 +1,7 @@
-import { Avatar, Form, Image, Input, Spin, Upload } from 'antd';
+import { Avatar, Image, Space, Spin } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { Button } from 'antd';
+import { Button, Form } from 'antd';
 import PropTypes from 'prop-types';
 import { useEffect, useState } from 'react';
 import { getCommentsAction } from '../../../../../redux/actions';
@@ -11,7 +11,7 @@ import moment from 'moment';
 import * as StoreDetailStyle from '../../style';
 import * as ClientStyle from '../../../styles';
 import * as S from './style';
-import { AiOutlineCamera } from 'react-icons/all';
+import FormComment from './components/FormComment';
 
 const StoreDetailComment = (
   {
@@ -34,7 +34,7 @@ const StoreDetailComment = (
   const storeId = slug.slice(slug.lastIndexOf('.') + 1);
   const [loadMore, setLoadMore] = useState(false);
   const [showFormComment, setShowFormComment] = useState(false);
-  const [isFocusForm, setIsFocusForm] = useState(false);
+  const [commentForm] = Form.useForm();
   moment.locale('vi');
 
   const loadMoreComment = () => {
@@ -84,7 +84,7 @@ const StoreDetailComment = (
               >
                 {!commentItem.userAvatar && (
                   <span style={{ fontSize: '2rem' }}>
-                    {commentItem.lastName[0].toUpperCase()}
+                    {commentItem.lastName && commentItem.lastName[0].toUpperCase()}
                   </span>
                 )}
               </Avatar>
@@ -94,7 +94,7 @@ const StoreDetailComment = (
           </S.CommentHeader>
           <S.CommentContent>
             <p style={{ marginBottom: 10 }}>{commentItem.content}</p>
-            {commentItem.pictures.length > 0 &&
+            {commentItem.pictures?.length > 0 &&
             <Image.PreviewGroup>
               <div className='clearfix'>
                 {commentItem.pictures.map((picture, pictureIndex) => {
@@ -134,46 +134,53 @@ const StoreDetailComment = (
               <StoreDetailStyle.StoreFilterTitle>
                 Bình luận cửa hàng
               </StoreDetailStyle.StoreFilterTitle>
-              <Button
-                style={{
-                  color: '#fff',
-                  background: '#3380d8',
-                  marginRight: 10,
-                }}
-                onClick={() => {
-                  if (checkLogin()) {
-                    setShowFormComment(!showFormComment);
-                  }
-                }}
-              >
-                Viết Bình luận
-              </Button>
+              {
+                showFormComment
+                  ?
+                  <Space size='small'>
+                    <Button
+                      onClick={() => {
+                        setShowFormComment(!showFormComment);
+                      }}
+                    >
+                      Hủy
+                    </Button>
+                    <Button
+                      style={{
+                        color: '#fff',
+                        background: '#3380d8',
+                        marginRight: 10,
+                      }}
+                      onClick={() => {
+                        commentForm.submit();
+                      }}
+                    >
+                      Gửi
+                    </Button>
+                  </Space>
+                  :
+                  <Button
+                    style={{
+                      color: '#fff',
+                      background: '#3380d8',
+                      marginRight: 10,
+                    }}
+                    onClick={() => {
+                      if (checkLogin()) {
+                        setShowFormComment(!showFormComment);
+                      }
+                    }}
+                  >
+                    Viết Bình luận
+                  </Button>
+              }
             </StoreDetailStyle.DetailFilter>
-            {userInfo.data.id &&
-            <S.FormCommentWrap show={showFormComment} focus={isFocusForm}>
-              <Form>
-                <Form.Item
-                  noStyle
-                  onFocus={() => {
-                    setIsFocusForm(true);
-                  }}
-                  onBlur={() => {
-                    setIsFocusForm(false);
-                  }}
-                >
-                  <Input.TextArea
-                    showCount
-                    autoSize
-                    maxLength={1000}
-                    placeholder='Viết bình luận của bạn...'
-                  />
-                </Form.Item>
-                <Upload className='upload-picture'>
-                  <AiOutlineCamera />
-                </Upload>
-              </Form>
-            </S.FormCommentWrap>
-            }
+            {userInfo.data.id && <FormComment
+              show={showFormComment}
+              form={commentForm}
+              slug={slug}
+              setShow={setShowFormComment}
+            />}
           </ClientStyle.AffixFilter>
           <div>
             {renderComment()}

@@ -123,7 +123,15 @@ PrevArrow.propTypes = {
   setFoodId: PropTypes.func,
 };
 FoodDetailCarousel.propTypes = {
-  foodList: PropTypes.arrayOf,
+  foodList: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      foodName: PropTypes.string.isRequired,
+      foodDescription: PropTypes.string.isRequired,
+      foodImage: PropTypes.string.isRequired,
+      discount: PropTypes.number.isRequired,
+      foodConsume: PropTypes.number.isRequired,
+    })),
   index: PropTypes.number,
   setIndex: PropTypes.func,
   setFoodId: PropTypes.func,
