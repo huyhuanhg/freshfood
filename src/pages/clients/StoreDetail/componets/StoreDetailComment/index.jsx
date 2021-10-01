@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Button, Form } from 'antd';
 import PropTypes from 'prop-types';
 import { useEffect, useState } from 'react';
-import { getCommentsAction } from '../../../../../redux/actions';
+import { getCommentsAction, removeAllPicturesAction } from '../../../../../redux/actions';
 import { ROOT_PATH } from '../../../../../contants';
 import moment from 'moment';
 
@@ -17,7 +17,6 @@ const StoreDetailComment = (
   {
     slug,
     checkLogin,
-    setShowComment,
     userInfo,
   },
 ) => {
@@ -30,6 +29,7 @@ const StoreDetailComment = (
       load,
       total,
     },
+    pictures,
   } = useSelector(({ commentReducer }) => commentReducer);
   const storeId = slug.slice(slug.lastIndexOf('.') + 1);
   const [loadMore, setLoadMore] = useState(false);
@@ -126,44 +126,93 @@ const StoreDetailComment = (
   };
   return (
     <div>
-      {total > 0
-        ?
-        <div className='list-of-store-detail'>
-          <ClientStyle.AffixFilter offsetTop={88.375 + 54}>
-            <StoreDetailStyle.DetailFilter>
-              <StoreDetailStyle.StoreFilterTitle>
-                Bình luận cửa hàng
-              </StoreDetailStyle.StoreFilterTitle>
-              {
-                showFormComment
-                  ?
-                  <Space size='small'>
-                    <Button
-                      onClick={() => {
-                        setShowFormComment(!showFormComment);
-                      }}
-                    >
-                      Hủy
-                    </Button>
-                    <Button
-                      style={{
-                        color: '#fff',
-                        background: '#3380d8',
-                        marginRight: 10,
-                      }}
-                      onClick={() => {
-                        commentForm.submit();
-                      }}
-                    >
-                      Gửi
-                    </Button>
-                  </Space>
-                  :
+      <div className='list-of-store-detail'>
+        <ClientStyle.AffixFilter offsetTop={88.375 + 54}>
+          <StoreDetailStyle.DetailFilter>
+            <StoreDetailStyle.StoreFilterTitle>
+              Bình luận cửa hàng
+            </StoreDetailStyle.StoreFilterTitle>
+            {
+              showFormComment
+                ?
+                <Space size='small'>
+                  <Button
+                    onClick={() => {
+                      const userToken = localStorage.userInfo;
+                      if (userToken && pictures.length > 0) {
+                        const { accessToken } = JSON.parse(userToken);
+                        dispatch(removeAllPicturesAction({
+                          accessToken,
+                          data: { paths: pictures.map((picture) => picture.url.replace(ROOT_PATH, '')) },
+                        }));
+                      }
+                      setShowFormComment(!showFormComment);
+                    }}
+                  >
+                    Hủy
+                  </Button>
                   <Button
                     style={{
                       color: '#fff',
                       background: '#3380d8',
                       marginRight: 10,
+                    }}
+                    onClick={() => {
+                      commentForm.submit();
+                    }}
+                  >
+                    Gửi
+                  </Button>
+                </Space>
+                :
+                <Button
+                  style={{
+                    color: '#fff',
+                    background: '#3380d8',
+                    marginRight: 10,
+                  }}
+                  onClick={() => {
+                    if (checkLogin()) {
+                      setShowFormComment(!showFormComment);
+                    }
+                  }}
+                >
+                  Viết Bình luận
+                </Button>
+            }
+          </StoreDetailStyle.DetailFilter>
+          {userInfo.data.id && <FormComment
+            show={showFormComment}
+            form={commentForm}
+            slug={slug}
+            setShow={setShowFormComment}
+          />}
+        </ClientStyle.AffixFilter>
+        {
+          total > 0 ?
+            <div>
+              {renderComment()}
+              {load && (
+                <div className='d-flex horizontal-center vertical-center' style={{ width: '100%' }}>
+                  <Spin />
+                </div>
+              )}
+            </div>
+            :
+            <div className='d-flex vertical-center horizontal-center t-center' style={{ minHeight: 200, fontSize: 16 }}>
+              {load ?
+                <div className='d-flex horizontal-center vertical-center' style={{ width: '100%' }}>
+                  <Spin />
+                </div>
+                :
+                <div>
+                  <p>Chưa có bình luận nào!</p>
+                  <p>Hãy là người đầu tiên bình luận về cửa hàng</p>
+                  <Button
+                    style={{
+                      width: '80%',
+                      color: '#fff',
+                      background: '#3380d8',
                     }}
                     onClick={() => {
                       if (checkLogin()) {
@@ -173,46 +222,11 @@ const StoreDetailComment = (
                   >
                     Viết Bình luận
                   </Button>
+                </div>
               }
-            </StoreDetailStyle.DetailFilter>
-            {userInfo.data.id && <FormComment
-              show={showFormComment}
-              form={commentForm}
-              slug={slug}
-              setShow={setShowFormComment}
-            />}
-          </ClientStyle.AffixFilter>
-          <div>
-            {renderComment()}
-          </div>
-        </div>
-        :
-        <div className='d-flex vertical-center horizontal-center t-center' style={{ minHeight: 200, fontSize: 16 }}>
-          <div>
-            <p>Chưa có bình luận nào!</p>
-            <p>Hãy là người đầu tiên bình luận về cửa hàng</p>
-            <Button
-              style={{
-                width: '80%',
-                color: '#fff',
-                background: '#3380d8',
-              }}
-              onClick={() => {
-                if (checkLogin()) {
-                  setShowComment({ status: true, isComment: true });
-                }
-              }}
-            >
-              Viết Bình luận
-            </Button>
-          </div>
-        </div>
-      }
-      {load && (
-        <div className='d-flex horizontal-center vertical-center' style={{ width: '100%' }}>
-          <Spin />
-        </div>
-      )}
+            </div>
+        }
+      </div>
     </div>
   );
 };
@@ -221,6 +235,5 @@ export default StoreDetailComment;
 StoreDetailComment.propTypes = {
   slug: PropTypes.string,
   checkLogin: PropTypes.func,
-  setShowComment: PropTypes.func,
   userInfo: PropTypes.object,
 };
