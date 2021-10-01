@@ -4,11 +4,12 @@ import { Link } from 'react-router-dom';
 
 import { Affix, Badge, Dropdown, Form, Input, Menu, Select, Space } from 'antd';
 import {
-  AiFillSkype, BsFillBookmarkFill,
+  AiFillSkype, BsFillBookmarkFill, FaComment,
   FaFacebookF,
   FaHistory,
-  FiActivity,
-  GrGooglePlus, IoFastFoodOutline,
+  GiRank3,
+  GrGooglePlus,
+  IoFastFoodOutline,
   RiMapPin2Fill,
 } from 'react-icons/all';
 
@@ -86,7 +87,7 @@ function Header({ setShowModalLogin }) {
       {userId ? (
         <div>
           <Menu.Item
-            key='1'
+            key={PATH.PROFILE_INFO}
             style={{ padding: '1rem 2rem' }}
             onClick={() => {
               history.push(PATH.SUP_PROFILE(PATH.PROFILE_INFO));
@@ -111,7 +112,7 @@ function Header({ setShowModalLogin }) {
           </Menu.Item>
           <Menu.Divider />
           <Menu.Item
-            key='2'
+            key={PATH.PROFILE_ORDER}
             style={{ padding: '1rem 2rem' }}
             icon={<FaHistory />}
             onClick={() => {
@@ -122,7 +123,7 @@ function Header({ setShowModalLogin }) {
           </Menu.Item>
           <Menu.Divider />
           <Menu.Item
-            key='3'
+            key={PATH.PROFILE_BOOKMARKS}
             style={{ padding: '1rem 2rem' }}
             icon={<BsFillBookmarkFill />}
             onClick={() => {
@@ -132,18 +133,29 @@ function Header({ setShowModalLogin }) {
             Bộ sưu tập
           </Menu.Item>
           <Menu.Item
-            key='3'
+            key={PATH.PROFILE_COMMENTS}
             style={{ padding: '1rem 2rem' }}
-            icon={<FiActivity />}
+            icon={<FaComment />}
             onClick={() => {
               history.push(PATH.SUP_PROFILE(PATH.PROFILE_COMMENTS));
             }}
           >
-            Hoạt động cá nhân
+            Lịch sử bình luận
           </Menu.Item>
           <Menu.Divider />
           <Menu.Item
-            key='4'
+            key={PATH.PROFILE_RATES}
+            style={{ padding: '1rem 2rem' }}
+            icon={<GiRank3 />}
+            onClick={() => {
+              history.push(PATH.SUP_PROFILE(PATH.PROFILE_RATES));
+            }}
+          >
+            Lịch sử đánh giá
+          </Menu.Item>
+          <Menu.Divider />
+          <Menu.Item
+            key='logout'
             style={{ padding: '1rem 2rem' }}
             icon={<LogoutOutlined />}
             onClick={handleLogout}
@@ -153,10 +165,10 @@ function Header({ setShowModalLogin }) {
         </div>
       ) : (
         <>
-          <Menu.Item key='0' style={{ padding: '1rem 2rem' }}>
+          <Menu.Item key={PATH.LOGIN} style={{ padding: '1rem 2rem' }}>
             <Link to={PATH.LOGIN}>Đăng nhập</Link>
           </Menu.Item>
-          <Menu.Item key='1' style={{ padding: '1rem 2rem' }}>
+          <Menu.Item key={PATH.REGISTER} style={{ padding: '1rem 2rem' }}>
             <Link to={PATH.REGISTER}>Đăng ký</Link>
           </Menu.Item>
         </>

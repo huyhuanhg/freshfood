@@ -503,3 +503,43 @@ export const RateItem = styled.div`
     clear: both;
   }
 `;
+export const ControlWrap = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  padding-right: 20px;
+  @media screen and (max-width: 479px) {
+    flex-direction: column;
+    gap: 8px;
+    justify-self: flex-end;
+    & > div, & > label {
+      align-self: flex-end;
+    }
+  }
+`;
+export const BtnUploadAvatar = styled.label`
+  margin-left: 8px;
+  display: none;
+  line-height: 1.5715;
+  position: relative;
+  font-weight: 400;
+  white-space: nowrap;
+  text-align: center;
+  border: 1px solid #d9d9d9;
+  box-shadow: unset;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  touch-action: manipulation;
+  height: 32px;
+  padding: 4px 15px;
+  font-size: 14px;
+  border-radius: 2px;
+  color: rgba(0, 0, 0, 0.85);
+  background: #fff;
+  @media screen and (max-width: 991px) {
+    display: flex;
+  }
+`;

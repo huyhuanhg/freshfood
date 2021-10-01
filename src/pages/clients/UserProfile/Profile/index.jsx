@@ -8,8 +8,9 @@ import * as S from '../style';
 import history from '../../../../utils/history';
 import { changeFullNameAction, changeNumberPhoneAction, changeEmailAction } from '../../../../redux/actions';
 import { PAGE_TITLE } from '../../../../contants';
+import PropTypes from 'prop-types';
 
-const Profile = () => {
+const Profile = ({ changeAvatar }) => {
   const userToken = localStorage.userInfo;
   const dispatch = useDispatch();
   const {
@@ -67,8 +68,8 @@ const Profile = () => {
   return (
     <div style={{ paddingBottom: 15 }}>
       <Row gutter={20}>
-        <Col span={6} />
-        <Col span={18}>
+        <Col lg={6} md={6} sm={6} xs={6} />
+        <Col lg={18} md={18} sm={18} xs={18}>
           <h3 style={{
             padding: '24px 0',
             fontSize: 24,
@@ -80,7 +81,7 @@ const Profile = () => {
       </Row>
       <S.UserProfile>
         <Row gutter={20}>
-          <Col span={6}>
+          <Col lg={6} md={6} sm={6} xs={8}>
             <div className='user-profile-title'><span>Họ và tên:</span></div>
             <div className='user-profile-title'><span>Email:</span></div>
             <div className='user-profile-title'><span>Số điện thoại:</span></div>
@@ -89,7 +90,7 @@ const Profile = () => {
             <div className='user-profile-title'><span>Ngày sinh:</span></div>
             <div className='user-profile-title'><span>Mô tả bản thân:</span></div>
           </Col>
-          <Col span={18}>
+          <Col lg={18} md={18} sm={18} xs={16}>
             <div className='user-content'>
               {
                 updateInfo.fullName ?
@@ -326,7 +327,7 @@ const Profile = () => {
             </div>
           </Col>
         </Row>
-        <div style={{ display: 'flex', justifyContent: 'flex-end', paddingRight: 20 }}>
+        <S.ControlWrap>
           <Space>
             <Button
               style={{
@@ -339,9 +340,23 @@ const Profile = () => {
             </Button>
             <Button onClick={() => history.push('/profile/user-password')}>Đổi mật khẩu</Button>
           </Space>
-        </div>
+          <S.BtnUploadAvatar htmlFor='avatar_input'>
+            <input
+              type='file'
+              id='avatar_input'
+              hidden
+              accept='image/*'
+              onChange={changeAvatar}
+            />
+            Đổi ảnh đại diện
+          </S.BtnUploadAvatar>
+        </S.ControlWrap>
       </S.UserProfile>;
     </div>
   );
 };
 export default Profile;
+
+Profile.propTypes = {
+  changeAvatar: PropTypes.func,
+};

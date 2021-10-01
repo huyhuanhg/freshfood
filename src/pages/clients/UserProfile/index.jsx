@@ -43,7 +43,26 @@ const UserProfile = ({ match }) => {
     menuItem: PATH.PROFILE_ORDER,
   });
   const [redirect, setRedirect] = useState(false);
-
+  const handleChangeAvatar = (e) => {
+    let msgErr = '';
+    if (!e.target.files[0].type.match('image/')) {
+      msgErr = MSG.VALIDATE_NOT_IMAGE;
+    }
+    if (e.target.files[0].size > 2048 * 1000) {
+      msgErr = MSG.VALIDATE_IMAGE_SIZE;
+    }
+    if (!msgErr) {
+      const { accessToken } = JSON.parse(userToken);
+      dispatch(changeAvatarAction({
+        accessToken,
+        data: {
+          image: e.target.files[0],
+        },
+      }));
+    } else {
+      message.error(msgErr);
+    }
+  };
   useEffect(() => {
     const menuInfo = match.params.page;
     const menuArr = menuInfo.split('-');
@@ -116,7 +135,7 @@ const UserProfile = ({ match }) => {
           <ClientStyle.Container>
             <S.ProfileWrap>
               <Row gutter={16}>
-                <Col span={6}>
+                <Col lg={6} md={0} sm={0} xs={0}>
                   <Affix offsetTop={108.375}>
                     <S.ProfileSidebar>
                       <S.ProfileAvatarWrap>
@@ -135,26 +154,7 @@ const UserProfile = ({ match }) => {
                             id='avatar'
                             hidden
                             accept='image/*'
-                            onChange={(e) => {
-                              let msgErr = '';
-                              if (!e.target.files[0].type.match('image/')) {
-                                msgErr = MSG.VALIDATE_NOT_IMAGE;
-                              }
-                              if (e.target.files[0].size > 2048 * 1000) {
-                                msgErr = MSG.VALIDATE_IMAGE_SIZE;
-                              }
-                              if (!msgErr) {
-                                const { accessToken } = JSON.parse(userToken);
-                                dispatch(changeAvatarAction({
-                                  accessToken,
-                                  data: {
-                                    image: e.target.files[0],
-                                  },
-                                }));
-                              } else {
-                                message.error(msgErr);
-                              }
-                            }}
+                            onChange={handleChangeAvatar}
                           />
                         </label>
                       </S.ProfileAvatarWrap>
@@ -174,7 +174,7 @@ const UserProfile = ({ match }) => {
                         mode='inline'
                       >
                         <Menu.Item
-                          key='order'
+                          key={PATH.PROFILE_ORDER}
                           icon={<FaHistory className='custom-icon-profile' />}
                           onClick={handleMenuItemClick}
                         >
@@ -230,7 +230,7 @@ const UserProfile = ({ match }) => {
                           </Menu.Item>
                         </SubMenu>
                         <Menu.Item
-                          key='1'
+                          key='logout'
                           icon={<AiOutlinePoweroff className='custom-icon-profile' />}
                           onClick={handleLogout}
                         >
@@ -240,11 +240,11 @@ const UserProfile = ({ match }) => {
                     </S.ProfileSidebar>
                   </Affix>
                 </Col>
-                <Col span={18}>
+                <Col lg={18} md={24} sm={24} xs={24}>
                   <S.ProfileContent>
                     <Switch>
                       <Route exact path={PATH.SUP_PROFILE(PATH.PROFILE_INFO)}>
-                        <Profile />
+                        <Profile changeAvatar={handleChangeAvatar} />
                       </Route>
                       <Route exact path={PATH.PROFILE_UPDATE}>
                         <EditProfile />

@@ -5,20 +5,17 @@ import { Row, Col, Form, Upload } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import { AiFillStar } from 'react-icons/all';
 import { v4 } from 'uuid';
-// import axios from 'axios';
-// import camelcaseKeys from 'camelcase-keys';
 
 import * as S from './style';
 import {
   getBookmarkDetailAction,
   createBookmarkAction,
   updateBookmarkAction,
-  createCommentAction, uploadPicturesAction, removePictureAction,
+  createCommentAction, uploadPicturesAction, removePictureAction, removeAllPicturesAction,
 } from '../../../redux/actions';
 
 import { ROOT_PATH } from '../../../contants';
 import loadAvatarStore from '../../../assets/images/loadStore.png';
-// import { ModalStoreDetailG } from '../../../contants/message.contant';
 
 const ModalStoreDetail = (
   {
@@ -44,108 +41,6 @@ const ModalStoreDetail = (
   const { bookmarkDetail: { data, load: loadBookmark } } = useSelector(({ bookmarkReducer }) => bookmarkReducer);
   const { userInfo: { data: { avatar, firstName, lastName } } } = useSelector(({ userReducer }) => userReducer);
   const { pictures } = useSelector(({ commentReducer }) => commentReducer);
-
-  // list nhận ảnh nhận về
-  // const [fileList, setFileList] = useState([]);
-  // //list ảnh form
-  // const [formImages, setFormImages] = useState([]);
-  // const [load, setLoad] = useState(false);
-
-  // const uploadImages = async (data) => {
-  //   let isStart = true;
-  //   const imagesData = new FormData();
-  //   data.forEach((image, index) => {
-  //     if (image.originFileObj.size > 2048 * 1000) {
-  //       message.error(MSG.VALIDATE_IMAGE_SIZE);
-  //       isStart = false;
-  //     }
-  //     if (!image.originFileObj.type.match('image/')) {
-  //       message.error(MSG.VALIDATE_NOT_IMAGE);
-  //       isStart = false;
-  //     }
-  //     imagesData.append(`images[${index}]`, image.originFileObj);
-  //   });
-  //   if (isStart) {
-  //     setLoad(true);
-  //     try {
-  //       const res = await axios.post(
-  //         `${SERVER_CLIENT_API_URL}/comment-pictures`,
-  //         imagesData,
-  //         {
-  //           headers: {
-  //             'Content-Type': 'multipart/form-data',
-  //             Authorization: `Bearer ${accessToken}`,
-  //           },
-  //         },
-  //       );
-  //       await setLoad(false);
-  //       const resData = await res.data.map((dataItem) => camelcaseKeys(dataItem));
-  //       await setFileList([...fileList, ...resData]);
-  //     } catch ({ response: { data: dataError } }) {
-  //       let message = '';
-  //       for (const feild in dataError) {
-  //         message = dataError[feild][0];
-  //         break;
-  //       }
-  //       notification.error({ message });
-  //     }
-  //   }
-  // };
-  // const removeImage = async (file) => {
-  //   const fileIndex = fileList.findIndex((fileItem) => fileItem.fileName === file.name);
-  //   const data = new FormData();
-  //   data.append('path', fileList[fileIndex].path);
-  //   const newFiles = [...fileList];
-  //   newFiles.splice(fileIndex, 1);
-  //   setFileList(newFiles);
-  //   try {
-  //     await axios.post(
-  //       `${SERVER_CLIENT_API_URL}/comment-picture-d`,
-  //       data,
-  //       {
-  //         headers: {
-  //           'Content-Type': 'multipart/form-data',
-  //           Authorization: `Bearer ${accessToken}`,
-  //         },
-  //       },
-  //     );
-  //   } catch (err) {
-  //     console.log(err.message);
-  //   }
-  // };
-
-  // const removeImages = async () => {
-  //   const data = new FormData();
-  //   fileList.forEach((image, index) => {
-  //     data.append(`paths[${index}]`, image.path);
-  //   });
-  //   try {
-  //     await axios.post(
-  //       `${SERVER_CLIENT_API_URL}/comment-pictures-d`,
-  //       data,
-  //       {
-  //         headers: {
-  //           'Content-Type': 'multipart/form-data',
-  //           Authorization: `Bearer ${accessToken}`,
-  //         },
-  //       },
-  //     );
-  //   } catch (err) {
-  //     console.log(err.message);
-  //   }
-  // };
-  // useEffect(() => {
-  //   // gọi api upload ảnh
-  //   const uploadedCount = fileList.length;
-  //   const newListCount = formImages.length;
-  //   if (newListCount > uploadedCount) {
-  //     const data = formImages.filter((image, imageIndex) => imageIndex >= uploadedCount);
-  //     if (!load) {
-  //       uploadImages(data);
-  //     }
-  //   }
-  // }, [formImages]);
-
   useEffect(() => {
     if (!isComment && isShow) {
       dispatch(getBookmarkDetailAction({
@@ -157,16 +52,6 @@ const ModalStoreDetail = (
     }
   }, [isShow]);
 
-  // const renderFileList = () => {
-  //   return fileList.map((file, fileIndex) => {
-  //     return {
-  //       uid: fileIndex,
-  //       name: file.fileName,
-  //       status: 'done',
-  //       url: `${ROOT_PATH}${file.path}`,
-  //     };
-  //   });
-  // };
   const handleSubmit = (value) => {
     if (!isComment) {
       if (data.description) {
@@ -197,8 +82,6 @@ const ModalStoreDetail = (
         userAvatar: avatar,
       };
       dispatch(createCommentAction(data));
-      // setFormImages([]);
-      // setFileList([]);
       actionForm.resetFields();
     }
     setShow(false);
@@ -217,13 +100,15 @@ const ModalStoreDetail = (
           setShow(false);
         } else {
           setShow({ isComment, status: false });
-          // if (isComment && fileList.length > 0) {
-          //   removeImages();
-          // }
-          // setFormImages([]);
-          // setFileList([]);
-          actionForm.resetFields();
+          if (isComment && pictures.length > 0) {
+            const { accessToken } = JSON.parse(userToken);
+            dispatch(removeAllPicturesAction({
+              accessToken,
+              data: { paths: pictures.map((picture) => picture.url.replace(ROOT_PATH, '')) },
+            }));
+          }
         }
+        actionForm.resetFields();
       }}
       width={1000}
       footer={false}
@@ -282,7 +167,6 @@ const ModalStoreDetail = (
                     listType='picture-card'
                     beforeUpload={false}
                     fileList={pictures}
-                    // showUploadList={{ showPreviewIcon: false }}
                     onRemove={({ uid, url }) => {
                       const { accessToken } = JSON.parse(userToken);
                       dispatch(removePictureAction({
@@ -293,9 +177,6 @@ const ModalStoreDetail = (
                         },
                       }));
                     }}
-                    // onChange={({ fileList }) => {
-                    //   setFormImages(fileList);
-                    // }}
                     customRequest={({ file }) => {
                       if (pictures.length < 8) {
                         const { accessToken } = JSON.parse(userToken);
