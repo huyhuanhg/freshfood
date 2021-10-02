@@ -1,3 +1,5 @@
+import { ROOT_PATH } from './backend.contant';
+
 export const PATH = {
   HOME: '/',
   STORE: '/stores',
@@ -34,9 +36,8 @@ export const PATH = {
   STORE_MENU_COMMENT: 'comment',
   STORE_MENU_PICTURE: 'picture',
   STORE_MENU_PROMOTION: 'promotion',
-
 };
-
+export const IMG_SRC = (path) => `${ROOT_PATH}${path}`;
 export const DYNAMIC = (path, params, menu = '') => {
   return `${path}/:${params.join('/:')}/${menu}`;
 };

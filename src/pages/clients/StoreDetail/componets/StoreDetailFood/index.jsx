@@ -183,7 +183,6 @@ const StoreDetailFood = ({ showFoodDetail, setShowLogin, setShowFoodDetail, slug
             </div>
           )}
           <StoreDetailStyle.ModalCustom
-            closable={false}
             footer={
               <button
                 onClick={() => {

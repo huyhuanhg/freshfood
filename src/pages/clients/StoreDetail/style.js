@@ -306,8 +306,7 @@ export const StoreFilterSuffix = styled.ul`
   }
 `;
 export const StoreFilterTitle = styled.div`
-  margin-left: 5px;
-  padding: 10px 15px 5px 10px;
+  padding: 10px 15px 5px 0;
   border-bottom: 1px solid #eee;
   font-size: 1.25rem;
   font-weight: 600;
@@ -332,6 +331,10 @@ export const ViewOther = styled.div`
   cursor: pointer;
 `;
 export const ModalCustom = styled(Modal)`
+  & .ant-modal-close {
+    display: none;
+  }
+
   & .ant-modal-body {
     padding: 0 !important;
   }
@@ -363,6 +366,29 @@ export const ModalCustom = styled(Modal)`
       overflow: visible;
       background-color: ${(props) => props.theme.btnDanger};
       text-transform: none;
+    }
+  }
+
+  @media screen and (max-width: 479px) {
+    top: 50px;
+    overflow: hidden;
+    & .ant-modal-close {
+      position: absolute;
+      right: 10px;
+      top: 10px;
+
+      display: block;
+      color: #444;
+
+      & .ant-modal-close-x {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #ccc;
+        border-radius: 50%;
+        width: 30px !important;
+        height: 30px !important;
+      }
     }
   }
 `;
@@ -450,6 +476,13 @@ export const DetailFilter = styled.div`
   background-color: ${({ theme }) => theme.bgFilter};
   width: 100%;
   flex-basis: 100%;
+  padding-left: 10px;
+  @media screen and (max-width: 991px) {
+    padding-left: 2px;
+  }
+  @media screen and (max-width: 479px) {
+    padding-left: 5px;
+  }
 `;
 export const BookmarkButtonMobile = styled.div`
 
@@ -466,5 +499,4 @@ export const BookmarkButtonMobile = styled.div`
   @media screen and (max-width: 479px) {
     right: 10px;
   }
-
 `;

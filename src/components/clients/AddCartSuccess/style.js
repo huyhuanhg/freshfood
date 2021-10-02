@@ -5,6 +5,9 @@ export const MsgWrap = styled.div`
   align-items: center;
   justify-content: space-between;
   width: 400px;
+  @media screen and (max-width: 479px) {
+    width: 85vw;
+  }
 `;
 export const CartInfo = styled.div`
   width: 70%;
@@ -32,6 +35,7 @@ export const InfoWarp = styled.div`
   & > p {
     margin: 0;
     color: #f5222d;
+
     & > span:first-child {
       color: #777;
     }

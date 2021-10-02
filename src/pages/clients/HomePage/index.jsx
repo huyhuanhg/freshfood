@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { Anchor, Col, Row } from 'antd';
 import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
@@ -22,18 +22,13 @@ import SectionPromotion from './components/SectionPromotion';
 import SectionStore from './components/SectionStore';
 import SectionFoodList from './components/SectionFoodList';
 
-import { getFoodPromotionAction, getLikesAction } from '../../../redux/actions';
+import { getFoodPromotionAction } from '../../../redux/actions';
 
 function HomePage({ setShowLogin }) {
   document.title = TITLE(PATH.HOME);
 
   const dispatch = useDispatch();
 
-  const {
-    foodPromotions: { data: promotionData, likeLoaded },
-    foodList,
-  } = useSelector(({ foodReducer }) => foodReducer);
-  const { userInfo } = useSelector(({ userReducer }) => userReducer);
   const { Link: AnchorLink } = Anchor;
 
   const [showFoodDetail, setShowFoodDetail] = useState(false);
@@ -41,34 +36,6 @@ function HomePage({ setShowLogin }) {
   useEffect(() => {
     dispatch(getFoodPromotionAction());
   }, []);
-
-  useEffect(() => {
-    if (userInfo.data.id) {
-      let type = null;
-      let foodIds = [];
-      const { accessToken } = JSON.parse(localStorage.userInfo);
-      if (!foodList.likeLoaded && foodList.data.length > 0) {
-        foodIds = foodList.data.map((foodItem) => {
-          return foodItem.id;
-        });
-        type = 'food';
-      }
-
-      if (!likeLoaded && promotionData.length > 0) {
-        foodIds = promotionData.map((foodItem) => {
-          return foodItem.id;
-        });
-        type = 'promotion';
-      }
-      if (type) {
-        dispatch(getLikesAction({
-          type,
-          accessToken,
-          data: { foodIds },
-        }));
-      }
-    }
-  }, [userInfo, foodList]);
 
   const renderFood = (foodList, span = 4) => {
     return (

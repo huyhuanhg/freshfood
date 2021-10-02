@@ -18,7 +18,7 @@ import PropTypes from 'prop-types';
 import * as ClientStyle from '../styles';
 import * as S from './style';
 
-import { PATH, ROOT_PATH } from '../../../contants';
+import { IMG_SRC, PATH } from '../../../contants';
 
 import Profile from './Profile';
 import HistoryOrder from './HistoryOrder';
@@ -31,7 +31,7 @@ import EditProfile from './EditProfile';
 import history from '../../../utils/history';
 import { changeAvatarAction, logoutAction } from '../../../redux/actions';
 import { MSG } from '../../../contants/message.contant';
-import { LoadingMiddleStyle } from '../../../styles/LoadingMiddle.style';
+import { LoadingMiddleStyle } from '../../../styles';
 
 const UserProfile = ({ match }) => {
   const { SubMenu } = Menu;
@@ -142,7 +142,7 @@ const UserProfile = ({ match }) => {
                         <label htmlFor='avatar'>
                           {
                             userInfo.data.avatar ?
-                              <img src={`${ROOT_PATH}${userInfo.data.avatar}`} alt='' />
+                              <img src={IMG_SRC(userInfo.data.avatar)} alt={userInfo.data.lastName} />
                               :
                               <div
                                 className='no-avatar'>{userInfo.data.lastName && userInfo.data.lastName[0].toUpperCase()}</div>

@@ -298,36 +298,6 @@ export const UserProfile = styled.div`
     text-align: right;
   }
 `;
-const contentStore = css`
-  & > p {
-    display: flex;
-    align-items: center;
-    margin: 0 0 -6px -10px;
-    font-size: 14px;
-
-    & > span.icon {
-      flex-basis: 15px;
-
-      & > svg {
-        color: #444;
-      }
-    }
-
-    & > p {
-      margin: 0;
-      flex-basis: calc(100% - 40px);
-      overflow: hidden;
-
-      & > span {
-        width: 100%;
-        display: inline-block;
-        white-space: nowrap;
-        text-overflow: ellipsis;
-        overflow: hidden;
-      }
-    }
-  }
-`;
 export const RateItem = styled.div`
   ${({ isBookmark }) => isBookmark && css`
     position: relative;
@@ -373,9 +343,6 @@ export const RateItem = styled.div`
     width: ${({ isBookmark }) => isBookmark ? 'calc(100% - 173.75px)' : 'calc(100% - 342.5px)'};
     min-height: 105.75px;
 
-    ${({ isBookmark }) => isBookmark && css`
-      ${contentStore}
-    `}
     & > .store-info-name {
       ${({ isBookmark }) => isBookmark && css`
         width: calc(100% - 168.75px);
@@ -406,62 +373,50 @@ export const RateItem = styled.div`
       }
     }
 
-    & > .store-info-address {
-      ${contentStore}
-      & > p {
-        font-size: 14px;
-      }
-    }
-
     & > .store-info-description {
       & > p {
         font-size: 12px !important;
         color: #666;
       }
 
-      ${({ isBookmark }) => isBookmark && css`
-        ${contentStore}
-      `}
-      ${({ isBookmark }) => !isBookmark && css`
-        display: flex;
-        margin-left: -10px;
+      display: flex;
+      margin-left: -10px;
 
-        & > svg {
-          margin-top: 4px;
+      & > svg {
+        margin-top: 4px;
+      }
+
+      & > p {
+        position: relative;
+        margin-left: 5px !important;
+        margin-right: -1em;
+        margin-bottom: 0;
+        padding-right: 1em;
+        height: 40px;
+        width: calc(100% - 27px) !important;
+        overflow: hidden;
+        line-height: 1.6em;
+        text-align: justify;
+
+        &:before {
+          box-sizing: border-box;
+          content: "...";
+          position: absolute;
+          right: 2px;
+          bottom: 0;
         }
 
-        & > p {
-          position: relative;
-          margin-left: 5px !important;
-          margin-right: -1em;
-          margin-bottom: 0;
-          padding-right: 1em;
-          height: 40px;
-          width: calc(100% - 27px) !important;
-          overflow: hidden;
-          line-height: 1.6em;
-          text-align: justify;
-
-          &:before {
-            box-sizing: border-box;
-            content: "...";
-            position: absolute;
-            right: 2px;
-            bottom: 0;
-          }
-
-          &:after {
-            box-sizing: border-box;
-            position: absolute;
-            right: 0;
-            margin-top: 0.4em;
-            height: 2.5em;
-            width: 1em;
-            content: "";
-            background: #fff;
-          }
+        &:after {
+          box-sizing: border-box;
+          position: absolute;
+          right: 0;
+          margin-top: 0.4em;
+          height: 2.5em;
+          width: 1em;
+          content: "";
+          background: #fff;
         }
-      `}
+      }
     }
   }
 
@@ -501,6 +456,27 @@ export const RateItem = styled.div`
     content: '';
     display: block;
     clear: both;
+  }
+`;
+export const InfoLine = styled.div`
+  display: flex;
+  font-size: ${({ fSize }) => fSize}px;
+  align-items: center;
+  margin: 0 0 0 -10px;
+
+  & > span {
+    flex-basis: 15px;
+    display: flex;
+    align-items: center;
+  }
+
+  & > p {
+    margin: 0;
+    flex-basis: calc(100% - 25px);
+    display: inline-block;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
   }
 `;
 export const ControlWrap = styled.div`

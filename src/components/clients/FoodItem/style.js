@@ -142,6 +142,9 @@ export const FoodStoreTitle = styled.div`
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  @media screen and (max-width: 479px) {
+    max-width: 70%;
+  }
 `;
 export const FoodStoreDescription = styled.div`
   margin: 0;
@@ -151,6 +154,9 @@ export const FoodStoreDescription = styled.div`
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  @media screen and (max-width: 479px) {
+    width: 70%;
+  }
 `;
 export const TotalOrder = styled.span`
   margin: 0;

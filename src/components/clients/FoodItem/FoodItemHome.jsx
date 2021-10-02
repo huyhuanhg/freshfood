@@ -22,8 +22,9 @@ const MetaTitle = ({ name, store, slug }) => {
   );
 };
 
-const MetaDescription = ({ id, price, discount, isLike, userId }) => {
+const MetaDescription = ({ id, price, discount, userId }) => {
   const dispatch = useDispatch();
+  const { likes: { data: likeData, load: loadLike } } = useSelector(({ foodReducer }) => foodReducer);
   return (
     <S.PriceBox>
       <p>
@@ -53,7 +54,7 @@ const MetaDescription = ({ id, price, discount, isLike, userId }) => {
           (e) => {
             handleStopPropagation(e);
             const userToken = localStorage.userInfo;
-            if (userToken && userId) {
+            if (userToken && userId && !loadLike) {
               const { accessToken } = JSON.parse(userToken);
               dispatch(toggleLikeAction({
                 accessToken,
@@ -66,7 +67,7 @@ const MetaDescription = ({ id, price, discount, isLike, userId }) => {
             }
           }
         }>
-        {isLike ? <S.Like /> : <S.UnLike />}
+        {likeData.includes(id) ? <S.Like /> : <S.UnLike />}
       </S.LikeBtn>
 
     </S.PriceBox>
@@ -82,7 +83,6 @@ export const FoodItemHome = (
     storeNotMark,
     price,
     discount,
-    like,
     load,
     setShowDetail,
     setShowLogin,
@@ -124,7 +124,6 @@ export const FoodItemHome = (
               id={id}
               price={price}
               discount={discount}
-              isLike={like}
               userId={userData.id}
             />
           }
@@ -179,7 +178,6 @@ FoodItemHome.propTypes = {
   storeNotMark: PropTypes.string,
   price: PropTypes.number,
   discount: PropTypes.number,
-  like: PropTypes.bool,
   load: PropTypes.bool,
   setShowDetail: PropTypes.func,
   setShowLogin: PropTypes.func,

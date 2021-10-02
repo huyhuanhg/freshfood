@@ -4,7 +4,7 @@ import { getRatesAction } from '../../../../redux/actions';
 import { useDispatch, useSelector } from 'react-redux';
 import { AiFillStar, GiRank3, MdDescription, TiLocationArrow } from 'react-icons/all';
 import { useEffect } from 'react';
-import { PAGE_TITLE, ROOT_PATH } from '../../../../contants';
+import { IMG_SRC, PAGE_TITLE, PATH } from '../../../../contants';
 import { Link } from 'react-router-dom';
 import moment from 'moment';
 
@@ -44,20 +44,21 @@ const HistoryRating = () => {
       createdAt,
     }) => {
       return (
-        <S.RateItem key={rateId} imagePath={`${ROOT_PATH}${storeImage}`}>
-          <Link to={`/stores/${storeNotMark}.${rateId}`}>
+        <S.RateItem key={rateId} imagePath={IMG_SRC(storeImage)}>
+          <Link to={PATH.STORE_DETAIL(`${storeNotMark}.${rateId}`)}>
             <div className='store-image'>
               <div />
             </div>
           </Link>
           <div className='store-info'>
             <div className='store-info-name'>
-              <Link to={`/stores/${storeNotMark}.${rateId}`}>{storeName}</Link>
+              <Link to={PATH.STORE_DETAIL(`${storeNotMark}.${rateId}`)}>{storeName}</Link>
               <div><small>{storeCateName}</small></div>
             </div>
-            <div className='store-info-address'>
-              <p><span className='icon'><TiLocationArrow /></span><p><span>{storeAddress}</span></p></p>
-            </div>
+            <S.InfoLine fSize={14}>
+              <span><TiLocationArrow /></span>
+              <p>{storeAddress}</p>
+            </S.InfoLine>
             <div className='store-info-description'>
               <MdDescription />
               <p><span>{storeDescription}</span></p>

@@ -51,7 +51,7 @@ const FoodDetailCarousel = function({ foodList, index, setIndex, setFoodId }) {
             <img src={`${ROOT_PATH}${foodImage}`} alt={foodName} />
             <div className='info'>
               <Row>
-                <Col span={20}>
+                <Col  lg={20} md={20} sm={20} xs={18}>
                   <div className='imgbox-food-name'>{foodName}</div>
                   <div className='imgbox-desc'>{foodDescription}</div>
                   <div className='imgbox-total'>
@@ -62,7 +62,7 @@ const FoodDetailCarousel = function({ foodList, index, setIndex, setFoodId }) {
                     lần
                   </div>
                 </Col>
-                <Col span={4} style={{ alignSelf: 'center' }}>
+                <Col lg={4} md={4} sm={4} xs={6} style={{ alignSelf: 'center' }}>
                   <div className='imgbox-current-price'>
                     <NumberFormat
                       value={discount}
