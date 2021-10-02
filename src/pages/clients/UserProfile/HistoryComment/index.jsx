@@ -8,7 +8,7 @@ import { Button, Col, Collapse, Image, Row, Spin } from 'antd';
 
 import { getCommentsAction } from '../../../../redux/actions';
 import * as S from '../style';
-import { PAGE_TITLE, ROOT_PATH } from '../../../../contants';
+import { IMG_SRC, PAGE_TITLE, PATH } from '../../../../contants';
 
 const HistoryComment = () => {
   moment.locale('vi');
@@ -53,10 +53,10 @@ const HistoryComment = () => {
                     <Col span={10}>
                       <S.StoreTitle>
                         <img
-                          src={`${ROOT_PATH}${storeImage}`}
+                          src={IMG_SRC(storeImage)}
                           alt={storeName}
                         />
-                        <Link to={`/stores/${storeNotMark}.${storeId}`}>
+                        <Link to={PATH.STORE_DETAIL(`${storeNotMark}.${storeId}`)}>
                           {storeName}
                         </Link>
                       </S.StoreTitle>
@@ -101,7 +101,7 @@ const HistoryComment = () => {
                                 objectFit: 'cover',
                                 verticalAlign: 'middle',
                               }}
-                              src={`${ROOT_PATH}${picture}`}
+                              src={IMG_SRC(picture)}
                               alt={picture}
                               preview={{
                                 mask: <div><EyeOutlined /> Xem ảnh</div>,

@@ -2,10 +2,9 @@ import { put, takeEvery } from 'redux-saga/effects';
 import axios from 'axios';
 import { REQUEST, LIKE_ACTION, FAILURE, SUCCESS } from '../constants';
 import { SERVER_CLIENT_API_URL } from '../../contants';
-import camelCaseKeys from 'camelcase-keys';
 import toSnakeCase from '../../utils/toSnakeCase';
 
-function* getLikesSaga({ payload: { accessToken, data, type } }) {
+function* getLikesSaga({ payload: { accessToken, data } }) {
   try {
     const { data: responseData } = yield axios({
       method: 'GET',
@@ -18,8 +17,7 @@ function* getLikesSaga({ payload: { accessToken, data, type } }) {
     yield put({
       type: SUCCESS(LIKE_ACTION.GET_LIKE_LIST),
       payload: {
-        data: camelCaseKeys(responseData),
-        type,
+        data: responseData,
       },
     });
   } catch (e) {

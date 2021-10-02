@@ -4,7 +4,7 @@ import history from '../../../../utils/history';
 import { useDispatch, useSelector } from 'react-redux';
 import { changePasswordAction, resetErrorPasswordAction } from '../../../../redux/actions';
 import { useEffect } from 'react';
-import { PAGE_TITLE } from '../../../../contants';
+import { PAGE_TITLE, PATH } from '../../../../contants';
 
 const ChangePassword = () => {
   const userToken = localStorage.userInfo;
@@ -115,7 +115,7 @@ const ChangePassword = () => {
               >
                 Đổi mật khẩu
               </Button>
-              <Button onClick={() => history.push('/profile/user-info')}>Hủy</Button>
+              <Button onClick={() => history.push(PATH.SUP_PROFILE(PATH.PROFILE_INFO))}>Hủy</Button>
               {password.load && <Spin />}
             </Space>
           </Form.Item>

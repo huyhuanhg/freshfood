@@ -5,7 +5,7 @@ import { getBookmarksAction } from '../../../../redux/actions';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
-import { PAGE_TITLE, ROOT_PATH } from '../../../../contants';
+import { IMG_SRC, PAGE_TITLE, PATH } from '../../../../contants';
 import { Link } from 'react-router-dom';
 
 const Bookmarks = () => {
@@ -43,24 +43,29 @@ const Bookmarks = () => {
       createdAt,
     }) => {
       return (
-        <S.RateItem key={storeId} imagePath={`${ROOT_PATH}${storeImage}`} isBookmark>
-          <Link to={`/stores/${storeNotMark}.${storeId}`}>
+        <S.RateItem key={storeId} imagePath={IMG_SRC(storeImage)} isBookmark>
+          <Link to={PATH.STORE_DETAIL(`${storeNotMark}.${storeId}`)}>
             <div className='store-image'>
               <div />
             </div>
           </Link>
           <div className='store-info'>
             <div className='store-info-name'>
-              <Link to={`/stores/${storeNotMark}.${storeId}`}>{storeName}</Link>
+              <Link to={PATH.STORE_DETAIL(`${storeNotMark}.${storeId}`)}>{storeName}</Link>
               <div><small>{storeCateName}</small></div>
             </div>
-            <div className='store-info-address'>
-              <p><span className='icon'><TiLocationArrow /></span><p><span>{storeAddress}</span></p></p>
-            </div>
-            <div className='store-info-description'>
-              <p><span className='icon'><MdDescription /></span><p><span>{storeDescription}</span></p></p>
-            </div>
-            <p><span className='icon'><BsFillBookmarkFill /></span><p><span>{description}</span></p></p>
+            <S.InfoLine fSize={14}>
+              <span><TiLocationArrow /></span>
+              <p>{storeAddress}</p>
+            </S.InfoLine>
+            <S.InfoLine fSize={12}>
+              <span><MdDescription /></span>
+              <p>{storeDescription}</p>
+            </S.InfoLine>
+            <S.InfoLine fSize={14}>
+              <span><BsFillBookmarkFill /></span>
+              <p>{description}</p>
+            </S.InfoLine>
           </div>
           <small className='created-at'>{moment(createdAt).fromNow()}</small>
         </S.RateItem>

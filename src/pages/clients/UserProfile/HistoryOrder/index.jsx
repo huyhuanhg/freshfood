@@ -9,7 +9,7 @@ import { Link } from 'react-router-dom';
 
 import * as S from '../style';
 import { getordersAction } from '../../../../redux/actions';
-import { PAGE_TITLE, ROOT_PATH } from '../../../../contants';
+import { IMG_SRC, PAGE_TITLE, PATH } from '../../../../contants';
 import { ORDER_STATUS } from '../../../../contants/orderStatus.contant';
 
 const HistoryOrder = () => {
@@ -69,10 +69,10 @@ const HistoryOrder = () => {
                 <S.StoreList>
                   <div>
                     <img
-                      src={`${ROOT_PATH}${storeImage}`}
+                      src={IMG_SRC(storeImage)}
                       alt={storeName}
                     />
-                    <Link to={`/stores/${storeNotMark}.${storeId}`}>
+                    <Link to={PATH.STORE_DETAIL(`${storeNotMark}.${storeId}`)}>
                       {storeName}
                     </Link>
                   </div>
@@ -93,7 +93,7 @@ const HistoryOrder = () => {
                   <S.FoodList key={food.foodId}>
                     <div>
                       <img
-                        src={`${ROOT_PATH}${food.foodImage}`}
+                        src={IMG_SRC(food.foodImage)}
                         alt={food.foodName}
                       />
                       {food.foodName}

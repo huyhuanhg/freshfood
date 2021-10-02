@@ -11,7 +11,7 @@ import * as ClientStyle from '../../../styles';
 
 import { FoodItemHome } from '../../../../../components/clients/FoodItem';
 import history from '../../../../../utils/history';
-import { getFoodListAction, getLikesAction, getTagListAction } from '../../../../../redux/actions';
+import { getFoodListAction, getTagListAction } from '../../../../../redux/actions';
 import FoodDetailModal from '../../../../../components/clients/FoodDetailModal';
 
 const FoodList = ({ setShowLogin }) => {
@@ -30,22 +30,6 @@ const FoodList = ({ setShowLogin }) => {
   useEffect(() => {
     dispatch(getTagListAction());
   }, []);
-
-  useEffect(() => {
-    if (userInfo.data.id) {
-      let foodIds = [];
-      const { accessToken } = JSON.parse(localStorage.userInfo);
-      if (!foodList.likeLoaded && foodList.data.length > 0) {
-        foodIds = foodList.data.map((foodItem) => {
-          return foodItem.id;
-        });
-        dispatch(getLikesAction({
-          accessToken,
-          data: { foodIds },
-        }));
-      }
-    }
-  }, [userInfo, foodList]);
 
   useEffect(() => {
     const { pathname, search } = history.location;
