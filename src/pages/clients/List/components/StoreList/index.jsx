@@ -11,6 +11,7 @@ import history from '../../../../../utils/history';
 import { getCategoryListAction, getStoresAction } from '../../../../../redux/actions';
 import { PATH, TITLE } from '../../../../../contants';
 import ModalStoreDetail from '../../../../../components/clients/ModalStoreDetail';
+import { Helmet } from 'react-helmet';
 
 const StoreList = () => {
   const { Option } = Select;
@@ -121,6 +122,9 @@ const StoreList = () => {
         fromDetail={false}
       />
       <ClientStyle.AffixFilter offsetTop={88.375}>
+        <Helmet>
+          <meta property='og:title' content={TITLE(history.location.pathname)} />
+        </Helmet>
         <RootStyle.Filter>
           <RootStyle.PrefixFilter
             mode='horizontal'

@@ -1,9 +1,9 @@
 import {
+  Button,
   Col,
   Menu,
-  Rate,
   Row,
-  Skeleton,
+  Skeleton, Space,
 } from 'antd';
 import PropTypes from 'prop-types';
 import {
@@ -12,7 +12,6 @@ import {
   BsFillBookmarkFill,
   FaCommentDots,
   FaPhoneAlt,
-  FaShareAlt,
   MdDescription,
   MdNavigateNext,
   TiLocationArrow,
@@ -26,12 +25,14 @@ import StoreDetailFood from './componets/StoreDetailFood';
 import loadAvatarStore from '../../../assets/images/loadStore.png';
 import * as ClientStyle from '../styles';
 import * as StoreDetailStyle from './style';
-import { DYNAMIC, PAGE_TITLE, PATH, ROOT_PATH } from '../../../contants';
+import { DYNAMIC, IMG_SRC, PAGE_TITLE, PATH, ROOT_PATH, URL } from '../../../contants';
 import history from '../../../utils/history';
 import StoreDetailComment from './componets/StoreDetailComment';
 import StoreDetailPicture from './componets/StoreDetailPicture';
 import ModalStoreDetail from '../../../components/clients/ModalStoreDetail';
-import { createRateAction, getStoreDetailAction } from '../../../redux/actions';
+import { getStoreDetailAction } from '../../../redux/actions';
+import { Helmet } from 'react-helmet';
+import ModalRate from '../../../components/clients/ModalRate';
 
 const StoreDetail = ({ setShowLogin, match }) => {
   const dispatch = useDispatch();
@@ -53,9 +54,9 @@ const StoreDetail = ({ setShowLogin, match }) => {
     isComment: true,
   });
 
-  const [defaultActiveMenu, setDefaultActiveMenu] = useState(PATH.STORE_MENU_FOOD);
+  const [isShowRate, setIsShowRate] = useState(false);
 
-  document.title = storeDetail.storeName || PAGE_TITLE.STORE_DETAIL;
+  const [defaultActiveMenu, setDefaultActiveMenu] = useState(PATH.STORE_MENU_FOOD);
 
   const userToken = localStorage.userInfo;
 
@@ -66,7 +67,6 @@ const StoreDetail = ({ setShowLogin, match }) => {
       setDefaultActiveMenu(content);
     }
   }, []);
-
 
   useEffect(() => {
     const request = {
@@ -108,6 +108,18 @@ const StoreDetail = ({ setShowLogin, match }) => {
   return (
     <ClientStyle.Section style={{ backgroundColor: '#eee' }}>
       <ClientStyle.Container>
+        <Helmet>
+          <title>{storeDetail.storeName || PAGE_TITLE.STORE_DETAIL}</title>
+          <meta name='description' content={storeDetail.storeDescription} />
+          <meta property='fb:app_id' content={`${storeDetail.storeNotMark}.${storeDetail.id}`} />
+          <meta property='og:title' content={`FreshFood - ${storeDetail.storeName}`} />
+          <meta property='og:type' content='article' />
+          <meta property='og:image' content={IMG_SRC(storeDetail.storeImage)} />
+          <meta
+            property='og:url'
+            content={URL(`${PATH.STORE_DETAIL(`${storeDetail.storeNotMark}.${storeDetail.id}`)}`)} />
+          <meta property='og:description' content={storeDetail.storeDescription} />
+        </Helmet>
         <StoreDetailStyle.MicroHeader>
           <Row>
             <Col lg={10} md={10} sm={24} xs={24} style={{ overflow: 'hidden' }}>
@@ -132,11 +144,18 @@ const StoreDetail = ({ setShowLogin, match }) => {
                       <StoreDetailStyle.StoreName>
                         {storeDetail.storeName}
                       </StoreDetailStyle.StoreName>
+                      <StoreDetailStyle.StoreShare>
+                        <iframe
+                          src={`https://www.facebook.com/plugins/share_button.php?href=http%3A%2F%2Ffreshfood.byethost24.com%2Fstores%2F${storeDetail.storeNotMark}.${storeDetail.id}&layout=button_count&size=small&width=86&height=20&appId`}
+                          width='86' height='20' style={{ border: 'none', overflow: 'hidden' }} scrolling='no'
+                          frameBorder='0'
+                          allowFullScreen='true'
+                          allow='autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share' />
+                      </StoreDetailStyle.StoreShare>
                       <StoreDetailStyle.StoreCategory>
                         <small>{storeDetail.storeCateName}</small>
                       </StoreDetailStyle.StoreCategory>
                     </StoreDetailStyle.MainInfoTitle>
-
                     <StoreDetailStyle.ResSummaryPoint>
                       <StoreDetailStyle.MicroPoints>
                         <StoreDetailStyle.MicroReviewCount>
@@ -173,35 +192,6 @@ const StoreDetail = ({ setShowLogin, match }) => {
                           Lượt đánh giá
                         </StoreDetailStyle.MicroReviewText>
                       </StoreDetailStyle.MicroPoints>
-                      <StoreDetailStyle.YourRate>
-                        <div>
-                          <Rate
-                            disabled={!!storeDetail.userRate || !userInfo.data.id}
-                            defaultValue={storeDetail.userRate}
-                            onChange={(value) => {
-                              if (checkLogin()) {
-                                const { accessToken } = JSON.parse(userToken);
-                                dispatch(createRateAction({
-                                  accessToken,
-                                  data: {
-                                    storeId: storeDetail.id,
-                                    rate: value,
-                                  },
-                                }));
-                              }
-                            }}
-                          />
-                        </div>
-                        <StoreDetailStyle.YourRateCount>
-                          {!storeDetail.userRate
-                            ? '--'
-                            : storeDetail.userRate}
-                          {!!storeDetail.userRate && <AiFillStar />}
-                        </StoreDetailStyle.YourRateCount>
-                        <StoreDetailStyle.YourRateText>
-                          Đánh giá của bạn
-                        </StoreDetailStyle.YourRateText>
-                      </StoreDetailStyle.YourRate>
                     </StoreDetailStyle.ResSummaryPoint>
                     <div>
                       <StoreDetailStyle.StoreAddress>
@@ -238,15 +228,26 @@ const StoreDetail = ({ setShowLogin, match }) => {
                         <span>{storeDetail.storeDescription}</span>
                       </StoreDetailStyle.StoreTime>
                     </div>
-                    <StoreDetailStyle.BookmarkButtonMobile
-                      onClick={() => {
-                        if (checkLogin()) {
-                          setIsShowAction({ status: true, isComment: false });
-                        }
-                      }}
-                    >
-                      <BsFillBookmarkFill />
-                    </StoreDetailStyle.BookmarkButtonMobile>
+                    <StoreDetailStyle.MobileAction>
+                      <Space>
+                        <Button onClick={() => {
+                          if (checkLogin()) {
+                            setIsShowRate(true);
+                          }
+                        }}
+                        >
+                          Đánh giá
+                        </Button>
+                        <Button onClick={() => {
+                          if (checkLogin()) {
+                            setIsShowAction({ status: true, isComment: false });
+                          }
+                        }}
+                        >
+                          Bookmarks
+                        </Button>
+                      </Space>
+                    </StoreDetailStyle.MobileAction>
                   </Skeleton>
                 </StoreDetailStyle.ResCommon>
               </StoreDetailStyle.MainInformation>
@@ -332,6 +333,10 @@ const StoreDetail = ({ setShowLogin, match }) => {
                 storeName={storeDetail.storeName}
                 fromDetail={true}
               />
+              <ModalRate
+                isShow={isShowRate}
+                setShow={setIsShowRate}
+              />
               <StoreDetailStyle.ToolbarAffix offsetTop={88.375}>
                 <StoreDetailStyle.StoreToolbar>
                   <ul>
@@ -359,7 +364,14 @@ const StoreDetail = ({ setShowLogin, match }) => {
                       </a>
                     </li>
                     <li>
-                      <a><FaShareAlt /> Chia sẻ</a>
+                      <a onClick={() => {
+                        if (checkLogin()) {
+                          setIsShowRate(true);
+                        }
+                      }}
+                      >
+                        <AiFillStar /> Đánh giá
+                      </a>
                     </li>
                   </ul>
                 </StoreDetailStyle.StoreToolbar>

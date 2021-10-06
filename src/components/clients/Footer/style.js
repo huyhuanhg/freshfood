@@ -10,7 +10,7 @@ export const FooterWrap = styled.footer`
 
   & > div {
     max-width: 1140px;
-    padding: 50px 0;
+    padding: 50px 0 30px 0;
     margin: 0 auto;
     @media screen and (max-width: 767px) {
       padding: 15px;
@@ -74,38 +74,11 @@ export const AboutFooter = styled.footer`
   }
 `;
 export const Subscribe = styled.div`
-  & > form {
-    position: relative;
+  & > ul {
+    padding-left: 0;
 
-    & > input {
-      padding: 15px 20px;
-      width: 100%;
-      border-radius: 30px;
-      border: 1px solid ${(props) => props.theme.supColor2};
-      background-color: unset;
-      outline: none;
-      color: ${(props) => props.theme.gray};
-      transition: 0.3s ease-in-out;
-
-      &:hover,
-      &:focus {
-        border-color: ${(props) => props.theme.rootColor};
-      }
-    }
-
-    & > button {
-      position: absolute;
-      top: 50%;
-      right: 8%;
-      display: flex;
-      align-items: center;
-      border: none;
-      outline: none;
-      background-color: unset;
-      font-size: 20px;
-      transform: translate(50%, -50%);
-      cursor: pointer;
-      color: ${(props) => props.theme.gray};
+    & > li > a {
+      color: #595959;
     }
   }
 `;

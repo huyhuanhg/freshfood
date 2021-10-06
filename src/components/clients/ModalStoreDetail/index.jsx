@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Row, Col, Form, Upload } from 'antd';
+import { Row, Col, Form, Upload, message } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import { AiFillStar } from 'react-icons/all';
 import { v4 } from 'uuid';
@@ -16,6 +16,7 @@ import {
 
 import { ROOT_PATH } from '../../../contants';
 import loadAvatarStore from '../../../assets/images/loadStore.png';
+import { MSG } from '../../../contants/message.contant';
 
 const ModalStoreDetail = (
   {
@@ -39,7 +40,6 @@ const ModalStoreDetail = (
     accessToken = JSON.parse(userToken)?.accessToken;
   }
   const { bookmarkDetail: { data, load: loadBookmark } } = useSelector(({ bookmarkReducer }) => bookmarkReducer);
-  const { userInfo: { data: { avatar, firstName, lastName } } } = useSelector(({ userReducer }) => userReducer);
   const { pictures } = useSelector(({ commentReducer }) => commentReducer);
   useEffect(() => {
     if (!isComment && isShow) {
@@ -77,9 +77,6 @@ const ModalStoreDetail = (
         accessToken,
         slug,
         paths: pictures.map((picture) => picture.url.replace(ROOT_PATH, '')),
-        lastName,
-        firstName,
-        userAvatar: avatar,
       };
       dispatch(createCommentAction(data));
       actionForm.resetFields();
@@ -114,7 +111,7 @@ const ModalStoreDetail = (
       footer={false}
     >
       <Row gutter={8}>
-        <Col sm={8} xs={0}>
+        <Col sm={8} xs={24}>
           <div>
             <img
               src={
@@ -179,14 +176,25 @@ const ModalStoreDetail = (
                     }}
                     customRequest={({ file }) => {
                       if (pictures.length < 8) {
-                        const { accessToken } = JSON.parse(userToken);
-                        dispatch(uploadPicturesAction({
-                          accessToken,
-                          data: {
-                            file,
-                            uid: v4(),
-                          },
-                        }));
+                        let msgErr = '';
+                        if (file.size > 2048 * 1000) {
+                          msgErr = MSG.VALIDATE_IMAGE_SIZE;
+                        }
+                        if (!file.type.match('image/')) {
+                          msgErr = MSG.VALIDATE_NOT_IMAGE;
+                        }
+                        if (!msgErr) {
+                          const { accessToken } = JSON.parse(userToken);
+                          dispatch(uploadPicturesAction({
+                            accessToken,
+                            data: {
+                              file,
+                              uid: v4(),
+                            },
+                          }));
+                        } else {
+                          message.error(msgErr);
+                        }
                       }
                     }}
                     maxCount={8}

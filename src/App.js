@@ -8,7 +8,7 @@ import { ThemeProvider } from 'styled-components';
 
 import history from './utils/history';
 
-import { DYNAMIC, PATH } from './contants/path.contant';
+import { DYNAMIC, PATH } from './contants';
 
 import FullLayout from './layouts/FullLayout';
 import ClientLayout from './layouts/ClientLayout';
@@ -38,10 +38,11 @@ import { rootTheme } from './styles/themes/root.js';
 import 'antd/dist/antd.less';
 import './App.css';
 
-
 function App() {
   const dispatch = useDispatch();
   useEffect(() => {
+    const cCSS = 'color: #29d197; font-size: 500%; font-weight: bold;text-shadow: 1px 1px 5px #000; margin-left: 40%;';
+    console.log('%cFreshFood', cCSS);
     const userInfo = JSON.parse(localStorage.getItem('userInfo'));
     const adminInfo = JSON.parse(localStorage.getItem('adminInfo'));
     if (userInfo) {
