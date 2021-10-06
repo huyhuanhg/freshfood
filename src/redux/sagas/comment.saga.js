@@ -41,11 +41,8 @@ function* createCommentSaga({
   payload: {
     accessToken,
     description,
-    firstName,
-    lastName,
     paths,
     slug,
-    userAvatar,
     from,
   },
 }) {
@@ -60,14 +57,12 @@ function* createCommentSaga({
         },
         data: toSnakeCase(data),
       });
+    console.log(dataResponse);
     yield put({
       type: SUCCESS(COMMENT_ACTION.CREATE_COMMENT),
       payload: {
         data: {
           ...camelCaseKeys(dataResponse, { deep: true }),
-          firstName,
-          lastName,
-          userAvatar,
           pictures: [...paths],
         },
       },

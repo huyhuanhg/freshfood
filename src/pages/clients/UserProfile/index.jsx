@@ -45,11 +45,11 @@ const UserProfile = ({ match }) => {
   const [redirect, setRedirect] = useState(false);
   const handleChangeAvatar = (e) => {
     let msgErr = '';
-    if (!e.target.files[0].type.match('image/')) {
-      msgErr = MSG.VALIDATE_NOT_IMAGE;
-    }
     if (e.target.files[0].size > 2048 * 1000) {
       msgErr = MSG.VALIDATE_IMAGE_SIZE;
+    }
+    if (!e.target.files[0].type.match('image/')) {
+      msgErr = MSG.VALIDATE_NOT_IMAGE;
     }
     if (!msgErr) {
       const { accessToken } = JSON.parse(userToken);
@@ -144,8 +144,7 @@ const UserProfile = ({ match }) => {
                             userInfo.data.avatar ?
                               <img src={IMG_SRC(userInfo.data.avatar)} alt={userInfo.data.lastName} />
                               :
-                              <div
-                                className='no-avatar'>{userInfo.data.lastName && userInfo.data.lastName[0].toUpperCase()}</div>
+                              <div className='no-avatar'>{userInfo.data.lastName && userInfo.data.lastName[0].toUpperCase()}</div>
                           }
 
                           <AiFillEdit />

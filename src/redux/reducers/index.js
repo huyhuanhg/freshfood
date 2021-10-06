@@ -40,7 +40,7 @@ const store = configureStore({
   middleware: [...getDefaultMiddleware({
     thunk: false, serializableCheck: false,
   }), sagaMiddleware],
-  // devTools: false,
+  devTools: false,
 });
 
 sagaMiddleware.run(rootSaga);

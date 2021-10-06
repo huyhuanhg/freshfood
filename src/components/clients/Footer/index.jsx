@@ -3,7 +3,6 @@ import {
   AiFillSkype,
   FaFacebookF,
   GrGooglePlus,
-  GrLinkNext,
   RiMapPin2Fill,
 } from 'react-icons/all';
 import { MailOutlined, PhoneOutlined } from '@ant-design/icons';
@@ -18,10 +17,11 @@ function Footer() {
           <Row gutter={50}>
             <Col span={8}>
               <FooterStyle.AboutFooter>
-                <h4>About Information</h4>
+                <h4>Giới thiệu</h4>
                 <p>
-                  Lorem ipsum dolor sit amet consetuer ilmi adipiscing elit diam, sed
-                  diam nonumy nibh euismod tincidunt.
+                  Freshfood - ứng dụng mua sắm trực tuyến thú vị, tin cậy, an toàn và miễn phí!
+                  Freshfood là nền tảng giao dịch trực tuyến hàng đầu ở Việt Nam.
+                  Với sự đảm bảo của Freshfood, bạn sẽ mua hàng trực tuyến an tâm và nhanh chóng hơn bao giờ hết!
                 </p>
                 <div>
                   <div className='facebook'>
@@ -38,19 +38,59 @@ function Footer() {
             </Col>
             <Col span={8}>
               <FooterStyle.Subscribe>
-                <h4>Subscribe Newsletter</h4>
-                <p>Subscribe Email and Get new Updates and Notification.</p>
-                <form>
-                  <input type='text' placeholder='Enter Your Email Address' />
-                  <button type='submit'>
-                    <GrLinkNext />
-                  </button>
-                </form>
+                <h4>Chăm sóc khách hàng</h4>
+                <ul>
+                  <li>
+                    <a href=''>
+                      Trung Tâm Trợ Giúp
+                    </a>
+                  </li>
+                  <li>
+                    <a href=''>
+                      Freshfood Blog
+                    </a>
+                  </li>
+                  <li>
+                    <a href=''>
+                      Freshfood Mall
+                    </a>
+                  </li>
+                  <li>
+                    <a href=''>
+                      Hướng Dẫn Mua Hàng
+                    </a>
+                  </li>
+                  <li>
+                    <a href=''>
+                      Hướng Dẫn Bán Hàng
+                    </a>
+                  </li>
+                  <li>
+                    <a href=''>
+                      Vận Chuyển
+                    </a>
+                  </li>
+                  <li>
+                    <a href=''>
+                      Trả Hàng & Hoàn Tiền
+                    </a>
+                  </li>
+                  <li>
+                    <a href=''>
+                      Chăm Sóc Khách Hàng
+                    </a>
+                  </li>
+                  <li>
+                    <a href=''>
+                      Chính Sách Bảo Hành
+                    </a>
+                  </li>
+                </ul>
               </FooterStyle.Subscribe>
             </Col>
             <Col span={8}>
               <FooterStyle.GetInTouch>
-                <h4>Get in Touch</h4>
+                <h4>Thông tin liên hệ</h4>
                 <ul>
                   <li>
                     <a href='tel:0935906860'>

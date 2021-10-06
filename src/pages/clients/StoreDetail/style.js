@@ -52,7 +52,7 @@ export const MainInfoTitle = styled.div`
 `;
 export const StoreName = styled.h1`
   float: left;
-  width: 600px;
+  width: 80%;
   padding: 5px 0 2px;
   margin: 0;
   font-weight: 700;
@@ -62,6 +62,21 @@ export const StoreName = styled.h1`
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
+  @media screen and (max-width: 479px) {
+    width: 75%;
+  }
+`;
+export const StoreShare = styled.div`
+  display: flex;
+  justify-content: center;
+  float: right;
+  width: 20%;
+  padding: 5px 0 2px;
+  margin: 0;
+  line-height: 1.2em;
+  @media screen and (max-width: 479px) {
+    width: 25%;
+  }
 `;
 export const StoreCategory = styled.div`
   padding: 2px 0;
@@ -167,46 +182,6 @@ export const MicroReviewText = styled.div`
     font-size: 11px;
   }
 `;
-export const YourRate = styled.div`
-  float: right;
-  margin: -16px 25px 0 0;
-  padding: 10px 0 6px;
-  width: 150px;
-  text-align: center;
-  font-size: 20px;
-  font-weight: 700;
-  text-shadow: 0 1px 1px #fff;
-  @media screen and (max-width: 991px) {
-    display: none;
-  }
-  @media screen and (max-width: 767px) {
-    display: block;
-    margin-right: 25px;
-  }
-  @media screen and (max-width: 575px) {
-    display: none;
-  }
-`;
-export const YourRateCount = styled.div`
-  float: left;
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: ${(props) => props.theme.rootColor};
-  text-align: center;
-
-  & > svg {
-    color: ${(props) => props.theme.star};
-  }
-`;
-export const YourRateText = styled.div`
-  float: left;
-  width: 100%;
-  font-size: 12px;
-  color: #777;
-  text-align: center;
-`;
 export const MicroMainMenu = styled.div`
   margin-top: 20px;
 `;
@@ -227,6 +202,7 @@ export const StoreToolbar = styled.div`
 
     & > li {
       flex-basis: 25%;
+      overflow: hidden;
 
       & > a {
         display: flex;
@@ -484,19 +460,11 @@ export const DetailFilter = styled.div`
     padding-left: 5px;
   }
 `;
-export const BookmarkButtonMobile = styled.div`
-
-  position: absolute;
-  top: 10px;
-  right: 25px;
+export const MobileAction = styled.div`
   display: none;
-  font-size: 200%;
-  cursor: pointer;
-  color: ${({ theme }) => theme.btnPrimary};
+  justify-content: flex-end;
+  margin-right: 10px;
   @media screen and (max-width: 767px) {
-    display: block;
-  }
-  @media screen and (max-width: 479px) {
-    right: 10px;
+    display: flex;
   }
 `;

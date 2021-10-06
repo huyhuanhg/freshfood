@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { Form, Image, Input, Progress, Upload } from 'antd';
+import { Form, Image, Input, message, Progress, Upload } from 'antd';
 import { AiOutlineCamera } from 'react-icons/all';
 import PropTypes from 'prop-types';
 import { v4 } from 'uuid';
@@ -9,11 +9,11 @@ import * as S from './style';
 import { DeleteOutlined } from '@ant-design/icons';
 import { PATH, ROOT_PATH } from '../../../../../../../contants';
 import history from '../../../../../../../utils/history';
+import { MSG } from '../../../../../../../contants/message.contant';
 
 const FormComment = ({ show, form, slug, setShow }) => {
   const userToken = localStorage.getItem('userInfo');
   const { pictures } = useSelector(({ commentReducer }) => commentReducer);
-  const { userInfo: { data: { avatar, firstName, lastName } } } = useSelector(({ userReducer }) => userReducer);
   const dispatch = useDispatch();
   const renderPictures = () => {
     return (
@@ -72,9 +72,6 @@ const FormComment = ({ show, form, slug, setShow }) => {
             from: history.location.pathname.replace(`${PATH.STORE}/${slug}/`, ''),
             slug,
             paths: pictures.map((picture) => picture.url.replace(ROOT_PATH, '')),
-            lastName,
-            firstName,
-            userAvatar: avatar,
           };
           dispatch(createCommentAction(data));
           form.resetFields();
@@ -104,14 +101,25 @@ const FormComment = ({ show, form, slug, setShow }) => {
           showUploadList={false}
           customRequest={({ file }) => {
             if (pictures.length < 8) {
-              const { accessToken } = JSON.parse(userToken);
-              dispatch(uploadPicturesAction({
-                accessToken,
-                data: {
-                  file,
-                  uid: v4(),
-                },
-              }));
+              let msgErr = '';
+              if (file.size > 2048 * 1000) {
+                msgErr = MSG.VALIDATE_IMAGE_SIZE;
+              }
+              if (!file.type.match('image/')) {
+                msgErr = MSG.VALIDATE_NOT_IMAGE;
+              }
+              if (!msgErr) {
+                const { accessToken } = JSON.parse(userToken);
+                dispatch(uploadPicturesAction({
+                  accessToken,
+                  data: {
+                    file,
+                    uid: v4(),
+                  },
+                }));
+              } else {
+                message.error(msgErr);
+              }
             }
           }}
           maxCount={8}

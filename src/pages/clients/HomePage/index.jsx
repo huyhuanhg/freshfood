@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 
 import * as HomeS from './styles';
-import { TITLE, PATH } from '../../../contants';
+import { TITLE, PATH, ROOT_URL, IMG_SRC } from '../../../contants';
 
 import history from '../../../utils/history';
 
@@ -23,6 +23,7 @@ import SectionStore from './components/SectionStore';
 import SectionFoodList from './components/SectionFoodList';
 
 import { getFoodPromotionAction } from '../../../redux/actions';
+import { Helmet } from 'react-helmet';
 
 function HomePage({ setShowLogin }) {
   document.title = TITLE(PATH.HOME);
@@ -56,6 +57,19 @@ function HomePage({ setShowLogin }) {
   };
   return (
     <div>
+      <Helmet>
+        <meta
+          name='description'
+          content='Freshfood đồ ăn nhanh cho nhà nhà!'
+        />
+        <meta property='fb:app_id' content={ROOT_URL} />
+        <meta property='og:title' content='FreshFood - Đồ ăn nhanh' />
+        <meta property='og:type' content='website' />
+        <meta property='og:image' content={IMG_SRC('/logo192.png')} />
+        <meta property='og:url' content={ROOT_URL} />
+        <meta property='og:description' content='Freshfood đồ ăn nhanh cho nhà nhà!' />
+        <title>FreshFood | Trang chủ</title>
+      </Helmet>
       <FoodDetailModal
         show={showFoodDetail}
         setShow={setShowFoodDetail}

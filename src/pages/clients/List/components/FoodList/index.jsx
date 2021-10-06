@@ -13,6 +13,7 @@ import { FoodItemHome } from '../../../../../components/clients/FoodItem';
 import history from '../../../../../utils/history';
 import { getFoodListAction, getTagListAction } from '../../../../../redux/actions';
 import FoodDetailModal from '../../../../../components/clients/FoodDetailModal';
+import { Helmet } from 'react-helmet';
 
 const FoodList = ({ setShowLogin }) => {
   const { Option } = Select;
@@ -143,6 +144,9 @@ const FoodList = ({ setShowLogin }) => {
         setShowLogin={setShowLogin}
       />
       <ClientStyle.AffixFilter offsetTop={88.375}>
+        <Helmet>
+          <meta property='og:title' content={TITLE(history.location.pathname)} />
+        </Helmet>
         <RootStyle.Filter>
           {history.location.pathname === PATH.FAVORITE
             ?
